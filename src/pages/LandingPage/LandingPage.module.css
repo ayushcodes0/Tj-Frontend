@@ -1,8 +1,8 @@
 
-.landingPageContainer{
+.landingPageHero{
     background: var(--tk-gradient-soft);
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 .topBannerContainer{
@@ -14,4 +14,71 @@
     padding: 0 var(--tk-spacing-xxxlarge);
     width: 100%;
     border-bottom: .5px solid var(--primary-text);
+}
+
+.heroSection{
+    padding: var(--tk-spacing-xlarge) var(--tk-spacing-xxxlarge);
+    width: 100%;
+    height: 88vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heroSectionLeft{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 50%;
+}
+
+.mainHeading{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.topHeading{
+    font-size: 92px;
+    font-weight: 800;
+    line-height: 4.7rem;
+    color: var(--primary-text);
+}
+
+.middleHeading{
+    display: flex;
+    align-items: start;
+    position: relative;
+}
+
+.middleHeadingLeft{
+    display: flex;
+    gap: 10px;
+    width: 50%;
+}
+
+.middleHeadingRight{
+    display: flex;
+    gap: 10px;
+    width: 50%;
+}
+
+.middleHeadingIcon{
+    border: 1px solid var(--primary-text);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    width: 50px;
+    height: 50px;
+}
+
+.folderIcon{
+    color: var(--primary-text);
+
+}
+
+.middleSubHeading{
+    font-size: 24px;
 }
