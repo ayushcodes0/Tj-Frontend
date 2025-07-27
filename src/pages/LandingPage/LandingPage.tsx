@@ -1,7 +1,7 @@
-
+import Styles from './LandingPage.module.css'
 const LandingPage = () => {
   return (
-    <div>
+    <div className={Styles.landingPage}>
       Landing page
     </div>
   )
