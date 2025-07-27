@@ -1,3 +1,4 @@
+import Navbar from '../../components/Navbar/Navbar'
 import TopBanner from '../../components/TopBanner/TopBanner'
 import Styles from './LandingPage.module.css'
 const LandingPage = () => {
@@ -5,6 +6,9 @@ const LandingPage = () => {
     <div className={Styles.landingPageContainer}>
       <div className={Styles.topBannerContainer}>
         <TopBanner/>
+      </div>
+      <div className={Styles.navbarContainer}>
+        <Navbar/>
       </div>
     </div>
   )

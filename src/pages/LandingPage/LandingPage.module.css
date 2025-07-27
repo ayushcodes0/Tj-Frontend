@@ -9,3 +9,8 @@
     padding: var(--tk-spacing-large) var(--tk-spacing-xxxlarge) var(--tk-spacing-xsmall) var(--tk-spacing-xxxlarge);
     width: 100%;
 }
+
+.navbarContainer{
+    padding: var(--tk-spacing-large) var(--tk-spacing-xxxlarge) var(--tk-spacing-xsmall) var(--tk-spacing-xxxlarge);
+    width: 100%;
+}
