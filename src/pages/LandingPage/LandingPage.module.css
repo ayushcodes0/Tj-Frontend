@@ -1,0 +1,11 @@
+
+.landingPageContainer{
+    background: var(--tk-gradient-soft);
+    width: 100%;
+    height: 100vh;
+}
+
+.topBannerContainer{
+    padding: var(--tk-spacing-large) var(--tk-spacing-xxxlarge) var(--tk-spacing-xsmall) var(--tk-spacing-xxxlarge);
+    width: 100%;
+}

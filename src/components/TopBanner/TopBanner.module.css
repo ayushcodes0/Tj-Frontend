@@ -1,0 +1,34 @@
+.topBanner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: var(--tj-nav-gradient);
+    color: var(--primary-white);
+    padding: var(--tk-spacing-small) var(--tk-spacing-xxxlarge) var(--tk-spacing-small) var(--tk-spacing-xxxlarge);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.heading{
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.dotImage{
+    top: 10px;
+    left: 0;
+    position: absolute;
+    height: 300px;
+    width: 300px;
+    opacity: .5;
+}
+
+.dotImage2{
+    right: 200px;
+    position: absolute;
+    height: 300px;
+    width: 300px;
+    opacity: .5;
+}

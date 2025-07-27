@@ -105,7 +105,8 @@
   --primary-white: #F0F0F2;
 
   /* Gradients */
-  --tk-gradient-soft: linear-gradient(#f7eae4, #e8ebfd);
+  --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));
+  --tk-gradient-soft: linear-gradient(to right, #f7eae4, #DBDEF0);
   --tk-gradient-vibrant: linear-gradient(#c3cdf4, #fed0b9);
   --tk-gradient-aqua: linear-gradient(#c3cdf4, #d9edca);
   --tk-gradient-day: linear-gradient(#d9edca, #fff3d6);
