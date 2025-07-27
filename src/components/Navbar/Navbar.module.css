@@ -1,4 +1,31 @@
 
 .navbar{
-    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+}
+
+.logo{
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--primary-text);
+    letter-spacing: -.8px;
+}
+
+.navLinks{
+    display: flex;
+    gap: var(--tk-spacing-xlarge);
+}
+
+.navLink{
+    color: var(--primary-text);
+    font-weight: 400;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--tk-spacing-medium);
 }

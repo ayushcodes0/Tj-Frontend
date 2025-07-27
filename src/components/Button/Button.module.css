@@ -1,0 +1,32 @@
+
+.filledButton{
+    background-color: var(--primary-text);
+    border: none;
+    outline: none;
+    color: var(--primary-white);
+    padding: var(--tk-spacing-medium) var(--tk-spacing-large);
+    font-size: 15px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.unfilledButton{
+    background-color: transparent;
+    border: 1px solid var(--primary-text);
+    outline: none;
+    color: var(--primary-text);
+    padding: var(--tk-spacing-medium) var(--tk-spacing-large);
+    font-size: 15px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.filledButton:hover{
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.unfilledButton:hover{
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}

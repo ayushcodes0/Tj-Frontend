@@ -11,6 +11,7 @@
 }
 
 .navbarContainer{
-    padding: var(--tk-spacing-large) var(--tk-spacing-xxxlarge) var(--tk-spacing-xsmall) var(--tk-spacing-xxxlarge);
+    padding: 0 var(--tk-spacing-xxxlarge);
     width: 100%;
+    border-bottom: .5px solid var(--primary-text);
 }
