@@ -156,7 +156,9 @@ const LandingPage = () => {
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
         />
-        <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #f7eae4, #DBDEF0)"}}></div>
+        <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #f7eae4, #DBDEF0)"}}>
+          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+        </div>
         <InfoContainer
           tags={["Lorem Ipsum dolor", "Lorem"]}
           heading="Lorem ipsum dolor sit amet."
@@ -184,7 +186,9 @@ const LandingPage = () => {
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
         />
-        <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #c3cdf4, #fed0b9)"}}>i</div>
+        <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #c3cdf4, #fed0b9)"}}>
+          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+        </div>
         <InfoContainer
           tags={["Lorem Ipsum", "Lorem Ipsum dolor"]}
           heading="Lorem ipsum dolor sit amet."
@@ -212,7 +216,9 @@ const LandingPage = () => {
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
         />
-        <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #230b5b, #4840ba)"}}>i</div>
+        <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #230b5b, #4840ba)"}}>
+          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+        </div>
       </div>
     </div>
   )
