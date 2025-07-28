@@ -4,6 +4,7 @@ import TopBanner from '../../components/TopBanner/TopBanner'
 import Styles from './LandingPage.module.css'
 import { IoFolderOpenOutline } from "react-icons/io5";
 import { TbPlant } from "react-icons/tb";
+import HeroSectionImage from '../../assets/image/heroSectionImage.png'
 
 
 const LandingPage = () => {
@@ -49,7 +50,10 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.heroSectionRight}></div>
+          <div className={Styles.heroSectionRight}>
+            <img src={HeroSectionImage} alt="HeroSectionImage" className={Styles.heroSectionImage}/>
+            <div className={Styles.rightBottom}></div>
+          </div>
         </div>
       </div>
     </div>

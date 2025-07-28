@@ -145,3 +145,22 @@
     color: var(--primary-text);
     opacity: .6;
 }
+
+.heroSectionRight{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.heroSectionImage{
+    height: 650px;
+    object-fit: cover;
+    object-position: center;
+}
