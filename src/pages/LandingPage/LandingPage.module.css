@@ -227,10 +227,9 @@
 
 .informationContainer {
     width: 100%;
-    height: 600px;
     border-right: 0.3px solid rgb(181 178 201);
     border-bottom: 0.3px solid rgb(181 178 201);
-    padding: 0 2.75rem;
+    padding: 5.2rem 2.75rem;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -240,7 +239,6 @@
 
 .informationImageContainer {
     width: 100%;
-    height: 600px;
     border-right: 0.3px solid rgb(181 178 201);
     border-bottom: 0.3px solid rgb(181 178 201);
 }
@@ -259,20 +257,88 @@
     letter-spacing: .05em;
 }
 
+.tagContainer{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .infoTopHeading{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
+}
+
+.heading{
+    font-size: 63px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1;
+    color: var(--primary-dark-text);
+}
+
+.subHeading{
+    font-size: 63px;
+    font-weight: 300;
+    letter-spacing: -.03em;
+    line-height: 1;
+    color: var(--primary-dark-text);
 }
 
 .infoTexts{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 .infoButtons{
     display: flex;
     flex-direction: column;
+    gap: 15px;
+}
+
+.infoPara{
+    color: var(--primary-dark-text);
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 300;
+}
+
+.infoPoints{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.points{
+    display: flex;
+    align-items: start;
     gap: 10px;
+}
+
+.pointIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: var(--primary-dark-text);
+}
+
+.pointsText{
+    color: var(--primary-dark-text);
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 300;
+}
+
+.buttons{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.buttonSmallText{
+    font-size: 12px;
+    opacity: .6;
+    color: var(--primary-dark-text);
 }

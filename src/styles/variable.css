@@ -152,6 +152,7 @@
   --primary-text: #4840BB;
   --primary-white: #F0F0F2;
   --tag-color: #BDC6F5;
+  --primary-dark-text: #230B58;
 
   /* Gradients */
   --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));

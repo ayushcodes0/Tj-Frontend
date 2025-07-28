@@ -5,6 +5,11 @@ import Styles from './LandingPage.module.css'
 import { IoFolderOpenOutline } from "react-icons/io5";
 import { TbPlant } from "react-icons/tb";
 import HeroSectionImage from '../../assets/image/heroSectionImage.png'
+import { IoCloseCircle } from "react-icons/io5";
+import { TiTick } from "react-icons/ti";
+import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { GoHomeFill } from "react-icons/go";
+
 
 
 const LandingPage = () => {
@@ -93,18 +98,32 @@ const LandingPage = () => {
       </div>
       <div className={Styles.information}>
         <div className={Styles.informationContainer}>
-          <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
+          <div className={Styles.tagContainer}>
+            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
+          </div>
           <div className={Styles.infoTopHeading}>
-            <p className={Styles.heading}>Lorem ipsum dolor <br /> sit amet.</p>
+            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
             <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
           </div>
           <div className={Styles.infoTexts}>
             <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
             <div className={Styles.infoPoints}>
-              <p className={Styles.points}>Lorem, ipsum dolor.</p>
-              <p className={Styles.points}>Lorem ipsum dolor sit amet.</p>
-              <p className={Styles.points}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-              <p className={Styles.points}>Lorem ipsum dolor sit amet consectetur.</p>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><IoCloseCircle/></div>
+                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><TiTick/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><GoHomeFill/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
+              </div>
             </div>
           </div>
           <div className={Styles.infoButtons}>
@@ -116,11 +135,122 @@ const LandingPage = () => {
           </div>
         </div>
         <div className={Styles.informationImageContainer}>i</div>
-        <div className={Styles.informationContainer}>a</div>
+        <div className={Styles.informationContainer}>
+          <div className={Styles.tagContainer}>
+            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
+            <p className={Styles.infoTopTag}>Lorem, ipsum.</p>
+          </div>
+          <div className={Styles.infoTopHeading}>
+            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
+            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
+          </div>
+          <div className={Styles.infoTexts}>
+            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
+            <div className={Styles.infoPoints}>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><IoCloseCircle/></div>
+                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><TiTick/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><GoHomeFill/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
+              </div>
+            </div>
+          </div>
+          <div className={Styles.infoButtons}>
+            <div className={Styles.buttons}>
+              <FilledButton text='Start saving with $1'/>
+              <UnfilledButton text='Learn More' />
+            </div>
+            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          </div>
+        </div>
         <div className={Styles.informationImageContainer}>i</div>
-        <div className={Styles.informationContainer}>a</div>
+        <div className={Styles.informationContainer}>
+          <div className={Styles.tagContainer}>
+            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
+            <p className={Styles.infoTopTag}>Lorem, ipsum.</p>
+          </div>
+          <div className={Styles.infoTopHeading}>
+            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
+            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
+          </div>
+          <div className={Styles.infoTexts}>
+            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
+            <div className={Styles.infoPoints}>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><IoCloseCircle/></div>
+                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><TiTick/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><GoHomeFill/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
+              </div>
+            </div>
+          </div>
+          <div className={Styles.infoButtons}>
+            <div className={Styles.buttons}>
+              <FilledButton text='Start saving with $1'/>
+              <UnfilledButton text='Learn More' />
+            </div>
+            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          </div>
+        </div>
         <div className={Styles.informationImageContainer}>i</div>
-        <div className={Styles.informationContainer}>a</div>
+        <div className={Styles.informationContainer}>
+          <div className={Styles.tagContainer}>
+            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
+            <p className={Styles.infoTopTag}>Lorem, ipsum.</p>
+          </div>
+          <div className={Styles.infoTopHeading}>
+            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
+            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
+          </div>
+          <div className={Styles.infoTexts}>
+            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
+            <div className={Styles.infoPoints}>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><IoCloseCircle/></div>
+                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><TiTick/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              </div>
+              <div className={Styles.points}>
+                <div className={Styles.pointIcon}><GoHomeFill/></div>
+                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
+              </div>
+            </div>
+          </div>
+          <div className={Styles.infoButtons}>
+            <div className={Styles.buttons}>
+              <FilledButton text='Start saving with $1'/>
+              <UnfilledButton text='Learn More' />
+            </div>
+            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          </div>
+        </div>
         <div className={Styles.informationImageContainer}>i</div>
       </div>
     </div>
