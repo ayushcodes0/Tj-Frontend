@@ -9,6 +9,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import { TiTick } from "react-icons/ti";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
+import InfoContainer from '../../components/InfoContainer/InfoContainer';
 
 
 
@@ -97,160 +98,117 @@ const LandingPage = () => {
         </div>
       </div>
       <div className={Styles.information}>
-        <div className={Styles.informationContainer}>
-          <div className={Styles.tagContainer}>
-            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
-          </div>
-          <div className={Styles.infoTopHeading}>
-            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
-            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
-          </div>
-          <div className={Styles.infoTexts}>
-            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
-            <div className={Styles.infoPoints}>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><IoCloseCircle/></div>
-                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><TiTick/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><GoHomeFill/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
-              </div>
-            </div>
-          </div>
-          <div className={Styles.infoButtons}>
-            <div className={Styles.buttons}>
-              <FilledButton text='Start saving with $1'/>
-              <UnfilledButton text='Learn More' />
-            </div>
-            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-          </div>
-        </div>
+        <InfoContainer
+          tags={["Lorem ipsum dolor"]}
+          heading="Lorem ipsum dolor sit amet."
+          subHeading="Lorem, ipsum dolor."
+          infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+          points={[
+            {
+              icon: <IoCloseCircle />,
+              text: "Lorem, ipsum dolor."
+            },
+            {
+              icon: <FaArrowRightArrowLeft />,
+              text: "Lorem ipsum dolor sit amet."
+            },
+            {
+              icon: <TiTick />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            },
+            {
+              icon: <GoHomeFill />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            }
+          ]}
+          primaryButtonText="Start saving with $1"
+          secondaryButtonText="Learn More"
+          buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+        />
         <div className={Styles.informationImageContainer}>i</div>
-        <div className={Styles.informationContainer}>
-          <div className={Styles.tagContainer}>
-            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
-            <p className={Styles.infoTopTag}>Lorem, ipsum.</p>
-          </div>
-          <div className={Styles.infoTopHeading}>
-            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
-            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
-          </div>
-          <div className={Styles.infoTexts}>
-            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
-            <div className={Styles.infoPoints}>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><IoCloseCircle/></div>
-                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><TiTick/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><GoHomeFill/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
-              </div>
-            </div>
-          </div>
-          <div className={Styles.infoButtons}>
-            <div className={Styles.buttons}>
-              <FilledButton text='Start saving with $1'/>
-              <UnfilledButton text='Learn More' />
-            </div>
-            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-          </div>
-        </div>
+        <InfoContainer
+          tags={["Lorem Ipsum dolor", "Lorem Ipsum"]}
+          heading="Lorem ipsum dolor sit amet."
+          subHeading="Lorem, ipsum dolor."
+          infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+          points={[
+            {
+              icon: <IoCloseCircle />,
+              text: "Lorem, ipsum dolor."
+            },
+            {
+              icon: <FaArrowRightArrowLeft />,
+              text: "Lorem ipsum dolor sit amet."
+            },
+            {
+              icon: <TiTick />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            },
+            {
+              icon: <GoHomeFill />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            }
+          ]}
+          primaryButtonText="Start saving with $1"
+          secondaryButtonText="Learn More"
+          buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+        />
         <div className={Styles.informationImageContainer}>i</div>
-        <div className={Styles.informationContainer}>
-          <div className={Styles.tagContainer}>
-            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
-            <p className={Styles.infoTopTag}>Lorem, ipsum.</p>
-          </div>
-          <div className={Styles.infoTopHeading}>
-            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
-            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
-          </div>
-          <div className={Styles.infoTexts}>
-            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
-            <div className={Styles.infoPoints}>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><IoCloseCircle/></div>
-                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><TiTick/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><GoHomeFill/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
-              </div>
-            </div>
-          </div>
-          <div className={Styles.infoButtons}>
-            <div className={Styles.buttons}>
-              <FilledButton text='Start saving with $1'/>
-              <UnfilledButton text='Learn More' />
-            </div>
-            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-          </div>
-        </div>
+        <InfoContainer
+          tags={["Lorem Ipsum dolor", "Lorem"]}
+          heading="Lorem ipsum dolor sit amet."
+          subHeading="Lorem, ipsum dolor."
+          infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+          points={[
+            {
+              icon: <IoCloseCircle />,
+              text: "Lorem, ipsum dolor."
+            },
+            {
+              icon: <FaArrowRightArrowLeft />,
+              text: "Lorem ipsum dolor sit amet."
+            },
+            {
+              icon: <TiTick />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            },
+            {
+              icon: <GoHomeFill />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            }
+          ]}
+          primaryButtonText="Start saving with $1"
+          secondaryButtonText="Learn More"
+          buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+        />
         <div className={Styles.informationImageContainer}>i</div>
-        <div className={Styles.informationContainer}>
-          <div className={Styles.tagContainer}>
-            <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
-            <p className={Styles.infoTopTag}>Lorem, ipsum.</p>
-          </div>
-          <div className={Styles.infoTopHeading}>
-            <p className={Styles.heading}>Lorem ipsum <br /> dolor sit amet.</p>
-            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
-          </div>
-          <div className={Styles.infoTexts}>
-            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
-            <div className={Styles.infoPoints}>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><IoCloseCircle/></div>
-                <p className={Styles.pointsText}>Lorem, ipsum dolor.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><FaArrowRightArrowLeft/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><TiTick/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-              </div>
-              <div className={Styles.points}>
-                <div className={Styles.pointIcon}><GoHomeFill/></div>
-                <p className={Styles.pointsText}>Lorem ipsum dolor sit amet consectetur.</p>
-              </div>
-            </div>
-          </div>
-          <div className={Styles.infoButtons}>
-            <div className={Styles.buttons}>
-              <FilledButton text='Start saving with $1'/>
-              <UnfilledButton text='Learn More' />
-            </div>
-            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-          </div>
-        </div>
+        <InfoContainer
+          tags={["Lorem Ipsum", "Lorem Ipsum dolor"]}
+          heading="Lorem ipsum dolor sit amet."
+          subHeading="Lorem, ipsum dolor."
+          infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+          points={[
+            {
+              icon: <IoCloseCircle />,
+              text: "Lorem, ipsum dolor."
+            },
+            {
+              icon: <FaArrowRightArrowLeft />,
+              text: "Lorem ipsum dolor sit amet."
+            },
+            {
+              icon: <TiTick />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            },
+            {
+              icon: <GoHomeFill />,
+              text: "Lorem ipsum dolor sit amet consectetur."
+            }
+          ]}
+          primaryButtonText="Start saving with $1"
+          secondaryButtonText="Learn More"
+          buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+        />
         <div className={Styles.informationImageContainer}>i</div>
       </div>
     </div>
