@@ -30,22 +30,22 @@ const LandingPage = () => {
                 </div>
                 <div className={Styles.middleHeadingRight}>
                   <div className={Styles.middleHeadingIcon}><TbPlant className={Styles.folderIcon}/></div>
-                  <p className={Styles.middleSubHeading}>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+                  <p className={Styles.middleSubHeading}>Lorem ipsum dolor <br /> sit amet consectetur adipisicing.</p>
                 </div>
               </div>
               <div className={Styles.ctaContainer}>
                 <div className={Styles.ctaButton}><FilledButton text='Get started'/></div>
-                <p className={Styles.ctaText}>Lorem ipsum dolor sit.</p>
+                <p className={Styles.ctaText}>*Lorem ipsum dolor sit amet.</p>
               </div>
             </div>
             <div className={Styles.headingBottom}>
               <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>Lorem.</p>
-                <p className={Styles.bottomSubHeading}>Lorem ipsum dolor sit amet consectetur.</p>
+                <p className={Styles.bottomSubHeading}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
               </div>
               <div className={Styles.bottomRight}>
                 <p className={Styles.bottomHeading}>Lorem.</p>
-                <p className={Styles.bottomSubHeading}>Lorem ipsum dolor sit amet consectetur.</p>
+                <p className={Styles.bottomSubHeading}>Lorem ipsum dolor sit amet consectetur <br /> adipisicing elit. Unde reiciendis magnam similique!</p>
               </div>
             </div>
           </div>

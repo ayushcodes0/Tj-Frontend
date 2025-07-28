@@ -28,14 +28,17 @@
 .heroSectionLeft{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 40px;
     width: 50%;
+    height: 100%;
+    padding-top: 80px;
 }
 
 .mainHeading{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 40px;
 }
 
 .topHeading{
@@ -49,36 +52,96 @@
     display: flex;
     align-items: start;
     position: relative;
+    /* gap: 15px; */
 }
 
 .middleHeadingLeft{
     display: flex;
-    gap: 10px;
-    width: 50%;
+    gap: 15px;
+    width: 48%;
 }
 
 .middleHeadingRight{
     display: flex;
-    gap: 10px;
+    gap: 15px;
     width: 50%;
 }
 
-.middleHeadingIcon{
+.middleHeadingIcon {
     border: 1px solid var(--primary-text);
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px;
-    width: 50px;
-    height: 50px;
+    width: 50px; 
+    height: 50px; 
+    min-width: 50px; 
+    min-height: 50px; 
+    padding: 0; 
+    box-shadow: 4px 4px 0 0 var(--primary-text);
 }
 
 .folderIcon{
     color: var(--primary-text);
+    width: 28px;
+    height: 28px;
+    font-weight: 100;
+
+}
+
+.middleHeadingText{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 
 }
 
 .middleSubHeading{
     font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-text);
+    line-height: 1.5rem;
+}
+
+.middleSubText{
+    font-size: 12px;
+    color: var(--primary-text);
+}
+
+.ctaContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ctaText{
+    font-size: 12px;
+    color: var(--primary-text);
+    opacity: .6;
+}
+
+.headingBottom{
+    display: flex;
+    align-items: start;
+    gap: 80px;
+}
+
+.bottomLeft, .bottomRight{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 50%;
+}
+
+.bottomHeading{
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-text);
+    opacity: .8;
+}
+
+.bottomSubHeading{
+    font-size: 12px;
+    color: var(--primary-text);
+    opacity: .6;
 }

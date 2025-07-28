@@ -9,6 +9,7 @@
     border-radius: 8px;
     overflow: hidden;
     position: relative;
+    box-shadow: -8px 8px 3px rgba(0, 0, 0, 0.12);
 }
 
 .heading{
