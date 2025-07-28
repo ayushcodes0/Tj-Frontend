@@ -99,7 +99,7 @@ const LandingPage = () => {
         </div>
       </div>
       <div className={Styles.information}>
-        <InfoContainer
+        <div className={Styles.infoContainer}><InfoContainer
           tags={["Lorem ipsum dolor"]}
           heading="Lorem ipsum dolor sit amet."
           subHeading="Lorem, ipsum dolor."
@@ -125,7 +125,7 @@ const LandingPage = () => {
           primaryButtonText="Start saving with $1"
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
-        />
+        /></div>
         <div className={Styles.informationImageContainer} style={{ background: "linear-gradient(to left, #d9edca, #fff3d6)" }}>
           <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
         </div>
