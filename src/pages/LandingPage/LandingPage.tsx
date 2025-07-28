@@ -1,4 +1,4 @@
-import { FilledButton } from '../../components/Button/Button'
+import { FilledButton, UnfilledButton } from '../../components/Button/Button'
 import Navbar from '../../components/Navbar/Navbar'
 import TopBanner from '../../components/TopBanner/TopBanner'
 import Styles from './LandingPage.module.css'
@@ -72,6 +72,56 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className={Styles.infoSectionTop}>
+        <div className={Styles.infoMenu}>
+          <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
+          <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+        </div>
+        <div className={Styles.infoMenu}>
+          <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
+          <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+        </div>
+        <div className={Styles.infoMenu}>
+          <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
+          <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+        </div>
+        <div className={Styles.infoMenu}>
+          <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
+          <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+        </div>
+      </div>
+      <div className={Styles.information}>
+        <div className={Styles.informationContainer}>
+          <p className={Styles.infoTopTag}>Lorem, ipsum dolor.</p>
+          <div className={Styles.infoTopHeading}>
+            <p className={Styles.heading}>Lorem ipsum dolor <br /> sit amet.</p>
+            <p className={Styles.subHeading}>Lorem, ipsum dolor.</p>
+          </div>
+          <div className={Styles.infoTexts}>
+            <p className={Styles.infoPara}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum.</p>
+            <div className={Styles.infoPoints}>
+              <p className={Styles.points}>Lorem, ipsum dolor.</p>
+              <p className={Styles.points}>Lorem ipsum dolor sit amet.</p>
+              <p className={Styles.points}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              <p className={Styles.points}>Lorem ipsum dolor sit amet consectetur.</p>
+            </div>
+          </div>
+          <div className={Styles.infoButtons}>
+            <div className={Styles.buttons}>
+              <FilledButton text='Start saving with $1'/>
+              <UnfilledButton text='Learn More' />
+            </div>
+            <p className={Styles.buttonSmallText}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+          </div>
+        </div>
+        <div className={Styles.informationImageContainer}>i</div>
+        <div className={Styles.informationContainer}>a</div>
+        <div className={Styles.informationImageContainer}>i</div>
+        <div className={Styles.informationContainer}>a</div>
+        <div className={Styles.informationImageContainer}>i</div>
+        <div className={Styles.informationContainer}>a</div>
+        <div className={Styles.informationImageContainer}>i</div>
       </div>
     </div>
   )
