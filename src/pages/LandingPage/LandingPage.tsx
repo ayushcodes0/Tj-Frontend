@@ -10,7 +10,7 @@ import { TiTick } from "react-icons/ti";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
 import InfoContainer from '../../components/InfoContainer/InfoContainer';
-import tradeImage from '../../assets/image/tradeImage.png'
+// import tradeImage from '../../assets/image/tradeImage.png'
 
 
 
@@ -127,9 +127,9 @@ const LandingPage = () => {
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
         /></div>
         <div className={Styles.informationImageContainer} style={{ background: "linear-gradient(to left, #d9edca, #fff3d6)" }}>
-          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+          {/* <img src={tradeImage} width={260} alt="" className={Styles.infoImage} /> */}
         </div>
-        <InfoContainer
+        <div className={Styles.infoContainer}><InfoContainer
           tags={["Lorem Ipsum dolor", "Lorem Ipsum"]}
           heading="Lorem ipsum dolor sit amet."
           subHeading="Lorem, ipsum dolor."
@@ -155,11 +155,11 @@ const LandingPage = () => {
           primaryButtonText="Start saving with $1"
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
-        />
+        /></div>
         <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #f7eae4, #DBDEF0)"}}>
-          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+          {/* <img src={tradeImage} width={260} alt="" className={Styles.infoImage} /> */}
         </div>
-        <InfoContainer
+        <div className={Styles.infoContainer}><InfoContainer
           tags={["Lorem Ipsum dolor", "Lorem"]}
           heading="Lorem ipsum dolor sit amet."
           subHeading="Lorem, ipsum dolor."
@@ -185,11 +185,11 @@ const LandingPage = () => {
           primaryButtonText="Start saving with $1"
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
-        />
+        /></div>
         <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #c3cdf4, #fed0b9)"}}>
-          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+          {/* <img src={tradeImage} width={260} alt="" className={Styles.infoImage} /> */}
         </div>
-        <InfoContainer
+        <div className={Styles.infoContainer}><InfoContainer
           tags={["Lorem Ipsum", "Lorem Ipsum dolor"]}
           heading="Lorem ipsum dolor sit amet."
           subHeading="Lorem, ipsum dolor."
@@ -215,9 +215,9 @@ const LandingPage = () => {
           primaryButtonText="Start saving with $1"
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
-        />
+        /></div>
         <div className={Styles.informationImageContainer} style={{background: "linear-gradient(to left, #230b5b, #4840ba)"}}>
-          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+          {/* <img src={tradeImage} width={260} alt="" className={Styles.infoImage} /> */}
         </div>
       </div>
     </div>
