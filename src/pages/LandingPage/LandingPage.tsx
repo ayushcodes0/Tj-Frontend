@@ -52,7 +52,24 @@ const LandingPage = () => {
           </div>
           <div className={Styles.heroSectionRight}>
             <img src={HeroSectionImage} alt="HeroSectionImage" className={Styles.heroSectionImage}/>
-            <div className={Styles.rightBottom}></div>
+            <div className={Styles.rightBottom}>
+              <div className={Styles.bottomLeft}>
+                <p className={Styles.bottomHeading}>Lorem.</p>
+                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+              </div>
+              <div className={Styles.bottomLeft}>
+                <p className={Styles.bottomHeading}>Lorem.</p>
+                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+              </div>
+              <div className={Styles.bottomLeft}>
+                <p className={Styles.bottomHeading}>Lorem.</p>
+                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+              </div>
+              <div className={Styles.bottomLeft}>
+                <p className={Styles.bottomHeading}>Lorem.</p>
+                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
