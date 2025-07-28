@@ -232,5 +232,12 @@
 
 .informationImageContainer {
     border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infoImage{
+    border-radius: 12px;
 }
 

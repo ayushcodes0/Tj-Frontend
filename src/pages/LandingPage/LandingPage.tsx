@@ -10,6 +10,7 @@ import { TiTick } from "react-icons/ti";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { GoHomeFill } from "react-icons/go";
 import InfoContainer from '../../components/InfoContainer/InfoContainer';
+import tradeImage from '../../assets/image/tradeImage.png'
 
 
 
@@ -125,7 +126,9 @@ const LandingPage = () => {
           secondaryButtonText="Learn More"
           buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
         />
-        <div className={Styles.informationImageContainer}>i</div>
+        <div className={Styles.informationImageContainer}>
+          <img src={tradeImage} width={260} alt="" className={Styles.infoImage} />
+        </div>
         <InfoContainer
           tags={["Lorem Ipsum dolor", "Lorem Ipsum"]}
           heading="Lorem ipsum dolor sit amet."
