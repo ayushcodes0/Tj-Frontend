@@ -269,4 +269,23 @@
     }
 }
 
+@media (max-width: 1353px){
+    .topHeading{
+        font-size: 80px;
+    }
+    .heroSectionLeft{
+        padding-top: 20px;
+    }
+    .middleHeading{
+        flex-direction: column;
+        align-items: start;
+        gap: 20px;
+    }
+    .middleHeadingLeft, .middleHeadingRight{
+        width: 80%;
+    }
+}
+
+
+
 
