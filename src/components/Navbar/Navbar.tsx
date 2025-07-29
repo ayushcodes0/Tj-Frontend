@@ -58,8 +58,8 @@ const Navbar = () => {
         
         {/* Mobile Buttons at the bottom */}
         <div className={Styles.mobileButtons}>
-          <UnfilledButton text="Log in" onClick={() => setIsMenuOpen(false)} />
-          <FilledButton text="Get started" onClick={() => setIsMenuOpen(false)} />
+          <UnfilledButton text="Log in"  />
+          <FilledButton text="Get started" />
         </div>
       </div>
     </div>
