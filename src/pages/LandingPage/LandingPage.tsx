@@ -11,24 +11,35 @@ import { FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { GoHomeFill } from 'react-icons/go';
 import InfoContainer from '../../components/InfoContainer/InfoContainer';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const LandingPage = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
+  const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
-  const scrollTimeoutRef = useRef<number | null>(null); // Changed to number type
+  const scrollTimeoutRef = useRef<number | null>(null);
   const lastScrollTimeRef = useRef<number>(0);
   const scrollDirectionRef = useRef<'up' | 'down'>('down');
   const lastScrollYRef = useRef<number>(0);
 
-  // Register refs for each section
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobileView(window.innerWidth < 883);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
+
   const registerSection = useCallback((element: HTMLElement | null, index: number) => {
     sectionsRef.current[index] = element;
   }, []);
 
-  // Throttled scroll handler
   const handleScroll = useCallback(() => {
     const now = Date.now();
-    if (now - lastScrollTimeRef.current < 100) return; // Throttle to 100ms
+    if (now - lastScrollTimeRef.current < 100) return;
     lastScrollTimeRef.current = now;
 
     const scrollY = window.pageYOffset;
@@ -37,7 +48,7 @@ const LandingPage = () => {
     lastScrollYRef.current = scrollY > 0 ? scrollY : 0;
 
     const viewportHeight = window.innerHeight;
-    const scrollPosition = scrollY + viewportHeight / 2; // Center of viewport
+    const scrollPosition = scrollY + viewportHeight / 2;
 
     let closestSectionIndex = 0;
     let smallestDistance = Infinity;
@@ -47,9 +58,8 @@ const LandingPage = () => {
       
       const rect = section.getBoundingClientRect();
       const sectionTop = scrollY + rect.top;
-      const sectionCenter = sectionTop + rect.height / 2; // Removed unused sectionBottom
+      const sectionCenter = sectionTop + rect.height / 2;
 
-      // Calculate distance from viewport center to section center
       const distance = Math.abs(scrollPosition - sectionCenter);
 
       if (distance < smallestDistance) {
@@ -64,11 +74,10 @@ const LandingPage = () => {
       }
       scrollTimeoutRef.current = window.setTimeout(() => {
         setActiveSection(closestSectionIndex);
-      }, 50); // Small delay to prevent rapid switching
+      }, 50);
     }
   }, [activeSection]);
 
-  // Set up scroll listener
   useEffect(() => {
     const throttledScroll = () => {
       requestAnimationFrame(handleScroll);
@@ -94,9 +103,15 @@ const LandingPage = () => {
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
+    if (isMobileView) {
+      setIsMobileDrawerOpen(false);
+    }
+  }, [isMobileView]);
+
+  const toggleMobileDrawer = useCallback(() => {
+    setIsMobileDrawerOpen(prev => !prev);
   }, []);
 
-  // Gradient colors with explicit type
   const gradientColors: string[] = [
     "linear-gradient(#d9edca, #fff3d6)",
     "linear-gradient(#f7eae4, #DBDEF0)",
@@ -191,20 +206,57 @@ const LandingPage = () => {
       </div>
 
       <div className={Styles.infoSectionTop}>
-        {[0, 1, 2, 3].map((index: number) => (
-          <div
-            key={index}
-            className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
-            onClick={() => handleMenuClick(index)}
-            style={activeSection === index ? {
-              background: gradientColors[index],
-              color: index === 3 ? 'white' : 'inherit'
-            } : undefined}
-          >
-            <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
-            <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
-          </div>
-        ))}
+        {isMobileView ? (
+          <>
+            <div 
+              className={`${Styles.infoMenu} ${activeSection === 0 ? Styles.activeMenu : ''} ${Styles.mobileDrawerHeader}`}
+              onClick={toggleMobileDrawer}
+              style={activeSection === 0 ? {
+                background: gradientColors[0],
+                color: 'inherit'
+              } : undefined}
+            >
+              <div className={Styles.mobileDrawerHeaderContent}>
+                <div>
+                  <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
+                  <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+                </div>
+                {isMobileDrawerOpen ? <FaChevronUp /> : <FaChevronDown />}
+              </div>
+            </div>
+            <div className={`${Styles.mobileDrawerContent} ${isMobileDrawerOpen ? Styles.drawerOpen : ''}`}>
+              {[1, 2, 3].map((index: number) => (
+                <div
+                  key={index}
+                  className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
+                  onClick={() => handleMenuClick(index)}
+                  style={activeSection === index ? {
+                    background: gradientColors[index],
+                    color: index === 3 ? 'white' : 'inherit'
+                  } : undefined}
+                >
+                  <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
+                  <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          [0, 1, 2, 3].map((index: number) => (
+            <div
+              key={index}
+              className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
+              onClick={() => handleMenuClick(index)}
+              style={activeSection === index ? {
+                background: gradientColors[index],
+                color: index === 3 ? 'white' : 'inherit'
+              } : undefined}
+            >
+              <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
+              <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+            </div>
+          ))
+        )}
       </div>
 
       <div className={Styles.information}>
