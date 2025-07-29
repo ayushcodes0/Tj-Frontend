@@ -145,6 +145,26 @@ const LandingPage = () => {
                 <p className={Styles.bottomSubHeading}>Lorem ipsum dolor sit amet consectetur <br /> adipisicing elit. Unde reiciendis magnam similique!</p>
               </div>
             </div>
+            <div className={Styles.stats}>
+              <div className={Styles.rightBottom}>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>1M+</p>
+                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                </div>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>Lorem.</p>
+                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                </div>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>Lorem.</p>
+                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                </div>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>Lorem.</p>
+                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                </div>
+              </div>
+            </div>
           </div>
           <div className={Styles.heroSectionRight}>
             <div className={Styles.heroSectionImageContainer}><img src={HeroSectionImage} alt="HeroSectionImage" className={Styles.heroSectionImage} /></div>

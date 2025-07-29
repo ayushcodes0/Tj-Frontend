@@ -107,3 +107,30 @@
     opacity: .6;
     color: var(--primary-dark-text);
 }
+
+@media (max-width: 1353px){
+    .heading{
+        width: 400px;
+    }
+    .heading, .subHeading{
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 998px){
+    .heading{
+        width: 300px;
+    }
+    .heading, .subHeading{
+        font-size: 40px;
+    }
+    .infoPara{
+        font-size: 14px;
+    }
+    .pointIcon{
+        font-size: 16px;
+    }
+    .pointsText{
+        font-size: 14px;    
+    }
+}
