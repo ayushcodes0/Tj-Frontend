@@ -286,6 +286,15 @@
     }
 }
 
+@media (max-width: 1200px){
+    .infoMenuTop{
+        font-size: 12px;
+    }
+    .infoMenuBottom{
+        font-size: 16px;
+    }
+}
+
 
 
 
