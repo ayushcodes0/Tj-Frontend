@@ -119,6 +119,13 @@ const LandingPage = () => {
     "linear-gradient(#230b5b, #4840ba)"
   ];
 
+  const menuItems = [
+    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor1.' },
+    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor2.' },
+    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor3.' },
+    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor4.' }
+  ];
+
   return (
     <div className={Styles.landingPageContainer}>
       <div className={Styles.landingPageHero}>
@@ -210,7 +217,7 @@ const LandingPage = () => {
           <>
             <div 
               className={`${Styles.infoMenu} ${activeSection === 0 ? Styles.activeMenu : ''} ${Styles.mobileDrawerHeader}`}
-              onClick={toggleMobileDrawer}
+              onClick={() => activeSection === 0 ? toggleMobileDrawer() : handleMenuClick(0)}
               style={activeSection === 0 ? {
                 background: gradientColors[0],
                 color: 'inherit'
@@ -218,31 +225,37 @@ const LandingPage = () => {
             >
               <div className={Styles.mobileDrawerHeaderContent}>
                 <div>
-                  <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
-                  <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+                  <p className={Styles.infoMenuTop}>{menuItems[activeSection].top}</p>
+                  <p className={Styles.infoMenuBottom}>{menuItems[activeSection].bottom}</p>
                 </div>
                 {isMobileDrawerOpen ? <FaChevronUp /> : <FaChevronDown />}
               </div>
             </div>
             <div className={`${Styles.mobileDrawerContent} ${isMobileDrawerOpen ? Styles.drawerOpen : ''}`}>
-              {[1, 2, 3].map((index: number) => (
-                <div
-                  key={index}
-                  className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
-                  onClick={() => handleMenuClick(index)}
-                  style={activeSection === index ? {
-                    background: gradientColors[index],
-                    color: index === 3 ? 'white' : 'inherit'
-                  } : undefined}
-                >
-                  <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
-                  <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
-                </div>
+              {menuItems.map((item, index) => (
+                index !== activeSection && (
+                  <div
+                    key={index}
+                    className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
+                    onClick={() => handleMenuClick(index)}
+                    style={activeSection === index ? {
+                      background: gradientColors[index],
+                      color: index === 3 ? 'white' : 'inherit'
+                    } : undefined}
+                  >
+                    <div className={Styles.mobileDrawerHeaderContent}>
+                      <div>
+                        <p className={Styles.infoMenuTop}>{item.top}</p>
+                        <p className={Styles.infoMenuBottom}>{item.bottom}</p>
+                      </div>
+                    </div>
+                  </div>
+                )
               ))}
             </div>
           </>
         ) : (
-          [0, 1, 2, 3].map((index: number) => (
+          menuItems.map((item, index) => (
             <div
               key={index}
               className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
@@ -252,8 +265,8 @@ const LandingPage = () => {
                 color: index === 3 ? 'white' : 'inherit'
               } : undefined}
             >
-              <p className={Styles.infoMenuTop}>"Lorem", ipsum.</p>
-              <p className={Styles.infoMenuBottom}>Lorem, ipsum dolor.</p>
+              <p className={Styles.infoMenuTop}>{item.top}</p>
+              <p className={Styles.infoMenuBottom}>{item.bottom}</p>
             </div>
           ))
         )}
