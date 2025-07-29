@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center;
     height: 6rem;
+    position: relative;
 }
 
 .logo {
@@ -12,6 +13,7 @@
     letter-spacing: -.8px;
 }
 
+/* Desktop Navigation */
 .navLinks {
     display: flex;
     gap: var(--tk-spacing-xlarge);
@@ -39,9 +41,111 @@
     width: 100%; 
 }
 
+/* Desktop Buttons */
 .buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: var(--tk-spacing-medium);
+}
+
+/* Mobile Menu Button - hidden by default */
+.menuButton {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-text);
+    z-index: 1001;
+}
+
+/* Mobile Menu Container */
+.mobileMenuContainer {
+    display: none;
+}
+
+@media (max-width: 883px) {
+    /* Hide desktop nav and buttons on mobile */
+    .navLinks, .buttons {
+        display: none;
+    }
+    
+    /* Show mobile menu button */
+    .menuButton {
+        display: block;
+    }
+    
+    /* Mobile menu styles */
+    .mobileMenuContainer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100vh;
+        background-color: #230B58;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        padding: 6rem 2rem 2rem;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease-out;
+        will-change: transform;
+        overflow-y: auto; /* Enable scrolling if content is too long */
+    }
+    
+    .mobileMenuContainer.mobileMenuOpen {
+        transform: translateY(0);
+    }
+    
+    .mobileNavLinks {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .mobileButtons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        padding-bottom: 2rem;
+    }
+    
+    /* Adjust navLink styles for mobile */
+    .mobileMenuContainer .navLink {
+        color: white;
+        font-size: 1.5rem;
+        padding: 0.5rem 0;
+        transition: opacity 0.2s ease;
+    }
+    
+    .mobileMenuContainer:not(.mobileMenuOpen) .navLink {
+        opacity: 0;
+    }
+    
+    .mobileMenuContainer.mobileMenuOpen .navLink {
+        opacity: 1;
+        transition-delay: 0.2s;
+    }
+    
+    .mobileMenuContainer .navLink::after {
+        background-color: white;
+        bottom: 0;
+    }
+}
+
+/* Animation for the buttons */
+.mobileButtons {
+    transition: opacity 0.2s ease;
+}
+
+.mobileMenuContainer:not(.mobileMenuOpen) .mobileButtons {
+    opacity: 0;
+}
+
+.mobileMenuContainer.mobileMenuOpen .mobileButtons {
+    opacity: 1;
+    transition-delay: 0.3s;
 }
