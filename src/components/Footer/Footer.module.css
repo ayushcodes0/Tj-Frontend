@@ -35,6 +35,20 @@
     gap: 16px;
 }
 
+.footerWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 40px;
+    padding-bottom: 20px;
+}
+
+.footerBottomText{
+    font-size: 14px;
+    color: var(--primary-white);
+    opacity: .7;
+}
+
 @media(max-width: 1256px){
     .footerContent{
         gap: 40px;
