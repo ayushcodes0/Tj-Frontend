@@ -1,0 +1,112 @@
+.loginPageContainer {
+    width: 100%;
+    height: 100vh;
+    background-color: var(--primary-white);
+    position: relative;
+    overflow: hidden;
+}
+
+.blurryBalls {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    filter: blur(60px);
+}
+
+.ball1, .ball2, .ball3, .ball4, .ball5 {
+    position: absolute;
+    border-radius: 50%;
+    background-color: var(--primary-text);
+    opacity: 0.1; /* Increased opacity */
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    box-shadow: 0 0 20px 10px rgba(72, 64, 187, 0.2); /* Added glow */
+}
+
+/* Larger balls with more distinct movement */
+.ball1 {
+    width: 350px;
+    height: 350px;
+    top: 10%;
+    left: 5%;
+    animation-name: float1;
+    opacity: 0.3;
+}
+
+.ball2 {
+    width: 500px;
+    height: 500px;
+    bottom: 10%;
+    right: 5%;
+    animation-name: float2;
+    opacity: 0.25;
+}
+
+.ball3 {
+    width: 300px;
+    height: 300px;
+    top: 40%;
+    left: 25%;
+    animation-name: float3;
+    opacity: 0.3;
+}
+
+.ball4 {
+    width: 400px;
+    height: 400px;
+    bottom: 25%;
+    right: 25%;
+    animation-name: float4;
+    opacity: 0.25;
+}
+
+.ball5 {
+    width: 450px;
+    height: 450px;
+    top: 60%;
+    left: 60%;
+    animation-name: float5;
+    opacity: 0.2;
+}
+
+/* More pronounced animations */
+@keyframes float1 {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-50px) translateX(30px) scale(1.05); }
+}
+
+@keyframes float2 {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(40px) translateX(-40px) scale(1.05); }
+}
+
+@keyframes float3 {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-30px) translateX(-30px) scale(1.05); }
+}
+
+@keyframes float4 {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(35px) translateX(35px) scale(1.05); }
+}
+
+@keyframes float5 {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-25px) translateX(25px) scale(1.05); }
+}
+
+.loginContent {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 2rem;
+    color: var(--primary-text);
+}
