@@ -5,7 +5,7 @@ const Pricing = () => {
   return (
     <div className={Styles.pricing}>
       <div className={Styles.pricingHeading}>
-        <p className={Styles.heading}>Choose the right level of risk for different chunks of your change.</p>
+        <p className={Styles.heading}>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         <div className={Styles.planeImage}>
             <img className={Styles.planeImg} width={190} src={planeImage} alt="" />
         </div>
