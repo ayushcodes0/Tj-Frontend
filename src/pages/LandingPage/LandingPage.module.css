@@ -323,7 +323,6 @@
     }
 }
 
-/* Mobile drawer styles */
 @media (max-width: 883px) {
     .infoSectionTop {
         display: block;
@@ -426,7 +425,7 @@
 @media (max-width: 608px){
     .topHeading{
         font-size: 65px;
-        line-height: 3.5rem;
+        line-height: 3.9rem;
         letter-spacing: -1px;
     }
 

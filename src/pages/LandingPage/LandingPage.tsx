@@ -93,20 +93,35 @@ const LandingPage = () => {
   }, [handleScroll]);
 
   const handleMenuClick = useCallback((index: number) => {
-    if (scrollTimeoutRef.current !== null) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-    setActiveSection(index);
-    const element = sectionsRef.current[index];
-    if (element) {
-      const yOffset = -89;
+  if (scrollTimeoutRef.current !== null) {
+    clearTimeout(scrollTimeoutRef.current);
+  }
+  setActiveSection(index);
+  const element = sectionsRef.current[index];
+  if (element) {
+    const stickyHeaderHeight = 89;
+    const isMobile = window.innerWidth < 883;
+    const additionalOffset = 220;
+
+    const yOffset = isMobile 
+      ? -(stickyHeaderHeight + additionalOffset)
+      : -stickyHeaderHeight; 
+
+    if (isMobile) {
+      const imageContainer = document.querySelector(`.${Styles[`image${index}`]}`) as HTMLElement;
+      if (imageContainer) {
+        const imageY = imageContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: imageY, behavior: 'smooth' });
+      }
+    } else {
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
-    if (isMobileView) {
-      setIsMobileDrawerOpen(false);
-    }
-  }, [isMobileView]);
+  }
+  if (isMobileView) {
+    setIsMobileDrawerOpen(false);
+  }
+}, [isMobileView]);
 
   const toggleMobileDrawer = useCallback(() => {
     setIsMobileDrawerOpen(prev => !prev);
@@ -138,7 +153,7 @@ const LandingPage = () => {
         <div className={Styles.heroSection}>
           <div className={Styles.heroSectionLeft}>
             <div className={Styles.mainHeading}>
-              <p className={Styles.topHeading}>Money works <br />better here.</p>
+              <p className={Styles.topHeading}>Lorem Ipsum <br />Dolor Sit.</p>
               <div className={Styles.middleHeading}>
                 <div className={Styles.middleHeadingLeft}>
                   <div className={Styles.middleHeadingIcon}><IoFolderOpenOutline className={Styles.folderIcon} /></div>
