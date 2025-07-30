@@ -9,3 +9,40 @@ a {
 a.active {
   font-weight: bold;
 }
+
+/* Add to your global CSS */
+.custom-success-toast {
+  --toastify-icon-color-success: #4840BB;
+}
+
+.custom-error-toast {
+  --toastify-icon-color-error: #ff4444;
+}
+
+.Toastify__toast {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 16px;
+}
+
+.Toastify__close-button {
+  color: #888;
+  opacity: 0.8;
+}
+
+.Toastify__close-button:hover {
+  opacity: 1;
+}
+
+.Toastify__progress-bar {
+  height: 2px;
+}
+
+.custom-success-toast .Toastify__progress-bar {
+  background: rgba(72, 64, 187, 0.2);
+}
+
+.custom-error-toast .Toastify__progress-bar {
+  background: rgba(255, 68, 68, 0.2);
+}

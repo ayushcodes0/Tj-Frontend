@@ -270,3 +270,20 @@
         padding: 24px;
     }
 }
+
+.validationError {
+  color: #ff4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.inputError {
+  border-color: #ff4444 !important;
+}
+
+.registerButton:disabled,
+.googleButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

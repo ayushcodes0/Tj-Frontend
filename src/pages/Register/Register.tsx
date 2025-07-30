@@ -1,10 +1,10 @@
-// src/pages/Register.tsx
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Styles from './Register.module.css';
 import { useAuth } from '../../hooks/useAuth';
+import { useCustomToast } from '../../hooks/useCustomToast';
 
 interface FormData {
   username: string;
@@ -14,7 +14,8 @@ interface FormData {
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register, loading, error } = useAuth();
+  const { register, loading } = useAuth();
+  const { showSuccessToast, showErrorToast } = useCustomToast();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -55,10 +56,11 @@ const Register = () => {
 
     try {
       await register(formData.username, formData.email, formData.password);
-      navigate('/dashboard'); // Redirect after successful registration
+      showSuccessToast('Registration successful! Welcome aboard!');
+      navigate('/dashboard');
     } catch (err) {
-      // Error is already handled in the AuthProvider
-      console.error('Registration error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+      showErrorToast(errorMessage);
     }
   };
 
@@ -90,13 +92,6 @@ const Register = () => {
       
       <div className={Styles.registerContent}>
         <h1 className={Styles.registerTitle}>Create Account</h1>
-        
-        {/* Display backend errors */}
-        {error && (
-          <div className={Styles.errorMessage}>
-            {error}
-          </div>
-        )}
         
         <form onSubmit={handleSubmit} className={Styles.registerForm} noValidate>
           {/* Username Field */}
