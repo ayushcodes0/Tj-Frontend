@@ -451,6 +451,12 @@
     }
 }
 
+.pricingContainer{
+    padding: 80px 0;
+    width: 100%;
+    background-color: #E7F4DF;
+}
+
 .footerContainer {
     padding: 0 var(--tk-spacing-xxlarge);
     width: 100%;

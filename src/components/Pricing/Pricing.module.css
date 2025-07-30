@@ -1,3 +1,133 @@
 .pricing{
-    
+    padding: 0 var(--tk-spacing-xxxlarge);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #230B58;
+    gap: 40px;
+}
+
+.pricingHeading{
+    position: relative;
+    display: flex;
+}
+
+.heading{
+    text-align: center;
+    font-size: 70px;
+    width: 800px;
+    font-weight: 300;
+    font-family: "PricingFont";
+    line-height: .9;
+    padding: 24px;
+}
+
+.pricingBottom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.pricesContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+}
+
+.prices{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.pricesTop{
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.pricesHeading{
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.pricesPoints{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pricesPointsText{
+    font-size: 16px;
+}
+
+.pricesButton{
+    font-size: 16px;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+@media(max-width: 1450px){
+    .heading{
+        font-size: 52px;
+    }
+}
+
+.planeImage{
+    position: absolute;
+    top: 15px;
+    right: -130px;
+}
+
+.bottomImage{
+    height: 15vw;
+}
+
+@media(max-width: 1200px){
+    .pricingHeading{
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+    .heading{
+        width: 100%;
+        text-align: center;
+        margin-top: -60px;
+    }
+    .planeImage{
+        position: static;
+    }
+}
+
+@media (max-width: 830px){
+    .pricesContainer{
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .heading{
+        font-size: 40px;
+    }
+    .planeImg{
+        width: 150px;
+    }
+}
+
+@media (max-width: 608px){
+    .pricing{
+        padding: 0 var(--tk-spacing-large);
+    }
+    .pricesHeading{
+        font-size: 20px;
+    }
+    .pricesPointsText{
+        font-size: 14px;
+    }
+    .heading{
+        font-size: 32px;
+        margin-top: -20px;
+    }
+    .planeImg{
+        width: 120px;
+    }
 }

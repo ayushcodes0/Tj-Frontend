@@ -91,6 +91,23 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'PricingFont';
+  src: url('../assets/fonts/Gambetta-Regular.woff2') format('woff2'),
+       url('../assets/fonts/Gambetta-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PricingFont';
+  src: url('../assets/fonts/Gambetta-Light.woff2') format('woff2'),
+       url('../assets/fonts/Gambetta-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 :root {
   /* Colors */
