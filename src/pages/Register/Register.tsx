@@ -10,7 +10,6 @@ const Register = () => {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
   });
 
   const handleSubmit = (e: React.FormEvent) => {
