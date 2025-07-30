@@ -13,6 +13,7 @@ import InfoContainer from '../../components/InfoContainer/InfoContainer';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Footer from '../../components/Footer/Footer';
+import Pricing from '../../components/Pricing/Pricing';
 
 const LandingPage = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
@@ -384,6 +385,9 @@ const LandingPage = () => {
           />
         </div>
         <div className={`${Styles.informationImageContainer} ${Styles.image3}`} style={{ background: gradientColors[3] }} />
+      </div>
+      <div className={Styles.pricingContainer}>
+        <Pricing/>
       </div>
       <div className={Styles.footerContainer}>
         <Footer />
