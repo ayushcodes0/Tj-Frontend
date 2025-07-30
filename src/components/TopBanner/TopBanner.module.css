@@ -10,9 +10,11 @@
     overflow: hidden;
     position: relative;
     box-shadow: -8px 8px 3px rgba(0, 0, 0, 0.12);
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.heading{
+.heading{ 
     font-size: 32px;
     font-weight: 700;
 }
@@ -32,4 +34,53 @@
     height: 300px;
     width: 300px;
     opacity: .5;
+}
+
+@media (max-width: 769px){
+    .topBanner{
+        flex-direction: column;
+        align-items: center;
+        padding: var(--tk-spacing-small) var(--tk-spacing-medium);
+        gap: 5px;
+
+    }
+    .dotImage{
+        left: -150px;
+    }
+
+    .dotImage2{
+        top: -100px;
+        right: 30px;
+    }
+
+    .heading {
+        text-align: center;
+    }
+}
+
+@media (max-width: 608px){
+    .topBanner{
+        border-radius: 0px;
+    }
+}
+
+@media (max-width: 465px){
+    .heading{
+        font-size: 22px;
+    }
+    .subHeading {
+        font-size: 12px;
+        text-align: center;
+    }
+    .dotImage{
+        height: 200px;
+        width: 200px;
+        left: -100px;
+    }
+    .dotImage2{
+        height: 200px;
+        width: 200px;
+        top: -50px;
+        right: 20px;
+    }
 }

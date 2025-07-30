@@ -277,7 +277,7 @@ const LandingPage = () => {
         <div
           id='section-0'
           ref={(el) => registerSection(el, 0)}
-          className={Styles.infoContainer}
+          className={`${Styles.infoContainer} ${Styles.section0}`}
         >
           <InfoContainer
             tags={["Lorem ipsum dolor"]}
@@ -295,13 +295,13 @@ const LandingPage = () => {
             buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
           />
         </div>
-        <div className={Styles.informationImageContainer} style={{ background: gradientColors[0] }} />
+        <div className={`${Styles.informationImageContainer} ${Styles.image0}`} style={{ background: gradientColors[0] }} />
 
         {/* Section 1 */}
         <div
           id='section-1'
           ref={(el) => registerSection(el, 1)}
-          className={Styles.infoContainer}
+          className={`${Styles.infoContainer} ${Styles.section1}`}
         >
           <InfoContainer
             tags={["Lorem Ipsum dolor", "Lorem Ipsum"]}
@@ -319,13 +319,13 @@ const LandingPage = () => {
             buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
           />
         </div>
-        <div className={Styles.informationImageContainer} style={{ background: gradientColors[1] }} />
+        <div className={`${Styles.informationImageContainer} ${Styles.image1}`} style={{ background: gradientColors[1] }} />
 
         {/* Section 2 */}
         <div
           id='section-2'
           ref={(el) => registerSection(el, 2)}
-          className={Styles.infoContainer}
+          className={`${Styles.infoContainer} ${Styles.section2}`}
         >
           <InfoContainer
             tags={["Lorem Ipsum dolor", "Lorem"]}
@@ -343,13 +343,13 @@ const LandingPage = () => {
             buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
           />
         </div>
-        <div className={Styles.informationImageContainer} style={{ background: gradientColors[2] }} />
+        <div className={`${Styles.informationImageContainer} ${Styles.image2}`} style={{ background: gradientColors[2] }} />
 
         {/* Section 3 */}
         <div
           id='section-3'
           ref={(el) => registerSection(el, 3)}
-          className={Styles.infoContainer}
+          className={`${Styles.infoContainer} ${Styles.section3}`}
         >
           <InfoContainer
             tags={["Lorem Ipsum", "Lorem Ipsum dolor"]}
@@ -367,7 +367,7 @@ const LandingPage = () => {
             buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
           />
         </div>
-        <div className={Styles.informationImageContainer} style={{ background: gradientColors[3] }} />
+        <div className={`${Styles.informationImageContainer} ${Styles.image3}`} style={{ background: gradientColors[3] }} />
       </div>
     </div>
   );
