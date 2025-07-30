@@ -134,3 +134,9 @@
         font-size: 14px;    
     }
 }
+
+@media (max-width: 608px){
+    .informationContainer{
+        padding: 5.2rem 16px;
+    }
+}

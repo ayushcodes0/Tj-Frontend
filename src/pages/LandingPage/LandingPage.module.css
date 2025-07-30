@@ -450,3 +450,10 @@
         letter-spacing: -1px;
     }
 }
+
+.footerContainer {
+    padding: 0 var(--tk-spacing-xxlarge);
+    width: 100%;
+    background-color: #18172B;
+    color: var(--primary-white);
+}
