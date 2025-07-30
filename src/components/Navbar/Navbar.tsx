@@ -28,7 +28,6 @@ const Navbar = () => {
     <div className={Styles.navbar}>
       <p className={Styles.logo}>LoremIpsum</p>
       
-      {/* Desktop Navigation */}
       <div className={Styles.navLinks}>
         <a href="#home" className={Styles.navLink}>Home</a>
         <a href="#about" className={Styles.navLink}>About</a>
@@ -36,20 +35,16 @@ const Navbar = () => {
         <a href="#contact" className={Styles.navLink}>Contact</a>
       </div>
       
-      {/* Desktop Buttons */}
       <div className={Styles.buttons}>
         <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
         <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
       </div>
 
-      {/* Mobile Menu Button - Hidden on desktop */}
       <button className={Styles.menuButton} onClick={toggleMenu}>
         {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </button>
       
-      {/* Mobile Menu Container */}
       <div className={`${Styles.mobileMenuContainer} ${isMenuOpen ? Styles.mobileMenuOpen : ''}`}>
-        {/* Mobile Navigation Links */}
         <div className={Styles.mobileNavLinks}>
           <a href="#home" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Home</a>
           <a href="#about" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>About</a>
@@ -59,8 +54,8 @@ const Navbar = () => {
         
         {/* Mobile Buttons at the bottom */}
         <div className={Styles.mobileButtons}>
-          <UnfilledButton text="Log in"  />
-          <FilledButton text="Get started" />
+          <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
+          <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
         </div>
       </div>
     </div>

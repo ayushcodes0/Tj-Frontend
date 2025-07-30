@@ -36,22 +36,17 @@ const LandingPage = () => {
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  // Track when we scroll past the information section
 useEffect(() => {
   const handleScroll = () => {
-    // Get the entire information container
     const informationContainer = document.querySelector(`.${Styles.information}`);
     if (!informationContainer) return;
     
-    // Get the last child element within the information container
     const lastChild = informationContainer.lastElementChild;
     if (!lastChild) return;
     
-    // Calculate positions
     const containerRect = informationContainer.getBoundingClientRect();
     const lastChildRect = lastChild.getBoundingClientRect();
     
-    // The true end is the bottom of whichever is lower: container or last child
     const trueEnd = Math.max(
       containerRect.bottom + window.pageYOffset,
       lastChildRect.bottom + window.pageYOffset
@@ -61,7 +56,6 @@ useEffect(() => {
     setIsPastInformation(currentPosition > trueEnd);
   };
 
-  // Add passive scroll listener with throttling
   const throttledScroll = () => {
     requestAnimationFrame(handleScroll);
   };
