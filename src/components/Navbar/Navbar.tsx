@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { FilledButton, UnfilledButton } from '../Button/Button'
 import Styles from './Navbar.module.css'
 import { useState, useEffect } from 'react';
@@ -37,8 +38,8 @@ const Navbar = () => {
       
       {/* Desktop Buttons */}
       <div className={Styles.buttons}>
-        <UnfilledButton text="Log in" />
-        <FilledButton text="Get started" />
+        <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
+        <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
       </div>
 
       {/* Mobile Menu Button - Hidden on desktop */}
