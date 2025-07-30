@@ -2,6 +2,8 @@
     position: relative;
 }
 
+
+
 .landingPageHero {
     background: var(--tk-gradient-soft);
     width: 100%;
@@ -190,7 +192,6 @@
 }
 
 .infoSectionTop {
-  position: sticky;
   top: 0;
   z-index: 100;
   background-color: var(--primary-white);
@@ -337,7 +338,6 @@
     }
     
     .mobileDrawerHeader {
-        position: sticky;
         top: 0;
         display: flex;
         justify-content: space-between;
@@ -462,4 +462,17 @@
     width: 100%;
     background-color: #18172B;
     color: var(--primary-white);
+}
+
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.mobileDrawerHeader.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 101;
 }

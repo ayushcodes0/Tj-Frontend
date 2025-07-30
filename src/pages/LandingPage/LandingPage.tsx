@@ -19,6 +19,7 @@ const LandingPage = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
+  const [isPastInformation, setIsPastInformation] = useState<boolean>(false);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const scrollTimeoutRef = useRef<number | null>(null);
   const lastScrollTimeRef = useRef<number>(0);
@@ -34,6 +35,40 @@ const LandingPage = () => {
     window.addEventListener('resize', checkIfMobile);
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
+
+  // Track when we scroll past the information section
+useEffect(() => {
+  const handleScroll = () => {
+    // Get the entire information container
+    const informationContainer = document.querySelector(`.${Styles.information}`);
+    if (!informationContainer) return;
+    
+    // Get the last child element within the information container
+    const lastChild = informationContainer.lastElementChild;
+    if (!lastChild) return;
+    
+    // Calculate positions
+    const containerRect = informationContainer.getBoundingClientRect();
+    const lastChildRect = lastChild.getBoundingClientRect();
+    
+    // The true end is the bottom of whichever is lower: container or last child
+    const trueEnd = Math.max(
+      containerRect.bottom + window.pageYOffset,
+      lastChildRect.bottom + window.pageYOffset
+    );
+    
+    const currentPosition = window.pageYOffset + window.innerHeight - 200;
+    setIsPastInformation(currentPosition > trueEnd);
+  };
+
+  // Add passive scroll listener with throttling
+  const throttledScroll = () => {
+    requestAnimationFrame(handleScroll);
+  };
+  
+  window.addEventListener('scroll', throttledScroll, { passive: true });
+  return () => window.removeEventListener('scroll', throttledScroll);
+}, []);
 
   const registerSection = useCallback((element: HTMLElement | null, index: number) => {
     sectionsRef.current[index] = element;
@@ -95,35 +130,35 @@ const LandingPage = () => {
   }, [handleScroll]);
 
   const handleMenuClick = useCallback((index: number) => {
-  if (scrollTimeoutRef.current !== null) {
-    clearTimeout(scrollTimeoutRef.current);
-  }
-  setActiveSection(index);
-  const element = sectionsRef.current[index];
-  if (element) {
-    const stickyHeaderHeight = 89;
-    const isMobile = window.innerWidth < 883;
-    const additionalOffset = 220;
-
-    const yOffset = isMobile 
-      ? -(stickyHeaderHeight + additionalOffset)
-      : -stickyHeaderHeight; 
-
-    if (isMobile) {
-      const imageContainer = document.querySelector(`.${Styles[`image${index}`]}`) as HTMLElement;
-      if (imageContainer) {
-        const imageY = imageContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: imageY, behavior: 'smooth' });
-      }
-    } else {
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+    if (scrollTimeoutRef.current !== null) {
+      clearTimeout(scrollTimeoutRef.current);
     }
-  }
-  if (isMobileView) {
-    setIsMobileDrawerOpen(false);
-  }
-}, [isMobileView]);
+    setActiveSection(index);
+    const element = sectionsRef.current[index];
+    if (element) {
+      const stickyHeaderHeight = 89;
+      const isMobile = window.innerWidth < 883;
+      const additionalOffset = 220;
+
+      const yOffset = isMobile 
+        ? -(stickyHeaderHeight + additionalOffset)
+        : -stickyHeaderHeight; 
+
+      if (isMobile) {
+        const imageContainer = document.querySelector(`.${Styles[`image${index}`]}`) as HTMLElement;
+        if (imageContainer) {
+          const imageY = imageContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: imageY, behavior: 'smooth' });
+        }
+      } else {
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }
+    if (isMobileView) {
+      setIsMobileDrawerOpen(false);
+    }
+  }, [isMobileView]);
 
   const toggleMobileDrawer = useCallback(() => {
     setIsMobileDrawerOpen(prev => !prev);
@@ -229,11 +264,11 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className={Styles.infoSectionTop}>
+      <div className={`${Styles.infoSectionTop} ${!isPastInformation ? Styles.stickyHeader : ''}`}>
         {isMobileView ? (
           <>
             <div 
-              className={`${Styles.infoMenu} ${activeSection === 0 ? Styles.activeMenu : ''} ${Styles.mobileDrawerHeader}`}
+              className={`${Styles.infoMenu} ${activeSection === 0 ? Styles.activeMenu : ''} ${Styles.mobileDrawerHeader} ${!isPastInformation ? Styles.stickyHeader : ''}`}
               onClick={() => activeSection === 0 ? toggleMobileDrawer() : handleMenuClick(0)}
               style={activeSection === 0 ? {
                 background: gradientColors[0],
