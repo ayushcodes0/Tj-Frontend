@@ -4,9 +4,12 @@ import './index.css'
 import './styles/variable.css'
 import './styles/base.css'
 import App from './App.tsx'
+import { AuthProvider } from './providers/AuthProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </StrictMode>,
 )
