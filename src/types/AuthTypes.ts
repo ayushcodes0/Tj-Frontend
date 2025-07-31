@@ -1,12 +1,16 @@
 // src/types/AuthTypes.ts
+
+export interface Subscription {
+  plan: 'free' | 'pro' | 'enterprise';
+  startedAt?: string | null;
+  expiresAt?: string | null;
+}
+
 export interface User {
   id: string;
   username: string;
   email: string;
-  // Add any additional user fields you need
-}
-
-export interface AuthResponse {
-  user: User;
-  token: string;
+  avatar?: string;
+  subscription: Subscription;
+  // ...any other profile fields
 }
