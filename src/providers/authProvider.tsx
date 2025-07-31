@@ -35,18 +35,58 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setUser(data.data);
       setToken(data.token);
+      return data;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
-      throw err;
+      const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }
+  };
+
+  const login = async (email: string, password: string) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      setUser(data.data);
+      setToken(data.token);
+      return data;
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
   };
 
   const value = {
     user,
     token,
     register,
+    login,
+    logout,
     loading,
     error,
   };
