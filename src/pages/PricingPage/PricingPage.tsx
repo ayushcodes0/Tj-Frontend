@@ -1,7 +1,7 @@
-
+import Styles from "./PricingPage.module.css"
 const PricingPage = () => {
   return (
-    <div>
+    <div className={Styles.pricingPage}>
       Pricing Page
     </div>
   )
