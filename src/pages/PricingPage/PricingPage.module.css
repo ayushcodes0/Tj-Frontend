@@ -1,11 +1,206 @@
-
-.pricingPageContainer{
+.pricingPageContainer {
     display: flex;
     flex-direction: column;
     background: var(--tk-gradient-soft);
+    /* min-height: 100vh; */
 }
 
-.pricingNavContainer{
-        padding: 0 var(--tk-spacing-xxxlarge);
-        border-bottom: .3px solid var(--primary-text);
+.pricingHero {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricingNavContainer {
+    padding: 0 var(--tk-spacing-xxxlarge);
+    border-bottom: .3px solid var(--primary-text);
+}
+
+.pricingCards {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding: 3rem 1rem;
+    flex-grow: 1;
+}
+
+.pricingCard {
+    background-color: var(--primary-white);
+    color: var(--primary-text);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2.5rem;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.pricingCard:hover {
+    transform: translateY(-5px);
+}
+
+.cardHeader {
+    margin-bottom: 2rem;
+}
+
+.cardHeader h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-text);
+}
+
+.cardHeader p {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.currency {
+    font-size: 1.5rem;
+    margin-right: 0.25rem;
+    line-height: 1;
+}
+
+.amount {
+    font-size: 3.5rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.period {
+    align-self: flex-end;
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-left: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+    text-align: left;
+}
+
+.features li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+}
+
+.features li:before {
+    content: "✓";
+    margin-right: 0.75rem;
+    color: var(--primary-text);
+    font-weight: bold;
+}
+
+.ctaButton {
+    background-color: var(--primary-text);
+    color: var(--primary-white);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.ctaButton:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+.faqs {
+    padding: 4rem 1rem;
+    color: var(--primary-text);
+}
+
+.faqsContainer {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faqsTitle {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--primary-text);
+}
+
+.faqsSubtitle {
+    text-align: center;
+    opacity: 0.8;
+    margin-bottom: 3rem;
+}
+
+.faqsList {
+    margin-bottom: 3rem;
+}
+
+.faqItem {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.faqDetails {
+    padding: 1.5rem 0;
+}
+
+.faqQuestion {
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none; /* removes default arrow */
+}
+
+.faqQuestion::-webkit-details-marker {
+    display: none; /* removes default arrow in webkit browsers */
+}
+
+.faqIcon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.faqDetails[open] .faqIcon {
+    transform: rotate(45deg);
+}
+
+.faqAnswer {
+    padding: 1rem 0;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.faqsCta {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.faqsCta p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+/* Reuse your existing CTA button style */
+.faqsCta .ctaButton {
+    max-width: 200px;
+    margin: 0 auto;
 }
