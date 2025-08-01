@@ -1,8 +1,8 @@
 
 .pricingPageContainer{
-    /* padding: 0 64px; */
     display: flex;
     flex-direction: column;
+    background: var(--tk-gradient-soft);
 }
 
 .pricingNavContainer{
