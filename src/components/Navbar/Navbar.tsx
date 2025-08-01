@@ -36,7 +36,7 @@ const Navbar = () => {
       
       <div className={Styles.navLinks}>
         <a href="#home" className={Styles.navLink}>Home</a>
-        <a href="#about" className={Styles.navLink}>About</a>
+        <Link to="/pricing" className={Styles.navLink}>Pricing</Link>
         <a href="#services" className={Styles.navLink}>Services</a>
         <a href="#contact" className={Styles.navLink}>Contact</a>
       </div>
@@ -69,7 +69,7 @@ const Navbar = () => {
       <div className={`${Styles.mobileMenuContainer} ${isMenuOpen ? Styles.mobileMenuOpen : ''}`}>
         <div className={Styles.mobileNavLinks}>
           <a href="#home" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Home</a>
-          <a href="#about" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>About</a>
+          <Link to="/pricing" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Pricing</Link>
           <a href="#services" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Services</a>
           <a href="#contact" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Contact</a>
         </div>
