@@ -149,3 +149,25 @@
     opacity: 1;
     transition-delay: 0.3s;
 }
+
+.avatarLink{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--primary-text);
+    padding: 2px;
+}
+
+.avatarImg{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    object-position: top;
+}
+
+.username{
+    color: var(--primary-text);
+    font-weight: 600;
+}

@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { FilledButton, UnfilledButton } from '../Button/Button'
-import Styles from './Navbar.module.css'
+import Styles from '../Navbar/Navbar.module.css'
 import { useState, useEffect } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { useAuth } from '../../hooks/useAuth';
 import PlaceholderImage from "../../assets/image/placeholderImage.jpg"
 
 
-const Navbar = () => {
+const PricingNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useAuth();
   console.log("Nav user : ", user);
@@ -35,10 +35,9 @@ const Navbar = () => {
       <Link to={"/"}><p className={Styles.logo}>LoremIpsum</p></Link>
       
       <div className={Styles.navLinks}>
-        <a href="#home" className={Styles.navLink}>Home</a>
-        <a href="#about" className={Styles.navLink}>About</a>
-        <a href="#services" className={Styles.navLink}>Services</a>
-        <a href="#contact" className={Styles.navLink}>Contact</a>
+        <a href="#pricing" className={Styles.navLink}>Pricing</a>
+        <a href="#faqs" className={Styles.navLink}>Faqs</a>
+        
       </div>
       
       <div className={Styles.buttons}>
@@ -97,4 +96,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar;
+export default PricingNav;
