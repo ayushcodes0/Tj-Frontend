@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { FilledButton, UnfilledButton } from '../Button/Button';
 import Styles from '../Navbar/Navbar.module.css';
-import { useState, useEffect } from 'react';
-import { FiMenu, FiX, FiLogOut } from 'react-icons/fi';
+import { useState, useEffect, useRef } from 'react';
+import { FiMenu, FiX, FiLogOut, FiUpload } from 'react-icons/fi';
 import { FaCrown, FaLeaf } from "react-icons/fa";
 import { useAuth } from '../../hooks/useAuth';
 import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
@@ -25,27 +25,34 @@ interface UserDrawerProps {
 
 const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
   const isPro = user?.subscription?.plan === 'pro';
-  
-  // Close drawer when clicking on overlay
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { updateAvatar } = useAuth();
+
+  // Open OS file dialog
+  const handleAvatarSelect = () => {
+    fileInputRef.current?.click();
   };
 
-  // Prevent clicks inside drawer from closing it
-  const handleDrawerClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  // Handle image change
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      await updateAvatar(file);
+      onClose(); // Optionally close drawer after successful upload
+      // Optionally show toast: "Profile image updated!"
+    } catch {
+      alert("Failed to update avatar.");
+    }
   };
   
   return (
     <>
-      {/* Overlay */}
-      {isOpen && <div className={Styles.overlay} onClick={handleOverlayClick} />}
-      
-      {/* Dropdown Container */}
-      <div className={`${Styles.dropdownContainer} ${isOpen ? Styles.open : ''}`} onClick={handleDrawerClick}>
-        {/* User Info Header */}
+      {isOpen && <div className={Styles.overlay} onClick={e => { if (e.target === e.currentTarget) onClose(); }} />}
+
+      <div className={`${Styles.dropdownContainer} ${isOpen ? Styles.open : ''}`} onClick={(e) => e.stopPropagation()}>
+        {/* Header, email, plan etc. as before */}
+
         <div className={Styles.dropdownHeader}>
           <img 
             src={user?.avatar || PlaceholderImage} 
@@ -57,11 +64,7 @@ const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
             <p className={Styles.dropdownEmail}>{user?.email || 'No email provided'}</p>
           </div>
         </div>
-
-        {/* Divider */}
         <div className={Styles.dropdownDivider}></div>
-
-        {/* Subscription Info */}
         <div className={Styles.dropdownItem}>
           {isPro ? (
             <>
@@ -75,11 +78,25 @@ const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
             </>
           )}
         </div>
-
-        {/* Divider */}
         <div className={Styles.dropdownDivider}></div>
 
-        {/* Logout Button */}
+        {/* --- Profile Image Upload Button/Row --- */}
+        <div
+          className={`${Styles.dropdownItem} ${Styles.dropdownItemHover}`}
+          onClick={handleAvatarSelect}
+        >
+          <FiUpload className={Styles.dropdownIcon} />
+          <span>Profile Image</span>
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleAvatarChange}
+          />
+        </div>
+
+        <div className={Styles.dropdownDivider}></div>
         <button 
           className={Styles.dropdownLogout} 
           onClick={() => {
