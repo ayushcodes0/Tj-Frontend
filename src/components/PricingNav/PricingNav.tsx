@@ -24,7 +24,7 @@ interface UserDrawerProps {
 }
 
 const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
-  const isPro = user?.subscription?.plan === 'Pro';
+  const isPro = user?.subscription?.plan === 'pro';
   
   // Close drawer when clicking on overlay
   const handleOverlayClick = (e: React.MouseEvent) => {

@@ -1,4 +1,3 @@
-// src/types/AuthTypes.ts
 
 export interface Subscription {
   plan: 'free' | 'pro' | 'enterprise';
