@@ -294,3 +294,98 @@
 .overlay.open {
   display: block;
 }
+
+.mobileProfileSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.7rem 0 0.5rem 0;
+  background: transparent;
+}
+
+.mobileAvatarWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--primary-white);
+  border-radius: 50%;
+  padding: 2px;
+  margin-bottom: 0.7rem;
+  background: #2a1461;
+}
+
+.mobileAvatarImg {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  background: var(--primary-white);
+}
+
+.mobileUserInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-top: 0.2rem;
+}
+
+.mobileUsername {
+  color: var(--primary-white);
+  font-weight: 600;
+  font-size: 1.11rem;
+  margin-bottom: 0.15rem;
+  text-align: center;
+}
+
+.mobileUseremail {
+  color: var(--primary-white);
+  font-size: 0.97rem;
+  opacity: 0.78;
+  text-align: center;
+}
+
+.mobileDropdownItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: var(--primary-white);
+  font-size: 1rem;
+  padding: 10px 0 10px 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.mobileDropdownItem span, 
+.mobileDropdownItem svg {
+  color: var(--primary-white);
+  margin: 0 5px 0 0;
+}
+
+.mobileLogout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88%;
+  margin: 17px auto 12px auto;
+  padding: 10px 0;
+  background: #362081;
+  border: none;
+  color: var(--primary-white);
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.18s;
+}
+
+.mobileLogout:hover {
+  background: #4d2ab4;
+}
+
+@media (max-width: 883px) {
+  .mobileProfileSection { /* all styling applies here on mobile */ }
+}
