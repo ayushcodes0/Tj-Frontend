@@ -262,6 +262,11 @@
   font-size: 0.9rem;
 }
 
+.dropdownItemHover:hover{
+  background: rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+}
+
 .dropdownLogout:hover {
   background: rgba(0, 0, 0, 0.03);
 }

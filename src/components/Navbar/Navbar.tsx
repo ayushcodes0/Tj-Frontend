@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { FilledButton, UnfilledButton } from '../Button/Button';
 import Styles from './Navbar.module.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FiMenu, FiX, FiLogOut } from 'react-icons/fi';
 import { FaCrown, FaLeaf } from "react-icons/fa";
+import { FiUpload } from 'react-icons/fi';
 import { useAuth } from '../../hooks/useAuth';
 import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
 
@@ -20,7 +21,26 @@ import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout, updateAvatar } = useAuth();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarSelect = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      await updateAvatar(file);
+      setIsProfileOpen(false);
+      // Optionally show a toast: "Profile image updated!"
+    } catch {
+      // Show error message/toast if needed
+      alert('Failed to update avatar.');
+    }
+  };
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -159,6 +179,24 @@ const Navbar = () => {
                 <span>Free Plan</span>
               </>
             )}
+          </div>
+
+          {/* Divider */}
+          <div className={Styles.dropdownDivider}></div>
+
+          <div
+            className={`${Styles.dropdownItem} ${Styles.dropdownItemHover}`}
+            onClick={handleAvatarSelect}
+          >
+            <FiUpload className={Styles.dropdownIcon} />
+            <span>Profile Image</span>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleAvatarChange}
+            />
           </div>
 
           {/* Divider */}

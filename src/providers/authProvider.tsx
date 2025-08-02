@@ -77,6 +77,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem('token');
   };
 
-  const value = { user, token, register, login, logout, loading, error };
+  const updateAvatar = async (file: File): Promise<void> => {
+    if (!token) throw new Error("Not logged in");
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/avatar`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Avatar update failed");
+
+    // Merge new avatar URL into user, update state and storage
+    const newUser: User = { ...user!, avatar: data.data.avatar };
+    setUser(newUser);
+    localStorage.setItem('user', JSON.stringify(newUser));
+  };
+
+  const value = { user, token, register, login, logout, loading, error, updateAvatar };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
