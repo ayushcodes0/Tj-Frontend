@@ -152,11 +152,13 @@ const Navbar = () => {
         <div className={`${Styles.dropdownContainer} ${isProfileOpen ? Styles.open : ''}`} onClick={handleDrawerClick}>
           {/* User Info Header */}
           <div className={Styles.dropdownHeader}>
-            <img 
+            <div className={Styles.imgContainer}>
+              <img 
               src={user?.avatar || PlaceholderImage} 
               alt={user?.username || 'User'} 
               className={Styles.dropdownAvatar}
             />
+            </div>
             <div className={Styles.dropdownUserInfo}>
               <h3 className={Styles.dropdownName}>{user?.username || 'User'}</h3>
               <p className={Styles.dropdownEmail}>{user?.email || 'No email provided'}</p>

@@ -200,6 +200,7 @@
 .dropdownHeader {
   display: flex;
   align-items: center;
+  gap: 12px;
   padding: 0 16px 8px;
 }
 
@@ -208,7 +209,15 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 12px;
+}
+
+.imgContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--primary-text);
+  padding: 2px;
 }
 
 .dropdownUserInfo {
