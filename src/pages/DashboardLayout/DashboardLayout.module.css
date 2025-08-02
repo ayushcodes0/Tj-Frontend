@@ -1,0 +1,22 @@
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+}
+.sidebar {
+  width: 230px;
+  background: #2f235a;
+  color: #fff;
+  min-height: 100vh;
+  /* ...other sidebar styles */
+}
+.dashboardContent {
+  flex: 1;
+  padding: 2rem;
+  background: #f6f7fa;
+  /* ...rest of your content area styles */
+}
+
+.dashboardSidebar{
+    background: var(--primary-white);
+    border-right: .3px solid var(--primary-text);
+}

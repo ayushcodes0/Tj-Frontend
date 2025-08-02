@@ -1,0 +1,79 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 28px 22px 24px 22px;
+    min-width: 230px;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--primary-text);
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+    margin-left: 2px;
+}
+
+.sidebarDivider {
+    width: 92%;
+    height: .3px;
+    background: var(--primary-text);
+    opacity: 0.14;
+    border-radius: 2px;
+    margin: 0.7rem 0 0.9rem 0;
+    align-self: center;
+}
+
+.sidebarNav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.sidebarNavLink {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 11px 18px 11px 8px;
+    color: var(--primary-text);
+    font-size: 1.11rem;
+    font-weight: 600;
+    border-radius: 7px;
+    transition: 
+        background 0.14s,
+        color 0.17s;
+    text-decoration: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.sidebarNavLink span {
+    flex: 1;
+}
+
+.sideIcon {
+    font-size: 1.03rem;
+    opacity: 0.74;
+    transition: color 0.16s;
+    color: var(--primary-text);
+}
+
+.active, .sidebarNavLink.active {
+    background: #eadeff;
+    color: #6741d9 !important;
+}
+
+.active .sideIcon,
+.sidebarNavLink.active .sideIcon {
+    color: #6741d9;
+    opacity: 1;
+}
+
+/*.dashboardLink     {}  for custom Dashboard styling if needed 
+.tradesLink        {}
+.performanceLink   {}
+.aiInsightsLink    {}
+.settingsLink      {} */
