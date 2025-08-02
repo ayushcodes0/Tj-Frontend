@@ -386,6 +386,6 @@
   background: #4d2ab4;
 }
 
-@media (max-width: 883px) {
-  .mobileProfileSection { /* all styling applies here on mobile */ }
-}
+/* @media (max-width: 883px) {
+  .mobileProfileSection { all styling applies here on mobile }
+} */
