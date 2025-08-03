@@ -1,137 +1,70 @@
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 28px 22px 24px 22px;
-    min-width: 230px;
+
+.sidebar{
+    min-width: 240px;
     height: 100vh;
+    border-right: 1px solid #E8E8E8;
+    background-color: var(--dashboard-primary-background);
 }
 
-.sidebarHeader{
+.userInfo{
     display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.logo {
-    font-weight: 800;
-    font-size: 2rem;
-    color: var(--primary-text);
-    letter-spacing: -1px;
-    margin-bottom: 4px;
-    margin-left: 2px;
-}
-
-.sidebarDivider {
-    width: 92%;
-    height: .3px;
-    background: var(--primary-text);
-    opacity: 0.14;
-    border-radius: 2px;
-    margin: 0.7rem 0 0.9rem 0;
-    align-self: center;
-}
-
-.sidebarNav {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-}
-
-.sidebarNavLink {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    color: var(--primary-text);
-    font-size: 1.11rem;
-    font-weight: 600;
-    border-radius: 7px;
-    transition: 
-        background 0.14s,
-        color 0.17s;
-    text-decoration: none;
-    cursor: pointer;
-    width: 100%;
-    padding: 8px 12px;
-}
-
-.sidebarNavLink span {
-    flex: 1;
-}
-
-.sideIcon {
-    font-size: 1.03rem;
-    opacity: 0.74;
-    transition: color 0.16s;
-    color: var(--primary-text);
-}
-
-.active, .sidebarNavLink.active {
-    background: #eadeff;
-    color: #6741d9 !important;
-}
-
-.active .sideIcon,
-.sidebarNavLink.active .sideIcon {
-    color: #6741d9;
-    opacity: 1;
-}
-
-.sidebarFooter {
-    width: 100%;
-}
-
-.profileArea {
-    display: flex;
-    align-items: center;
     justify-content: space-between;
-    border-radius: 8px;
-    padding: 10px 10px 10px 4px;
-    margin-top: 12px;
+    align-items: center;
+    padding: 8px 8px 8px 12px;
+    border-bottom: 1px solid var(--dashboard-borders);
 }
 
-.profileInfo {
+.userProfile{
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-
-.sidebarProfileImg {
-    width: 37px;
-    height: 37px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid var(--primary-text);
-    padding: 2px;
-}
-
-.sidebarProfileName {
-    color: var(--primary-text);
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-}
-
-.sidebarLogout {
-    background: none;
-    border: none;
-    outline: none;
-    color: #af8fff;
-    display: flex;
-    align-items: center;
+    gap: 10px;
     cursor: pointer;
-    padding: 8px 12px;
-    border-radius: 6px;
-    transition: background 0.13s;
-}
-.sidebarLogout:hover {
-    background: #e7e2fa;
-}
-.sidebarLogoutIcon {
-    font-size: 1.15rem;
-    color: #6741d9;
 }
 
+.userIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    width: 24px;
+    padding: 6px;
+    border-radius: 6px;
+    background-color: var(--dashboard-userIcon-color);
+}
+
+.firstLetter{
+    font-size: 12px;
+    color: white;
+    font-weight: 600;
+}
+
+.usernameContainer{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.downArrowIcon{
+    font-size: 14px;
+    color: var(--dashboard-icons-color);
+}
+
+.username{
+    font-size: 16px;
+    color: var(--dashboard-primary-text);
+}
+
+.sidebarIconContainer{
+    width: 32px;
+    height: 32px;
+    background-color: var(--dashboard-buttons-hover);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebarIcon{
+    font-size: 18px;
+    color: var(--dashboard-icons-color);
+}
