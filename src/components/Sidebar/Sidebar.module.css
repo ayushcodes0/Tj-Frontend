@@ -4,6 +4,14 @@
     height: 100vh;
     border-right: 1px solid #E8E8E8;
     background-color: var(--dashboard-primary-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebar:hover .sidebarIcon{
+    display: block;
+    transition: all ease .3s;
 }
 
 .userInfo{
@@ -66,7 +74,6 @@
 .sidebarIconContainer{
     width: 32px;
     height: 32px;
-    background-color: var(--dashboard-buttons-hover);
     border-radius: 6px;
     display: flex;
     justify-content: center;
@@ -76,6 +83,14 @@
 .sidebarIcon{
     font-size: 18px;
     color: var(--dashboard-icons-color);
+    display: none;
+    font-weight: 700;
+}
+
+.sidebarIconContainer:hover{
+    background-color: var(--dashboard-buttons-hover);
+    transition: all ease .3s;
+    cursor: pointer;
 }
 
 
@@ -86,17 +101,15 @@
 .sidebarNav{
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 0 8px;
-    margin-top: 8px;
-    padding-bottom: 8px;
+    gap: 4px;
+    padding: 12px 8px;
 }
 
 .sidebarNavLink{
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 6px 10px;
+    padding: 6px 15px;
     border-radius: 6px;
     cursor: pointer;
 }
@@ -113,6 +126,56 @@
 }
 
 .navTexts{
-    color: var(--dashboard-primary-text);
+    color: var(--dashboard-secondary-text);
+    font-size: 15px;
+}
+
+.sidebarBottom{
+    border-top: 1px solid var(--dashboard-borders);
+}
+
+
+.bottomOptions{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    padding: 4px 0;
+}
+
+.bottomDivider{
+    width: 1px;
+    height: 20px;
+    background-color: var(--dashboard-borders);
+}
+
+.bottomLeft, .bottomRight{
+    padding: 10px 10px 10px 9px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 6px;
+    width: 40%;
+    justify-content: center;
+}
+
+.bottomLeft:hover{
+    background-color: var(--dashboard-buttons-hover);
+    cursor: pointer;
+    transition: all ease .3s;
+}
+.bottomRight:hover{
+    background-color: var(--dashboard-buttons-hover);
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+.bottomIcons{
+    font-size: 18px;
+    color: var(--dashboard-icons-color);
+}
+
+.bottomTexts{
     font-size: 14px;
+    color: var(--dashboard-secondary-text);
 }
