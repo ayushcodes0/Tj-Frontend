@@ -11,84 +11,94 @@ interface UserProfilePopupProps {
   user: User | null;    
 }
 
-const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user }) => {
+const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) => {
   return (
-    <div className={Styles.userProfilePopup}>
-      <div className={Styles.popupContainer}>
-        <div className={Styles.profileInfo}>
-            <div className={Styles.userIcon}>
-                <p className={Styles.firstLetter}>{user?.username[0].toUpperCase()}</p>
-            </div>
-            <div className={Styles.userInfo}>
-                <p className={Styles.name}>{user?.username}'s Dashboard</p>
-                <p className={Styles.email}>{user?.email}</p>
-            </div>
-        </div>
-        <div className={Styles.popupNav}>
-            <NavLink
-                to="/dashboard"
-                end
-                className={({ isActive }) =>
-                `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
-                }
-            >
-                <RiDashboardLine className={Styles.sideIcon} />
-                <span className={Styles.navTexts}>Dashboard</span>
-            </NavLink>
-            <NavLink
-                to="/dashboard/trades"
-                className={({ isActive }) =>
-                `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
-                        }
-            >
-                <FaArrowTrendUp className={Styles.sideIcon} />
-                <span className={Styles.navTexts}>Trades</span>
-            </NavLink>
-            <NavLink
-                to="/dashboard/performance"
-                className={({ isActive }) =>
-                `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
-                }
-            >
-                <MdElectricBolt className={Styles.sideIcon} />
-                <span className={Styles.navTexts}>Performance</span>
-            </NavLink>
-        </div>
-        <div className={`${Styles.popupNav} ${Styles.secondPopupNav}`}>
-            <NavLink
-                to="/dashboard"
-                end
-                className={({ isActive }) =>
-                `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
-                }
-            >
-                <RiDashboardLine className={Styles.sideIcon} />
-                <span className={Styles.navTexts}>Dashboard</span>
-            </NavLink>
-            <NavLink
-                to="/dashboard/trades"
-                className={({ isActive }) =>
-                `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
-                        }
-            >
-                <FaArrowTrendUp className={Styles.sideIcon} />
-                <span className={Styles.navTexts}>Trades</span>
-            </NavLink>
-            <NavLink
-                to="/dashboard/performance"
-                className={({ isActive }) =>
-                `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
-                }
-            >
-                <MdElectricBolt className={Styles.sideIcon} />
-                <span className={Styles.navTexts}>Performance</span>
-            </NavLink>
-        </div>
-        <div className={Styles.popupBottom}>
-            <div className={Styles.bottomItems}>
-                <div className={Styles.plusIconContainer}><GoPlus className={Styles.plusIcon} /></div>
-                <p className={Styles.popupBottomText}>Create Trade</p>
-            </div>
+    // Overlay/backdrop: closes on outside click
+    <div className={Styles.popupOverlay} onClick={onClose}>
+      {/* Popup: stops event propagation so inside clicks don't close */}
+      <div className={Styles.userProfilePopup} onClick={e => e.stopPropagation()}>
+        <div className={Styles.popupContainer}>
+          <div className={Styles.profileInfo}>
+              <div className={Styles.userIcon}>
+                  <p className={Styles.firstLetter}>{user?.username?.[0]?.toUpperCase()}</p>
+              </div>
+              <div className={Styles.userInfo}>
+                  <p className={Styles.name}>{user?.username}&apos;s Dashboard</p>
+                  <p className={Styles.email}>{user?.email}</p>
+              </div>
+          </div>
+          <div className={Styles.popupNav}>
+              <NavLink
+                  to="/dashboard"
+                  end
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                  `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
+                  }
+              >
+                  <RiDashboardLine className={Styles.sideIcon} />
+                  <span className={Styles.navTexts}>Dashboard</span>
+              </NavLink>
+              <NavLink
+                  to="/dashboard/trades"
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                  `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
+                          }
+              >
+                  <FaArrowTrendUp className={Styles.sideIcon} />
+                  <span className={Styles.navTexts}>Trades</span>
+              </NavLink>
+              <NavLink
+                  to="/dashboard/performance"
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                  `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
+                  }
+              >
+                  <MdElectricBolt className={Styles.sideIcon} />
+                  <span className={Styles.navTexts}>Performance</span>
+              </NavLink>
+          </div>
+          <div className={`${Styles.popupNav} ${Styles.secondPopupNav}`}>
+              <NavLink
+                  to="/dashboard"
+                  end
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                  `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
+                  }
+              >
+                  <RiDashboardLine className={Styles.sideIcon} />
+                  <span className={Styles.navTexts}>Dashboard</span>
+              </NavLink>
+              <NavLink
+                  to="/dashboard/trades"
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                  `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
+                          }
+              >
+                  <FaArrowTrendUp className={Styles.sideIcon} />
+                  <span className={Styles.navTexts}>Trades</span>
+              </NavLink>
+              <NavLink
+                  to="/dashboard/performance"
+                  onClick={onClose}
+                  className={({ isActive }) =>
+                  `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
+                  }
+              >
+                  <MdElectricBolt className={Styles.sideIcon} />
+                  <span className={Styles.navTexts}>Performance</span>
+              </NavLink>
+          </div>
+          <div className={Styles.popupBottom}>
+              <div className={Styles.bottomItems}>
+                  <div className={Styles.plusIconContainer}><GoPlus className={Styles.plusIcon} /></div>
+                  <p className={Styles.popupBottomText}>Create Trade</p>
+              </div>
+          </div>
         </div>
       </div>
     </div>
@@ -96,4 +106,3 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user }) => {
 };
 
 export default UserProfilePopup;
-
