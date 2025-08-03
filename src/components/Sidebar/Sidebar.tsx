@@ -3,9 +3,8 @@ import { FaArrowTrendUp, FaRegSun } from "react-icons/fa6";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiDashboardLine } from "react-icons/ri";
 import { MdElectricBolt } from "react-icons/md";
-// import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 // import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
-// import { FiLogOut } from "react-icons/fi";
 import { PiSidebar } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
@@ -18,7 +17,7 @@ import { BsQuestionCircle } from "react-icons/bs";
 
 const Sidebar = () =>{ 
     
-    // const { user, logout } = useAuth();
+    const { user, logout } = useAuth();
 
     
 return (
@@ -27,10 +26,12 @@ return (
         <div className={Styles.userInfo}>
             <div className={Styles.userProfile}>
                 <div className={Styles.userIcon}>
-                    <p className={Styles.firstLetter}>A</p>
+                    <p className={Styles.firstLetter}>
+                        {user?.username?.[0].toUpperCase()}
+                    </p>
                 </div>
                 <div className={Styles.usernameContainer}>
-                    <p className={Styles.username}>Ayush Singh</p>
+                    <p className={Styles.username}>{user?.username}</p>
                     <IoIosArrowDown className={Styles.downArrowIcon} />
                 </div>
             </div>
@@ -139,7 +140,7 @@ return (
     </div>
     <div className={Styles.sidebarBottom}>
         <div className={Styles.bottomOptions}>
-            <div className={Styles.bottomLeft}>
+            <div className={Styles.bottomLeft} onClick={logout}>
                 <IoMdLogOut className={Styles.bottomIcons} />
                 <span className={Styles.bottomTexts}>Logout</span>
             </div>
