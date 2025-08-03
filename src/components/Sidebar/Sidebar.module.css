@@ -19,6 +19,14 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.userProfile:hover{
+    cursor: pointer;
+    background-color: var(--dashboard-buttons-hover);
+    transition: all ease .3s;
 }
 
 .userIcon{
@@ -52,6 +60,7 @@
 .username{
     font-size: 16px;
     color: var(--dashboard-primary-text);
+    font-weight: 600;
 }
 
 .sidebarIconContainer{
@@ -67,4 +76,43 @@
 .sidebarIcon{
     font-size: 18px;
     color: var(--dashboard-icons-color);
+}
+
+
+.sidebarNavContainer{
+    border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.sidebarNav{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 8px;
+    margin-top: 8px;
+    padding-bottom: 8px;
+}
+
+.sidebarNavLink{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.sidebarNavLink:hover{
+    cursor: pointer;
+    background-color: var(--dashboard-buttons-hover);
+    transition: all ease .3s;
+}
+
+.sideIcon{
+    color: var(--dashboard-icons-color);
+    font-size: 16px;
+}
+
+.navTexts{
+    color: var(--dashboard-primary-text);
+    font-size: 14px;
 }
