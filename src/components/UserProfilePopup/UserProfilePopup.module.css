@@ -1,10 +1,9 @@
 
 .userProfilePopup{
     background-color: var(--dashboard-primary-background);
-    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;    
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     position: absolute;
     width: 270px;
-    height: 320px;
     top: 48px;
     left: 10px;
     border-radius: 12px;
@@ -12,18 +11,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12px;
 }
 
 .popupContainer{
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .profileInfo{
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 16px;
 }
 
 .userIcon{
@@ -63,4 +64,83 @@
     color: var(--dashboard-icons-color);
     margin-top: 0;
     line-height: 1;
+}
+
+.popupNav{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--dashboard-borders);
+    padding: 8px;
+}
+
+.secondPopupNav{
+    border: none;
+}
+
+.sidebarNavLink{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    padding: 6px 8px;
+    cursor: pointer;
+}
+
+.sidebarNavLink:hover{
+    cursor: pointer;
+    background-color: var(--dashboard-buttons-hover);
+    transition: all ease .3s;
+}
+
+.sideIcon{
+    color: var(--dashboard-icons-color);
+    font-size: 16px;
+}
+
+.navTexts{
+    color: var(--dashboard-secondary-text);
+    font-size: 14px;
+}
+
+
+.popupBottom{
+    border-bottom-left-radius: 12px;
+    border-bottom-Right-radius: 12px;
+    display: flex;
+    align-items: center;
+    background-color: #f4f4f4;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+
+}
+
+.bottomItems{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.bottomItems:hover{
+    background-color: #e8e8e8;
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+.plusIconContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+    background-color: #dbdada;
+    border-radius: 8px;
+}
+
+.popupBottomText{
+    font-size: 14px;
+    color: var(--dashboard-secondary-text);
 }
