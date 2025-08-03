@@ -15,8 +15,6 @@ import UserProfilePopup from '../UserProfilePopup/UserProfilePopup';
 
 
 
-
-
 const Sidebar = () =>{ 
 
     const [showProfilePopup, setShowProfilePopup] = useState(false);
