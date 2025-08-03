@@ -10,13 +10,16 @@ import { IoIosArrowDown } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
 import { IoMdLogOut } from "react-icons/io";
 import { BsQuestionCircle } from "react-icons/bs";
+import { useState } from 'react';
+import UserProfilePopup from '../UserProfilePopup/UserProfilePopup';
 
 
 
 
 
 const Sidebar = () =>{ 
-    
+
+    const [showProfilePopup, setShowProfilePopup] = useState(false);
     const { user, logout } = useAuth();
 
     
@@ -24,7 +27,7 @@ return (
   <div className={Styles.sidebar}>
     <div className={Styles.sidebarTopSection}>
         <div className={Styles.userInfo}>
-            <div className={Styles.userProfile}>
+            <div className={Styles.userProfile} onClick={()=>setShowProfilePopup(!showProfilePopup)}>
                 <div className={Styles.userIcon}>
                     <p className={Styles.firstLetter}>
                         {user?.username?.[0].toUpperCase()}
@@ -151,6 +154,12 @@ return (
             </div>
         </div>
     </div>
+    {showProfilePopup && (
+        <UserProfilePopup
+            onClose={() => setShowProfilePopup(false)}
+            user={user}
+        />
+        )}
   </div>
 )}
 
