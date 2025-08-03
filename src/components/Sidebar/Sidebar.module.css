@@ -2,9 +2,16 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    justify-content: space-between;
     padding: 28px 22px 24px 22px;
     min-width: 230px;
+    height: 100vh;
+}
+
+.sidebarHeader{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .logo {
@@ -37,7 +44,6 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 11px 18px 11px 8px;
     color: var(--primary-text);
     font-size: 1.11rem;
     font-weight: 600;
@@ -48,6 +54,7 @@
     text-decoration: none;
     cursor: pointer;
     width: 100%;
+    padding: 8px 12px;
 }
 
 .sidebarNavLink span {
@@ -72,8 +79,59 @@
     opacity: 1;
 }
 
-/*.dashboardLink     {}  for custom Dashboard styling if needed 
-.tradesLink        {}
-.performanceLink   {}
-.aiInsightsLink    {}
-.settingsLink      {} */
+.sidebarFooter {
+    width: 100%;
+}
+
+.profileArea {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    padding: 10px 10px 10px 4px;
+    margin-top: 12px;
+}
+
+.profileInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebarProfileImg {
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--primary-text);
+    padding: 2px;
+}
+
+.sidebarProfileName {
+    color: var(--primary-text);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+.sidebarLogout {
+    background: none;
+    border: none;
+    outline: none;
+    color: #af8fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.13s;
+}
+.sidebarLogout:hover {
+    background: #e7e2fa;
+}
+.sidebarLogoutIcon {
+    font-size: 1.15rem;
+    color: #6741d9;
+}
+

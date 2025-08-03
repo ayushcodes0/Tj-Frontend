@@ -7,13 +7,11 @@
   background: #2f235a;
   color: #fff;
   min-height: 100vh;
-  /* ...other sidebar styles */
 }
 .dashboardContent {
   flex: 1;
   padding: 2rem;
   background: var(--primary-white);
-  /* ...rest of your content area styles */
 }
 
 .dashboardSidebar{

@@ -13,7 +13,6 @@
     letter-spacing: -.8px;
 }
 
-/* Desktop Navigation */
 .navLinks {
     display: flex;
     gap: var(--tk-spacing-xlarge);
