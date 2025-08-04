@@ -6,6 +6,8 @@
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    background-color: var(--dashboard-right-background);
+
 }
 
 .tradeContainer::-webkit-scrollbar {
@@ -15,3 +17,4 @@
 .trades{
     border: 1px solid var(--dashboard-borders);
 }
+

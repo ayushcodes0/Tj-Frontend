@@ -2,7 +2,8 @@
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--dashboard-borders);
-  border-radius: 8px;
+  border-radius: 6px;
+
 }
 .table {
   min-width: 920px;
@@ -23,7 +24,6 @@ th, td {
 }
 
 th {
-  background: var(--dashboard-primary-background);
   font-weight: 600;
   color: var(--dashboard-primary-text);
   font-size: 14px;
@@ -55,3 +55,4 @@ tr:last-child td {
   color: #d93a1e;
   font-weight: 700;
 }
+

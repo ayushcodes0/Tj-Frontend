@@ -38,6 +38,7 @@ function getName(val: undefined | null | { name?: string } | string) {
   return val.name || '-';
 }
 
+
 const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => (
   <div className={Styles.tableWrapper}>
     <table className={Styles.table}>
@@ -59,7 +60,7 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => (
           <tr key={trade._id}>
             <td>{msToDate(trade.date)}</td>
             <td>{trade.symbol}</td>
-            <td>{trade.direction}</td>
+            <td className={Styles.direction}>{trade.direction}</td>
             <td>
               {trade.entry_price} <span className={Styles.arrow}>&rarr;</span> {trade.exit_price}
             </td>
