@@ -217,6 +217,14 @@
   }
 }
 
+@media (max-width: 600px){
+  .sidebarIconContainer {
+      display: flex !important;
+  }
+  .dashboardNavbar{
+    padding: 4px;
+  }
+}
 
 
 @media (max-width: 430px){
