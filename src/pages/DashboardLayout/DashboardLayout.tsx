@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar"; 
 import Styles from './DashboardLayout.module.css';
 import { PiSidebar } from "react-icons/pi";
@@ -6,8 +6,11 @@ import { RiDashboardLine } from "react-icons/ri";
 import { GoPlus } from "react-icons/go";
 import { useState } from "react";
 
+
 const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const location = useLocation();
+
   
   return (
     <div className={Styles.dashboardContainer}>
@@ -42,7 +45,7 @@ const DashboardLayout = () => {
                   <RiDashboardLine className={Styles.dashboardIcon} />
                   <p className={Styles.dashboard}>Dashboard</p>
                 </div>
-                <p className={Styles.url}>/ dashboard</p>
+                <p className={Styles.url}>{location.pathname}</p>
               </div>
             </div>
             <div className={Styles.dashboardRight}>
