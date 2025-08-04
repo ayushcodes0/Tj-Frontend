@@ -1,8 +1,9 @@
 
+import Styles from "./Trades.module.css"
 const Trades = () => {
   return (
-    <div>
-      Trade
+    <div className={Styles.tradesContainer}>
+      tradesContainer
     </div>
   )
 }
