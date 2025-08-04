@@ -66,6 +66,9 @@
 .dashboardNavbarContainer {
   background-color: var(--dashboard-primary-background);
   border-bottom: 1px solid var(--dashboard-borders);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .sidebarIconNav:hover {

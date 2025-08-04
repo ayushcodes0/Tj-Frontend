@@ -48,11 +48,9 @@ tr:last-child td {
 
 .green {
   color: var(--dashboard-userIcon-color);
-  font-weight: 700;
 }
 
 .red {
   color: #d93a1e;
-  font-weight: 700;
 }
 
