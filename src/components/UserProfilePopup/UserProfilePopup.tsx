@@ -13,9 +13,7 @@ interface UserProfilePopupProps {
 
 const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) => {
   return (
-    // Overlay/backdrop: closes on outside click
     <div className={Styles.popupOverlay} onClick={onClose}>
-      {/* Popup: stops event propagation so inside clicks don't close */}
       <div className={Styles.userProfilePopup} onClick={e => e.stopPropagation()}>
         <div className={Styles.popupContainer}>
           <div className={Styles.profileInfo}>
@@ -96,7 +94,7 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) =>
           <div className={Styles.popupBottom}>
               <div className={Styles.bottomItems}>
                   <div className={Styles.plusIconContainer}><GoPlus className={Styles.plusIcon} /></div>
-                  <p className={Styles.popupBottomText}>Create Trade</p>
+                  <p className={Styles.popupBottomText}>New trade</p>
               </div>
           </div>
         </div>

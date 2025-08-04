@@ -49,7 +49,7 @@ const DashboardLayout = () => {
               <div className={Styles.plusContainer}>
                 <GoPlus className={Styles.plusIcon} />
               </div>
-              <p className={Styles.createTrade}>New Trade</p>
+              <p className={Styles.createTrade}>New trade</p>
             </div>
           </div>
         </div>
