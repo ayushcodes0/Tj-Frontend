@@ -3,16 +3,20 @@
   min-height: 100vh;
   width: 100%;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden; /* Prevent horizontal scroll only */
 }
 
+/* SIDEBAR */
 .dashboardSidebar {
   background: var(--primary-white);
   width: 240px;
+  height: 100vh;
   min-height: 100vh;
   transition: transform 0.3s ease;
-  position: relative;
+  position: relative; /* keep fixed to container */
   z-index: 10;
+  /* No overflow, sidebar can't scroll */
+  overflow: visible;
 }
 
 .dashboardSidebar.collapsed {
@@ -23,18 +27,21 @@
   transform: translateX(0);
 }
 
+/* DASHBOARD CONTENT */
 .dashboardContent {
   flex: 1;
-  background: var(--primary-white);
+  background: var(--dashboard-right-background);
+  height: 100vh;         /* Take all viewport */
   min-height: 100vh;
+  overflow-y: auto;      /* Enables scrolling for lots of content */
   transition: margin-left 0.3s ease;
   width: 100%;
 }
-
 .dashboardContent.expand {
   margin-left: -240px;
   width: calc(100% + 240px);
 }
+
 
 .sidebarIconNav {
     width: 32px;

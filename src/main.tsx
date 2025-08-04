@@ -6,12 +6,13 @@ import './styles/base.css'
 import App from './App.tsx'
 import { AuthProvider } from './providers/authProvider.tsx'
 import { ToastProvider } from './providers/toastProvider.tsx'
+import { TradesProvider } from './providers/tradeProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
       <ToastProvider/>
-      <App />
+      <TradesProvider><App /></TradesProvider>
     </AuthProvider>
   </StrictMode>,
 )

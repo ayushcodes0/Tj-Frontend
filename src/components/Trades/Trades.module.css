@@ -1,0 +1,17 @@
+
+.tradeContainer{
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tradeContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.trades{
+    border: 1px solid var(--dashboard-borders);
+}

@@ -1,0 +1,36 @@
+.tradeCard {
+  margin-bottom: 18px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: #faf8ff;
+  border: 1px solid var(--dashboard-borders, #e2dffd);
+  box-shadow: 0 2px 10px rgba(103,65,217,0.03);
+  font-size: 14px;
+}
+.row {
+  margin-bottom: 4px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.symbol {
+  font-weight: bold;
+  color: #4a249d;
+  letter-spacing: 1px;
+}
+.gain { color: #33ad4a; font-weight: 600; }
+.loss { color: #e44d4d; font-weight: 600; }
+.psychologyBlock {
+  margin-top: 6px;
+  font-size: 12px;
+  background: #f7f4fc;
+  border-radius: 6px;
+  padding: 6px 9px;
+}
+.analysisBlock {
+  margin-top: 7px;
+  border-left: 3px solid #7953d2;
+  padding: 3px 0 3px 10px;
+  font-size: 13px;
+  background: #fcfaff;
+}
