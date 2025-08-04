@@ -4,7 +4,6 @@ import { FaRegLightbulb } from "react-icons/fa";
 import { RiDashboardLine } from "react-icons/ri";
 import { MdElectricBolt } from "react-icons/md";
 import { useAuth } from "../../hooks/useAuth";
-// import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
 import { IoIosArrowDown } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
 import { IoMdLogOut } from "react-icons/io";

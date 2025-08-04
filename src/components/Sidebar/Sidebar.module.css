@@ -180,3 +180,9 @@
     font-size: 14px;
     color: var(--dashboard-secondary-text);
 }
+
+@media (max-width: 600px){
+  .sidebar .sidebarIcon {
+      display: block !important;
+  }
+}

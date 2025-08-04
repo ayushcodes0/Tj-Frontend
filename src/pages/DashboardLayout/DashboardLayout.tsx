@@ -1,17 +1,33 @@
+import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar"; 
 import Styles from './DashboardLayout.module.css';
 import { PiSidebar } from "react-icons/pi";
 import { RiDashboardLine } from "react-icons/ri";
 import { GoPlus } from "react-icons/go";
-import { useState } from "react";
 
+const COLLAPSE_BREAKPOINT = 1000;
 
 const DashboardLayout = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth < COLLAPSE_BREAKPOINT);
   const location = useLocation();
 
-  
+  // Responsive/auto collapse handler
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < COLLAPSE_BREAKPOINT) {
+        setSidebarCollapsed(true);
+      } else {
+        setSidebarCollapsed(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Initial check (in case user changes orientation or loads at small size)
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className={Styles.dashboardContainer}>
       {/* Sidebar */}
@@ -26,7 +42,6 @@ const DashboardLayout = () => {
         </div>
         <Sidebar />
       </div>
-
       {/* Main Content */}
       <div className={`${Styles.dashboardContent} ${
         sidebarCollapsed ? Styles.expand : ''

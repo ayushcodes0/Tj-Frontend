@@ -13,9 +13,7 @@
   height: 100vh;
   min-height: 100vh;
   transition: transform 0.3s ease;
-  position: relative; /* keep fixed to container */
-  z-index: 10;
-  /* No overflow, sidebar can't scroll */
+  position: relative; 
   overflow: visible;
 }
 
@@ -27,16 +25,16 @@
   transform: translateX(0);
 }
 
-/* DASHBOARD CONTENT */
 .dashboardContent {
   flex: 1;
   background: var(--dashboard-right-background);
-  height: 100vh;         /* Take all viewport */
+  height: 100vh;
   min-height: 100vh;
-  overflow-y: auto;      /* Enables scrolling for lots of content */
+  overflow-y: auto;
   transition: margin-left 0.3s ease;
   width: 100%;
 }
+
 .dashboardContent.expand {
   margin-left: -240px;
   width: calc(100% + 240px);
@@ -61,7 +59,7 @@
     font-size: 18px;
     color: var(--dashboard-icons-color);
     font-weight: 700;
-}
+} 
 
 .dashboardNavbarContainer {
   background-color: var(--dashboard-primary-background);
@@ -106,7 +104,7 @@
 }
 
 .dashboardIcon{
-  font-size: 14px;
+  font-size: 18px;
   color: var(--dashboard-icons-color);
 }
 
@@ -180,3 +178,49 @@
     cursor: pointer;
 }
 
+
+@media (max-width: 600px) {
+
+  .dashboardSidebar {
+    /* Always overlay when open below 600px */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    min-height: 100vh;
+    z-index: 130;
+    /* Remove width transition for overlays */
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    width: 240px;
+    box-shadow: 5px 0 16px rgba(80, 50, 120, 0.09);
+  }
+
+  .dashboardSidebar.collapsed {
+    transform: translateX(-100%);
+  }
+
+  .dashboardSidebar.notCollapsed {
+    transform: translateX(0);
+  }
+
+  .dashboardContent, 
+  .dashboardContent.expand {
+    margin-left: 0 !important;
+    width: 100% !important;
+    /* Full width—even if sidebar is open */
+    transition: none;
+  }
+
+  .dashboardNavbarContainer {
+    z-index: 120; /* Stay on top of sidebar */
+    position: relative;
+  }
+}
+
+
+
+@media (max-width: 430px){
+  .navbarLeft{
+    gap: 0;
+  }
+}
