@@ -32,11 +32,19 @@ export interface Trade {
   createdAt?: string;
 }
 
+export interface TradeMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
 interface TradesContextType {
   trades: Trade[] | null;
   loading: boolean;
   error: string | null;
-  fetchTrades: () => Promise<void>;
+  fetchTrades: (page?: number, limit?: number) => Promise<void>;
+  meta: TradeMeta | null;
 }
 
 export const TradesContext = createContext<TradesContextType | undefined>(undefined);
