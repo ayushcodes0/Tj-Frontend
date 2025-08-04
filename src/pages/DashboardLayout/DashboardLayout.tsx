@@ -4,39 +4,59 @@ import Styles from './DashboardLayout.module.css';
 import { PiSidebar } from "react-icons/pi";
 import { RiDashboardLine } from "react-icons/ri";
 import { GoPlus } from "react-icons/go";
-
-
+import { useState } from "react";
 
 const DashboardLayout = () => {
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   
-  return(
-  <div className={Styles.dashboardContainer}>
-    <div className={Styles.dashboardSidebar}>
+  return (
+    <div className={Styles.dashboardContainer}>
+      {/* Sidebar */}
+      <div className={`${Styles.dashboardSidebar} ${
+        sidebarCollapsed ? Styles.collapsed : Styles.notCollapsed
+      }`}>
+        <div 
+          className={Styles.sidebarIconContainer} 
+          onClick={() => setSidebarCollapsed(true)}
+        >
+          <PiSidebar className={Styles.sidebarIcon} />
+        </div>
         <Sidebar />
-    </div>
-    <div className={Styles.dashboardContent}>
-      <div className={Styles.dashboardNavbarContainer}>
-        <div className={Styles.dashboardNavbar}>
-          <div className={Styles.navbarLeft}>
-            <div className={Styles.sidebarIconContainer}><PiSidebar className={Styles.sidebarIcon} /></div>
-            <div className={Styles.dashboardUrl}>
-              <div className={Styles.dashAndIcon}>
-                <RiDashboardLine className={Styles.dashboardIcon} />
-                <p className={Styles.dashboard}>Dashboard</p>
+      </div>
+
+      {/* Main Content */}
+      <div className={`${Styles.dashboardContent} ${
+        sidebarCollapsed ? Styles.expand : ''
+      }`}>
+        <div className={Styles.dashboardNavbarContainer}>
+          <div className={Styles.dashboardNavbar}>
+            <div className={Styles.navbarLeft}>
+              <div 
+                className={`${Styles.sidebarIconNav} ${sidebarCollapsed ? Styles.showIcon : ''} `}
+                onClick={() => setSidebarCollapsed(false)}
+              >
+                <PiSidebar className={Styles.sidebarI} />
               </div>
-              <p className={Styles.url}>/ dashboard</p>
+              <div className={Styles.dashboardUrl}>
+                <div className={Styles.dashAndIcon}>
+                  <RiDashboardLine className={Styles.dashboardIcon} />
+                  <p className={Styles.dashboard}>Dashboard</p>
+                </div>
+                <p className={Styles.url}>/ dashboard</p>
+              </div>
             </div>
-          </div>
-          <div className={Styles.dashboardRight}>
+            <div className={Styles.dashboardRight}>
               <div className={Styles.plusContainer}>
                 <GoPlus className={Styles.plusIcon} />
               </div>
               <p className={Styles.createTrade}>New Trade</p>
+            </div>
           </div>
         </div>
-      </div>
         <Outlet />
+      </div>
     </div>
-  </div>
-)};
-export default DashboardLayout; 
+  );
+};
+
+export default DashboardLayout;

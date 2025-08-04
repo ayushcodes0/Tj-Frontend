@@ -1,46 +1,67 @@
 .dashboardContainer {
   display: flex;
   min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow-x: hidden;
 }
 
-.sidebar {
-  width: 230px;
-  background: #2f235a;
-  color: #fff;
+.dashboardSidebar {
+  background: var(--primary-white);
+  width: 240px;
   min-height: 100vh;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.dashboardSidebar.collapsed {
+  transform: translateX(-120%);
+}
+
+.dashboardSidebar.notCollapsed {
+  transform: translateX(0);
 }
 
 .dashboardContent {
   flex: 1;
   background: var(--primary-white);
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+  width: 100%;
 }
 
-.dashboardSidebar{
-    background: var(--primary-white);
+.dashboardContent.expand {
+  margin-left: -240px;
+  width: calc(100% + 240px);
 }
 
-.sidebarIconContainer{
+.sidebarIconNav {
     width: 32px;
     height: 32px;
     border-radius: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
+    display: none;
 }
 
-.sidebarIcon{
+.sidebarIconNav.showIcon{
+  display: flex;
+}
+
+.sidebarI {
     font-size: 18px;
     color: var(--dashboard-icons-color);
-    /* display: none; */
     font-weight: 700;
 }
 
-.dashboardNavbarContainer{
+.dashboardNavbarContainer {
   background-color: var(--dashboard-primary-background);
   border-bottom: 1px solid var(--dashboard-borders);
 }
 
-.sidebarIconContainer:hover{
+.sidebarIconNav:hover {
     background-color: var(--dashboard-buttons-hover);
     transition: all ease .3s;
     cursor: pointer;
@@ -116,5 +137,36 @@
 .createTrade{
   font-size: 14px;
   color: var(--dashboard-primary-text);
+}
+
+
+.sidebarIconContainer{
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 99;
+    display: none;
+}
+
+.sidebarIcon{
+    font-size: 18px;
+    color: var(--dashboard-icons-color);
+    font-weight: 700;
+}
+
+.dashboardSidebar:hover .sidebarIconContainer{
+  display: flex;
+}
+
+.sidebarIconContainer:hover{
+    background-color: var(--dashboard-buttons-hover);
+    transition: all ease .3s;
+    cursor: pointer;
 }
 

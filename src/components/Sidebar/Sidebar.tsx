@@ -5,7 +5,6 @@ import { RiDashboardLine } from "react-icons/ri";
 import { MdElectricBolt } from "react-icons/md";
 import { useAuth } from "../../hooks/useAuth";
 // import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
-import { PiSidebar } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
 import { IoMdLogOut } from "react-icons/io";
@@ -36,7 +35,6 @@ return (
                     <IoIosArrowDown className={Styles.downArrowIcon} />
                 </div>
             </div>
-            <div className={Styles.sidebarIconContainer}><PiSidebar className={Styles.sidebarIcon} /></div>
         </div>
         <div className={Styles.sidebarNavContainer}>
             <nav className={Styles.sidebarNav}>
