@@ -42,7 +42,7 @@ const DashboardLayout = () => {
               </div>
               <div className={Styles.dashboardUrl}>
                 <div className={Styles.dashAndIcon}>
-                  <RiDashboardLine className={Styles.dashboardIcon} />
+                  <RiDashboardLine className={Styles.dashboardIcon} /> 
                   <p className={Styles.dashboard}>Dashboard</p>
                 </div>
                 <p className={Styles.url}>{location.pathname}</p>
