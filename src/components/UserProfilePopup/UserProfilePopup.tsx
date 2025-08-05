@@ -1,10 +1,10 @@
 import Styles from './UserProfilePopup.module.css'
 import type { User } from '../../types/AuthTypes';
 import { NavLink } from 'react-router-dom';
-import { RiDashboardLine } from 'react-icons/ri';
 import { FaArrowTrendUp } from 'react-icons/fa6';
-import { MdElectricBolt } from 'react-icons/md';
 import { GoPlus } from "react-icons/go";
+import { IoSettingsOutline, IoStatsChartSharp } from 'react-icons/io5';
+import { FaRegLightbulb, FaShieldAlt } from 'react-icons/fa';
 
 interface UserProfilePopupProps {
   onClose: () => void;
@@ -27,16 +27,14 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) =>
           </div>
           <div className={Styles.popupNav}>
               <NavLink
-                  to="/dashboard"
-                  end
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                  `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
-                  }
-              >
-                  <RiDashboardLine className={Styles.sideIcon} />
-                  <span className={Styles.navTexts}>Dashboard</span>
-              </NavLink>
+                    to="/dashboard/performance"
+                    className={({ isActive }) =>
+                    `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
+                    }
+                >
+                    <IoStatsChartSharp className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Performance</span>
+                </NavLink>
               <NavLink
                   to="/dashboard/trades"
                   onClick={onClose}
@@ -48,47 +46,33 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) =>
                   <span className={Styles.navTexts}>Trades</span>
               </NavLink>
               <NavLink
-                  to="/dashboard/performance"
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                  `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
-                  }
-              >
-                  <MdElectricBolt className={Styles.sideIcon} />
-                  <span className={Styles.navTexts}>Performance</span>
-              </NavLink>
+                    to="/dashboard/ai-insights"
+                    className={({ isActive }) =>
+                    `${Styles.sidebarNavLink} ${Styles.aiInsightsLink} ${isActive ? Styles.active : ""}`
+                    }
+                >
+                    <FaRegLightbulb className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>AI Insights</span>
+                </NavLink>
           </div>
           <div className={`${Styles.popupNav} ${Styles.secondPopupNav}`}>
               <NavLink
-                  to="/dashboard"
-                  end
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                  `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
-                  }
-              >
-                  <RiDashboardLine className={Styles.sideIcon} />
-                  <span className={Styles.navTexts}>Dashboard</span>
-              </NavLink>
+                    to="/dashboard/risk"
+                    className={({ isActive }) =>
+                    `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
+                    }
+                >
+                    <FaShieldAlt className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Risk</span>
+                </NavLink>
               <NavLink
-                  to="/dashboard/trades"
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                  `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
-                          }
-              >
-                  <FaArrowTrendUp className={Styles.sideIcon} />
-                  <span className={Styles.navTexts}>Trades</span>
-              </NavLink>
-              <NavLink
-                  to="/dashboard/performance"
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                  `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
-                  }
-              >
-                  <MdElectricBolt className={Styles.sideIcon} />
-                  <span className={Styles.navTexts}>Performance</span>
+                    to="/dashboard/settings"
+                    className={({ isActive }) =>
+                    `${Styles.sidebarNavLink} ${Styles.settingsLink} ${isActive ? Styles.active : ""}`
+                    }
+                >
+                    <IoSettingsOutline className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Settings</span>
               </NavLink>
           </div>
           <div className={Styles.popupBottom}>

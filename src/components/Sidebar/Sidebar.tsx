@@ -1,8 +1,7 @@
 import Styles from './Sidebar.module.css';
-import { FaArrowTrendUp, FaRegSun } from "react-icons/fa6";
+import { FaArrowTrendUp } from "react-icons/fa6";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiDashboardLine } from "react-icons/ri";
-import { MdElectricBolt } from "react-icons/md";
 import { useAuth } from "../../hooks/useAuth";
 import { IoIosArrowDown } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
@@ -10,9 +9,11 @@ import { IoMdLogOut } from "react-icons/io";
 import { BsQuestionCircle } from "react-icons/bs";
 import { useState } from 'react';
 import UserProfilePopup from '../UserProfilePopup/UserProfilePopup';
-import { IoStatsChartSharp } from "react-icons/io5";
-import { FaBrain } from "react-icons/fa";
+import { IoSettingsOutline, IoStatsChartSharp } from "react-icons/io5";
 import { IoIosJournal } from "react-icons/io";
+import { FaShieldAlt } from "react-icons/fa";
+import { LuBrain } from 'react-icons/lu';
+
 
 
 const Sidebar = () =>{ 
@@ -64,7 +65,7 @@ return (
                     `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
                     }
                 >
-                    <MdElectricBolt className={Styles.sideIcon} />
+                    <IoStatsChartSharp className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Performance</span>
                 </NavLink>
                 <NavLink
@@ -81,26 +82,25 @@ return (
         <div className={Styles.sidebarNavContainer}>
             <nav className={Styles.sidebarNav}>
                 <NavLink
-                    to="/dashboard"
-                    end
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
-                    <IoStatsChartSharp className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Reports</span>
-                </NavLink>
-                <NavLink
-                    to="/dashboard/trades"
+                    to="/dashboard/risk"
                     className={({ isActive }) =>
                     `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
                     }
                 >
-                    <FaBrain className={Styles.sideIcon} />
+                    <FaShieldAlt className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Risk</span>
+                </NavLink>
+                <NavLink
+                    to="/dashboard/psychology"
+                    className={({ isActive }) =>
+                    `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
+                    }
+                >
+                    <LuBrain className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Psychology</span>
                 </NavLink>
                 <NavLink
-                    to="/dashboard/performance"
+                    to="/dashboard/journal"
                     className={({ isActive }) =>
                     `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
                     }
@@ -114,7 +114,7 @@ return (
                     `${Styles.sidebarNavLink} ${Styles.settingsLink} ${isActive ? Styles.active : ""}`
                     }
                 >
-                    <FaRegSun className={Styles.sideIcon} />
+                    <IoSettingsOutline className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Settings</span>
                 </NavLink>
             </nav>

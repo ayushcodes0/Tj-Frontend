@@ -11,6 +11,9 @@ import Trades from "./components/Trades/Trades";
 import Performance from "./components/Performance/Performance";
 import AiInsights from "./components/AiInsights/AiInsights";
 import Settings from "./components/Settings/Settings";
+import Psychology from "./components/Psychology/Psychology";
+import Journal from "./components/Journal/Journal";
+import Risk from "./components/Risk/Risk";
 
 const App = () => (
   <Router>
@@ -27,6 +30,9 @@ const App = () => (
         <Route path="trades" element={<Trades />} />
         <Route path="performance" element={<Performance />} />
         <Route path="ai-insights" element={<AiInsights />} />
+        <Route path="psychology" element={<Psychology />} />
+        <Route path="journal" element={<Journal />} />
+        <Route path="risk" element={<Risk />} />
         <Route path="settings" element={<Settings />} />
         {/* Add more nested subroutes as needed */}
       </Route>
