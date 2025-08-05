@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Dashboard.module.css";
 import { LineChart, Line, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend, BarChart, Bar } from 'recharts';
+import { NavLink } from "react-router-dom";
 
 // Filters
 const getCurrentYear = () => new Date().getFullYear();
@@ -14,7 +15,7 @@ const FILTERS = [
   { label: 'Specific Day', value: 'day' as const },
 ];
 
-const COLORS = ["#66d7b0", "#c080fa", "#ffcc7d", "#ff6f91", "#437de8", "#2dd7ef", "#ffa500", "#e44b43", "#67b7dc", "#a683e3"];
+const COLORS = ["var(--dashboard-userIcon-color)", "#fa8480ff", "#ffcc7d", "#ff6f91", "#437de8", "#2dd7ef", "#ffa500", "#e44b43", "#67b7dc", "#a683e3"];
 
 function formatDateLabel(date: string) {
   const d = new Date(date);
@@ -79,6 +80,46 @@ const Dashboard = () => {
       count: levels.length
     };
   }, [trades]);
+
+  const directionData = useMemo(() => {
+    if (!trades) return [];
+    const longs = trades.filter(t => t.direction === "Long").length;
+    const shorts = trades.filter(t => t.direction === "Short").length;
+    return [
+      { name: "Long", value: longs },
+      { name: "Short", value: shorts }
+    ].filter(d => d.value > 0);
+  }, [trades]);
+
+  const holdingBySymbol = useMemo(() => {
+    if (!trades) return [];
+    const symMap: Record<string, { name: string, sum: number, count: number }> = {};
+    for (const t of trades) {
+      const sym = t.symbol || "Unknown";
+      if (!symMap[sym]) symMap[sym] = { name: sym, sum: 0, count: 0 };
+      if (typeof t.holding_period_minutes === "number" && !isNaN(t.holding_period_minutes)) {
+        symMap[sym].sum += t.holding_period_minutes;
+        symMap[sym].count += 1;
+      }
+    }
+    return Object.values(symMap)
+      .filter(x => x.count > 0)
+      .map(x => ({
+        name: x.name,
+        avgMinutes: Number((x.sum / x.count).toFixed(2))
+      }))
+      .sort((a, b) => b.avgMinutes - a.avgMinutes);
+  }, [trades]);
+
+  const topTrades = useMemo(() => {
+    if (!trades) return [];
+    // Sort by descending PnL amount (highest gains at top, then lower, then loss trades)
+    return [...trades]
+      .sort((a, b) => (b.pnl_amount ?? 0) - (a.pnl_amount ?? 0))
+      .slice(0, 5);
+  }, [trades]);
+
+
 
   // PnL Timeline for LineChart
   const timelineData = useMemo(() => {
@@ -253,7 +294,7 @@ const Dashboard = () => {
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="pnl" stroke="#6366f1" strokeWidth={3} name="P&L" dot={false}/>
+              <Line type="monotone" dataKey="pnl" stroke="var(--dashboard-userIcon-color)" strokeWidth={3} name="P&L" dot={false}/>
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -277,7 +318,7 @@ const Dashboard = () => {
               <XAxis dataKey="name" />
               <YAxis allowDecimals={false}/>
               <Tooltip />
-              <Bar dataKey="count" fill="#7c48e7" />
+              <Bar dataKey="count" fill="#618bff" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -289,11 +330,101 @@ const Dashboard = () => {
               <XAxis dataKey="name" />
               <YAxis allowDecimals={false}/>
               <Tooltip />
-              <Bar dataKey="value" fill="#e55f3c" />
+              <Bar dataKey="value" fill="#618bff" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className={Styles.chartBox}>
+        <div className={Styles.chartHeading}>Trade Direction</div>
+          <ResponsiveContainer height={240} width="100%">
+            <PieChart>
+              <Pie
+                data={directionData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%" cy="50%"
+                outerRadius={78}
+                fill="var(--dashboard-userIcon-color)"
+                label
+              >
+                {directionData.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i % COLORS.length] || "var(--dashboard-userIcon-color)"} />
+                ))}
+              </Pie>
+              <Legend verticalAlign="bottom" align="center" iconType="circle" />
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className={Styles.chartBox}>
+          <div className={Styles.chartHeading}>Avg Holding Period by Symbol</div>
+          <ResponsiveContainer height={220} width="100%">
+            <BarChart data={holdingBySymbol} layout="vertical">
+              <CartesianGrid strokeDasharray="2 5" />
+              <XAxis type="number" label={{ value: 'Minutes', position: 'insideBottomRight', offset: -5 }} />
+              <YAxis type="category" dataKey="name" />
+              <Tooltip />
+              <Bar dataKey="avgMinutes" fill="var(--dashboard-userIcon-color)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
+
+      {topTrades.length > 0 && (
+        <div className={Styles.topTradesSection}>
+          <div className={Styles.topTradesHeading}>
+            <p className={Styles.heading}>Top Trades</p>
+            <NavLink to={"/dashboard/trades"} ><p className={Styles.viewAll}>View all</p></NavLink>
+          </div>
+          <div className={Styles.topTradesTableWrapper}>
+            <table className={Styles.topTradesTable}>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Direction</th>
+                  <th>P&L (₹)</th>
+                  <th>P&L (%)</th>
+                  <th>Entry</th>
+                  <th>Exit</th>
+                </tr>
+              </thead>
+              <tbody>
+                {topTrades.map((trade, i) => (
+                  <tr key={trade._id}>
+                    <td>{i + 1}</td>
+                    <td>{new Date(trade.date).toLocaleDateString()}</td>
+                    <td>
+                      <span
+                        className={trade.direction === "Long" ? Styles.long : Styles.short}
+                      >
+                        {trade.direction}
+                      </span>
+                    </td>
+                    <td>
+                      <span style={{ color: (trade.pnl_amount ?? 0) >= 0 ? 'var(--dashboard-userIcon-color)' : '#e44b43' }}>
+                        {typeof trade.pnl_amount === "number" ? trade.pnl_amount.toLocaleString(undefined, {maximumFractionDigits: 2}) : "-"}
+                      </span>
+                    </td>
+                    <td>
+                      {typeof trade.pnl_percentage === "number"
+                        ? trade.pnl_percentage.toFixed(2)
+                        : "-"}
+                      %
+                    </td>
+                    <td>{trade.entry_price ?? "-"}</td>
+                    <td>{trade.exit_price ?? "-"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+
+
 
       {loading && <div style={{ fontSize: 18, marginLeft: 10, marginTop: 20 }}>Loading dashboard...</div>}
       {(!trades || trades.length === 0) && !loading && (
