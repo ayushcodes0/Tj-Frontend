@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { FaArrowTrendUp } from 'react-icons/fa6';
 import { GoPlus } from "react-icons/go";
 import { IoSettingsOutline, IoStatsChartSharp } from 'react-icons/io5';
-import { FaRegLightbulb, FaShieldAlt } from 'react-icons/fa';
+import { FaRegLightbulb } from 'react-icons/fa';
+import { TbCalendarMonthFilled } from 'react-icons/tb';
 
 interface UserProfilePopupProps {
   onClose: () => void;
@@ -57,13 +58,13 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) =>
           </div>
           <div className={`${Styles.popupNav} ${Styles.secondPopupNav}`}>
               <NavLink
-                    to="/dashboard/risk"
+                    to="/dashboard/calendar"
                     className={({ isActive }) =>
                     `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
                     }
                 >
-                    <FaShieldAlt className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Risk</span>
+                    <TbCalendarMonthFilled className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Calendar</span>
                 </NavLink>
               <NavLink
                     to="/dashboard/settings"
