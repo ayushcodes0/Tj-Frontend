@@ -1,7 +1,7 @@
 .calendarPage {
   width: 100%;
   /* min-height: 100vh; */
-  background: var(--dashboard-primary-background);
+  background: var(--dashboard-right-background);
   padding: 20px;
   box-sizing: border-box;
   display: flex;
