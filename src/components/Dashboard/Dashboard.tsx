@@ -67,6 +67,19 @@ const Dashboard = () => {
     };
   }, [trades]);
 
+  const confidence = useMemo(() => {
+    if (!trades) return null;
+    const levels = trades
+      .map(t => t.psychology?.entry_confidence_level)
+      .filter((lvl): lvl is number => typeof lvl === 'number' && !isNaN(lvl));
+    if (levels.length === 0) return null;
+    const average = levels.reduce((a, b) => a + b, 0) / levels.length;
+    return {
+      average,
+      count: levels.length
+    };
+  }, [trades]);
+
   // PnL Timeline for LineChart
   const timelineData = useMemo(() => {
     if (!trades) return [];
@@ -202,10 +215,38 @@ const Dashboard = () => {
         </div>
       </div>}
 
+      {confidence &&
+      <div className={Styles.confidenceWrapper}>
+        <div className={Styles.confidenceLabelRow}>
+          <span className={Styles.confidenceLabel}>Avg Confidence Level</span>
+          <span className={Styles.confidenceVal}>
+            {confidence.average.toFixed(2)} / 10
+            <span style={{color: "#c1bcd1", fontWeight: 500, fontSize: 12, marginLeft: 8}}>
+              ({confidence.count} {confidence.count === 1 ? "trade" : "trades"})
+            </span>
+          </span>
+        </div>
+        <div className={Styles.confidenceBar}>
+          <div
+            className={Styles.confidenceBarInner}
+            style={{
+              width: `${(confidence.average / 10) * 100}%`
+            }}
+          />
+        </div>
+        <div className={Styles.confidenceScaleLabels}>
+          <span>1</span>
+          <span>5</span>
+          <span>10</span>
+        </div>
+      </div>
+    }
+
+
       {/* Charts */}
       <div className={Styles.dashboardCharts}>
         <div className={Styles.chartBox}>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>P&L Over Time</div>
+          <div className={Styles.chartHeading}>P&L Over Time</div>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={timelineData}>
               <CartesianGrid strokeDasharray="2 5" />
@@ -217,11 +258,11 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
         <div className={Styles.chartBox}>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>Win/Loss Ratio</div>
+          <div className={Styles.chartHeading}>Win/Loss Ratio</div>
           <ResponsiveContainer height={220} width="100%">
             <PieChart>
-              <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={64}>
-                {pieData.map((entry, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+              <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={84}>
+                {pieData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
               </Pie>
               <Legend verticalAlign="bottom" align="center" iconType="circle" />
               <Tooltip />
@@ -229,7 +270,7 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
         <div className={Styles.chartBox}>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>Strategy Usage</div>
+          <div className={Styles.chartHeading}>Strategy Usage</div>
           <ResponsiveContainer height={220} width="100%">
             <BarChart data={strategyData}>
               <CartesianGrid strokeDasharray="2 5" />
@@ -241,7 +282,7 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
         <div className={Styles.chartBox}>
-          <div style={{ fontWeight: 600, marginBottom: 8 }}>Trading Mistakes</div>
+          <div className={Styles.chartHeading}>Trading Mistakes</div>
           <ResponsiveContainer height={220} width="100%">
             <BarChart data={mistakeData}>
               <CartesianGrid strokeDasharray="2 5" />

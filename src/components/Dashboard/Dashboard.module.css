@@ -4,6 +4,9 @@
   min-height: 100vh;
   background: var(--dashboard-right-background, #f6f5fb);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .dashboardFilters {
@@ -11,7 +14,7 @@
   gap: 12px;
   align-items: end;
   flex-wrap: wrap;
-  padding: 12px 0;
+  padding-top: 12px;
 }
 
 .filterInputs {
@@ -22,11 +25,75 @@
   color: var(--dashboard-primary-text);
 }
 
+.confidenceWrapper {
+  background: #fff;
+  border-radius: 9px;
+  padding: 16px 18px 16px 18px;
+  box-shadow: 0 1px 7px rgba(126,72,215,0.04);
+  border: 1px solid var(--dashboard-borders);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+}
+
+.confidenceLabelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+  flex-wrap: wrap;
+}
+
+.confidenceLabel {
+  font-size: 14px;
+  color: var(--dashboard-primary-text);
+}
+.confidenceVal {
+  font-size: 16px;
+  font-weight: 700;
+  color: #563be0;
+  margin-right: 4px;
+}
+
+.confidenceBar {
+  width: 100%;
+  height: 17px;
+  background-color: var(--dashboard-buttons-hover);
+  border-radius: 7px;
+  overflow: hidden;
+  margin-top: 0;
+  margin-bottom: 2px;
+  position: relative;
+}
+.confidenceBarInner {
+  height: 100%;
+  border-radius: 7px;
+  background: linear-gradient(90deg,#618bff 35%,#34d6b1 100%);
+  transition: width 0.6s cubic-bezier(.82,0,.31,1);
+  min-width: 0;
+}
+.confidenceScaleLabels {
+  display: flex;
+  font-size: 12px;
+  color: #a6a5b5;
+  justify-content: space-between;
+  margin-top: 3px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .confidenceWrapper {
+    padding: 10px 7px 8px 10px;
+  }
+}
+
+
+
 .dashboardStatsCards {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  margin-bottom: 30px;
   width: 100%;
 }
 
@@ -76,26 +143,42 @@
 .statValue {
   color: #322548;
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 1px;
 }
 
 .dashboardCharts {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   flex-wrap: wrap;
-  gap: 32px;
+  gap: 20px;
   margin-bottom: 44px;
 }
+
+@media (max-width: 800px){
+    .dashboardCharts{
+        grid-template-columns: 1fr;
+    }
+}
+
 .chartBox {
-  background: #fff;
-  border-radius: 13px;
+  background-color: var(--dashboard-primary-background);
+  border: 1px solid var(--dashboard-borders);
+  border-radius: 8px;
   flex: 1 1 355px;
   box-shadow: 0 2px 13px rgba(70,50,120,0.045);
-  padding: 25px 18px 5px 10px;
+  padding: 0 20px;
   min-width: 320px;
   min-height: 320px;
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   flex-direction: column;
+}
+
+.chartHeading{
+    /* padding: 8px; */
+    font-weight: 400;
 }
 
 @media (max-width: 900px) {
