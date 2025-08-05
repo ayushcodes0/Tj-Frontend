@@ -14,6 +14,7 @@ import Settings from "./components/Settings/Settings";
 import Psychology from "./components/Psychology/Psychology";
 import Journal from "./components/Journal/Journal";
 import Risk from "./components/Risk/Risk";
+import Calendar from "./components/Calendar/Calendar";
 
 const App = () => (
   <Router>
@@ -29,6 +30,7 @@ const App = () => (
         <Route index element={<Dashboard />} />
         <Route path="trades" element={<Trades />} />
         <Route path="performance" element={<Performance />} />
+        <Route path="calendar" element={<Calendar />} />
         <Route path="ai-insights" element={<AiInsights />} />
         <Route path="psychology" element={<Psychology />} />
         <Route path="journal" element={<Journal />} />

@@ -1,0 +1,206 @@
+.calendarPage {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--dashboard-primary-background);
+  padding: 18px 12px 24px 12px;
+  box-sizing: border-box;
+}
+
+.statCardsRow {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.statCard {
+  padding: 20px 26px;
+  background: #fff;
+  border-radius: 11px;
+  border: 1px solid var(--dashboard-borders);
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.statCardLabel {
+  font-size: 14px;
+  color: var(--dashboard-primary-text);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+.statCardValuePos {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dashboard-green-color);
+}
+.statCardValueNeg {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dashboard-red-color);
+}
+
+.monthSwitcherRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 17px;
+  margin-bottom: 14px;
+}
+.monthBtn {
+  background: var(--dashboard-primary-background);
+  color: var(--dashboard-primary-text);
+  border: 1px solid var(--dashboard-borders);
+  border-radius: 6px;
+  padding: 4px 16px;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+.monthBtn:active {
+  background: #ededed;
+}
+.monthDisplay {
+  color: var(--dashboard-primary-text);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 2px 10px;
+}
+
+.calendarGrid {
+  width: 100%;
+  background: #fff;
+  border-radius: 13px;
+  border: 1px solid var(--dashboard-borders);
+  padding: 14px 5px 11px 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendarWeekHeader,
+.calendarWeek {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.calendarWeekHeader {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: var(--dashboard-primary-text);
+  padding: 0 2px;
+  font-weight: 600;
+}
+
+.calendarDay {
+  min-height: 64px;
+  min-width: 52px;
+  box-sizing: border-box;
+  background: var(--dashboard-primary-background);
+  color: var(--dashboard-primary-text);
+  border-radius: 8px;
+  margin: 2px;
+  cursor: pointer;
+  padding: 4px 3px 2px 7px;
+  font-size: 15px;
+  position: relative;
+  transition: box-shadow .13s;
+}
+.calendarDay:hover {
+  border: 1.5px solid var(--dashboard-green-color);
+  box-shadow: 0 2px 8px 0 rgba(70,200,120,0.11);
+}
+
+.selectedDay {
+  border: 2px solid var(--dashboard-green-color);
+  background: #e4f7ef;
+}
+.positiveDay { background: #e5f8ed; }
+.negativeDay { background: #f7e6e8; }
+.neutralDay { background: #f2f2f7; }
+
+.dayPnl {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dashboard-green-color);
+}
+.negativeDay .dayPnl {
+  color: var(--dashboard-red-color);
+}
+.dayTradeCount {
+  font-size: 12px;
+  color: var(--dashboard-primary-text);
+}
+
+.popupBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.09);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popupBox {
+  background: #fff;
+  border-radius: 9px;
+  border: 1.5px solid var(--dashboard-borders);
+  min-width: 310px;
+  max-width: 97vw;
+  box-shadow: 0 2px 18px rgba(23,28,54,.12);
+  padding: 18px 22px 12px 22px;
+}
+.popupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 9px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dashboard-primary-text);
+}
+.popupCloseBtn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 18px;
+  color: #555;
+  cursor: pointer;
+}
+.popupContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.popupTradeRow {
+  background: var(--dashboard-primary-background);
+  padding: 10px 10px 8px 13px;
+  border-radius: 7px;
+  border: 1px solid var(--dashboard-borders);
+  margin-bottom: 2px;
+}
+.tradeSymbol {
+  font-size: 15px;
+  color: var(--dashboard-primary-text);
+  font-weight: 600;
+  margin-right: 10px;
+}
+.long {
+  color: var(--dashboard-green-color);
+  font-weight: 600;
+  margin-right: 6px;
+}
+.short {
+  color: var(--dashboard-red-color);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .statCard { min-width: 120px; }
+  .calendarDay { min-width: 36px; font-size: 13px;}
+  .calendarWeekHeader, .calendarWeek { font-size: 12px; }
+}
+
+@media (max-width: 440px) {
+  .statCard { min-width: 85px; padding: 8px 2px; }
+  .calendarPage { padding: 7px 1px 13px 1px;}
+}
+

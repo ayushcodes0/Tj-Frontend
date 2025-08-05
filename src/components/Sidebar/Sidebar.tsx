@@ -13,6 +13,7 @@ import { IoSettingsOutline, IoStatsChartSharp } from "react-icons/io5";
 import { IoIosJournal } from "react-icons/io";
 import { FaShieldAlt } from "react-icons/fa";
 import { LuBrain } from 'react-icons/lu';
+import { TbCalendarMonthFilled } from 'react-icons/tb';
 
 
 
@@ -67,6 +68,15 @@ return (
                 >
                     <IoStatsChartSharp className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Performance</span>
+                </NavLink>
+                <NavLink
+                    to="/dashboard/calendar"
+                    className={({ isActive }) =>
+                    `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
+                    }
+                >
+                    <TbCalendarMonthFilled className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Calendar</span>
                 </NavLink>
                 <NavLink
                     to="/dashboard/ai-insights"
