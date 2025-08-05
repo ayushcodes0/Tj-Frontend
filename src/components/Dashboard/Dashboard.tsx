@@ -172,7 +172,7 @@ const Dashboard = () => {
       {stats && <div className={Styles.dashboardStatsCards}>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Gross P&L (₹)</span>
-          <span className={Styles.statValue} style={{color: stats.grossPnl >= 0 ? '#2dbe6d' : '#e44b43'}}>
+          <span className={Styles.statValue} style={{color: stats.grossPnl >= 0 ? 'var(--dashboard-userIcon-color)' : '#e44b43'}}>
             {stats.grossPnl.toLocaleString(undefined, {maximumFractionDigits: 0})}
           </span>
         </div>
@@ -190,13 +190,13 @@ const Dashboard = () => {
         </div>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Best Trade</span>
-          <span className={Styles.statValue} style={{color:'#2dbe6d', fontSize:18}}>
+          <span className={Styles.statValue} style={{color:'var(--dashboard-userIcon-color)'}}>
             {stats.bestTrade ? `₹${stats.bestTrade.pnl_amount?.toLocaleString()}` : "-"}
           </span>
         </div>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Worst Trade</span>
-          <span className={Styles.statValue} style={{color:'#e44b43', fontSize:18}}>
+          <span className={Styles.statValue} style={{color:'#e44b43'}}>
             {stats.worstTrade ? `₹${stats.worstTrade.pnl_amount?.toLocaleString()}` : "-"}
           </span>
         </div>

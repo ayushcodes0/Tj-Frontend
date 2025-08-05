@@ -14,41 +14,68 @@
   padding: 12px 0;
 }
 
-.filterInputs{
-    border: 1px solid var(--dashboard-borders);
-    padding: 6px;
-    outline: none;
-    border-radius: 4px;
-    color: var(--dashboard-primary-text);
+.filterInputs {
+  border: 1px solid var(--dashboard-borders);
+  padding: 6px;
+  outline: none;
+  border-radius: 4px;
+  color: var(--dashboard-primary-text);
 }
 
 .dashboardStatsCards {
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
+  gap: 20px;
   margin-bottom: 30px;
+  width: 100%;
 }
 
 .statCard {
-  background: #fff;
-  border-radius: 13px;
-  min-width: 190px;
-  padding: 22px 26px;
+  background: var(--dashboard-primary-background);
+  border-radius: 8px;
+  min-width: 0;
+  padding: 12px;
   box-shadow: 0 2px 13px rgba(70,50,120,0.06);
+  border: 1px solid var(--dashboard-borders);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex: 1 1 200px;
+  flex: 1 1 0;
+  max-width: 100%;
+  flex-basis: calc(50% - 10px); 
 }
+
+
+@media (min-width: 1200px) {
+  .statCard {
+    flex-basis: calc((100% - 5 * 20px) / 6); 
+  }
+}
+
+@media (max-width: 1199px) and (min-width: 901px) {
+  .statCard {
+    flex-basis: calc((100% - 3 * 20px) / 4); 
+  }
+}
+
+
+@media (max-width: 900px) {
+  .statCard {
+    flex-basis: calc(50% - 10px);
+  }
+  .dashboardStatsCards{
+    gap: 10px;
+  }
+}
+
 .statLabel {
-  color: #9889be;
-  font-size: 15px;
-  margin-bottom: 5px;
-  font-weight: 500;
+  color: var(--dashboard-primary-text);
+  font-size: 14px;
+  font-weight: 400;
 }
 .statValue {
   color: #322548;
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: 1px;
 }
@@ -75,9 +102,5 @@
   .dashboardCharts {
     flex-direction: column;
     gap: 16px;
-  }
-  .dashboardStatsCards {
-    flex-direction: column;
-    gap: 12px;
   }
 }
