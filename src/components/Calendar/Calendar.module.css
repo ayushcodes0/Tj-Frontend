@@ -1,22 +1,25 @@
 .calendarPage {
   width: 100%;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background: var(--dashboard-primary-background);
-  padding: 18px 12px 24px 12px;
+  padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .statCardsRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
-  margin-bottom: 24px;
   flex-wrap: wrap;
 }
 
 .statCard {
-  padding: 20px 26px;
-  background: #fff;
-  border-radius: 11px;
+  padding: 20px;
+  background-color: var(--dashboard-primary-background);
+  border-radius: 8px;
   border: 1px solid var(--dashboard-borders);
   min-width: 160px;
   display: flex;
@@ -27,8 +30,7 @@
 .statCardLabel {
   font-size: 14px;
   color: var(--dashboard-primary-text);
-  margin-bottom: 6px;
-  font-weight: 500;
+  font-weight: 400;
 }
 .statCardValuePos {
   font-size: 20px;
@@ -45,8 +47,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 17px;
-  margin-bottom: 14px;
+  gap: 10px;
 }
 .monthBtn {
   background: var(--dashboard-primary-background);
@@ -64,15 +65,15 @@
   color: var(--dashboard-primary-text);
   font-size: 18px;
   font-weight: 600;
-  padding: 2px 10px;
+  /* padding: 2px 10px; */
 }
 
 .calendarGrid {
   width: 100%;
-  background: #fff;
-  border-radius: 13px;
+  background-color: var(--dashboard-primary-background);
+  border-radius: 8px;
   border: 1px solid var(--dashboard-borders);
-  padding: 14px 5px 11px 5px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
 }
@@ -83,26 +84,34 @@
   grid-template-columns: repeat(7, 1fr);
 }
 .calendarWeekHeader {
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 6px;
   color: var(--dashboard-primary-text);
   padding: 0 2px;
   font-weight: 600;
+  gap: 4px;
+}
+
+.calendarWeekday{
+  border: 1px solid var(--dashboard-borders);
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .calendarDay {
-  min-height: 64px;
+  min-height: 88px;
   min-width: 52px;
   box-sizing: border-box;
-  background: var(--dashboard-primary-background);
+  background: var(--dashboard-right-background);
   color: var(--dashboard-primary-text);
   border-radius: 8px;
   margin: 2px;
   cursor: pointer;
-  padding: 4px 3px 2px 7px;
-  font-size: 15px;
+  padding: 10px;
+  font-size: 16px;
   position: relative;
   transition: box-shadow .13s;
+  border: 1px solid var(--dashboard-borders);
 }
 .calendarDay:hover {
   border: 1.5px solid var(--dashboard-green-color);
@@ -110,8 +119,8 @@
 }
 
 .selectedDay {
-  border: 2px solid var(--dashboard-green-color);
-  background: #e4f7ef;
+  border: 1px solid var(--dashboard-borders);
+  background: var(--dashboard-buttons-hover);
 }
 .positiveDay { background: #e5f8ed; }
 .negativeDay { background: #f7e6e8; }
@@ -140,12 +149,11 @@
   justify-content: center;
 }
 .popupBox {
-  background: #fff;
-  border-radius: 9px;
-  border: 1.5px solid var(--dashboard-borders);
+  background-color: var(--dashboard-primary-background);
+  border-radius: 8px;
+  border: 1px solid var(--dashboard-borders);
   min-width: 310px;
   max-width: 97vw;
-  box-shadow: 0 2px 18px rgba(23,28,54,.12);
   padding: 18px 22px 12px 22px;
 }
 .popupHeader {

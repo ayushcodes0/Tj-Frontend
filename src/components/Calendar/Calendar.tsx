@@ -29,28 +29,26 @@ const getMonthMatrix = (year: number, month: number) => {
 };
 
 const formatRR = (trades: Trade[]) => {
-  // Placeholder. Substitute with actual average R:R calculation if available
+  // Placeholder: Replace with real R:R calc if available
   return trades.length ? (1 + Math.random() * 2).toFixed(2) : "–";
 };
 
 const Calendar = () => {
-  const { trades } = useTrades();
-  const [month, setMonth] = useState(now.getMonth());
-  const [year, setYear] = useState(now.getFullYear());
+  // --- STORE MONTH AND YEAR TOGETHER ---
+  const [monthYear, setMonthYear] = useState({ month: now.getMonth(), year: now.getFullYear() });
   const [selectedDay, setSelectedDay] = useState<null | number>(null);
+  const { trades } = useTrades();
 
-  // --- DERIVED ---
-  const matrix = useMemo(() => getMonthMatrix(year, month), [year, month]);
-  // Filtered trades in this month
+  // Calendar
+  const matrix = useMemo(() => getMonthMatrix(monthYear.year, monthYear.month), [monthYear]);
   const monthTrades = useMemo(
     () =>
       (trades ?? []).filter(trade => {
         const td = new Date(trade.date);
-        return td.getFullYear() === year && td.getMonth() === month;
+        return td.getFullYear() === monthYear.year && td.getMonth() === monthYear.month;
       }),
-    [trades, year, month]
+    [trades, monthYear]
   );
-  // Per-day map
   const tradeByDay = useMemo(() => {
     const map: Record<number, Trade[]> = {};
     for (const trade of monthTrades) {
@@ -60,7 +58,6 @@ const Calendar = () => {
     }
     return map;
   }, [monthTrades]);
-  // Card stats
   const totalPnl = useMemo(
     () =>
       monthTrades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0),
@@ -71,27 +68,22 @@ const Calendar = () => {
   const winRate = totalTrades ? (winTrades / totalTrades) * 100 : 0;
   const avgRR = formatRR(monthTrades);
 
-  // --- HANDLERS ---
+  // --- MONTH SWITCH HANDLERS ---
   const handlePrevMonth = () => {
-    setMonth(m => {
-      if (m === 0) {
-        setYear(y => y - 1);
-        return 11;
-      }
-      return m - 1;
-    });
+    setMonthYear(({ month, year }) =>
+      month === 0
+        ? { month: 11, year: year - 1 }
+        : { month: month - 1, year }
+    );
   };
   const handleNextMonth = () => {
-    setMonth(m => {
-      if (m === 11) {
-        setYear(y => y + 1);
-        return 0;
-      }
-      return m + 1;
-    });
+    setMonthYear(({ month, year }) =>
+      month === 11
+        ? { month: 0, year: year + 1 }
+        : { month: month + 1, year }
+    );
   };
 
-  // --- RENDER ---
   return (
     <div className={Styles.calendarPage}>
       {/* Top Stat cards */}
@@ -106,7 +98,7 @@ const Calendar = () => {
       <div className={Styles.monthSwitcherRow}>
         <button className={Styles.monthBtn} onClick={handlePrevMonth}>&lt;</button>
         <div className={Styles.monthDisplay}>
-          {now.toLocaleString('default', { month: 'long' })} {year}
+          {new Date(monthYear.year, monthYear.month, 1).toLocaleString('default', { month: 'long' })} {monthYear.year}
         </div>
         <button className={Styles.monthBtn} onClick={handleNextMonth}>&gt;</button>
       </div>
@@ -114,7 +106,7 @@ const Calendar = () => {
       {/* Calendar */}
       <div className={Styles.calendarGrid}>
         <div className={Styles.calendarWeekHeader}>
-          {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(wd =>
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(wd =>
             <div key={wd} className={Styles.calendarWeekday}>{wd}</div>
           )}
         </div>
@@ -163,7 +155,7 @@ const Calendar = () => {
       {/* Popup for active day */}
       {selectedDay && tradeByDay[selectedDay] && (
         <TradePopup
-          date={new Date(year, month, selectedDay)}
+          date={new Date(monthYear.year, monthYear.month, selectedDay)}
           trades={tradeByDay[selectedDay]}
           onClose={() => setSelectedDay(null)}
         />
