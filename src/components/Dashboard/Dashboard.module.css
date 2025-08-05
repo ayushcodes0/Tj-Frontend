@@ -1,5 +1,5 @@
 .dashboardPage {
-  padding: 24px 18px 24px 18px;
+  padding: 0 20px;
   width: 100%;
   min-height: 100vh;
   background: var(--dashboard-right-background, #f6f5fb);
@@ -10,9 +10,18 @@
   display: flex;
   gap: 12px;
   align-items: end;
-  margin-bottom: 21px;
   flex-wrap: wrap;
+  padding: 12px 0;
 }
+
+.filterInputs{
+    border: 1px solid var(--dashboard-borders);
+    padding: 6px;
+    outline: none;
+    border-radius: 4px;
+    color: var(--dashboard-primary-text);
+}
+
 .dashboardStatsCards {
   display: flex;
   gap: 20px;

@@ -28,7 +28,7 @@ const Dashboard = () => {
   const [month, setMonth] = useState(getCurrentMonth());
   const [day, setDay] = useState(new Date().getDate());
 
-  // Load on mount and filter change
+  // loading data on mount and on filter change
   useEffect(() => {
     if (filter === "lifetime") {
       fetchTrades("lifetime", {});
@@ -41,7 +41,7 @@ const Dashboard = () => {
     }
   }, [filter, year, month, day, fetchTrades]);
 
-  // Derived stats
+  // for memoization
   const stats = useMemo(() => {
     if (!trades) return null;
     const totalTrades = trades.length;
@@ -118,11 +118,11 @@ const Dashboard = () => {
     return Object.entries(map).map(([name, value]) => ({ name, value }));
   }, [trades]);
 
-  // UI
   return (
     <div className={Styles.dashboardPage}>
       <div className={Styles.dashboardFilters}>
         <select
+          className={Styles.filterInputs}
           value={filter}
           onChange={e => setFilter(e.target.value as 'lifetime' | 'month' | 'year' | 'day')}
         >
@@ -132,6 +132,7 @@ const Dashboard = () => {
         </select>
         {(filter === "year" || filter === "month" || filter === "day") && (
           <input
+            className={Styles.filterInputs}
             type="number"
             min={2000}
             max={2100}
@@ -143,6 +144,7 @@ const Dashboard = () => {
         )}
         {(filter === "month" || filter === "day") && (
           <input
+            className={Styles.filterInputs}
             type="number"
             min={1}
             max={12}
@@ -154,6 +156,7 @@ const Dashboard = () => {
         )}
         {filter === "day" && (
           <input
+            className={Styles.filterInputs}
             type="number"
             min={1}
             max={31}
