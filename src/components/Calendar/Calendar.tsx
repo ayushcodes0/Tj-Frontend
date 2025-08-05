@@ -3,7 +3,7 @@ import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Calendar.module.css";
 import StatCard from "../StatCard/StatCard";
 import TradePopup from "../TradePopup/TradePopup";
-import type { Trade } from '../../context/TradeContext';
+import type { Trade } from "../../context/TradeContext";
 
 const now = new Date();
 
@@ -28,18 +28,32 @@ const getMonthMatrix = (year: number, month: number) => {
   return calendar;
 };
 
-const formatRR = (trades: Trade[]) => {
-  // Placeholder: Replace with real R:R calc if available
-  return trades.length ? (1 + Math.random() * 2).toFixed(2) : "–";
-};
+// Customize this if you have a real way to get R:R ratio per trade
+function computeAvgRR(trades: Trade[]): number {
+  // Replace this logic with your real one if you have a risk_reward_ratio field!
+  // Example: Math.abs(pnl_amount) / risk (if available)
+  // Here, we're faking it for demonstration, ignore trades with no PnL or total_amount.
+  const ratios = trades
+    .map(t =>
+      typeof t.pnl_amount === "number" && typeof t.total_amount === "number" && t.total_amount !== 0
+        ? Math.abs(t.pnl_amount / t.total_amount)
+        : undefined
+    )
+    .filter((rr): rr is number => typeof rr === "number" && isFinite(rr));
+  if (!ratios.length) return 0;
+  return ratios.reduce((a, b) => a + b, 0) / ratios.length;
+}
+
+function calcDelta(current: number, prev: number) {
+  if (prev === 0) return current === 0 ? 0 : 100;
+  return ((current - prev) / Math.abs(prev)) * 100;
+}
 
 const Calendar = () => {
-  // --- STORE MONTH AND YEAR TOGETHER ---
   const [monthYear, setMonthYear] = useState({ month: now.getMonth(), year: now.getFullYear() });
   const [selectedDay, setSelectedDay] = useState<null | number>(null);
   const { trades } = useTrades();
 
-  // Calendar
   const matrix = useMemo(() => getMonthMatrix(monthYear.year, monthYear.month), [monthYear]);
   const monthTrades = useMemo(
     () =>
@@ -49,6 +63,18 @@ const Calendar = () => {
       }),
     [trades, monthYear]
   );
+  // Previous month and year calculation
+  const prevMonth = monthYear.month === 0 ? 11 : monthYear.month - 1;
+  const prevYear = monthYear.month === 0 ? monthYear.year - 1 : monthYear.year;
+  const prevMonthTrades = useMemo(
+    () =>
+      (trades ?? []).filter(trade => {
+        const td = new Date(trade.date);
+        return td.getFullYear() === prevYear && td.getMonth() === prevMonth;
+      }),
+    [trades, prevYear, prevMonth]
+  );
+
   const tradeByDay = useMemo(() => {
     const map: Record<number, Trade[]> = {};
     for (const trade of monthTrades) {
@@ -58,15 +84,26 @@ const Calendar = () => {
     }
     return map;
   }, [monthTrades]);
-  const totalPnl = useMemo(
-    () =>
-      monthTrades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0),
-    [monthTrades]
-  );
+
+  // ---- STATS (current) ----
+  const totalPnl = monthTrades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
   const totalTrades = monthTrades.length;
   const winTrades = monthTrades.filter(t => (t.pnl_amount ?? 0) > 0).length;
   const winRate = totalTrades ? (winTrades / totalTrades) * 100 : 0;
-  const avgRR = formatRR(monthTrades);
+  const avgRR = computeAvgRR(monthTrades);
+
+  // ---- PREVIOUS MONTH STATS ----
+  const prevTotalPnl = prevMonthTrades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
+  const prevTotalTrades = prevMonthTrades.length;
+  const prevWinTrades = prevMonthTrades.filter(t => (t.pnl_amount ?? 0) > 0).length;
+  const prevWinRate = prevTotalTrades ? (prevWinTrades / prevTotalTrades) * 100 : 0;
+  const prevAvgRR = computeAvgRR(prevMonthTrades);
+
+  // ---- DELTAS ----
+  const deltaTotalPnl = calcDelta(totalPnl, prevTotalPnl);
+  const deltaWinRate = calcDelta(winRate, prevWinRate);
+  const deltaTotalTrades = calcDelta(totalTrades, prevTotalTrades);
+  const deltaRR = calcDelta(avgRR, prevAvgRR);
 
   // --- MONTH SWITCH HANDLERS ---
   const handlePrevMonth = () => {
@@ -88,10 +125,30 @@ const Calendar = () => {
     <div className={Styles.calendarPage}>
       {/* Top Stat cards */}
       <div className={Styles.statCardsRow}>
-        <StatCard label="TOTAL P&L" value={totalPnl >= 0 ? `+₹${totalPnl.toLocaleString()}` : `₹${totalPnl.toLocaleString()}`} positive={totalPnl >= 0} />
-        <StatCard label="WIN RATE" value={`${winRate.toFixed(0)}%`} positive={winRate >= 50} />
-        <StatCard label="TOTAL TRADES" value={totalTrades} positive={totalTrades > 0} />
-        <StatCard label="AVG. R:R" value={avgRR} positive={Number(avgRR) >= 1} />
+        <StatCard
+          label="TOTAL P&L"
+          value={totalPnl >= 0 ? `+₹${totalPnl.toLocaleString()}` : `₹${totalPnl.toLocaleString()}`}
+          positive={totalPnl >= 0}
+          delta={deltaTotalPnl}
+        />
+        <StatCard
+          label="WIN RATE"
+          value={`${winRate.toFixed(0)}%`}
+          positive={winRate >= 50}
+          delta={deltaWinRate}
+        />
+        <StatCard
+          label="TOTAL TRADES"
+          value={totalTrades}
+          positive={totalTrades > 0}
+          delta={deltaTotalTrades}
+        />
+        <StatCard
+          label="AVG. R:R"
+          value={avgRR > 0 ? avgRR.toFixed(2) : "–"}
+          positive={avgRR >= 1}
+          delta={deltaRR}
+        />
       </div>
 
       {/* Month Selector */}
