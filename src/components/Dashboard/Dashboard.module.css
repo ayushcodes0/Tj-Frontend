@@ -1,0 +1,74 @@
+.dashboardPage {
+  padding: 24px 18px 24px 18px;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--dashboard-right-background, #f6f5fb);
+  box-sizing: border-box;
+}
+
+.dashboardFilters {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 21px;
+  flex-wrap: wrap;
+}
+.dashboardStatsCards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.statCard {
+  background: #fff;
+  border-radius: 13px;
+  min-width: 190px;
+  padding: 22px 26px;
+  box-shadow: 0 2px 13px rgba(70,50,120,0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 1 200px;
+}
+.statLabel {
+  color: #9889be;
+  font-size: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.statValue {
+  color: #322548;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.dashboardCharts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 44px;
+}
+.chartBox {
+  background: #fff;
+  border-radius: 13px;
+  flex: 1 1 355px;
+  box-shadow: 0 2px 13px rgba(70,50,120,0.045);
+  padding: 25px 18px 5px 10px;
+  min-width: 320px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 900px) {
+  .dashboardCharts {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .dashboardStatsCards {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

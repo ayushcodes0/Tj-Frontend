@@ -38,13 +38,17 @@ export interface TradeMeta {
   total: number;
   totalPages: number;
 }
+export type TradeFilter = 'lifetime' | 'month' | 'year' | 'day';
 
 interface TradesContextType {
   trades: Trade[] | null;
   loading: boolean;
   error: string | null;
-  fetchTrades: (page?: number, limit?: number) => Promise<void>;
+  fetchTrades: (
+    filter?: TradeFilter,
+    options?: { year?: number; month?: number; day?: number; limit?: number; page?: number }
+  ) => Promise<void>;
   meta: TradeMeta | null;
 }
-
 export const TradesContext = createContext<TradesContextType | undefined>(undefined);
+
