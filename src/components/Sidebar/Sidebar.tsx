@@ -10,7 +10,9 @@ import { IoMdLogOut } from "react-icons/io";
 import { BsQuestionCircle } from "react-icons/bs";
 import { useState } from 'react';
 import UserProfilePopup from '../UserProfilePopup/UserProfilePopup';
-
+import { IoStatsChartSharp } from "react-icons/io5";
+import { FaBrain } from "react-icons/fa";
+import { IoIosJournal } from "react-icons/io";
 
 
 const Sidebar = () =>{ 
@@ -74,15 +76,6 @@ return (
                     <FaRegLightbulb className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>AI Insights</span>
                 </NavLink>
-                <NavLink
-                    to="/dashboard/settings"
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.settingsLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
-                    <FaRegSun className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Settings</span>
-                </NavLink>
             </nav>
         </div>
         <div className={Styles.sidebarNavContainer}>
@@ -94,8 +87,8 @@ return (
                     `${Styles.sidebarNavLink} ${Styles.dashboardLink} ${isActive ? Styles.active : ""}`
                     }
                 >
-                    <RiDashboardLine className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Dashboard</span>
+                    <IoStatsChartSharp className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Reports</span>
                 </NavLink>
                 <NavLink
                     to="/dashboard/trades"
@@ -103,8 +96,8 @@ return (
                     `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
                     }
                 >
-                    <FaArrowTrendUp className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Trades</span>
+                    <FaBrain className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Psychology</span>
                 </NavLink>
                 <NavLink
                     to="/dashboard/performance"
@@ -112,17 +105,8 @@ return (
                     `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
                     }
                 >
-                    <MdElectricBolt className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Performance</span>
-                </NavLink>
-                <NavLink
-                    to="/dashboard/ai-insights"
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.aiInsightsLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
-                    <FaRegLightbulb className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>AI Insights</span>
+                    <IoIosJournal className={Styles.sideIcon} />
+                    <span className={Styles.navTexts}>Journal</span>
                 </NavLink>
                 <NavLink
                     to="/dashboard/settings"

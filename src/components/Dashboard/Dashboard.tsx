@@ -15,7 +15,7 @@ const FILTERS = [
   { label: 'Specific Day', value: 'day' as const },
 ];
 
-const COLORS = ["var(--dashboard-userIcon-color)", "#fa8480ff", "#ffcc7d", "#ff6f91", "#437de8", "#2dd7ef", "#ffa500", "#e44b43", "#67b7dc", "#a683e3"];
+const COLORS = ["var(--dashboard-green-color)", "var(--dashboard-red-color)", "#ffcc7d", "#ff6f91", "#437de8", "#2dd7ef", "#ffa500", "#e44b43", "#67b7dc", "#a683e3"];
 
 function formatDateLabel(date: string) {
   const d = new Date(date);
@@ -226,7 +226,7 @@ const Dashboard = () => {
       {stats && <div className={Styles.dashboardStatsCards}>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Gross P&L (₹)</span>
-          <span className={Styles.statValue} style={{color: stats.grossPnl >= 0 ? 'var(--dashboard-userIcon-color)' : '#e44b43'}}>
+          <span className={Styles.statValue} style={{color: stats.grossPnl >= 0 ? 'var(--dashboard-green-color)' : '#e44b43'}}>
             {stats.grossPnl.toLocaleString(undefined, {maximumFractionDigits: 0})}
           </span>
         </div>
@@ -244,13 +244,13 @@ const Dashboard = () => {
         </div>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Best Trade</span>
-          <span className={Styles.statValue} style={{color:'var(--dashboard-userIcon-color)'}}>
+          <span className={Styles.statValue} style={{color:'var(--dashboard-green-color)'}}>
             {stats.bestTrade ? `₹${stats.bestTrade.pnl_amount?.toLocaleString()}` : "-"}
           </span>
         </div>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Worst Trade</span>
-          <span className={Styles.statValue} style={{color:'#e44b43'}}>
+          <span className={Styles.statValue} style={{color:'var(--dashboard-red-color)'}}>
             {stats.worstTrade ? `₹${stats.worstTrade.pnl_amount?.toLocaleString()}` : "-"}
           </span>
         </div>
@@ -294,7 +294,7 @@ const Dashboard = () => {
               <XAxis dataKey="date" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="pnl" stroke="var(--dashboard-userIcon-color)" strokeWidth={3} name="P&L" dot={false}/>
+              <Line type="monotone" dataKey="pnl" stroke="var(--dashboard-green-color)" strokeWidth={3} name="P&L" dot={false}/>
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -344,11 +344,11 @@ const Dashboard = () => {
                 nameKey="name"
                 cx="50%" cy="50%"
                 outerRadius={78}
-                fill="var(--dashboard-userIcon-color)"
+                fill="var(--dashboard-green-color)"
                 label
               >
                 {directionData.map((_, i) => (
-                  <Cell key={i} fill={COLORS[i % COLORS.length] || "var(--dashboard-userIcon-color)"} />
+                  <Cell key={i} fill={COLORS[i % COLORS.length] || "var(--dashboard-green-color)"} />
                 ))}
               </Pie>
               <Legend verticalAlign="bottom" align="center" iconType="circle" />
@@ -365,7 +365,7 @@ const Dashboard = () => {
               <XAxis type="number" label={{ value: 'Minutes', position: 'insideBottomRight', offset: -5 }} />
               <YAxis type="category" dataKey="name" />
               <Tooltip />
-              <Bar dataKey="avgMinutes" fill="var(--dashboard-userIcon-color)" />
+              <Bar dataKey="avgMinutes" fill="var(--dashboard-green-color)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -403,7 +403,7 @@ const Dashboard = () => {
                       </span>
                     </td>
                     <td>
-                      <span style={{ color: (trade.pnl_amount ?? 0) >= 0 ? 'var(--dashboard-userIcon-color)' : '#e44b43' }}>
+                      <span style={{ color: (trade.pnl_amount ?? 0) >= 0 ? 'var(--dashboard-green-color)' : 'var(--dashboard-red-color)' }}>
                         {typeof trade.pnl_amount === "number" ? trade.pnl_amount.toLocaleString(undefined, {maximumFractionDigits: 2}) : "-"}
                       </span>
                     </td>

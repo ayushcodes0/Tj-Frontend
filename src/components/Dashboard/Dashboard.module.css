@@ -1,6 +1,6 @@
 .dashboardPage {
   padding: 0 20px;
-  padding-bottom: 20px;
+  padding-bottom: 40px;
   width: 100%;
   min-height: 100vh;
   background: var(--dashboard-right-background, #f6f5fb);
@@ -27,8 +27,8 @@
 }
 
 .confidenceWrapper {
-  background: #fff;
-  border-radius: 9px;
+  background: var(--dashboard-primary-background);
+  border-radius: 8px;
   padding: 16px 18px 16px 18px;
   box-shadow: 0 1px 7px rgba(126,72,215,0.04);
   border: 1px solid var(--dashboard-borders);
@@ -70,7 +70,7 @@
 .confidenceBarInner {
   height: 100%;
   border-radius: 7px;
-  background: linear-gradient(90deg,#618bff 35%,#34d6b1 100%);
+  background: linear-gradient(90deg,#618bff 35%, var(--dashboard-green-color) 100%);
   transition: width 0.6s cubic-bezier(.82,0,.31,1);
   min-width: 0;
 }
@@ -248,7 +248,7 @@ tspan{
 }
 
 .topTradesTable td {
-  font-size: 15px;
+  font-size: 14px;
   border-bottom: 1px solid var(--dashboard-borders);
   color: var(--dashboard-primary-text);
 }
@@ -258,11 +258,9 @@ tspan{
 }
 
 .long {
-  color: #2dc78c;
-  font-weight: 600;
+  color: var(--dashboard-green-color);
 }
 .short {
-  color: #e44b43;
-  font-weight: 600;
+  color: var(--dashboard-red-color);
 }
 
