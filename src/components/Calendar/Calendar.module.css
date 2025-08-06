@@ -174,11 +174,14 @@
 }
 .popupBox {
   background-color: var(--dashboard-primary-background);
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid var(--dashboard-borders);
   min-width: 310px;
   max-width: 97vw;
-  padding: 18px 22px 12px 22px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .popupHeader {
   display: flex;
@@ -236,3 +239,158 @@
   .calendarPage { padding: 7px 1px 13px 1px;}
 }
 
+
+.popupHeading{
+    font-size: 18px;
+    color: var(--dashboard-primary-text);
+    font-weight: 600;
+}
+
+.popupStatCards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-start;
+}
+
+.popupMiniCard {
+  background: var(--dashboard-primary-background);
+  border: 1px solid var(--dashboard-borders);
+  border-radius: 8px;
+  min-width: 112px;
+  max-width: 140px;
+  flex: 1 1 112px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
+}
+.popupMiniCard:not(:last-child) {
+  border-right: none;
+}
+
+.popupStatCards > .popupMiniCard {
+  border-right: 1px solid var(--dashboard-borders);
+}
+.popupMiniCard:last-child {
+  border-right: 1px solid var(--dashboard-borders);
+}
+
+.popupMiniCardLabel {
+  color: var(--dashboard-primary-text);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.popupMiniCardValue,
+.popupMiniCardValueGreen,
+.popupMiniCardValueRed {
+  font-size: 18px;
+  font-weight: 600;
+}
+.popupMiniCardValueGreen { color: var(--dashboard-green-color); }
+.popupMiniCardValueRed { color: var(--dashboard-red-color); }
+.popupMiniCardValue { color: var(--dashboard-primary-text); }
+
+.popupTradeList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.popupTradeCard {
+  background: var(--dashboard-primary-background);
+  border: 1px solid var(--dashboard-borders);
+  border-radius: 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s;
+}
+.popupTradeCard:last-child {
+  margin-bottom: 0;
+}
+
+.tradeTopRow {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.tradeSymbol {
+  font-weight: 600;
+  color: var(--dashboard-primary-text);
+  font-size: 14px;
+}
+
+.tradeDirectionLong {
+  color: var(--dashboard-green-color);
+  font-weight: 600;
+  font-size: 12px;
+  background: #e5f8ed;
+  border-radius: 4px;
+  padding: 2px 9px;
+}
+.tradeDirectionShort {
+  color: var(--dashboard-red-color);
+  font-weight: 600;
+  font-size: 12px;
+  background: #f7e6e8;
+  border-radius: 4px;
+  padding: 2px 9px;
+}
+
+.tradeDate {
+  color: #b3acc2;
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: auto;
+}
+
+.tradeDetailsGrid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0 0;
+}
+
+
+
+.tradeDetails{
+    border-right: 1px solid var(--dashboard-borders);
+    padding: 10px;
+}
+
+.tradeDetails.noBorder{
+    border-right: none;
+}
+
+.tradeDetailValue {
+  color: var(--dashboard-primary-text);
+}
+
+.pnlPositive {
+  color: var(--dashboard-green-color);
+}
+
+.pnlNegative {
+  color: var(--dashboard-red-color);
+}
+
+.detailLabel {
+  color: #8b8f9b;
+  font-size: 12px;
+  font-weight: 400;
+  display: block;
+}
+
+@media (max-width: 580px) {
+  .popupStatCards { flex-direction: column; }
+  .popupMiniCard { min-width: 100%; max-width: none; }
+  .popupTradeCard { padding: 12px 6px 10px 8px; }
+  .tradeDetailsGrid { grid-template-columns: 1fr 1fr; }
+}
