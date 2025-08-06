@@ -265,3 +265,9 @@ tspan{
   color: var(--dashboard-red-color);
 }
 
+
+@media (max-width: 600px){
+  .dashboardPage{
+    padding: 0px 10px 40px;
+  }
+}

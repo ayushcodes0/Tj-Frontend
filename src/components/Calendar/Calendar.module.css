@@ -392,7 +392,7 @@
   .popupTradeCard { padding: 12px 6px 10px 8px; }
   .tradeDetailsGrid { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 470px){
+@media (max-width: 600px){
   .statCard{
       padding: 10px;
   }
@@ -416,6 +416,9 @@
   }
   .monthDisplay{
       font-size: 16px;
+  }
+  .calendarPage{
+    padding: 10px;
   }
 }
 @media (max-width: 440px) {
