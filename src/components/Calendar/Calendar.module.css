@@ -315,6 +315,7 @@
   background: #e5f8ed;
   border-radius: 4px;
   padding: 2px 9px;
+  margin-left: 8px;
 }
 .tradeDirectionShort {
   color: var(--dashboard-red-color);
@@ -323,6 +324,7 @@
   background: #f7e6e8;
   border-radius: 4px;
   padding: 2px 9px;
+  margin-left: 8px;
 }
 .tradeDate {
   color: #b3acc2;
@@ -386,7 +388,6 @@
   .calendarWeekHeader, .calendarWeek { font-size: 12px; }
 }
 @media (max-width: 580px) {
-  .popupStatCards { flex-direction: column; }
   .popupMiniCard { min-width: 100%; max-width: none; }
   .popupTradeCard { padding: 12px 6px 10px 8px; }
   .tradeDetailsGrid { grid-template-columns: 1fr 1fr; }
@@ -423,3 +424,40 @@
 }
 
 /* \\\\\\\\ end responsive design \\\\\\\\ */
+
+
+/* //////// popup responsive for width below 640px //////// */
+@media (max-width: 640px) {
+  .popupBox {
+    width: 90vw !important;
+    min-width: unset;
+    max-width: 90vw;
+    padding: 10px;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  .popupMiniCard {
+    min-width: 90%;
+    max-width: 100%;
+    padding: 10px;
+  }
+  .popupStatCards {
+    gap: 8px;
+  }
+  .popupTradeCard {
+    padding: 0;
+    border-radius: 7px;
+  }
+  .tradeTopRow, .tradeDetails {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 13px;
+  }
+  .tradeDetailsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .tradeDetails{
+    padding: 5px 10px;
+  }
+}
+/* \\\\\\\\ end popup responsive \\\\\\\\ */
