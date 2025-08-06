@@ -1,0 +1,177 @@
+/* Reuse performance styles */
+.performancePage {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--dashboard-right-background);
+  padding: 24px 32px;
+  box-sizing: border-box;
+  color: var(--dashboard-primary-text);
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  color: var(--dashboard-primary-text);
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--dashboard-primary-text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: var(--dashboard-primary-background);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--dashboard-borders);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.wideCard {
+  grid-column: 1 / -1;
+}
+
+.cardHeader {
+  padding: 16px 20px;
+  background: var(--dashboard-buttons-hover);
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dashboard-primary-text);
+}
+
+.cardBody {
+  padding: 16px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+.statItem {
+  flex: 1;
+  min-width: 120px;
+}
+
+.statLabel {
+  display: block;
+  font-size: 13px;
+  color: var(--dashboard-secondary-text);
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.positive {
+  color: var(--dashboard-green-color);
+}
+
+.negative {
+  color: var(--dashboard-red-color);
+}
+
+.unit {
+  color: var(--dashboard-secondary-text);
+  font-size: 12px;
+  margin-left: 2px;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--dashboard-borders);
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.dataTable th {
+  text-align: left;
+  padding: 12px;
+  background: var(--dashboard-buttons-hover);
+  color: var(--dashboard-primary-text);
+  font-weight: 500;
+  border: 1px solid var(--dashboard-borders);
+}
+
+.dataTable td {
+  padding: 12px;
+  border: 1px solid var(--dashboard-borders);
+  background: var(--dashboard-primary-background);
+}
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dashboard-secondary-text);
+  font-size: 14px;
+  padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .performancePage {
+    padding: 16px;
+  }
+  
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .statRow {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .statItem {
+    min-width: 100%;
+  }
+
+  .dataTable {
+    font-size: 13px;
+  }
+
+  .dataTable th,
+  .dataTable td {
+    padding: 8px 10px;
+  }
+}
