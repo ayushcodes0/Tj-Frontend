@@ -1,3 +1,5 @@
+/* //////// calendar root //////// */
+
 .calendarPage {
   width: 100%;
   /* min-height: 100vh; */
@@ -9,12 +11,29 @@
   gap: 20px;
 }
 
+/* \\\\\\\\ end calendar root \\\\\\\\ */
+
+
+
+/* //////// stat cards row //////// */
+
 .statCardsRow {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
   flex-wrap: wrap;
 }
+@media (max-width: 1200px){
+  .statCardsRow {
+      grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* \\\\\\\\ end stat cards row \\\\\\\\ */
+
+
+
+/* //////// individual stat card //////// */
 
 .statCard {
   padding: 20px;
@@ -26,13 +45,16 @@
   align-items: end;
   justify-content: space-between;
 }
-
 .stateCardData{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-
+.statCardLabel {
+  font-size: 14px;
+  color: var(--dashboard-primary-text);
+  font-weight: 400;
+}
 .statCardDeltaUp {
   color: var(--dashboard-green-color);
   font-size: 14px;
@@ -47,12 +69,6 @@
   margin-top: 4px;
   display: block;
 }
-
-.statCardLabel {
-  font-size: 14px;
-  color: var(--dashboard-primary-text);
-  font-weight: 400;
-}
 .statCardValuePos {
   font-size: 20px;
   font-weight: 700;
@@ -63,6 +79,12 @@
   font-weight: 700;
   color: var(--dashboard-red-color);
 }
+
+/* \\\\\\\\ end stat card section \\\\\\\\ */
+
+
+
+/* //////// month selector //////// */
 
 .monthSwitcherRow {
   display: flex;
@@ -89,6 +111,12 @@
   /* padding: 2px 10px; */
 }
 
+/* \\\\\\\\ end month selector \\\\\\\\ */
+
+
+
+/* //////// calendar grid //////// */
+
 .calendarGrid {
   width: 100%;
   background-color: var(--dashboard-primary-background);
@@ -98,7 +126,6 @@
   display: flex;
   flex-direction: column;
 }
-
 .calendarWeekHeader,
 .calendarWeek {
   display: grid;
@@ -112,13 +139,11 @@
   font-weight: 600;
   gap: 4px;
 }
-
 .calendarWeekday{
   border: 1px solid var(--dashboard-borders);
   padding: 8px;
   border-radius: 8px;
 }
-
 .calendarDay {
   min-height: 88px;
   min-width: 52px;
@@ -134,12 +159,9 @@
   transition: box-shadow .13s;
   border: 1px solid var(--dashboard-borders);
 }
-
-
 .calendarDay:hover{
-    border: 1.5px solid rgb(174, 174, 174);
+  border: 1.5px solid rgb(174, 174, 174);
 }
-
 .selectedDay {
   border: 1px solid var(--dashboard-borders);
   background: var(--dashboard-buttons-hover);
@@ -147,17 +169,12 @@
 .positiveDay { background: #e5f8ed; }
 .negativeDay { background: #f7e6e8; }
 .neutralDay { background: #f2f2f7; }
-
 .negativeDay:hover{
-    border: 1.5px solid var(--dashboard-red-color);
+  border: 1.5px solid var(--dashboard-red-color);
 }
-
-
 .positiveDay:hover {
   border: 1.5px solid var(--dashboard-green-color);
 }
-
-
 .dayPnl {
   font-size: 13px;
   font-weight: 600;
@@ -170,6 +187,12 @@
   font-size: 12px;
   color: var(--dashboard-primary-text);
 }
+
+/* \\\\\\\\ end calendar grid \\\\\\\\ */
+
+
+
+/* //////// popup - summary and trade cards //////// */
 
 .popupBackdrop {
   position: fixed;
@@ -208,59 +231,17 @@
   color: #555;
   cursor: pointer;
 }
-.popupContent {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.popupTradeRow {
-  background: var(--dashboard-primary-background);
-  padding: 10px 10px 8px 13px;
-  border-radius: 7px;
-  border: 1px solid var(--dashboard-borders);
-  margin-bottom: 2px;
-}
-.tradeSymbol {
-  font-size: 15px;
+.popupHeading{
+  font-size: 18px;
   color: var(--dashboard-primary-text);
   font-weight: 600;
-  margin-right: 10px;
 }
-.long {
-  color: var(--dashboard-green-color);
-  font-weight: 600;
-  margin-right: 6px;
-}
-.short {
-  color: var(--dashboard-red-color);
-  font-weight: 600;
-}
-
-@media (max-width: 640px) {
-  .statCard { min-width: 120px; }
-  .calendarDay { min-width: 36px; font-size: 13px;}
-  .calendarWeekHeader, .calendarWeek { font-size: 12px; }
-}
-
-@media (max-width: 440px) {
-  .statCard { min-width: 85px; padding: 8px 2px; }
-  .calendarPage { padding: 7px 1px 13px 1px;}
-}
-
-
-.popupHeading{
-    font-size: 18px;
-    color: var(--dashboard-primary-text);
-    font-weight: 600;
-}
-
 .popupStatCards {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
   justify-content: flex-start;
 }
-
 .popupMiniCard {
   background: var(--dashboard-primary-background);
   border: 1px solid var(--dashboard-borders);
@@ -278,20 +259,17 @@
 .popupMiniCard:not(:last-child) {
   border-right: none;
 }
-
 .popupStatCards > .popupMiniCard {
   border-right: 1px solid var(--dashboard-borders);
 }
 .popupMiniCard:last-child {
   border-right: 1px solid var(--dashboard-borders);
 }
-
 .popupMiniCardLabel {
   color: var(--dashboard-primary-text);
   font-size: 12px;
   font-weight: 400;
 }
-
 .popupMiniCardValue,
 .popupMiniCardValueGreen,
 .popupMiniCardValueRed {
@@ -301,13 +279,11 @@
 .popupMiniCardValueGreen { color: var(--dashboard-green-color); }
 .popupMiniCardValueRed { color: var(--dashboard-red-color); }
 .popupMiniCardValue { color: var(--dashboard-primary-text); }
-
 .popupTradeList {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 .popupTradeCard {
   background: var(--dashboard-primary-background);
   border: 1px solid var(--dashboard-borders);
@@ -320,7 +296,6 @@
 .popupTradeCard:last-child {
   margin-bottom: 0;
 }
-
 .tradeTopRow {
   display: flex;
   align-items: end;
@@ -328,13 +303,11 @@
   padding: 10px;
   border-bottom: 1px solid var(--dashboard-borders);
 }
-
 .tradeSymbol {
   font-weight: 600;
   color: var(--dashboard-primary-text);
   font-size: 14px;
 }
-
 .tradeDirectionLong {
   color: var(--dashboard-green-color);
   font-weight: 600;
@@ -351,54 +324,102 @@
   border-radius: 4px;
   padding: 2px 9px;
 }
-
 .tradeDate {
   color: #b3acc2;
   font-size: 12px;
   font-weight: 400;
   margin-left: auto;
 }
-
 .tradeDetailsGrid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0 0;
 }
-
-
-
 .tradeDetails{
-    border-right: 1px solid var(--dashboard-borders);
-    padding: 10px;
+  border-right: 1px solid var(--dashboard-borders);
+  padding: 10px;
 }
-
 .tradeDetails.noBorder{
-    border-right: none;
+  border-right: none;
 }
-
-.tradeDetailValue {
-  color: var(--dashboard-primary-text);
-}
-
-.pnlPositive {
-  color: var(--dashboard-green-color);
-}
-
-.pnlNegative {
-  color: var(--dashboard-red-color);
-}
-
 .detailLabel {
   color: #8b8f9b;
   font-size: 12px;
   font-weight: 400;
   display: block;
 }
+.tradeDetailValue {
+  color: var(--dashboard-primary-text);
+}
+.pnlPositive {
+  color: var(--dashboard-green-color);
+}
+.pnlNegative {
+  color: var(--dashboard-red-color);
+}
 
+/* \\\\\\\\ end popup summary and trade list \\\\\\\\ */
+
+
+
+/* //////// responsive design - all queries below //////// */
+
+@media (max-width: 1200px){
+  .statCardsRow {
+      grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 750px) {
+  .calendarGrid {
+    overflow-x: auto;
+    padding: 10px;
+  }
+  .calendarWeekHeader,
+  .calendarWeek {
+    min-width: 660px;
+  }
+}
+@media (max-width: 640px) {
+  .statCard { min-width: 120px; }
+  .calendarDay { min-width: 36px; font-size: 13px;}
+  .calendarWeekHeader, .calendarWeek { font-size: 12px; }
+}
 @media (max-width: 580px) {
   .popupStatCards { flex-direction: column; }
   .popupMiniCard { min-width: 100%; max-width: none; }
   .popupTradeCard { padding: 12px 6px 10px 8px; }
   .tradeDetailsGrid { grid-template-columns: 1fr 1fr; }
 }
+@media (max-width: 470px){
+  .statCard{
+      padding: 10px;
+  }
+  .statCardsRow{
+      gap: 10px;
+  }
+  .statCardLabel{
+      font-size: 12px;
+  }
+  .statCardDeltaUp{
+      font-size: 12px;
+  }
+  .statCardDeltaDown{
+      font-size: 12px;
+  }
+  .statCardValuePos{
+      font-size: 16px;
+  }
+  .statCardValueNeg{
+      font-size: 16px;
+  }
+  .monthDisplay{
+      font-size: 16px;
+  }
+}
+@media (max-width: 440px) {
+  .statCard { min-width: 85px; padding: 10px; }
+  .calendarPage { padding: 10px;}
+}
+
+/* \\\\\\\\ end responsive design \\\\\\\\ */
