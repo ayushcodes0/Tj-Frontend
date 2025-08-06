@@ -10,7 +10,6 @@ import { BsQuestionCircle } from "react-icons/bs";
 import { useState } from 'react';
 import UserProfilePopup from '../UserProfilePopup/UserProfilePopup';
 import { IoSettingsOutline, IoStatsChartSharp } from "react-icons/io5";
-import { IoIosJournal } from "react-icons/io";
 import { FaShieldAlt } from "react-icons/fa";
 import { LuBrain } from 'react-icons/lu';
 import { TbCalendarMonthFilled } from 'react-icons/tb';
@@ -108,15 +107,6 @@ return (
                 >
                     <LuBrain className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Psychology</span>
-                </NavLink>
-                <NavLink
-                    to="/dashboard/journal"
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
-                    <IoIosJournal className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Journal</span>
                 </NavLink>
                 <NavLink
                     to="/dashboard/settings"
