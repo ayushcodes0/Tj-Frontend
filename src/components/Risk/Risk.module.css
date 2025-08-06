@@ -1,127 +1,164 @@
-/* //////// risk analysis page layout //////// */
-.page {
+/* Reuse performance styles */
+.performancePage {
   width: 100%;
   min-height: 100vh;
   background: var(--dashboard-right-background);
-  padding: 30px 14px 36px 14px;
+  padding: 24px 32px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+  color: var(--dashboard-primary-text);
 }
 
-/* //////// responsive card grid //////// */
-.grid {
+.pageTitle {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  color: var(--dashboard-primary-text);
+}
+
+.cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(345px, 1fr));
-  gap: 27px;
-  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
 }
 
-/* //////// card //////// */
 .card {
   background: var(--dashboard-primary-background);
-  border-radius: 11px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--dashboard-borders);
-  box-shadow: 0 1px 7px rgba(126,72,215,0.04);
-  padding: 21px 25px 18px 23px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  min-height: 100px;
 }
 
-/* //////// stat labels and values //////// */
-.cardTitle {
-  font-size: 17px;
+.wideCard {
+  grid-column: 1 / -1;
+}
+
+.cardHeader {
+  padding: 16px 20px;
+  background: var(--dashboard-buttons-hover);
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 16px;
   font-weight: 600;
-  color: var(--dashboard-userIcon-color);
-  margin-bottom: 5px;
-  letter-spacing: 0.02em;
-}
-.cardLabel {
-  color: #929299;
-  font-size: 13.2px;
-  font-weight: 500;
-  margin-right: 3px;
-}
-.cardStatRow {
-  display: flex;
-  gap: 28px;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 13px 0 6px 0;
-  font-size: 15px;
-}
-.cardMiniRow {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: center;
-  font-size: 13.3px;
-  padding-bottom: 2px;
-}
-.cardValue {
   color: var(--dashboard-primary-text);
-  font-weight: 600;
-  font-size: 16px;
-}
-.cardValueRed {
-  color: var(--dashboard-red-color);
-  font-weight: 700;
-  font-size: 16px;
-}
-.cardValueBlue {
-  color: #5a91f2;
-  font-weight: 700;
-  font-size: 16px;
-}
-.highlightGreen {
-  color: var(--dashboard-green-color);
-  font-weight: 700;
-  font-size: 16px;
-}
-.highlightBlue {
-  color: #5a91f2;
-  font-weight: 700;
-  font-size: 16px;
-}
-.highlightRed {
-  color: var(--dashboard-red-color);
-  font-weight: 700;
-  font-size: 16px;
 }
 
-/* //////// table //////// */
-.simpleTable {
+.cardBody {
+  padding: 16px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.statRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+.statItem {
+  flex: 1;
+  min-width: 120px;
+}
+
+.statLabel {
+  display: block;
+  font-size: 13px;
+  color: var(--dashboard-secondary-text);
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.statNote {
+  font-size: 12px;
+  color: var(--dashboard-secondary-text);
+  line-height: 1.4;
+}
+
+.positive {
+  color: var(--dashboard-green-color);
+}
+
+.negative {
+  color: var(--dashboard-red-color);
+}
+
+.tableContainer {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--dashboard-borders);
+}
+
+.dataTable {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 7px;
-}
-.simpleTable th {
-  text-align: left;
-  font-size: 13px;
-  color: var(--dashboard-primary-text);
-  font-weight: 500;
-  opacity: 0.82;
-  padding: 2px 4px 4px 0;
-}
-.simpleTable td {
   font-size: 14px;
-  padding: 3px 4px 3px 0;
-  color: var(--dashboard-primary-text);
 }
 
-@media (max-width: 800px) {
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .card { padding: 16px 11px 13px 11px; }
+.dataTable th {
+  text-align: left;
+  padding: 12px;
+  background: var(--dashboard-buttons-hover);
+  color: var(--dashboard-primary-text);
+  font-weight: 500;
+  border: 1px solid var(--dashboard-borders);
 }
-@media (max-width: 520px) {
-  .page { padding: 11px 1vw 17px 1vw; }
-  .cardTitle { font-size: 15px; }
-  .cardStatRow, .cardMiniRow { font-size: 12px; gap: 9px; }
-  .cardValue, .cardValueRed, .cardValueBlue, .highlightGreen, .highlightBlue, .highlightRed { font-size: 13.7px; }
+
+.dataTable td {
+  padding: 12px;
+  border: 1px solid var(--dashboard-borders);
+  background: var(--dashboard-primary-background);
+}
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dashboard-secondary-text);
+  font-size: 14px;
+  padding: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .performancePage {
+    padding: 16px;
+  }
+  
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .statRow {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .statItem {
+    min-width: 100%;
+  }
+
+  .dataTable {
+    font-size: 13px;
+  }
+
+  .dataTable th,
+  .dataTable td {
+    padding: 8px 10px;
+  }
 }
