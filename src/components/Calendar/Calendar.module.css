@@ -134,13 +134,11 @@
   transition: box-shadow .13s;
   border: 1px solid var(--dashboard-borders);
 }
-.calendarDay:hover {
-  border: 1.5px solid var(--dashboard-green-color);
-  box-shadow: 0 2px 8px 0 rgba(70,200,120,0.11);
+
+
+.calendarDay:hover{
+    border: 1.5px solid rgb(174, 174, 174);
 }
-
-
-
 
 .selectedDay {
   border: 1px solid var(--dashboard-borders);
@@ -149,6 +147,16 @@
 .positiveDay { background: #e5f8ed; }
 .negativeDay { background: #f7e6e8; }
 .neutralDay { background: #f2f2f7; }
+
+.negativeDay:hover{
+    border: 1.5px solid var(--dashboard-red-color);
+}
+
+
+.positiveDay:hover {
+  border: 1.5px solid var(--dashboard-green-color);
+}
+
 
 .dayPnl {
   font-size: 13px;
