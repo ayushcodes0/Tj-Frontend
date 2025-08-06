@@ -12,7 +12,6 @@ import Performance from "./components/Performance/Performance";
 import AiInsights from "./components/AiInsights/AiInsights";
 import Settings from "./components/Settings/Settings";
 import Psychology from "./components/Psychology/Psychology";
-import Journal from "./components/Journal/Journal";
 import Risk from "./components/Risk/Risk";
 import Calendar from "./components/Calendar/Calendar";
 
@@ -33,7 +32,6 @@ const App = () => (
         <Route path="calendar" element={<Calendar />} />
         <Route path="ai-insights" element={<AiInsights />} />
         <Route path="psychology" element={<Psychology />} />
-        <Route path="journal" element={<Journal />} />
         <Route path="risk" element={<Risk />} />
         <Route path="settings" element={<Settings />} />
         {/* Add more nested subroutes as needed */}
