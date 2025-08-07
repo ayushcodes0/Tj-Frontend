@@ -46,7 +46,7 @@
 
 .cardHeader {
   padding: 16px 20px;
-  background: var(--dashboard-buttons-hover);
+  background: var(--dashboard-green-color);
   border-bottom: 1px solid var(--dashboard-borders);
 }
 
@@ -54,7 +54,7 @@
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: var(--dashboard-primary-text);
+  color: white;
 }
 
 .cardBody {
@@ -117,7 +117,7 @@
 .dataTable th {
   text-align: left;
   padding: 12px;
-  background: var(--dashboard-buttons-hover);
+  background: var(--dashboard-primary-background);
   color: var(--dashboard-primary-text);
   font-weight: 500;
   border: 1px solid var(--dashboard-borders);
@@ -213,7 +213,7 @@
 
 /* Hover effects for interactive elements */
 .dataTable tr:hover td {
-  background-color: var(--dashboard-buttons-hover);
+  background-color: var(--dashboard-green-color);
   transition: background-color 0.2s ease;
 }
 
@@ -228,7 +228,7 @@
 .dayPerformanceItem {
   flex: 1;
   min-width: 0;
-  background: var(--dashboard-buttons-hover);
+  background: var(--dashboard-green-color);
   border-radius: 8px;
   padding: 12px;
   border: 1px solid var(--dashboard-borders);
