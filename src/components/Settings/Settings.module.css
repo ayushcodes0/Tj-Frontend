@@ -264,11 +264,6 @@
     grid-template-columns: 1fr;
   }
 
-  .profileSection {
-    flex-direction: column;
-    align-items: center;
-  }
-
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -276,7 +271,7 @@
 
 @media (max-width: 480px) {
   .statsGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .pageTitle {
