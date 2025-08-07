@@ -11,5 +11,6 @@ export interface User {
   email: string;
   avatar?: string;
   subscription: Subscription;
+  createdAt?: string;
   // ...any other profile fields
 }

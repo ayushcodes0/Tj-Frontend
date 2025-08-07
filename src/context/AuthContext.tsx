@@ -10,6 +10,7 @@ export interface AuthContextType {
   loading: boolean;
   error: string | null;
   updateAvatar: (file: File) => Promise<void>;
+  createdAt?: string;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
