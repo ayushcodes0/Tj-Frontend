@@ -11,6 +11,8 @@ export interface AuthContextType {
   error: string | null;
   updateAvatar: (file: File) => Promise<void>;
   createdAt?: string;
+  changeUsername: (newUsername: string) => Promise<void>;
+  changePassword: (current: string, next: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

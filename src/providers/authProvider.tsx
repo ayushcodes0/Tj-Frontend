@@ -96,7 +96,54 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(newUser);
     localStorage.setItem('user', JSON.stringify(newUser));
   };
+  // Change username
+const changeUsername = async (newUsername: string) => {
+  if (!token) throw new Error("Not authenticated");
+  setLoading(true); setError(null);
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/users/username`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ newUsername })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Update failed");
+    setUser(data.data);
+    localStorage.setItem("user", JSON.stringify(data.data));
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Username update failed";
+    setError(msg); throw new Error(msg);
+  } finally { setLoading(false); }
+};
 
-  const value = { user, token, register, login, logout, loading, error, updateAvatar };
+// Change password
+// Change password
+const changePassword = async (currentPassword: string, newPassword: string) => {
+  if (!token) throw new Error("Not authenticated");
+  setLoading(true); setError(null);
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/users/password`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Password update failed");
+    // Password changed, do nothing (user/token remain)
+    // REMOVE: return true;
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Password update failed";
+    setError(msg); throw new Error(msg);
+  } finally { setLoading(false); }
+};
+
+
+  const value = { user, token, register, login, logout, loading, error, updateAvatar, changePassword, changeUsername };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

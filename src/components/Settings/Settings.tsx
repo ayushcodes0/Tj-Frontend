@@ -9,8 +9,10 @@ const fmtC = (num: number, d: number = 0) =>
     : "--";
 
 const Settings = () => {
-  const { user, updateAvatar, loading } = useAuth();
+  const { user, updateAvatar, loading, changeUsername, changePassword } = useAuth();
   const { trades } = useTrades();
+
+  // Avatar upload logic
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [avatarUploadError, setAvatarUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,6 +34,7 @@ const Settings = () => {
     fileInputRef.current?.click();
   };
 
+  // Trade stats summary
   const tradeStats = useMemo(() => {
     if (!trades || !trades.length)
       return {
@@ -42,10 +45,8 @@ const Settings = () => {
         first: null,
         last: null,
       };
-
     const best = trades.reduce((a, b) => ((b.pnl_amount ?? -Infinity) > (a.pnl_amount ?? -Infinity) ? b : a), trades[0]);
     const worst = trades.reduce((a, b) => ((b.pnl_amount ?? Infinity) < (a.pnl_amount ?? Infinity) ? b : a), trades[0]);
-    
     const symCount: Record<string, number> = {};
     trades.forEach(t => {
       symCount[t.symbol] = (symCount[t.symbol] ?? 0) + 1;
@@ -68,19 +69,34 @@ const Settings = () => {
     };
   }, [trades]);
 
-  const recentTrades = useMemo(() =>
-    (trades ?? [])
-      .slice()
-      .sort((a, b) => (a.date < b.date ? 1 : -1))
-      .slice(0, 6),
+  // Recent trades for table
+  const recentTrades = useMemo(
+    () =>
+      (trades ?? [])
+        .slice()
+        .sort((a, b) => (a.date < b.date ? 1 : -1))
+        .slice(0, 6),
     [trades]
   );
+
+  // Change Username logic
+  const [newUsername, setNewUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [usernameSuccess, setUsernameSuccess] = useState("");
+
+  // Change Password logic
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
 
   return (
     <div className={Styles.performancePage}>
       <h1 className={Styles.pageTitle}>Account Settings</h1>
 
       <div className={Styles.cardGrid}>
+
         {/* Profile Card */}
         <div className={Styles.card}>
           <div className={Styles.cardHeader}>
@@ -115,7 +131,6 @@ const Settings = () => {
                   <div className={Styles.error}>{avatarUploadError}</div>
                 )}
               </div>
-
               <div className={Styles.profileDetails}>
                 <div className={Styles.profileField}>
                   <span className={Styles.profileLabel}>Username</span>
@@ -189,36 +204,117 @@ const Settings = () => {
           </div>
         </div>
 
-        {/* Account Settings Card */}
+        {/* --- Username Change Form --- */}
         <div className={Styles.card}>
           <div className={Styles.cardHeader}>
-            <h3>Account Settings</h3>
+            <h3>Change Username</h3>
           </div>
           <div className={Styles.cardBody}>
-            <div className={Styles.settingsSection}>
-              <div className={Styles.settingItem}>
-                <span className={Styles.settingLabel}>Change Password</span>
-                <button
-                  className={Styles.settingButton}
-                  type="button"
-                  disabled
-                  title="Not implemented"
-                >
-                  Change Password
-                </button>
-              </div>
-              <div className={Styles.settingItem}>
-                <span className={Styles.settingLabel}>Notification Preferences</span>
-                <button
-                  className={Styles.settingButton}
-                  type="button"
-                  disabled
-                  title="Not implemented"
-                >
-                  Configure
-                </button>
-              </div>
-            </div>
+            <form
+              className={Styles.formRow}
+              onSubmit={async e => {
+                e.preventDefault();
+                if (!newUsername.trim()) {
+                  setUsernameError("Username cannot be empty");
+                  return;
+                }
+                setUsernameError("");
+                try {
+                  await changeUsername(newUsername.trim());
+                  setUsernameSuccess("Username updated!");
+                  setTimeout(() => setUsernameSuccess(""), 1500);
+                } catch (err) {
+                  setUsernameError(err instanceof Error ? err.message : "Update failed");
+                }
+              }}
+            >
+              <input
+                className={Styles.input}
+                type="text"
+                placeholder="New username"
+                value={newUsername}
+                onChange={e => setNewUsername(e.target.value)}
+                disabled={loading}
+                minLength={3}
+                required
+              />
+              <button type="submit" className={Styles.primaryBtn} disabled={loading}>
+                Update
+              </button>
+            </form>
+            {usernameError && <div className={Styles.inputError}>{usernameError}</div>}
+            {usernameSuccess && <div className={Styles.inputSuccess}>{usernameSuccess}</div>}
+          </div>
+        </div>
+
+        {/* --- Password Change Form --- */}
+        <div className={Styles.card}>
+          <div className={Styles.cardHeader}>
+            <h3>Change Password</h3>
+          </div>
+          <div className={Styles.cardBody}>
+            <form
+              className={Styles.formCol}
+              onSubmit={async e => {
+                e.preventDefault();
+                setPasswordError("");
+                setPasswordSuccess("");
+                if (!currentPassword || !newPassword) {
+                  setPasswordError("All fields required");
+                  return;
+                }
+                if (newPassword !== confirmPass) {
+                  setPasswordError("Passwords do not match");
+                  return;
+                }
+                try {
+                  await changePassword(currentPassword, newPassword);
+                  setPasswordSuccess("Password updated!");
+                  setCurrentPassword(""); setNewPassword(""); setConfirmPass("");
+                  setTimeout(() => setPasswordSuccess(""), 1500);
+                } catch (err) {
+                  setPasswordError(err instanceof Error ? err.message : "Update failed");
+                }
+              }}
+            >
+              <input
+                className={Styles.input}
+                type="password"
+                placeholder="Current password"
+                autoComplete="current-password"
+                value={currentPassword}
+                onChange={e => setCurrentPassword(e.target.value)}
+                disabled={loading}
+                required
+              />
+              <input
+                className={Styles.input}
+                type="password"
+                placeholder="New password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={e => setNewPassword(e.target.value)}
+                disabled={loading}
+                required
+                minLength={6}
+              />
+              <input
+                className={Styles.input}
+                type="password"
+                placeholder="Confirm new password"
+                autoComplete="new-password"
+                value={confirmPass}
+                onChange={e => setConfirmPass(e.target.value)}
+                disabled={loading}
+                required
+                minLength={6}
+              />
+              <button type="submit" className={Styles.primaryBtn} disabled={loading}>
+                Update
+              </button>
+            </form>
+            {passwordError && <div className={Styles.inputError}>{passwordError}</div>}
+            {passwordSuccess && <div className={Styles.inputSuccess}>{passwordSuccess}</div>}
           </div>
         </div>
 
