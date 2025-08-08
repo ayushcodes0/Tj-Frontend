@@ -228,7 +228,7 @@
 .dayPerformanceItem {
   flex: 1;
   min-width: 0;
-  background: var(--dashboard-green-color);
+  background: var(--dashboard-primary-background);
   border-radius: 8px;
   padding: 12px;
   border: 1px solid var(--dashboard-borders);
