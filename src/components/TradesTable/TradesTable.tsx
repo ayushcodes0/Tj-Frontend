@@ -1,3 +1,4 @@
+import { SlOptions } from "react-icons/sl";
 import Styles from "./TradesTable.module.css";
 
 export interface TradeRow {
@@ -72,7 +73,7 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => (
             <td>{riskReward(trade.entry_price, trade.stop_loss, trade.target)}</td>
             <td>{getName(trade.strategy)}</td>
             <td>{getName(trade.outcome_summary)}</td>
-            <td className={Styles.actions}>edit delete</td>
+            <td className={Styles.actions}><SlOptions/></td>
           </tr>
         ))}
       </tbody>
