@@ -25,11 +25,11 @@ th, td {
 
 th {
   font-weight: 600;
-  color: var(--dashboard-primary-text);
+  color: white;
   font-size: 14px;
   letter-spacing: .01em;
   text-transform: uppercase;
-  background-color: var(--dashboard-buttons-hover);
+  background-color: var(--dashboard-green-color);
 }
 
 td{
