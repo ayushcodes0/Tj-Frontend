@@ -23,7 +23,7 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
-  color: var(--dashboard-primary-text);
+  color: white;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--dashboard-borders);
 }
@@ -51,7 +51,7 @@
 
 .cardHeader {
   padding: 16px 20px;
-  background: var(--dashboard-buttons-hover);
+  background: var(--dashboard-green-color);
   border-bottom: 1px solid var(--dashboard-borders);
 }
 
@@ -59,7 +59,7 @@
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: var(--dashboard-primary-text);
+  color: white;
 }
 
 .cardBody {
@@ -125,7 +125,7 @@
 .dataTable th {
   text-align: left;
   padding: 12px;
-  background: var(--dashboard-buttons-hover);
+  background: var(--dashboard-primary-background);
   color: var(--dashboard-primary-text);
   font-weight: 500;
   border: 1px solid var(--dashboard-borders);
