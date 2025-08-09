@@ -493,77 +493,121 @@ const Performance = () => {
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
         <div className={Styles.cardGrid}>
+          {/* Symbol Performance Table */}
           <div className={`${Styles.card} ${Styles.tableCard}`}>
             <div className={Styles.cardHeader}>
               <h3>Symbol Performance</h3>
             </div>
             <div className={Styles.cardBody}>
-              <table className={Styles.dataTable}>
-                <thead>
-                  <tr>
-                    <th>Metric</th>
-                    <th>Symbol</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Most Traded</td>
-                    <td>{stats.mostTraded?.sym}</td>
-                    <td>{stats.mostTraded?.count} trades</td>
-                  </tr>
-                  <tr>
-                    <td>Most Profitable</td>
-                    <td>{stats.mostProf?.sym}</td>
-                    <td className={Styles.positive}>{fmtC(stats.mostProf?.profit)}</td>
-                  </tr>
-                  <tr>
-                    <td>Least Profitable</td>
-                    <td>{stats.leastProf?.sym}</td>
-                    <td className={Styles.negative}>{fmtC(stats.leastProf?.profit)}</td>
-                  </tr>
-                  <tr>
-                    <td>Highest Win Rate</td>
-                    <td>{stats.highestWinr?.sym}</td>
-                    <td className={Styles.positive}>{stats.highestWinr?.winRate.toFixed(1)}%</td>
-                  </tr>
-                  <tr>
-                    <td>Lowest Win Rate</td>
-                    <td>{stats.lowestWinr?.sym}</td>
-                    <td className={Styles.negative}>{stats.lowestWinr?.winRate.toFixed(1)}%</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className={Styles.tableContainer}>
+                <table className={Styles.dataTable}>
+                  <thead>
+                    <tr>
+                      <th>Metric</th>
+                      <th>Symbol</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Most Traded</td>
+                      <td>{stats.mostTraded?.sym}</td>
+                      <td>{stats.mostTraded?.count} trades</td>
+                    </tr>
+                    <tr>
+                      <td>Most Profitable</td>
+                      <td>{stats.mostProf?.sym}</td>
+                      <td className={Styles.positive}>{fmtC(stats.mostProf?.profit)}</td>
+                    </tr>
+                    <tr>
+                      <td>Least Profitable</td>
+                      <td>{stats.leastProf?.sym}</td>
+                      <td className={Styles.negative}>{fmtC(stats.leastProf?.profit)}</td>
+                    </tr>
+                    <tr>
+                      <td>Highest Win Rate</td>
+                      <td>{stats.highestWinr?.sym}</td>
+                      <td className={Styles.positive}>{stats.highestWinr?.winRate.toFixed(1)}%</td>
+                    </tr>
+                    <tr>
+                      <td>Lowest Win Rate</td>
+                      <td>{stats.lowestWinr?.sym}</td>
+                      <td className={Styles.negative}>{stats.lowestWinr?.winRate.toFixed(1)}%</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
+          {/* Strategy Effectiveness Table */}
           <div className={`${Styles.card} ${Styles.tableCard}`}>
             <div className={Styles.cardHeader}>
               <h3>Strategy Effectiveness</h3>
             </div>
             <div className={Styles.cardBody}>
-              <table className={Styles.dataTable}>
-                <thead>
-                  <tr>
-                    <th>Strategy</th>
-                    <th>Win Rate</th>
-                    <th>Trades</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stats.setupStats.map(({ name, winRate, count }) => (
-                    <tr key={name}>
-                      <td>{name}</td>
-                      <td className={winRate >= 50 ? Styles.positive : Styles.negative}>
-                        {winRate.toFixed(1)}%
-                      </td>
-                      <td>{count}</td>
+              <div className={Styles.tableContainer}>
+                <table className={Styles.dataTable}>
+                  <thead>
+                    <tr>
+                      <th>Strategy</th>
+                      <th>Win Rate</th>
+                      <th>Trades</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {stats.setupStats.map(({ name, winRate, count }) => (
+                      <tr key={name}>
+                        <td>{name}</td>
+                        <td className={winRate >= 50 ? Styles.positive : Styles.negative}>
+                          {winRate.toFixed(1)}%
+                        </td>
+                        <td>{count}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
+
+          {/* Weekday Analysis Table - Already wrapped */}
+          <div className={`${Styles.card} ${Styles.tableCard} ${Styles.wideCard}`}>
+            <div className={Styles.cardHeader}>
+              <h3>Performance by Weekday</h3>
+            </div>
+            <div className={Styles.cardBody}>
+              <div className={Styles.tableContainer}>
+                <table className={Styles.dataTable}>
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Trades</th>
+                      <th>P&L</th>
+                      <th>Win Rate</th>
+                      <th>Avg. R:R</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stats.weekdayData.map(d => (
+                      <tr key={d.day}>
+                        <td>{d.day}</td>
+                        <td>{d.trades}</td>
+                        <td className={d.pnl >= 0 ? Styles.positive : Styles.negative}>
+                          {fmtC(d.pnl)}
+                        </td>
+                        <td className={d.winRate >= 50 ? Styles.positive : Styles.negative}>
+                          {d.winRate ? d.winRate.toFixed(1) + "%" : "--"}
+                        </td>
+                        <td>{d.avgRr ? d.avgRr.toFixed(2) : "--"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -576,36 +620,39 @@ const Performance = () => {
               <h3>Performance by Weekday</h3>
             </div>
             <div className={Styles.cardBody}>
-              <table className={Styles.dataTable}>
-                <thead>
-                  <tr>
-                    <th>Day</th>
-                    <th>Trades</th>
-                    <th>P&L</th>
-                    <th>Win Rate</th>
-                    <th>Avg. R:R</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stats.weekdayData.map(d => (
-                    <tr key={d.day}>
-                      <td>{d.day}</td>
-                      <td>{d.trades}</td>
-                      <td className={d.pnl >= 0 ? Styles.positive : Styles.negative}>
-                        {fmtC(d.pnl)}
-                      </td>
-                      <td className={d.winRate >= 50 ? Styles.positive : Styles.negative}>
-                        {d.winRate ? d.winRate.toFixed(1) + "%" : "--"}
-                      </td>
-                      <td>{d.avgRr ? d.avgRr.toFixed(2) : "--"}</td>
+              <div className={Styles.tableContainer}>
+                <table className={Styles.dataTable}>
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Trades</th>
+                      <th>P&L</th>
+                      <th>Win Rate</th>
+                      <th>Avg. R:R</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {stats.weekdayData.map(d => (
+                      <tr key={d.day}>
+                        <td>{d.day}</td>
+                        <td>{d.trades}</td>
+                        <td className={d.pnl >= 0 ? Styles.positive : Styles.negative}>
+                          {fmtC(d.pnl)}
+                        </td>
+                        <td className={d.winRate >= 50 ? Styles.positive : Styles.negative}>
+                          {d.winRate ? d.winRate.toFixed(1) + "%" : "--"}
+                        </td>
+                        <td>{d.avgRr ? d.avgRr.toFixed(2) : "--"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 };

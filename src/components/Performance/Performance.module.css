@@ -44,6 +44,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .cardHeader {
@@ -64,6 +65,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .statRow {
@@ -109,10 +112,10 @@
 }
 
 .tableContainer {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow-x: visible;
   border-radius: 8px;
   border: 1px solid var(--dashboard-borders);
+  max-width: 100%;
 }
 
 .dataTable {
@@ -142,6 +145,7 @@
   background: var(--dashboard-primary-background);
   border-bottom: 1px solid var(--dashboard-borders);
   border-right: 1px solid var(--dashboard-borders);
+  white-space: nowrap;
 }
 
 .dataTable td:last-child {
@@ -183,7 +187,6 @@
 .dayPerformance {
   display: flex;
   gap: 16px;
-  flex-wrap: wrap;
 }
 
 .dayPerformanceItem {
@@ -254,24 +257,25 @@
     min-width: 100%;
   }
 
+  .tableContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
   .dataTable {
     font-size: 13px;
+    min-width: 450px;
   }
 
   .dataTable th,
   .dataTable td {
     padding: 10px 8px;
-    white-space: normal;
-    word-break: break-word;
-  }
-
-  .dayPerformance {
-    flex-direction: column;
-    gap: 12px;
+    white-space: nowrap;
+    min-width: 80px;
   }
 
   .dayPerformanceItem {
-    min-width: 100%;
     flex: none;
   }
 
@@ -299,13 +303,22 @@
     padding: 10px 16px;
   }
 
+  .tableContainer {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
   .dataTable {
     font-size: 12px;
+    min-width: 400px;
   }
 
   .dataTable th,
   .dataTable td {
     padding: 8px 6px;
+    white-space: nowrap;
+    min-width: 70px;
   }
 
   .dayPerformanceItem {
@@ -332,10 +345,22 @@
     padding: 8px;
   }
 
+  .tableContainer {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .dataTable {
+    min-width: 350px;
+    font-size: 11px;
+  }
+
   .dataTable th,
   .dataTable td {
     padding: 6px 4px;
-    font-size: 11px;
+    white-space: nowrap;
+    min-width: 60px;
   }
 
   .cardBody {
