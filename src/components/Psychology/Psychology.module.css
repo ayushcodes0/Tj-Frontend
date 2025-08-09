@@ -3,26 +3,29 @@
   width: 100%;
   min-height: 100vh;
   background: var(--dashboard-right-background);
-  padding: 24px 32px;
+  padding: 20px;
   box-sizing: border-box;
   color: var(--dashboard-primary-text);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .pageTitle {
   font-size: 28px;
   font-weight: 600;
-  margin-bottom: 32px;
   color: var(--dashboard-primary-text);
 }
 
 .section {
-  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .sectionTitle {
   font-size: 20px;
   font-weight: 600;
-  margin-bottom: 16px;
   color: white;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--dashboard-borders);
@@ -32,7 +35,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 20px;
-  margin-bottom: 24px;
 }
 
 .card {
@@ -50,13 +52,12 @@
 }
 
 .cardHeader {
-  padding: 16px 20px;
+  padding: 12px 20px;
   background: var(--dashboard-green-color);
   border-bottom: 1px solid var(--dashboard-borders);
 }
 
 .cardHeader h3 {
-  margin: 0;
   font-size: 16px;
   font-weight: 600;
   color: white;
@@ -74,19 +75,20 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 0;
 }
 
 .statItem {
   flex: 1;
   min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .statLabel {
   display: block;
   font-size: 13px;
   color: var(--dashboard-secondary-text);
-  margin-bottom: 4px;
 }
 
 .statValue {
@@ -105,13 +107,12 @@
 .unit {
   color: var(--dashboard-secondary-text);
   font-size: 12px;
-  margin-left: 2px;
+  padding-left: 2px;
 }
 
 .tableContainer {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin-top: 8px;
   border-radius: 8px;
   border: 1px solid var(--dashboard-borders);
 }
@@ -120,6 +121,7 @@
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  border: none;
 }
 
 .dataTable th {
@@ -128,13 +130,27 @@
   background: var(--dashboard-primary-background);
   color: var(--dashboard-primary-text);
   font-weight: 500;
-  border: 1px solid var(--dashboard-borders);
+  border-right: 1px solid var(--dashboard-borders);
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.dataTable th:last-child {
+  border-right: none;
 }
 
 .dataTable td {
   padding: 12px;
-  border: 1px solid var(--dashboard-borders);
   background: var(--dashboard-primary-background);
+  border-right: 1px solid var(--dashboard-borders);
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.dataTable td:last-child {
+  border-right: none;
+}
+
+.dataTable tr:last-child td {
+  border-bottom: none;
 }
 
 .emptyState {
@@ -151,6 +167,7 @@
 @media (max-width: 768px) {
   .performancePage {
     padding: 16px;
+    gap: 24px;
   }
   
   .cardGrid {
