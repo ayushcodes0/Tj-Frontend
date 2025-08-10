@@ -158,12 +158,21 @@ useEffect(() => {
     setIsMobileDrawerOpen(prev => !prev);
   }, []);
 
-  const gradientColors: string[] = [
-    "linear-gradient(#d9edca, #fff3d6)",
-    "linear-gradient(#f7eae4, #DBDEF0)",
-    "linear-gradient(#c3cdf4, #fed0b9)",
-    "linear-gradient(#230b5b, #4840ba)"
-  ];
+  // const gradientColors: string[] = [
+  //   "linear-gradient(#d9edca, #fff3d6)",
+  //   "linear-gradient(#f7eae4, #DBDEF0)",
+  //   "linear-gradient(#c3cdf4, #fed0b9)",
+  //   "linear-gradient(#230b5b, #4840ba)"
+  // ];
+
+const gradientColors: string[] = [
+    "linear-gradient(#C8E1FF, #E8F4FF)",   // Light pure blue to very light blue
+    "linear-gradient(#DDEEFF, #C2DDFF)",   // Soft blue to light blue with more saturation
+    "linear-gradient(#85A9DD, #B8CEFF)",   // Medium blue to light blue (more vibrant)
+    "linear-gradient(#0A3D7A, #1255CC)"    // Dark blue to brighter primary blue
+];
+
+
 
   const menuItems = [
     { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor1.' },
@@ -173,7 +182,7 @@ useEffect(() => {
   ];
 
   return (
-    <div className={Styles.landingPageContainer}>
+    <div className={Styles.landingPageContainer}> 
       <div className={Styles.landingPageHero}>
         <div className={Styles.topBannerContainer}>
           <TopBanner />

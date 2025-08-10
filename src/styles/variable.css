@@ -163,17 +163,38 @@
   --tk-affordability-unaffordable: #747387;
 
 
-  --nav-grad-start: #3B2B7C;
+  /* --nav-grad-start: #3B2B7C;
   --nav-grad-middle: #43369D;
   --nav-grad-end: #3B2B7C;
   --primary-text: #4840BB;
   --primary-white: #F0F0F2;
   --tag-color: #BDC6F5;
-  --primary-dark-text: #230B58;
+  --primary-dark-text: #230B58; */
+
+  /* --nav-grad-start: #0B6B5D;
+  --nav-grad-middle: #0D9888;
+  --nav-grad-end: #0B6B5D;
+  --primary-text: #118A73;
+  --primary-white: #F0F2F1;
+  --tag-color: #B3D9D0;
+  --primary-dark-text: #064A40; */
+
+  --nav-grad-start: #073A85;
+  --nav-grad-middle: #0A4EAD;
+  --nav-grad-end: #073A85;
+  --primary-text: #0A4EAD;
+  --primary-white: #FAFBFC;
+  --tag-color: #9AAFCE;
+  --primary-dark-text: #052A5C;
+
+
+
+
 
   /* Gradients */
   --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));
-  --tk-gradient-soft: linear-gradient(to right, #f7eae4, #DBDEF0);
+  /* --tk-gradient-soft: linear-gradient(to right, #f7eae4, #DBDEF0); */
+  --tk-gradient-soft: linear-gradient(to right, #E6F2FF, #D5E7FA);
   --tk-gradient-vibrant: linear-gradient(#c3cdf4, #fed0b9);
   --tk-gradient-aqua: linear-gradient(#c3cdf4, #d9edca);
   --tk-gradient-day: linear-gradient(#d9edca, #fff3d6);
