@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar"; 
+import NewTradePopup from "../../components/NewTradePopup/NewTradePopup"; // Add this import
 import Styles from './DashboardLayout.module.css';
 import { PiSidebar } from "react-icons/pi";
 import { RiDashboardLine } from "react-icons/ri";
@@ -10,6 +11,7 @@ const COLLAPSE_BREAKPOINT = 1000;
 
 const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth < COLLAPSE_BREAKPOINT);
+  const [showNewTradePopup, setShowNewTradePopup] = useState(false); // Add this state
   const location = useLocation();
 
   // Responsive/auto collapse handler
@@ -28,6 +30,16 @@ const DashboardLayout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Handler to open the popup
+  const handleNewTradeClick = () => {
+    setShowNewTradePopup(true);
+  };
+
+  // Handler to close the popup
+  const handleClosePopup = () => {
+    setShowNewTradePopup(false);
+  };
+
   return (
     <div className={Styles.dashboardContainer}>
       {/* Sidebar */}
@@ -42,6 +54,7 @@ const DashboardLayout = () => {
         </div>
         <Sidebar />
       </div>
+      
       {/* Main Content */}
       <div className={`${Styles.dashboardContent} ${
         sidebarCollapsed ? Styles.expand : ''
@@ -63,7 +76,9 @@ const DashboardLayout = () => {
                 <p className={Styles.url}>{location.pathname}</p>
               </div>
             </div>
-            <div className={Styles.dashboardRight}>
+            
+            {/* Add onClick handler here */}
+            <div className={Styles.dashboardRight} onClick={handleNewTradeClick}>
               <div className={Styles.plusContainer}>
                 <GoPlus className={Styles.plusIcon} />
               </div>
@@ -73,6 +88,11 @@ const DashboardLayout = () => {
         </div>
         <Outlet />
       </div>
+
+      {/* Conditionally render the popup */}
+      {showNewTradePopup && (
+        <NewTradePopup onClose={handleClosePopup} />
+      )}
     </div>
   );
 };
