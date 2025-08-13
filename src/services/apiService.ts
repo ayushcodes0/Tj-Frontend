@@ -36,7 +36,7 @@ export const fetchOptions = async (type: 'Strategy' | 'OutcomeSummary' | 'RulesF
 
 // --- NEW UNIFIED ADD FUNCTION ---
 // Replaces addStrategy, addRulesFollowed, etc.
-export const addOption = async (type: 'Strategy' | 'RulesFollowed', name: string): Promise<Option> => {
+export const addOption = async (type: 'Strategy' | 'RulesFollowed' | 'EmotionalState', name: string): Promise<Option> => {
   const response = await fetch(`${API_BASE_URL}/api/options`, {
     method: 'POST',
     headers: getAuthHeaders(),
