@@ -131,6 +131,11 @@
   font-weight: 500;
 }
 
+.required {
+  color: #dc3545;
+  margin-left: 4px;
+}
+
 .formGroup input,
 .formGroup select,
 .formGroup textarea,
@@ -159,7 +164,7 @@
 .formGroup textarea:focus {
   outline: none;
   border-color: var(--dashboard-userIcon-color, #007bff);
-  box-shadow: 0 0 0 3px rgba(var(--dashboard-userIcon-color, 0, 123, 255), 0.1);
+  box-shadow: 0 0 0 3px rgba(0,123,255, 0.1);
 }
 
 .formGroup textarea {
@@ -217,6 +222,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 4px;
 }
 
 .directionBtn.active {
@@ -251,6 +257,39 @@
   height: 16px;
   accent-color: var(--dashboard-userIcon-color, #007bff);
 }
+
+.addCustomContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.addCustomContainer input {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 8px 10px;
+  border: 1px solid #e1e5e9;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.addCustomContainer button {
+  padding: 8px 12px;
+  background: #6c757d;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.addCustomContainer button:hover {
+  opacity: 0.9;
+}
+
 
 .tagInputContainer {
   display: flex;

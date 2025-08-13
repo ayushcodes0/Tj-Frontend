@@ -32,19 +32,18 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     psychology: { entry_confidence_level: 5, satisfaction_rating: 5, emotional_state: '', mistakes_made: [], lessons_learned: '' }
   });
 
-  // State for dropdown options fetched from the backend
+  // State is now initialized with empty arrays. The API will populate them.
   const [strategies, setStrategies] = useState<Option[]>([]);
   const [outcomeSummaries, setOutcomeSummaries] = useState<Option[]>([]);
   const [rulesOptions, setRulesOptions] = useState<Option[]>([]);
   const [emotionalStates, setEmotionalStates] = useState<Option[]>([]);
   
-  // State for user inputs for new custom options
   const [newCustomStrategyName, setNewCustomStrategyName] = useState('');
   const [newCustomRuleName, setNewCustomRuleName] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newMistake, setNewMistake] = useState('');
 
-  // Fetch all dropdown options from the backend when the component mounts
+  // Fetch all options from the backend. No more frontend defaults.
   useEffect(() => {
     const loadOptions = async () => {
       try {
@@ -55,7 +54,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           fetchOptions('EmotionalState')
         ]);
 
-        // Defensively set state to prevent ".map is not a function" error
+        // Directly set state from the API response.
         setStrategies(Array.isArray(strategiesData) ? strategiesData : []);
         setOutcomeSummaries(Array.isArray(outcomesData) ? outcomesData : []);
         setRulesOptions(Array.isArray(rulesData) ? rulesData : []);
@@ -64,17 +63,12 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
       } catch (error) {
         console.error('Failed to fetch options:', error);
         alert('Could not load trading options. Please check your connection and try again.');
-        // Ensure states are empty arrays on error
-        setStrategies([]);
-        setOutcomeSummaries([]);
-        setRulesOptions([]);
-        setEmotionalStates([]);
       }
     };
     loadOptions();
-  }, []);
+  }, []); // Empty dependency array ensures this runs only once on mount.
 
-  // Auto-calculation logic for P&L, etc.
+  // Auto-calculation logic for P&L (No changes needed here)
   useEffect(() => {
     const { quantity, entry_price, exit_price, direction } = formData;
     const numQuantity = quantity ?? 0;
@@ -94,89 +88,81 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     }));
   }, [formData.quantity, formData.entry_price, formData.exit_price, formData.direction]);
 
-  // --- Type-Safe Input Handlers ---
-  const handleUpdateField = useCallback(<K extends keyof TradeFormData>(
-    field: K,
-    value: TradeFormData[K]
-  ) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  // --- Type-Safe Input Handlers (No changes needed here) ---
+  const handleUpdateField = useCallback(<K extends keyof TradeFormData>(field: K, value: TradeFormData[K]) => {
+      setFormData(prev => ({ ...prev, [field]: value }));
   }, []);
 
   const handlePsychologyChange = useCallback((value: Partial<TradeFormData['psychology']>) => {
-    setFormData(prev => ({ ...prev, psychology: { ...prev.psychology, ...value } }));
+      setFormData(prev => ({ ...prev, psychology: { ...prev.psychology, ...value } }));
   }, []);
 
-  const handleNumberInputChange = (
-    field: 'quantity' | 'entry_price' | 'exit_price' | 'stop_loss' | 'target' | 'holding_period_minutes',
-    value: string
-  ) => {
-    handleUpdateField(field, value === '' ? null : Number(value));
+  const handleNumberInputChange = (field: 'quantity' | 'entry_price' | 'exit_price' | 'stop_loss' | 'target' | 'holding_period_minutes', value: string) => {
+      handleUpdateField(field, value === '' ? null : Number(value));
   };
 
   const handleMultiSelect = useCallback((ruleId: string) => {
-    const currentValues = formData.rules_followed;
-    const newValues = currentValues.includes(ruleId) ? currentValues.filter(id => id !== ruleId) : [...currentValues, ruleId];
-    handleUpdateField('rules_followed', newValues);
+      const currentValues = formData.rules_followed;
+      const newValues = currentValues.includes(ruleId) ? currentValues.filter(id => id !== ruleId) : [...currentValues, ruleId];
+      handleUpdateField('rules_followed', newValues);
   }, [formData.rules_followed, handleUpdateField]);
 
   const addTag = useCallback(() => {
-    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
-      handleUpdateField('tags', [...formData.tags, newTag.trim()]);
-      setNewTag('');
-    }
+      if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
+          handleUpdateField('tags', [...formData.tags, newTag.trim()]);
+          setNewTag('');
+      }
   }, [newTag, formData.tags, handleUpdateField]);
 
   const removeTag = useCallback((tag: string) => {
-    handleUpdateField('tags', formData.tags.filter(t => t !== tag));
+      handleUpdateField('tags', formData.tags.filter(t => t !== tag));
   }, [formData.tags, handleUpdateField]);
 
   const addMistake = useCallback(() => {
-    if (newMistake.trim() && !formData.psychology.mistakes_made.includes(newMistake.trim())) {
-      handlePsychologyChange({ mistakes_made: [...formData.psychology.mistakes_made, newMistake.trim()] });
-      setNewMistake('');
-    }
-  }, [newMistake, formData.psychology.mistakes_made, handlePsychologyChange]);
+      if (newMistake.trim() && !formData.psychology.mistakes_made.includes(newMistake.trim())) {
+          handlePsychologyChange({ mistakes_made: [...formData.psychology.mistakes_made, newMistake.trim()] });
+          setNewMistake('');
+      }
+  }, [newMistake, formData.psychology.mistakes_made]);
 
   const removeMistake = useCallback((mistake: string) => {
-    handlePsychologyChange({ mistakes_made: formData.psychology.mistakes_made.filter(m => m !== mistake) });
-  }, [formData.psychology.mistakes_made, handlePsychologyChange]);
+      handlePsychologyChange({ mistakes_made: formData.psychology.mistakes_made.filter(m => m !== mistake) });
+  }, [formData.psychology.mistakes_made]);
 
-  // --- API Handlers for Adding Custom Options ---
   const handleAddCustomStrategy = async () => {
-    if (!newCustomStrategyName.trim()) return;
-    try {
-      const newOption = await addOption('Strategy', newCustomStrategyName.trim());
-      setStrategies(prev => [...prev, newOption]);
-      handleUpdateField('strategy', newOption._id);
-      setNewCustomStrategyName('');
-    } catch (error) {
-      alert(`Failed to add strategy: ${error}`);
-    }
+      if (!newCustomStrategyName.trim()) return;
+      try {
+          const newOption = await addOption('Strategy', newCustomStrategyName.trim());
+          setStrategies(prev => [...prev, newOption]);
+          handleUpdateField('strategy', newOption._id);
+          setNewCustomStrategyName('');
+      } catch (error) {
+          alert(`Failed to add strategy: ${error}`);
+      }
   };
 
   const handleAddCustomRule = async () => {
-    if (!newCustomRuleName.trim()) return;
-    try {
-      const newOption = await addOption('RulesFollowed', newCustomRuleName.trim());
-      setRulesOptions(prev => [...prev, newOption]);
-      handleMultiSelect(newOption._id);
-      setNewCustomRuleName('');
-    } catch (error) {
-      alert(`Failed to add rule: ${error}`);
-    }
+      if (!newCustomRuleName.trim()) return;
+      try {
+          const newOption = await addOption('RulesFollowed', newCustomRuleName.trim());
+          setRulesOptions(prev => [...prev, newOption]);
+          handleMultiSelect(newOption._id);
+          setNewCustomRuleName('');
+      } catch (error) {
+          alert(`Failed to add rule: ${error}`);
+      }
   };
 
-  // --- Form Submission Handler ---
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await saveTrade(formData);
-      alert('Trade saved successfully!');
-      onClose();
-    } catch (error) {
-      console.error('Failed to save trade:', error);
-      alert(`Failed to save trade: ${error}`);
-    }
+      e.preventDefault();
+      try {
+          await saveTrade(formData);
+          alert('Trade saved successfully!');
+          onClose();
+      } catch (error) {
+          console.error('Failed to save trade:', error);
+          alert(`Failed to save trade: ${error}`);
+      }
   };
 
   return (
