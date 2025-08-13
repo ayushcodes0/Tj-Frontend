@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar"; 
-import NewTradePopup from "../../components/NewTradePopup/NewTradePopup"; // Add this import
+import NewTradePopup from "../../components/NewTradePopup/NewTradePopup";
 import Styles from './DashboardLayout.module.css';
 import { PiSidebar } from "react-icons/pi";
 import { RiDashboardLine } from "react-icons/ri";
@@ -11,26 +11,19 @@ const COLLAPSE_BREAKPOINT = 1000;
 
 const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth < COLLAPSE_BREAKPOINT);
-  const [showNewTradePopup, setShowNewTradePopup] = useState(false); // Add this state
+  const [showNewTradePopup, setShowNewTradePopup] = useState(false);
   const location = useLocation();
 
-  // Responsive/auto collapse handler
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < COLLAPSE_BREAKPOINT) {
-        setSidebarCollapsed(true);
-      } else {
-        setSidebarCollapsed(false);
-      }
+      setSidebarCollapsed(window.innerWidth < COLLAPSE_BREAKPOINT);
     };
     window.addEventListener("resize", handleResize);
-
-    // Initial check (in case user changes orientation or loads at small size)
-    handleResize();
+    handleResize(); // Initial check
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handler to open the popup
+  // Handler to open the popup, passed to children
   const handleNewTradeClick = () => {
     setShowNewTradePopup(true);
   };
@@ -52,7 +45,8 @@ const DashboardLayout = () => {
         >
           <PiSidebar className={Styles.sidebarIcon} />
         </div>
-        <Sidebar />
+        {/* Pass the click handler down to the Sidebar */}
+        <Sidebar onNewTradeClick={handleNewTradeClick} />
       </div>
       
       {/* Main Content */}
@@ -77,7 +71,7 @@ const DashboardLayout = () => {
               </div>
             </div>
             
-            {/* Add onClick handler here */}
+            {/* The main "New trade" button in the navbar */}
             <div className={Styles.dashboardRight} onClick={handleNewTradeClick}>
               <div className={Styles.plusContainer}>
                 <GoPlus className={Styles.plusIcon} />

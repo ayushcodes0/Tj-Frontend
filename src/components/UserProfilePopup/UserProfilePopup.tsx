@@ -10,9 +10,18 @@ import { TbCalendarMonthFilled } from 'react-icons/tb';
 interface UserProfilePopupProps {
   onClose: () => void;
   user: User | null;    
+  // Accept the new prop from Sidebar
+  onNewTradeClick: () => void;
 }
 
-const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) => {
+const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose, onNewTradeClick }) => {
+  
+  // Create a handler that performs both actions
+  const handleNewTrade = () => {
+    onClose(); // Close this popup first
+    onNewTradeClick(); // Then trigger the parent to open the NewTradePopup
+  };
+
   return (
     <div className={Styles.popupOverlay} onClick={onClose}>
       <div className={Styles.userProfilePopup} onClick={e => e.stopPropagation()}>
@@ -27,56 +36,31 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose }) =>
               </div>
           </div>
           <div className={Styles.popupNav}>
-              <NavLink
-                    to="/dashboard/performance"
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.performanceLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
+              <NavLink to="/dashboard/performance" onClick={onClose} className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                     <IoStatsChartSharp className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Performance</span>
-                </NavLink>
-              <NavLink
-                  to="/dashboard/trades"
-                  onClick={onClose}
-                  className={({ isActive }) =>
-                  `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
-                          }
-              >
+              </NavLink>
+              <NavLink to="/dashboard/trades" onClick={onClose} className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                   <FaArrowTrendUp className={Styles.sideIcon} />
                   <span className={Styles.navTexts}>Trades</span>
               </NavLink>
-              <NavLink
-                    to="/dashboard/ai-insights"
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.aiInsightsLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
+              <NavLink to="/dashboard/ai-insights" onClick={onClose} className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                     <FaRegLightbulb className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>AI Insights</span>
-                </NavLink>
+              </NavLink>
           </div>
           <div className={`${Styles.popupNav} ${Styles.secondPopupNav}`}>
-              <NavLink
-                    to="/dashboard/calendar"
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.tradesLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
+              <NavLink to="/dashboard/calendar" onClick={onClose} className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                     <TbCalendarMonthFilled className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Calendar</span>
-                </NavLink>
-              <NavLink
-                    to="/dashboard/settings"
-                    className={({ isActive }) =>
-                    `${Styles.sidebarNavLink} ${Styles.settingsLink} ${isActive ? Styles.active : ""}`
-                    }
-                >
+              </NavLink>
+              <NavLink to="/dashboard/settings" onClick={onClose} className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                     <IoSettingsOutline className={Styles.sideIcon} />
                     <span className={Styles.navTexts}>Settings</span>
               </NavLink>
           </div>
-          <div className={Styles.popupBottom}>
+          {/* Attach the new handler to the button's onClick event */}
+          <div className={Styles.popupBottom} onClick={handleNewTrade}>
               <div className={Styles.bottomItems}>
                   <div className={Styles.plusIconContainer}><GoPlus className={Styles.plusIcon} /></div>
                   <p className={Styles.popupBottomText}>New trade</p>
