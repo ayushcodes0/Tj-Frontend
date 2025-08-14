@@ -142,7 +142,7 @@
   color: #495057;
   font-size: 0.85rem;
   font-weight: 600;
-  cursor: pointer; /* Makes the entire label area clickable */
+  cursor: pointer;
 }
 
 .required {
@@ -225,14 +225,59 @@
   border-color: var(--dashboard-userIcon-color, #007bff);
 }
 
-/* This is the final, reliable fix for the date input */
 .dateInput {
-  color-scheme: light; /* Ensures consistent picker appearance */
+  color-scheme: light;
 }
+
 .dateInput:required:invalid {
   color: #adb5bd;
 }
 
+/* --- FIX: Professional Pill Design for Checkboxes --- */
+.multiSelectContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  font-size: 0.875rem;
+  color: #495057;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.checkboxLabel:hover {
+  border-color: #adb5bd;
+}
+
+/* Hide the actual checkbox input */
+.checkboxLabel input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Style the label when its hidden checkbox is checked */
+.checkboxLabel:has(input:checked) {
+  background-color: #e7f5ff; /* A light blue */
+  border-color: var(--dashboard-userIcon-color, #007bff);
+  color: var(--dashboard-userIcon-color, #007bff);
+  font-weight: 600;
+}
+
+
+.addCustomContainer {
+  margin-top: 12px;
+}
 
 .tagInputContainer,
 .addCustomContainer {
@@ -298,34 +343,6 @@
 .tag button:hover {
   background: #dee2e6;
   color: #495057;
-}
-
-.multiSelectContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 4px 16px;
-}
-
-.checkboxLabel {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: #343a40;
-  padding: 6px 4px;
-}
-
-.checkboxLabel input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  margin-top: 3px;
-  accent-color: var(--dashboard-userIcon-color, #007bff);
-}
-
-.addCustomContainer {
-  margin-top: 12px;
 }
 
 .formGroup input[type="range"] {
