@@ -26,7 +26,6 @@ const initialFormData: TradeFormData = {
   psychology: { entry_confidence_level: 5, satisfaction_rating: 5, emotional_state: '', mistakes_made: [], lessons_learned: '' }
 };
 
-// Helper function to calculate and return the style for the range input progress
 const getRangeProgressStyle = (value: number, min: number, max: number) => {
   const progress = ((value - min) / (max - min)) * 100;
   return { '--progress-percent': `${progress}%` } as React.CSSProperties;
@@ -76,8 +75,10 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     loadOptions();
   }, []);
 
+  // --- FIX 1: Linter warning for useEffect dependencies ---
+  // Destructure the needed values from formData *outside* the effect.
+  const { quantity, entry_price, exit_price, direction } = formData;
   useEffect(() => {
-    const { quantity, entry_price, exit_price, direction } = formData;
     const numQuantity = quantity ?? 0;
     const numEntryPrice = entry_price ?? 0;
     const numExitPrice = exit_price ?? 0;
@@ -88,7 +89,9 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     }
     const newPnlPercentage = newTotalAmount !== 0 ? (newPnlAmount / newTotalAmount) * 100 : 0;
     setFormData(prev => ({ ...prev, total_amount: parseFloat(newTotalAmount.toFixed(2)), pnl_amount: parseFloat(newPnlAmount.toFixed(2)), pnl_percentage: parseFloat(newPnlPercentage.toFixed(2)) }));
-  }, [formData.quantity, formData.entry_price, formData.exit_price, formData.direction]);
+  // Now, the hook only depends on the primitive values, which satisfies the linter and prevents loops.
+  }, [quantity, entry_price, exit_price, direction]);
+
 
   const handleUpdateField = useCallback(<K extends keyof TradeFormData>(field: K, value: TradeFormData[K]) => {
       setFormData(prev => ({ ...prev, [field]: value }));
@@ -113,15 +116,20 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
   const removeTag = useCallback((tag: string) => {
       handleUpdateField('tags', formData.tags.filter(t => t !== tag));
   }, [formData.tags, handleUpdateField]);
+  
+  // --- FIX 2: Linter warning for useCallback dependencies ---
   const addMistake = useCallback(() => {
       if (newMistake.trim() && !formData.psychology.mistakes_made.includes(newMistake.trim())) {
           handlePsychologyChange({ mistakes_made: [...formData.psychology.mistakes_made, newMistake.trim()] });
           setNewMistake('');
       }
-  }, [newMistake, formData.psychology.mistakes_made]);
+  }, [newMistake, formData.psychology.mistakes_made, handlePsychologyChange]);
+  
+  // --- FIX 3: Linter warning for useCallback dependencies ---
   const removeMistake = useCallback((mistake: string) => {
       handlePsychologyChange({ mistakes_made: formData.psychology.mistakes_made.filter(m => m !== mistake) });
-  }, [formData.psychology.mistakes_made]);
+  }, [formData.psychology.mistakes_made, handlePsychologyChange]);
+
   const handleAddCustomStrategy = async () => {
       if (!newCustomStrategyName.trim()) return;
       try {
