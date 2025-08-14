@@ -69,12 +69,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
       newPnlAmount = direction === 'Long' ? (numExitPrice - numEntryPrice) * numQuantity : (numEntryPrice - numExitPrice) * numQuantity;
     }
     const newPnlPercentage = newTotalAmount !== 0 ? (newPnlAmount / newTotalAmount) * 100 : 0;
-    setFormData(prev => ({
-      ...prev,
-      total_amount: parseFloat(newTotalAmount.toFixed(2)),
-      pnl_amount: parseFloat(newPnlAmount.toFixed(2)),
-      pnl_percentage: parseFloat(newPnlPercentage.toFixed(2))
-    }));
+    setFormData(prev => ({ ...prev, total_amount: parseFloat(newTotalAmount.toFixed(2)), pnl_amount: parseFloat(newPnlAmount.toFixed(2)), pnl_percentage: parseFloat(newPnlPercentage.toFixed(2)) }));
   }, [formData.quantity, formData.entry_price, formData.exit_price, formData.direction]);
 
   const handleUpdateField = useCallback(<K extends keyof TradeFormData>(field: K, value: TradeFormData[K]) => {
@@ -116,9 +111,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setStrategies(prev => [...prev, newOption]);
           handleUpdateField('strategy', newOption._id);
           setNewCustomStrategyName('');
-      } catch (error) {
-          alert(`Failed to add strategy: ${error}`);
-      }
+      } catch (error) { alert(`Failed to add strategy: ${error}`); }
   };
   const handleAddCustomRule = async () => {
       if (!newCustomRuleName.trim()) return;
@@ -127,9 +120,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setRulesOptions(prev => [...prev, newOption]);
           handleMultiSelect(newOption._id);
           setNewCustomRuleName('');
-      } catch (error) {
-          alert(`Failed to add rule: ${error}`);
-      }
+      } catch (error) { alert(`Failed to add rule: ${error}`); }
   };
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -137,10 +128,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           await saveTrade(formData);
           alert('Trade saved successfully!');
           onClose();
-      } catch (error) {
-          console.error('Failed to save trade:', error);
-          alert(`Failed to save trade: ${error}`);
-      }
+      } catch (error) { console.error('Failed to save trade:', error); alert(`Failed to save trade: ${error}`); }
   };
 
   return (
@@ -156,10 +144,18 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
             <div className={Styles.formContent}>
               <div className={Styles.section}>
                 <h3>Trade Details</h3>
-                {/* --- FIX: Added a specific class for the 4-column layout --- */}
                 <div className={`${Styles.formGrid} ${Styles.tradeDetailsGrid}`}>
                   <div className={Styles.formGroup}><label>Symbol <span className={Styles.required}>*</span></label><input type="text" value={formData.symbol} onChange={(e) => handleUpdateField('symbol', e.target.value)} required /></div>
-                  <div className={Styles.formGroup}><label>Date <span className={Styles.required}>*</span></label><input type="datetime-local" value={formData.date} onChange={(e) => handleUpdateField('date', e.target.value)} required /></div>
+                  <div className={Styles.formGroup}>
+                    <label>Date <span className={Styles.required}>*</span></label>
+                    <input 
+                        type="datetime-local" 
+                        value={formData.date} 
+                        onChange={(e) => handleUpdateField('date', e.target.value)}
+                        required 
+                        className={Styles.dateInput}
+                    />
+                  </div>
                   <div className={Styles.formGroup}><label>Quantity <span className={Styles.required}>*</span></label><input type="number" value={formData.quantity ?? ''} onChange={(e) => handleNumberInputChange('quantity', e.target.value)} required /></div>
                   <div className={Styles.formGroup}><label>Direction <span className={Styles.required}>*</span></label><div className={Styles.directionContainer}><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Long' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Long')}><IoMdArrowDropup /> Long</button><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Short' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Short')}><IoMdArrowDropdown /> Short</button></div></div>
                   <div className={Styles.formGroup}><label>Entry Price <span className={Styles.required}>*</span></label><input type="number" step="0.01" value={formData.entry_price ?? ''} onChange={(e) => handleNumberInputChange('entry_price', e.target.value)} required /></div>
@@ -169,8 +165,6 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
                   <div className={Styles.formGroup}><label>Total Amount</label><div className={Styles.calculatedField}>₹{formData.total_amount.toFixed(2)}</div></div>
                 </div>
               </div>
-
-              {/* Other sections remain the same */}
               <div className={Styles.section}>
                 <h3>Strategy & Analysis</h3>
                 <div className={Styles.sectionContent}>

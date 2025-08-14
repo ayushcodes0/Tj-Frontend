@@ -1,4 +1,3 @@
-/* --- Main Layout --- */
 .overlay {
   position: fixed;
   top: 0;
@@ -17,7 +16,7 @@
   background: var(--dashboard-primary-background, #fff);
   border-radius: 8px;
   width: 100%;
-  max-width: 950px; /* Wider to accommodate 4 columns */
+  max-width: 950px;
   max-height: 90vh;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   display: flex;
@@ -25,7 +24,6 @@
   overflow: hidden;
 }
 
-/* --- Header & Tabs --- */
 .header {
   display: flex;
   justify-content: space-between;
@@ -85,7 +83,6 @@
   border-bottom-color: var(--dashboard-userIcon-color, #007bff);
 }
 
-/* --- Form Layout & Spacing (More Compact) --- */
 .form {
   display: flex;
   flex-direction: column;
@@ -125,14 +122,13 @@
   gap: 16px 20px;
 }
 
-/* FIX: Specific 4-column layout for Trade Details on wider screens */
 .tradeDetailsGrid {
-  grid-template-columns: repeat(2, 1fr); /* Default to 2 columns */
+  grid-template-columns: repeat(2, 1fr);
 }
 
 @media (min-width: 900px) {
   .tradeDetailsGrid {
-    grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -142,7 +138,6 @@
   gap: 6px;
 }
 
-/* --- Compact & Consistent Input Styling --- */
 .formGroup label {
   color: #495057;
   font-size: 0.85rem;
@@ -173,11 +168,6 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.directionContainer{
-  padding: 0;
-  border: none;
-}
-
 .formGroup input:focus,
 .formGroup select:focus,
 .formGroup textarea:focus,
@@ -205,6 +195,8 @@
 .directionContainer {
   display: flex;
   gap: 6px;
+  padding: 0;
+  border: none;
 }
 
 .directionBtn {
@@ -231,7 +223,36 @@
   border-color: var(--dashboard-userIcon-color, #007bff);
 }
 
-/* --- Tags, Checkboxes, and Sliders --- */
+.dateInput {
+  position: relative;
+  cursor: pointer;
+}
+
+/* This trick shows a placeholder but allows the calendar icon to work */
+.dateInput:required:invalid {
+  color: #adb5bd; /* Placeholder text color */
+}
+
+.dateInput:required:invalid::-webkit-datetime-edit {
+  color: transparent !important;
+}
+
+.dateInput::before {
+  content: 'Select date and time';
+  position: absolute;
+  pointer-events: none;
+  display: block;
+}
+
+.dateInput:required:invalid::before {
+  display: block;
+}
+
+.dateInput:valid::before {
+  display: none;
+}
+
+
 .tagInputContainer,
 .addCustomContainer {
   display: flex;
@@ -344,7 +365,6 @@
   background: var(--dashboard-userIcon-color, #007bff);
 }
 
-/* --- Form Actions --- */
 .formActions {
   display: flex;
   justify-content: flex-end;
@@ -383,7 +403,6 @@
   opacity: 0.85;
 }
 
-/* --- Scrollbar & Responsive --- */
 .form::-webkit-scrollbar {
   width: 6px;
 }
@@ -411,7 +430,7 @@
     max-height: 100vh;
   }
   .tradeDetailsGrid {
-    grid-template-columns: 1fr; /* Single column on mobile */
+    grid-template-columns: 1fr;
   }
   .formGrid {
     grid-template-columns: 1fr;
