@@ -147,8 +147,10 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
                 <div className={`${Styles.formGrid} ${Styles.tradeDetailsGrid}`}>
                   <div className={Styles.formGroup}><label>Symbol <span className={Styles.required}>*</span></label><input type="text" value={formData.symbol} onChange={(e) => handleUpdateField('symbol', e.target.value)} required /></div>
                   <div className={Styles.formGroup}>
-                    <label>Date <span className={Styles.required}>*</span></label>
+                    {/* The label now acts as the clickable area */}
+                    <label htmlFor="tradeDate">Date <span className={Styles.required}>*</span></label>
                     <input 
+                        id="tradeDate" // ID for the label to target
                         type="datetime-local" 
                         value={formData.date} 
                         onChange={(e) => handleUpdateField('date', e.target.value)}

@@ -142,6 +142,7 @@
   color: #495057;
   font-size: 0.85rem;
   font-weight: 600;
+  cursor: pointer; /* Makes the entire label area clickable */
 }
 
 .required {
@@ -164,6 +165,7 @@
   border-radius: 5px;
   background-color: #fff;
   color: var(--dashboard-primary-text, #111);
+  font-family: inherit;
   font-size: 0.9rem;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -223,33 +225,12 @@
   border-color: var(--dashboard-userIcon-color, #007bff);
 }
 
+/* This is the final, reliable fix for the date input */
 .dateInput {
-  position: relative;
-  cursor: pointer;
+  color-scheme: light; /* Ensures consistent picker appearance */
 }
-
-/* This trick shows a placeholder but allows the calendar icon to work */
 .dateInput:required:invalid {
-  color: #adb5bd; /* Placeholder text color */
-}
-
-.dateInput:required:invalid::-webkit-datetime-edit {
-  color: transparent !important;
-}
-
-.dateInput::before {
-  content: 'Select date and time';
-  position: absolute;
-  pointer-events: none;
-  display: block;
-}
-
-.dateInput:required:invalid::before {
-  display: block;
-}
-
-.dateInput:valid::before {
-  display: none;
+  color: #adb5bd;
 }
 
 
