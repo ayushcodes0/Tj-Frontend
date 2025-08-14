@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Styles from "./NewTradePopup.module.css";
-import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
+import { RiResetLeftLine } from "react-icons/ri";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa6";
 import {
   fetchOptions,
   addOption,
@@ -17,15 +18,18 @@ interface Option {
   name: string;
 }
 
+// Define the initial state outside the component so it's a stable reference
+const initialFormData: TradeFormData = {
+  symbol: '', date: '', quantity: null, total_amount: 0, entry_price: null,
+  exit_price: null, direction: 'Long', stop_loss: null, target: null,
+  strategy: '', trade_analysis: '', outcome_summary: '', rules_followed: [],
+  pnl_amount: 0, pnl_percentage: 0, holding_period_minutes: null, tags: [],
+  psychology: { entry_confidence_level: 5, satisfaction_rating: 5, emotional_state: '', mistakes_made: [], lessons_learned: '' }
+};
+
 const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<'general' | 'psychology'>('general');
-  const [formData, setFormData] = useState<TradeFormData>({
-    symbol: '', date: '', quantity: null, total_amount: 0, entry_price: null,
-    exit_price: null, direction: 'Long', stop_loss: null, target: null,
-    strategy: '', trade_analysis: '', outcome_summary: '', rules_followed: [],
-    pnl_amount: 0, pnl_percentage: 0, holding_period_minutes: null, tags: [],
-    psychology: { entry_confidence_level: 5, satisfaction_rating: 5, emotional_state: '', mistakes_made: [], lessons_learned: '' }
-  });
+  const [formData, setFormData] = useState<TradeFormData>(initialFormData);
 
   const [strategies, setStrategies] = useState<Option[]>([]);
   const [outcomeSummaries, setOutcomeSummaries] = useState<Option[]>([]);
@@ -36,6 +40,16 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
   const [newCustomRuleName, setNewCustomRuleName] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newMistake, setNewMistake] = useState('');
+
+  // Function to reset the form to its initial state
+  const handleReset = () => {
+    setFormData(initialFormData);
+    setNewCustomStrategyName('');
+    setNewCustomRuleName('');
+    setNewTag('');
+    setNewMistake('');
+    setActiveTab('general'); // Also reset the active tab
+  };
 
   useEffect(() => {
     const loadOptions = async () => {
@@ -147,19 +161,11 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
                 <div className={`${Styles.formGrid} ${Styles.tradeDetailsGrid}`}>
                   <div className={Styles.formGroup}><label>Symbol <span className={Styles.required}>*</span></label><input type="text" value={formData.symbol} onChange={(e) => handleUpdateField('symbol', e.target.value)} required /></div>
                   <div className={Styles.formGroup}>
-                    {/* The label now acts as the clickable area */}
                     <label htmlFor="tradeDate">Date <span className={Styles.required}>*</span></label>
-                    <input 
-                        id="tradeDate" // ID for the label to target
-                        type="datetime-local" 
-                        value={formData.date} 
-                        onChange={(e) => handleUpdateField('date', e.target.value)}
-                        required 
-                        className={Styles.dateInput}
-                    />
+                    <input id="tradeDate" type="datetime-local" value={formData.date} onChange={(e) => handleUpdateField('date', e.target.value)} required className={Styles.dateInput} />
                   </div>
                   <div className={Styles.formGroup}><label>Quantity <span className={Styles.required}>*</span></label><input type="number" value={formData.quantity ?? ''} onChange={(e) => handleNumberInputChange('quantity', e.target.value)} required /></div>
-                  <div className={Styles.formGroup}><label>Direction <span className={Styles.required}>*</span></label><div className={Styles.directionContainer}><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Long' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Long')}><IoMdArrowDropup /> Long</button><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Short' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Short')}><IoMdArrowDropdown /> Short</button></div></div>
+                  <div className={Styles.formGroup}><label>Direction <span className={Styles.required}>*</span></label><div className={Styles.directionContainer}><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Long' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Long')}><FaArrowUp /> Long</button><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Short' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Short')}><FaArrowDown /> Short</button></div></div>
                   <div className={Styles.formGroup}><label>Entry Price <span className={Styles.required}>*</span></label><input type="number" step="0.01" value={formData.entry_price ?? ''} onChange={(e) => handleNumberInputChange('entry_price', e.target.value)} required /></div>
                   <div className={Styles.formGroup}><label>Exit Price</label><input type="number" step="0.01" value={formData.exit_price ?? ''} onChange={(e) => handleNumberInputChange('exit_price', e.target.value)} /></div>
                   <div className={Styles.formGroup}><label>Stop Loss</label><input type="number" step="0.01" value={formData.stop_loss ?? ''} onChange={(e) => handleNumberInputChange('stop_loss', e.target.value)} /></div>
@@ -202,7 +208,9 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
             </div>
           )}
           <div className={Styles.formActions}>
-            <button type="button" onClick={onClose} className={Styles.cancelBtn}>Cancel</button>
+            <button type="button" onClick={handleReset} className={Styles.resetBtn} title="Reset Form">
+              <RiResetLeftLine />
+            </button>
             <button type="submit" className={Styles.submitBtn}>Save Trade</button>
           </div>
         </form>

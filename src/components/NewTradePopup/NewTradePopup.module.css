@@ -207,7 +207,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 6px;
   padding: 0 12px;
   border: 1px solid #ced4da;
   background: #fff;
@@ -233,7 +233,6 @@
   color: #adb5bd;
 }
 
-/* --- FIX: Professional Pill Design for Checkboxes --- */
 .multiSelectContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -258,7 +257,6 @@
   border-color: #adb5bd;
 }
 
-/* Hide the actual checkbox input */
 .checkboxLabel input[type="checkbox"] {
   position: absolute;
   opacity: 0;
@@ -266,14 +264,12 @@
   height: 0;
 }
 
-/* Style the label when its hidden checkbox is checked */
 .checkboxLabel:has(input:checked) {
-  background-color: #e7f5ff; /* A light blue */
+  background-color: #e7f5ff;
   border-color: var(--dashboard-userIcon-color, #007bff);
   color: var(--dashboard-userIcon-color, #007bff);
   font-weight: 600;
 }
-
 
 .addCustomContainer {
   margin-top: 12px;
@@ -365,7 +361,8 @@
 
 .formActions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 12px;
   padding: 16px 20px;
   background-color: #f8f9fa;
@@ -373,7 +370,27 @@
   flex-shrink: 0;
 }
 
-.cancelBtn,
+.resetBtn {
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #868e96;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.resetBtn:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+  border-color: #adb5bd;
+}
+
 .submitBtn {
   height: 36px;
   padding: 0 20px;
@@ -382,21 +399,11 @@
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
+  background: var(--dashboard-userIcon-color, #007bff);
+  color: #fff;
   transition: opacity 0.2s;
 }
 
-.cancelBtn {
-  background: #fff;
-  color: #495057;
-  border: 1px solid #ced4da;
-}
-
-.submitBtn {
-  background: var(--dashboard-userIcon-color, #007bff);
-  color: #fff;
-}
-
-.cancelBtn:hover,
 .submitBtn:hover {
   opacity: 0.85;
 }
@@ -434,11 +441,7 @@
     grid-template-columns: 1fr;
   }
   .formActions {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .cancelBtn,
-  .submitBtn {
-    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
   }
 }
