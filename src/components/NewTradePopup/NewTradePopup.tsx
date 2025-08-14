@@ -18,13 +18,18 @@ interface Option {
   name: string;
 }
 
-// Define the initial state outside the component so it's a stable reference
 const initialFormData: TradeFormData = {
   symbol: '', date: '', quantity: null, total_amount: 0, entry_price: null,
   exit_price: null, direction: 'Long', stop_loss: null, target: null,
   strategy: '', trade_analysis: '', outcome_summary: '', rules_followed: [],
   pnl_amount: 0, pnl_percentage: 0, holding_period_minutes: null, tags: [],
   psychology: { entry_confidence_level: 5, satisfaction_rating: 5, emotional_state: '', mistakes_made: [], lessons_learned: '' }
+};
+
+// Helper function to calculate and return the style for the range input progress
+const getRangeProgressStyle = (value: number, min: number, max: number) => {
+  const progress = ((value - min) / (max - min)) * 100;
+  return { '--progress-percent': `${progress}%` } as React.CSSProperties;
 };
 
 const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
@@ -41,14 +46,13 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
   const [newTag, setNewTag] = useState('');
   const [newMistake, setNewMistake] = useState('');
 
-  // Function to reset the form to its initial state
   const handleReset = () => {
     setFormData(initialFormData);
     setNewCustomStrategyName('');
     setNewCustomRuleName('');
     setNewTag('');
     setNewMistake('');
-    setActiveTab('general'); // Also reset the active tab
+    setActiveTab('general');
   };
 
   useEffect(() => {
@@ -200,7 +204,37 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
                 <div className={Styles.section}>
                     <h3>Psychology</h3>
                     <div className={Styles.sectionContent}>
-                        <div className={Styles.formGrid}><div className={Styles.formGroup}><label>Entry Confidence: {formData.psychology.entry_confidence_level}/10 <span className={Styles.required}>*</span></label><input type="range" min="1" max="10" value={formData.psychology.entry_confidence_level} onChange={(e) => handlePsychologyChange({ entry_confidence_level: Number(e.target.value) })} required/></div><div className={Styles.formGroup}><label>Satisfaction Rating: {formData.psychology.satisfaction_rating}/10 <span className={Styles.required}>*</span></label><input type="range" min="1" max="10" value={formData.psychology.satisfaction_rating} onChange={(e) => handlePsychologyChange({ satisfaction_rating: Number(e.target.value) })} required/></div><div className={Styles.formGroup}><label>Emotional State <span className={Styles.required}>*</span></label><select value={formData.psychology.emotional_state} onChange={(e) => handlePsychologyChange({ emotional_state: e.target.value })} required><option value="">Select State</option>{emotionalStates.map(o => <option key={o._id} value={o._id}>{o.name}</option>)}</select></div></div>
+                        <div className={Styles.formGrid}>
+                          <div className={Styles.formGroup}>
+                            <label>Entry Confidence: {formData.psychology.entry_confidence_level}/10 <span className={Styles.required}>*</span></label>
+                            <input 
+                              type="range" min="1" max="10" 
+                              value={formData.psychology.entry_confidence_level} 
+                              onChange={(e) => handlePsychologyChange({ entry_confidence_level: Number(e.target.value) })} 
+                              required
+                              className={Styles.rangeInput}
+                              style={getRangeProgressStyle(formData.psychology.entry_confidence_level, 1, 10)}
+                            />
+                          </div>
+                          <div className={Styles.formGroup}>
+                            <label>Satisfaction Rating: {formData.psychology.satisfaction_rating}/10 <span className={Styles.required}>*</span></label>
+                            <input 
+                              type="range" min="1" max="10" 
+                              value={formData.psychology.satisfaction_rating} 
+                              onChange={(e) => handlePsychologyChange({ satisfaction_rating: Number(e.target.value) })} 
+                              required
+                              className={Styles.rangeInput}
+                              style={getRangeProgressStyle(formData.psychology.satisfaction_rating, 1, 10)}
+                            />
+                          </div>
+                          <div className={Styles.formGroup}>
+                            <label>Emotional State <span className={Styles.required}>*</span></label>
+                            <select value={formData.psychology.emotional_state} onChange={(e) => handlePsychologyChange({ emotional_state: e.target.value })} required>
+                              <option value="">Select State</option>
+                              {emotionalStates.map(o => <option key={o._id} value={o._id}>{o.name}</option>)}
+                            </select>
+                          </div>
+                        </div>
                         <div className={Styles.formGroup}><label>Mistakes Made</label><div className={Styles.tagInputContainer}><input type="text" value={newMistake} onChange={(e) => setNewMistake(e.target.value)} placeholder="Add mistake and press Enter" onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addMistake())} /><button type="button" onClick={addMistake}>Add</button></div><div className={Styles.tagsContainer}>{formData.psychology.mistakes_made.map(mistake => (<span key={mistake} className={Styles.tag}>{mistake}<button type="button" onClick={() => removeMistake(mistake)}>×</button></span>))}</div></div>
                         <div className={Styles.formGroup}><label>Lessons Learned <span className={Styles.required}>*</span></label><textarea value={formData.psychology.lessons_learned} onChange={(e) => handlePsychologyChange({ lessons_learned: e.target.value })} rows={4} required/></div>
                     </div>
