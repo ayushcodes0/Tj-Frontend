@@ -193,7 +193,7 @@ const gradientColors: string[] = [
         <div className={Styles.heroSection}>
           <div className={Styles.heroSectionLeft}>
             <div className={Styles.mainHeading}>
-              <p className={Styles.topHeading}>Lorem Ipsum <br />Dolor Sit.</p>
+              <p className={Styles.topHeading}>Money Works <br />Better Here.</p>
               <div className={Styles.middleHeading}>
                 <div className={Styles.middleHeadingLeft}>
                   <div className={Styles.middleHeadingIcon}><IoFolderOpenOutline className={Styles.folderIcon} /></div>
@@ -428,7 +428,7 @@ const gradientColors: string[] = [
         <Pricing/>
       </div>
       <div className={Styles.footerContainer}>
-        <Footer />
+        <Footer /> 
       </div>
     </div>
   );
