@@ -175,11 +175,24 @@ const gradientColors: string[] = [
 
 
   const menuItems = [
-    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor1.' },
-    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor2.' },
-    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor3.' },
-    { top: '"Lorem", ipsum.', bottom: 'Lorem, ipsum dolor4.' }
+    { 
+      top: 'Unified Dashboard', 
+      bottom: 'See everything now.' 
+    },
+    { 
+      top: 'AI Insights', 
+      bottom: 'Discover your edge.' 
+    },
+    { 
+      top: 'Detailed Logging', 
+      bottom: 'Capture every detail.' 
+    },
+    { 
+      top: 'Mindful Trading', 
+      bottom: 'Master your emotions.' 
+    }
   ];
+
 
   return (
     <div className={Styles.landingPageContainer}> 
