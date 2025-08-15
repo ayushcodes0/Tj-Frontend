@@ -23,17 +23,46 @@
     color: var(--primary-white);
 }
 
-.footerItemsText{
-    font-size: 14px;
-    color: var(--primary-white);
-    opacity: .7;
-}
+/* --- Corrected CSS Block --- */
 
-.footerItems{
+/* This fix prevents the parent from stretching the links */
+.footerItems {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    align-items: flex-start; /* THE KEY FIX: Stops child elements from stretching */
 }
+
+/* This creates the text style and animated underline */
+.footerItemsText {
+    font-size: 14px;
+    color: var(--primary-white);
+    opacity: .7;
+    position: relative; /* Required for the underline */
+    padding-bottom: 2px; /* Adds a little space between text and underline */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.footerItemsText:hover {
+    opacity: 1;
+}
+
+.footerItemsText::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-white);
+    transition: width 0.3s ease-out;
+}
+
+.footerItemsText:hover::after {
+    width: 100%;
+}
+
 
 .footerWrapper{
     display: flex;
