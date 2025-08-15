@@ -352,102 +352,108 @@ const gradientColors: string[] = [
       </div>
 
       <div className={Styles.information}>
-        {/* Section 0 */}
+        {/* Section 0: Unified Dashboard */}
         <div
           id='section-0'
           ref={(el) => registerSection(el, 0)}
           className={`${Styles.infoContainer} ${Styles.section0}`}
         >
           <InfoContainer
-            tags={["Lorem ipsum dolor"]}
-            heading="Lorem ipsum dolor sit amet."
-            subHeading="Lorem, ipsum dolor."
-            infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+            tags={["Analytics", "Performance", "Overview"]}
+            heading="Your Trading Dashboard." // Final, shorter heading
+            subHeading="See what matters."
+            infoPara="Our Unified Dashboard brings all your critical trading data into one clear, intuitive view. Track your progress, understand your habits, and make informed decisions without the clutter. It's your entire trading world, at a glance."
             points={[
-              { icon: <IoCloseCircle />, text: "Lorem, ipsum dolor." },
-              { icon: <FaArrowRightArrowLeft />, text: "Lorem ipsum dolor sit amet." },
-              { icon: <TiTick />, text: "Lorem ipsum dolor sit amet consectetur." },
-              { icon: <GoHomeFill />, text: "Lorem ipsum dolor sit amet consectetur." }
+              { icon: <TiTick />, text: "Visualize your equity curve and net profitability." },
+              { icon: <TiTick />, text: "Monitor your win rate and average risk-to-reward ratio." },
+              { icon: <TiTick />, text: "Filter performance by strategy, symbol, or timeframe." },
+              { icon: <TiTick />, text: "See your trading activity on a calendar heat-map." }
             ]}
-            primaryButtonText="Start saving with $1"
-            secondaryButtonText="Learn More"
-            buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+            primaryButtonText="Start Analyzing for Free"
+            secondaryButtonText="Explore Features"
+            buttonSmallText="Free 24-hour trial. No credit card required."
           />
         </div>
         <div className={`${Styles.informationImageContainer} ${Styles.image0}`} style={{ background: gradientColors[0] }} />
 
-        {/* Section 1 */}
+
+        {/* Section 1: AI Insights */}
         <div
           id='section-1'
           ref={(el) => registerSection(el, 1)}
           className={`${Styles.infoContainer} ${Styles.section1}`}
         >
           <InfoContainer
-            tags={["Lorem Ipsum dolor", "Lorem Ipsum"]}
-            heading="Lorem ipsum dolor sit amet."
-            subHeading="Lorem, ipsum dolor."
-            infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+            tags={["Artificial Intelligence", "Coaching", "Optimization"]}
+            heading="Get Actionable AI Insights."
+            subHeading="Find your edge."
+            infoPara="Stop guessing what works. Our intelligent algorithms sift through your trading data to uncover your most profitable patterns, identify costly mistakes, and provide personalized feedback to help you improve faster."
             points={[
-              { icon: <IoCloseCircle />, text: "Lorem, ipsum dolor." },
-              { icon: <FaArrowRightArrowLeft />, text: "Lorem ipsum dolor sit amet." },
-              { icon: <TiTick />, text: "Lorem ipsum dolor sit amet consectetur." },
-              { icon: <GoHomeFill />, text: "Lorem ipsum dolor sit amet consectetur." }
+              { icon: <TiTick />, text: "Identifies your best-performing setups and strategies." },
+              { icon: '🧠', text: "Connects emotional states to trading outcomes." },
+              { icon: <IoCloseCircle />, text: "Pinpoints common mistakes, like holding losers too long." },
+              { icon: <TiTick />, text: "Provides concrete suggestions for optimizing your system." }
             ]}
-            primaryButtonText="Start saving with $1"
-            secondaryButtonText="Learn More"
-            buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+            primaryButtonText="Unlock Your AI Edge"
+            secondaryButtonText="How It Works"
+            buttonSmallText="Available on all plans during your free trial."
           />
         </div>
         <div className={`${Styles.informationImageContainer} ${Styles.image1}`} style={{ background: gradientColors[1] }} />
 
-        {/* Section 2 */}
+
+        {/* Section 2: Detailed Logging */}
         <div
           id='section-2'
           ref={(el) => registerSection(el, 2)}
           className={`${Styles.infoContainer} ${Styles.section2}`}
         >
           <InfoContainer
-            tags={["Lorem Ipsum dolor", "Lorem"]}
-            heading="Lorem ipsum dolor sit amet."
-            subHeading="Lorem, ipsum dolor."
-            infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+            tags={["Effortless", "Detailed", "Secure"]}
+            heading="Log Every Trade in Seconds."
+            subHeading="Capture every detail."
+            infoPara="A journal is only as good as the data you put in. We make it incredibly fast and easy to log every detail, from entry and exit prices to your psychological state and chart screenshots, so you never lose valuable data."
             points={[
-              { icon: <IoCloseCircle />, text: "Lorem, ipsum dolor." },
-              { icon: <FaArrowRightArrowLeft />, text: "Lorem ipsum dolor sit amet." },
-              { icon: <TiTick />, text: "Lorem ipsum dolor sit amet consectetur." },
-              { icon: <GoHomeFill />, text: "Lorem ipsum dolor sit amet consectetur." }
+              { icon: <FaArrowRightArrowLeft />, text: "Log entry, exit, stop-loss, and multiple targets." },
+              { icon: <GoHomeFill />, text: "Attach unlimited chart screenshots to each trade." },
+              { icon: <TiTick />, text: "Use custom tags to categorize your unique strategies." },
+              { icon: <TiTick />, text: "Record your confidence and emotions for every setup." }
             ]}
-            primaryButtonText="Start saving with $1"
-            secondaryButtonText="Learn More"
-            buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+            primaryButtonText="Start Journaling Now"
+            secondaryButtonText="View Example"
+            buttonSmallText="Fast, easy, and secure on all your devices."
           />
         </div>
         <div className={`${Styles.informationImageContainer} ${Styles.image2}`} style={{ background: gradientColors[2] }} />
 
-        {/* Section 3 */}
+
+        {/* Section 3: Mindful Trading */}
         <div
           id='section-3'
           ref={(el) => registerSection(el, 3)}
           className={`${Styles.infoContainer} ${Styles.section3}`}
         >
           <InfoContainer
-            tags={["Lorem Ipsum", "Lorem Ipsum dolor"]}
-            heading="Lorem ipsum dolor sit amet."
-            subHeading="Lorem, ipsum dolor."
-            infoPara="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iure neque odio optio illo voluptatem repellendus, magni molestias culpa alias sit dolore vel harum assumenda velit nihil quod a ab minima! Molestias, laborum."
+            tags={["Psychology", "Mindset", "Discipline"]}
+            heading="Master Your Trading Mindset."
+            subHeading="Master your mindset."
+            infoPara="Profitability isn't just about strategy; it's about mindset. Our journal is the first to put psychology front and center, helping you track your emotional patterns, build discipline, and trade with unshakeable confidence."
             points={[
-              { icon: <IoCloseCircle />, text: "Lorem, ipsum dolor." },
-              { icon: <FaArrowRightArrowLeft />, text: "Lorem ipsum dolor sit amet." },
-              { icon: <TiTick />, text: "Lorem ipsum dolor sit amet consectetur." },
-              { icon: <GoHomeFill />, text: "Lorem ipsum dolor sit amet consectetur." }
+              { icon: <TiTick />, text: "Rate your confidence to spot over- and under-confidence." },
+              { icon: <IoCloseCircle />, text: "Tag emotional mistakes like FOMO, greed, or revenge trading." },
+              { icon: <FaArrowRightArrowLeft />, text: "Compare performance between different emotional states." },
+              { icon: <TiTick />, text: "Develop the discipline of a professional trader." }
             ]}
-            primaryButtonText="Start saving with $1"
+            primaryButtonText="Master Your Mindset"
             secondaryButtonText="Learn More"
-            buttonSmallText="Lorem ipsum dolor sit amet consectetur adipisicing."
+            buttonSmallText="Start your free 24-hour trial today."
           />
         </div>
         <div className={`${Styles.informationImageContainer} ${Styles.image3}`} style={{ background: gradientColors[3] }} />
       </div>
+
+
+
       <div className={Styles.pricingContainer}>
         <Pricing/>
       </div>
