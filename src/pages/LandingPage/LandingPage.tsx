@@ -20,6 +20,7 @@ import { useInView } from "react-intersection-observer";
 import type { Variants } from "framer-motion";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { HiOutlineTrendingUp } from "react-icons/hi";
+import { NavLink } from 'react-router-dom';
 
 // Animation variants
 const containerVariants: Variants = {
@@ -373,7 +374,7 @@ const LandingPage = () => {
                 custom={1.4}
               >
                 <div className={Styles.ctaButton}>
-                  <FilledButton text='Start free' />
+                  <NavLink to={"/register"} ><FilledButton text='Start free' /></NavLink>
                 </div>
                 <motion.p 
                   className={Styles.ctaText}
