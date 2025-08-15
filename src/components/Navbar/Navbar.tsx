@@ -69,7 +69,7 @@ const Navbar = () => {
 
   const isPro = user?.subscription?.plan === 'pro';
 
-  // ---- JSX ----
+  // ---- JSX ---- 
   return (
     <div className={Styles.navbar}>
       {/* Logo */}

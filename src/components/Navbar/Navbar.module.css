@@ -163,7 +163,7 @@
     height: 40px;
     object-fit: cover;
     border-radius: 50%;
-    object-position: center;
+    object-position: center; 
 }
 
 .username{

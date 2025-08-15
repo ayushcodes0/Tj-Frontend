@@ -13,7 +13,7 @@ type InfoContainerProps = {
   heading: string;
   subHeading: string;
   infoPara: string;
-  points: InfoPoint[];
+  points: InfoPoint[]; 
   primaryButtonText: string;
   secondaryButtonText: string;
   buttonSmallText: string;

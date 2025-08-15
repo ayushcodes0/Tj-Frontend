@@ -21,7 +21,7 @@
     color: var(--primary-dark-text);
 }
 
-.tagContainer{
+.tagContainer{ 
     display: flex;
     align-items: center;
     gap: 15px;

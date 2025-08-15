@@ -395,7 +395,7 @@ const gradientColors: string[] = [
               { icon: <IoCloseCircle />, text: "Pinpoints common mistakes, like holding losers too long." },
               { icon: <TiTick />, text: "Provides concrete suggestions for optimizing your system." }
             ]}
-            primaryButtonText="Unlock Your AI Edge"
+            primaryButtonText="Unlock Your AI Edge" 
             secondaryButtonText="How It Works"
             buttonSmallText="Available on all plans during your free trial."
           />
