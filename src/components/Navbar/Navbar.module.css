@@ -81,7 +81,7 @@
         left: 0;
         right: 0;
         height: 100vh;
-        background-color: #230B58;
+        background-color: var(--primary-dark-text);
         z-index: 1000;
         display: flex;
         flex-direction: column;
@@ -371,9 +371,9 @@
   width: 88%;
   margin: 17px auto 12px auto;
   padding: 10px 0;
-  background: #362081;
+  background: var(--primary-white);
   border: none;
-  color: var(--primary-white);
+  color: var(--primary-text);
   cursor: pointer;
   border-radius: 6px;
   font-size: 1rem;
