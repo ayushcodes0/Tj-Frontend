@@ -2,8 +2,8 @@ import { FilledButton } from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
 import TopBanner from '../../components/TopBanner/TopBanner';
 import Styles from './LandingPage.module.css';
-import { IoFolderOpenOutline } from 'react-icons/io5';
-import { TbPlant } from 'react-icons/tb';
+// import { IoFolderOpenOutline } from 'react-icons/io5';
+// import { TbPlant } from 'react-icons/tb';
 import HeroSectionImage from '../../assets/image/heroSectionImage.png';
 import { IoCloseCircle } from 'react-icons/io5';
 import { TiTick } from 'react-icons/ti';
@@ -18,6 +18,8 @@ import { FaBrain } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import type { Variants } from "framer-motion";
+import { IoNewspaperOutline } from "react-icons/io5";
+import { HiOutlineTrendingUp } from "react-icons/hi";
 
 // Animation variants
 const containerVariants: Variants = {
@@ -343,7 +345,7 @@ const LandingPage = () => {
                   custom={1}
                 >
                   <div className={Styles.middleHeadingIcon}>
-                    <IoFolderOpenOutline className={Styles.folderIcon} />
+                    <IoNewspaperOutline className={Styles.folderIcon} />
                   </div>
                   <div className={Styles.middleHeadingText}>
                     <p className={Styles.middleSubHeading}>Log every detail, effortlessly.</p>
@@ -358,7 +360,7 @@ const LandingPage = () => {
                   custom={1.2}
                 >
                   <div className={Styles.middleHeadingIcon}>
-                    <TbPlant className={Styles.folderIcon} />
+                    <HiOutlineTrendingUp className={Styles.folderIcon} />
                   </div>
                   <p className={Styles.middleSubHeading}>Discover your winning patterns.</p>
                 </motion.div>
