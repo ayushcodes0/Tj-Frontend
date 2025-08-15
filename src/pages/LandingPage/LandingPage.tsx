@@ -14,6 +14,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Footer from '../../components/Footer/Footer';
 import Pricing from '../../components/Pricing/Pricing';
+import { FaBrain } from "react-icons/fa";
 
 const LandingPage = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
@@ -390,7 +391,7 @@ const gradientColors: string[] = [
             infoPara="Stop guessing what works. Our intelligent algorithms sift through your trading data to uncover your most profitable patterns, identify costly mistakes, and provide personalized feedback to help you improve faster."
             points={[
               { icon: <TiTick />, text: "Identifies your best-performing setups and strategies." },
-              { icon: '🧠', text: "Connects emotional states to trading outcomes." },
+              { icon: <FaBrain/>, text: "Connects emotional states to trading outcomes." },
               { icon: <IoCloseCircle />, text: "Pinpoints common mistakes, like holding losers too long." },
               { icon: <TiTick />, text: "Provides concrete suggestions for optimizing your system." }
             ]}
