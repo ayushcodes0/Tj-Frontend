@@ -68,6 +68,37 @@ const fadeUpItemFast: Variants = {
 //   }
 // };
 
+const sectionVariants: Variants = {
+  offscreen: {
+    opacity: 0,
+    y: 50
+  },
+  onscreen: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      bounce: 0.4,
+      duration: 0.8
+    }
+  }
+};
+
+const imageContainerVariants: Variants = {
+  offscreen: {
+    opacity: 0,
+    scale: 0.9
+  },
+  onscreen: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 0.77, 0.47, 0.97]
+    }
+  }
+};
+
 const imageRotate: Variants = {
   hidden: { opacity: 0, rotate: -20, scale: 0.95 },
   visible: {
@@ -548,105 +579,146 @@ const LandingPage = () => {
       </div>
 
       <div className={Styles.information}>
-        {/* Section 0: Unified Dashboard */}
-        <div
-          id='section-0'
-          ref={(el) => registerSection(el, 0)}
-          className={`${Styles.infoContainer} ${Styles.section0}`}
-        >
-          <InfoContainer
-            tags={["Analytics", "Performance", "Overview"]}
-            heading="Your Trading Dashboard."
-            subHeading="See what matters."
-            infoPara="Our Unified Dashboard brings all your critical trading data into one clear, intuitive view. Track your progress, understand your habits, and make informed decisions without the clutter. It's your entire trading world, at a glance."
-            points={[
-              { icon: <TiTick />, text: "Visualize your equity curve and net profitability." },
-              { icon: <TiTick />, text: "Monitor your win rate and average risk-to-reward ratio." },
-              { icon: <TiTick />, text: "Filter performance by strategy, symbol, or timeframe." },
-              { icon: <TiTick />, text: "See your trading activity on a calendar heat-map." }
-            ]}
-            primaryButtonText="Start Analyzing for Free"
-            secondaryButtonText="Explore Features"
-            buttonSmallText="Free 24-hour trial. No credit card required."
-          />
-        </div>
-        <div className={`${Styles.informationImageContainer} ${Styles.image0}`} style={{ background: gradientColors[0] }} />
+      {/* Section 0: Unified Dashboard */}
+      <motion.div
+        id='section-0'
+        ref={(el) => registerSection(el, 0)}
+        className={`${Styles.infoContainer} ${Styles.section0}`}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <InfoContainer
+          tags={["Analytics", "Performance", "Overview"]}
+          heading="Your Trading Dashboard."
+          subHeading="See what matters."
+          infoPara="Our Unified Dashboard brings all your critical trading data into one clear, intuitive view. Track your progress, understand your habits, and make informed decisions without the clutter. It's your entire trading world, at a glance."
+          points={[
+            { icon: <TiTick />, text: "Visualize your equity curve and net profitability." },
+            { icon: <TiTick />, text: "Monitor your win rate and average risk-to-reward ratio." },
+            { icon: <TiTick />, text: "Filter performance by strategy, symbol, or timeframe." },
+            { icon: <TiTick />, text: "See your trading activity on a calendar heat-map." }
+          ]}
+          primaryButtonText="Start Analyzing for Free"
+          secondaryButtonText="Explore Features"
+          buttonSmallText="Free 24-hour trial. No credit card required."
+        />
+      </motion.div>
+      <motion.div 
+        className={`${Styles.informationImageContainer} ${Styles.image0}`} 
+        style={{ background: gradientColors[0] }}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={imageContainerVariants}
+      />
 
+      {/* Section 1: AI Insights */}
+      <motion.div
+        id='section-1'
+        ref={(el) => registerSection(el, 1)}
+        className={`${Styles.infoContainer} ${Styles.section1}`}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <InfoContainer
+          tags={["Artificial Intelligence", "Coaching", "Optimization"]}
+          heading="Get Actionable AI Insights."
+          subHeading="Find your edge."
+          infoPara="Stop guessing what works. Our intelligent algorithms sift through your trading data to uncover your most profitable patterns, identify costly mistakes, and provide personalized feedback to help you improve faster."
+          points={[
+            { icon: <TiTick />, text: "Identifies your best-performing setups and strategies." },
+            { icon: <FaBrain/>, text: "Connects emotional states to trading outcomes." },
+            { icon: <IoCloseCircle />, text: "Pinpoints common mistakes, like holding losers too long." },
+            { icon: <TiTick />, text: "Provides concrete suggestions for optimizing your system." }
+          ]}
+          primaryButtonText="Unlock Your AI Edge" 
+          secondaryButtonText="How It Works"
+          buttonSmallText="Available on all plans during your free trial."
+        />
+      </motion.div>
+      <motion.div 
+        className={`${Styles.informationImageContainer} ${Styles.image1}`} 
+        style={{ background: gradientColors[1] }}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={imageContainerVariants}
+      />
 
-        {/* Section 1: AI Insights */}
-        <div
-          id='section-1'
-          ref={(el) => registerSection(el, 1)}
-          className={`${Styles.infoContainer} ${Styles.section1}`}
-        >
-          <InfoContainer
-            tags={["Artificial Intelligence", "Coaching", "Optimization"]}
-            heading="Get Actionable AI Insights."
-            subHeading="Find your edge."
-            infoPara="Stop guessing what works. Our intelligent algorithms sift through your trading data to uncover your most profitable patterns, identify costly mistakes, and provide personalized feedback to help you improve faster."
-            points={[
-              { icon: <TiTick />, text: "Identifies your best-performing setups and strategies." },
-              { icon: <FaBrain/>, text: "Connects emotional states to trading outcomes." },
-              { icon: <IoCloseCircle />, text: "Pinpoints common mistakes, like holding losers too long." },
-              { icon: <TiTick />, text: "Provides concrete suggestions for optimizing your system." }
-            ]}
-            primaryButtonText="Unlock Your AI Edge" 
-            secondaryButtonText="How It Works"
-            buttonSmallText="Available on all plans during your free trial."
-          />
-        </div>
-        <div className={`${Styles.informationImageContainer} ${Styles.image1}`} style={{ background: gradientColors[1] }} />
+      {/* Section 2: Detailed Logging */}
+      <motion.div
+        id='section-2'
+        ref={(el) => registerSection(el, 2)}
+        className={`${Styles.infoContainer} ${Styles.section2}`}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <InfoContainer
+          tags={["Effortless", "Detailed", "Secure"]}
+          heading="Log Every Trade in Seconds."
+          subHeading="Capture every detail."
+          infoPara="A journal is only as good as the data you put in. We make it incredibly fast and easy to log every detail, from entry and exit prices to your psychological state and chart screenshots, so you never lose valuable data."
+          points={[
+            { icon: <FaArrowRightArrowLeft />, text: "Log entry, exit, stop-loss, and multiple targets." },
+            { icon: <GoHomeFill />, text: "Attach unlimited chart screenshots to each trade." },
+            { icon: <TiTick />, text: "Use custom tags to categorize your unique strategies." },
+            { icon: <TiTick />, text: "Record your confidence and emotions for every setup." }
+          ]}
+          primaryButtonText="Start Journaling Now"
+          secondaryButtonText="View Example"
+          buttonSmallText="Fast, easy, and secure on all your devices."
+        />
+      </motion.div>
+      <motion.div 
+        className={`${Styles.informationImageContainer} ${Styles.image2}`} 
+        style={{ background: gradientColors[2] }}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={imageContainerVariants}
+      />
 
-
-        {/* Section 2: Detailed Logging */}
-        <div
-          id='section-2'
-          ref={(el) => registerSection(el, 2)}
-          className={`${Styles.infoContainer} ${Styles.section2}`}
-        >
-          <InfoContainer
-            tags={["Effortless", "Detailed", "Secure"]}
-            heading="Log Every Trade in Seconds."
-            subHeading="Capture every detail."
-            infoPara="A journal is only as good as the data you put in. We make it incredibly fast and easy to log every detail, from entry and exit prices to your psychological state and chart screenshots, so you never lose valuable data."
-            points={[
-              { icon: <FaArrowRightArrowLeft />, text: "Log entry, exit, stop-loss, and multiple targets." },
-              { icon: <GoHomeFill />, text: "Attach unlimited chart screenshots to each trade." },
-              { icon: <TiTick />, text: "Use custom tags to categorize your unique strategies." },
-              { icon: <TiTick />, text: "Record your confidence and emotions for every setup." }
-            ]}
-            primaryButtonText="Start Journaling Now"
-            secondaryButtonText="View Example"
-            buttonSmallText="Fast, easy, and secure on all your devices."
-          />
-        </div>
-        <div className={`${Styles.informationImageContainer} ${Styles.image2}`} style={{ background: gradientColors[2] }} />
-
-
-        {/* Section 3: Mindful Trading */}
-        <div
-          id='section-3'
-          ref={(el) => registerSection(el, 3)}
-          className={`${Styles.infoContainer} ${Styles.section3}`}
-        >
-          <InfoContainer
-            tags={["Psychology", "Mindset", "Discipline"]}
-            heading="Master Your Trading Mindset."
-            subHeading="Master your mindset."
-            infoPara="Profitability isn't just about strategy; it's about mindset. Our journal is the first to put psychology front and center, helping you track your emotional patterns, build discipline, and trade with unshakeable confidence."
-            points={[
-              { icon: <TiTick />, text: "Rate your confidence to spot over- and under-confidence." },
-              { icon: <IoCloseCircle />, text: "Tag emotional mistakes like FOMO, greed, or revenge trading." },
-              { icon: <FaArrowRightArrowLeft />, text: "Compare performance between different emotional states." },
-              { icon: <TiTick />, text: "Develop the discipline of a professional trader." }
-            ]}
-            primaryButtonText="Master Your Mindset"
-            secondaryButtonText="Learn More"
-            buttonSmallText="Start your free 24-hour trial today."
-          />
-        </div>
-        <div className={`${Styles.informationImageContainer} ${Styles.image3}`} style={{ background: gradientColors[3] }} />
-      </div>
+      {/* Section 3: Mindful Trading */}
+      <motion.div
+        id='section-3'
+        ref={(el) => registerSection(el, 3)}
+        className={`${Styles.infoContainer} ${Styles.section3}`}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <InfoContainer
+          tags={["Psychology", "Mindset", "Discipline"]}
+          heading="Master Your Trading Mindset."
+          subHeading="Master your mindset."
+          infoPara="Profitability isn't just about strategy; it's about mindset. Our journal is the first to put psychology front and center, helping you track your emotional patterns, build discipline, and trade with unshakeable confidence."
+          points={[
+            { icon: <TiTick />, text: "Rate your confidence to spot over- and under-confidence." },
+            { icon: <IoCloseCircle />, text: "Tag emotional mistakes like FOMO, greed, or revenge trading." },
+            { icon: <FaArrowRightArrowLeft />, text: "Compare performance between different emotional states." },
+            { icon: <TiTick />, text: "Develop the discipline of a professional trader." }
+          ]}
+          primaryButtonText="Master Your Mindset"
+          secondaryButtonText="Learn More"
+          buttonSmallText="Start your free 24-hour trial today."
+        />
+      </motion.div>
+      <motion.div 
+        className={`${Styles.informationImageContainer} ${Styles.image3}`} 
+        style={{ background: gradientColors[3] }}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={imageContainerVariants}
+      />
+    </div>
 
       <div className={Styles.pricingContainer}>
         <Pricing/>
