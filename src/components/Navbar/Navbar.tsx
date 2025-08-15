@@ -6,14 +6,70 @@ import { FiMenu, FiX, FiLogOut, FiUpload } from 'react-icons/fi';
 import { FaCrown, FaLeaf } from "react-icons/fa";
 import { useAuth } from '../../hooks/useAuth';
 import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
+import { motion, AnimatePresence } from "framer-motion";
+import type { Variants } from "framer-motion";
+
 
 // Responsive threshold for mobile vs desktop nav
 const MOBILE_BREAKPOINT = 883;
+
+// Animation variants
+const menuVariants: Variants = {
+  hidden: { opacity: 0, y: -20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.3,
+      ease: [0.16, 0.77, 0.47, 0.97]
+    }
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: {
+      duration: 0.2,
+      ease: "easeIn"
+    }
+  }
+};
+
+const dropdownVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.25,
+      ease: [0.16, 0.77, 0.47, 0.97]
+    }
+  },
+  exit: {
+    opacity: 0,
+    y: 10,
+    transition: {
+      duration: 0.2,
+      ease: "easeIn"
+    }
+  }
+};
+
+const fadeIn: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut"
+    }
+  }
+};
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= MOBILE_BREAKPOINT);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const { user, logout, updateAvatar } = useAuth();
 
@@ -23,8 +79,8 @@ const Navbar = () => {
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
     window.addEventListener('resize', handleResize);
-    // initial setup
     setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    setHasMounted(true);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -71,181 +127,331 @@ const Navbar = () => {
 
   // ---- JSX ---- 
   return (
-    <div className={Styles.navbar}>
+    <motion.div 
+      className={Styles.navbar}
+      initial="hidden"
+      animate={hasMounted ? "visible" : "hidden"}
+      variants={fadeIn}
+    >
       {/* Logo */}
-      <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.5 }}
+      >
+        <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
+      </motion.div>
 
       {/* Desktop Navigation */}
-      <div className={Styles.navLinks}>
-        <a href="#home" className={Styles.navLink}>Home</a>
-        <Link to="/pricing" className={Styles.navLink}>Pricing</Link>
-        <Link to="/dashboard" className={Styles.navLink}>Dashboard</Link>
-        <a href="#contact" className={Styles.navLink}>Contact</a>
-      </div>
+      <motion.div 
+        className={Styles.navLinks}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2, staggerChildren: 0.1 }}
+      >
+        <motion.a 
+          href="#home" 
+          className={Styles.navLink}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Home
+        </motion.a>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+          <Link to="/pricing" className={Styles.navLink}>Pricing</Link>
+        </motion.div>
+        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+          <Link to="/dashboard" className={Styles.navLink}>Dashboard</Link>
+        </motion.div>
+        <motion.a 
+          href="#contact" 
+          className={Styles.navLink}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          Contact
+        </motion.a>
+      </motion.div>
       
       {/* Desktop buttons */}
-      <div className={Styles.buttons}>
+      <motion.div 
+        className={Styles.buttons}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+      >
         {!user ? (
           <>
-            <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
-            <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
+            <motion.div 
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
+            </motion.div>
+            <motion.div 
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
+            </motion.div>
           </>
         ) : (
           <>
-            <p className={Styles.username}>{user.username}</p>
+            <motion.p 
+              className={Styles.username}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {user.username}
+            </motion.p>
             {/* Avatar: on desktop, show drawer on click */}
-            <div className={Styles.avatarLink} onClick={() => {
-              if (!isMobile) setIsProfileOpen(v => !v);
-            }}>
+            <motion.div 
+              className={Styles.avatarLink} 
+              onClick={() => {
+                if (!isMobile) setIsProfileOpen(v => !v);
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <img
                 src={user.avatar || PlaceholderImage}
                 alt={user.username}
                 className={Styles.avatarImg}
               />
-            </div>
+            </motion.div>
           </>
         )}
-      </div>
+      </motion.div>
 
       {/* Mobile menu button */}
-      <button className={Styles.menuButton} onClick={() => setIsMenuOpen(o => !o)}>
+      <motion.button 
+        className={Styles.menuButton} 
+        onClick={() => setIsMenuOpen(o => !o)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
         {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-      </button>
+      </motion.button>
       
       {/* Mobile Menu */}
-      <div className={`${Styles.mobileMenuContainer} ${isMenuOpen ? Styles.mobileMenuOpen : ''}`}>
-        <div className={Styles.mobileNavLinks}>
-          <a href="#home" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Home</a>
-          <Link to="/pricing" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Pricing</Link>
-          <Link to="/dashboard" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
-          <a href="#contact" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Contact</a>
-        </div>
-        
-        <div className={Styles.mobileButtons}>
-          {!user ? (
-            <>
-              <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
-              <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
-            </>
-          ) : (
-            <div style={{ width: "100%" }}>
-              <div className={Styles.mobileProfileSection}>
-              <div className={Styles.mobileAvatarWrap}>
-                <img
-                  src={user.avatar || PlaceholderImage}
-                  alt={user.username}
-                  className={Styles.mobileAvatarImg}
-                />
-              </div>
-              <div className={Styles.mobileUserInfo}>
-                <p className={Styles.mobileUsername}>{user.username}</p>
-                <p className={Styles.mobileUseremail}>{user.email || 'No email provided'}</p>
-              </div>
-              <div className={Styles.dropdownDivider}></div>
-              {/* Subscription */}
-              <div className={Styles.mobileDropdownItem}>
-                {isPro ? (
-                  <span className={Styles.proText}>Pro Plan</span>
-                ) : (
-                  <span>Free Plan</span>
-                )}
-              </div>
-              <div className={Styles.dropdownDivider}></div>
-              {/* Avatar upload */}
-              <div
-                className={`${Styles.mobileDropdownItem} ${Styles.dropdownItemHover}`}
-                onClick={handleAvatarSelect}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            className={`${Styles.mobileMenuContainer} ${isMenuOpen ? Styles.mobileMenuOpen : ''}`}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={menuVariants}
+          >
+            <div className={Styles.mobileNavLinks}>
+              <motion.a 
+                href="#home" 
+                className={Styles.navLink} 
+                onClick={() => setIsMenuOpen(false)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <FiUpload className={Styles.drawerIcon} />
-                <span>Profile Image</span>
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  style={{ display: 'none' }}
-                  onChange={handleAvatarChange}
-                />
-              </div>
-              <div className={Styles.dropdownDivider}></div>
-              <button
-                className={Styles.mobileLogout}
-                onClick={() => {
-                  logout();
-                  setIsMenuOpen(false);
-                }}
+                Home
+              </motion.a>
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <span>Log Out</span>
-              </button>
+                <Link to="/pricing" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Pricing</Link>
+              </motion.div>
+              <motion.div 
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Link to="/dashboard" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
+              </motion.div>
+              <motion.a 
+                href="#contact" 
+                className={Styles.navLink} 
+                onClick={() => setIsMenuOpen(false)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Contact
+              </motion.a>
             </div>
-
+            
+            <div className={Styles.mobileButtons}>
+              {!user ? (
+                <>
+                  <motion.div 
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
+                  </motion.div>
+                  <motion.div 
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
+                  </motion.div>
+                </>
+              ) : (
+                <div style={{ width: "100%" }}>
+                  <div className={Styles.mobileProfileSection}>
+                    <motion.div 
+                      className={Styles.mobileAvatarWrap}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <img
+                        src={user.avatar || PlaceholderImage}
+                        alt={user.username}
+                        className={Styles.mobileAvatarImg}
+                      />
+                    </motion.div>
+                    <div className={Styles.mobileUserInfo}>
+                      <p className={Styles.mobileUsername}>{user.username}</p>
+                      <p className={Styles.mobileUseremail}>{user.email || 'No email provided'}</p>
+                    </div>
+                    <div className={Styles.dropdownDivider}></div>
+                    {/* Subscription */}
+                    <motion.div 
+                      className={Styles.mobileDropdownItem}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {isPro ? (
+                        <span className={Styles.proText}>Pro Plan</span>
+                      ) : (
+                        <span>Free Plan</span>
+                      )}
+                    </motion.div>
+                    <div className={Styles.dropdownDivider}></div>
+                    {/* Avatar upload */}
+                    <motion.div
+                      className={`${Styles.mobileDropdownItem} ${Styles.dropdownItemHover}`}
+                      onClick={handleAvatarSelect}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <FiUpload className={Styles.drawerIcon} />
+                      <span>Profile Image</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                        onChange={handleAvatarChange}
+                      />
+                    </motion.div>
+                    <div className={Styles.dropdownDivider}></div>
+                    <motion.button
+                      className={Styles.mobileLogout}
+                      onClick={() => {
+                        logout();
+                        setIsMenuOpen(false);
+                      }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span>Log Out</span>
+                    </motion.button>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
       {/* Desktop Profile Drawer (desktop only, mobile disables this) */}
       {!isMobile && (
-        <>
-          {isProfileOpen && <div className={Styles.overlay} onClick={handleOverlayClick} />}
-          <div className={`${Styles.dropdownContainer} ${isProfileOpen ? Styles.open : ''}`} onClick={handleDrawerClick}>
-            {/* User Info Header */}
-            <div className={Styles.dropdownHeader}>
-              <div className={Styles.imgContainer}>
-                <img
-                  src={user?.avatar || PlaceholderImage}
-                  alt={user?.username || 'User'}
-                  className={Styles.dropdownAvatar}
-                />
-              </div>
-              <div className={Styles.dropdownUserInfo}>
-                <h3 className={Styles.dropdownName}>{user?.username || 'User'}</h3>
-                <p className={Styles.dropdownEmail}>{user?.email || 'No email provided'}</p>
-              </div>
-            </div>
-            <div className={Styles.dropdownDivider}></div>
-            <div className={Styles.dropdownItem}>
-              {isPro ? (
-                <>
-                  <FaCrown className={`${Styles.dropdownIcon} ${Styles.proIcon}`} />
-                  <span className={Styles.proText}>Pro Plan</span>
-                </>
-              ) : (
-                <>
-                  <FaLeaf className={`${Styles.dropdownIcon} ${Styles.freeIcon}`} />
-                  <span>Free Plan</span>
-                </>
-              )}
-            </div>
-            <div className={Styles.dropdownDivider}></div>
-            <div
-              className={`${Styles.dropdownItem} ${Styles.dropdownItemHover}`}
-              onClick={handleAvatarSelect}
-            >
-              <FiUpload className={Styles.dropdownIcon} />
-              <span>Profile Image</span>
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                onChange={handleAvatarChange}
+        <AnimatePresence>
+          {isProfileOpen && (
+            <>
+              <motion.div 
+                className={Styles.overlay} 
+                onClick={handleOverlayClick}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
               />
-            </div>
-            <div className={Styles.dropdownDivider}></div>
-            <button
-              className={Styles.dropdownLogout}
-              onClick={() => {
-                logout();
-                setIsProfileOpen(false);
-              }}
-            >
-              <FiLogOut className={Styles.dropdownIcon} />
-              <span>Log Out</span>
-            </button>
-          </div>
-        </>
+              <motion.div 
+                className={`${Styles.dropdownContainer} ${isProfileOpen ? Styles.open : ''}`} 
+                onClick={handleDrawerClick}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={dropdownVariants}
+              >
+                {/* User Info Header */}
+                <div className={Styles.dropdownHeader}>
+                  <div className={Styles.imgContainer}>
+                    <img
+                      src={user?.avatar || PlaceholderImage}
+                      alt={user?.username || 'User'}
+                      className={Styles.dropdownAvatar}
+                    />
+                  </div>
+                  <div className={Styles.dropdownUserInfo}>
+                    <h3 className={Styles.dropdownName}>{user?.username || 'User'}</h3>
+                    <p className={Styles.dropdownEmail}>{user?.email || 'No email provided'}</p>
+                  </div>
+                </div>
+                <div className={Styles.dropdownDivider}></div>
+                <motion.div 
+                  className={Styles.dropdownItem}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {isPro ? (
+                    <>
+                      <FaCrown className={`${Styles.dropdownIcon} ${Styles.proIcon}`} />
+                      <span className={Styles.proText}>Pro Plan</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaLeaf className={`${Styles.dropdownIcon} ${Styles.freeIcon}`} />
+                      <span>Free Plan</span>
+                    </>
+                  )}
+                </motion.div>
+                <div className={Styles.dropdownDivider}></div>
+                <motion.div
+                  className={`${Styles.dropdownItem} ${Styles.dropdownItemHover}`}
+                  onClick={handleAvatarSelect}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <FiUpload className={Styles.dropdownIcon} />
+                  <span>Profile Image</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleAvatarChange}
+                  />
+                </motion.div>
+                <div className={Styles.dropdownDivider}></div>
+                <motion.button
+                  className={Styles.dropdownLogout}
+                  onClick={() => {
+                    logout();
+                    setIsProfileOpen(false);
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <FiLogOut className={Styles.dropdownIcon} />
+                  <span>Log Out</span>
+                </motion.button>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       )}
-    </div>
+    </motion.div>
   );
 };
 
