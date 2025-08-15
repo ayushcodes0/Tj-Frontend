@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
                         </NavLink>
                         <NavLink to="/dashboard/calendar" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                             <TbCalendarMonthFilled className={Styles.sideIcon} />
-                            <span className={Styles.navTexts}>Calendar</span>
+                            <span className={Styles.navTexts}>Monthly updates</span>
                         </NavLink>
                         <NavLink to="/dashboard/ai-insights" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                             <FaRegLightbulb className={Styles.sideIcon} />

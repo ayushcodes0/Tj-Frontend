@@ -52,7 +52,7 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose, onNe
           <div className={`${Styles.popupNav} ${Styles.secondPopupNav}`}>
               <NavLink to="/dashboard/calendar" onClick={onClose} className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                     <TbCalendarMonthFilled className={Styles.sideIcon} />
-                    <span className={Styles.navTexts}>Calendar</span>
+                    <span className={Styles.navTexts}>Monthly updates</span>
               </NavLink>
               <NavLink to="/dashboard/settings" onClick={onClose} className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
                     <IoSettingsOutline className={Styles.sideIcon} />
