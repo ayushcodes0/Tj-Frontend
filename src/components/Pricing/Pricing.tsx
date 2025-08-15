@@ -4,7 +4,7 @@ import pricingBottomImage from '../../assets/image/pricingSectionImage.svg';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
-// Animation variants
+// Faster animation variants
 const containerVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -12,8 +12,8 @@ const containerVariants: Variants = {
     y: 0,
     transition: {
       when: "beforeChildren",
-      staggerChildren: 0.1,
-      duration: 0.6,
+      staggerChildren: 0.05, // Reduced from 0.1
+      duration: 0.4, // Reduced from 0.6
       ease: [0.16, 0.77, 0.47, 0.97]
     }
   }
@@ -25,7 +25,7 @@ const itemVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.3, // Reduced from 0.5
       ease: [0.16, 0.77, 0.47, 0.97]
     }
   }
@@ -37,8 +37,8 @@ const planeVariants: Variants = {
     opacity: 1,
     x: 0,
     transition: {
-      delay: 0.2,
-      duration: 0.7,
+      delay: 0.1, // Reduced from 0.2
+      duration: 0.5, // Reduced from 0.7
       ease: [0.16, 0.77, 0.47, 0.97]
     }
   }
@@ -50,8 +50,8 @@ const priceCardVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: 0.1 + i * 0.1,
-      duration: 0.6,
+      delay: 0.05 + i * 0.05, // Reduced delays
+      duration: 0.4, // Reduced from 0.6
       ease: [0.16, 0.77, 0.47, 0.97]
     }
   })
@@ -63,8 +63,8 @@ const bottomImageVariants: Variants = {
     opacity: 1,
     scale: 1,
     transition: {
-      delay: 0.3,
-      duration: 0.6,
+      delay: 0.15, // Reduced from 0.3
+      duration: 0.4, // Reduced from 0.6
       ease: [0.16, 0.77, 0.47, 0.97]
     }
   }
@@ -76,7 +76,7 @@ const Pricing = () => {
       className={Styles.pricing}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }} // Triggers when 10% visible
+      viewport={{ once: true, amount: 0.1 }}
       variants={containerVariants}
     >
       <div className={Styles.pricingHeading}>
