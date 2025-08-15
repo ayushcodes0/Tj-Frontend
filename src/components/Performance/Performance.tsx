@@ -236,150 +236,113 @@ const Performance = () => {
   }
 
   return (
-    <div className={Styles.performancePage}>
-      <h1 className={Styles.pageTitle}>Trading Performance Analytics</h1>
-      
-      {/* Overview Section */}
-      <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Overview</h2>
-        <div className={Styles.cardGrid}>
-          <div className={`${Styles.card} ${Styles.highlightCard}`}>
-            <div className={Styles.cardHeader}>
-              <h3>Trade Summary</h3>
-            </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Total Trades</span>
-                  <span className={Styles.statValue}>{stats.total}</span>
-                </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Win Rate</span>
-                  <span className={`${Styles.statValue} ${stats.winRate >= 50 ? Styles.positive : Styles.negative}`}>
-                    {stats.winRate.toFixed(1)}%
-                  </span>
-                </div>
-              </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Winning Trades</span>
-                  <span className={`${Styles.statValue} ${Styles.positive}`}>{stats.wins}</span>
-                </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Losing Trades</span>
-                  <span className={`${Styles.statValue} ${Styles.negative}`}>{stats.losses}</span>
-                </div>
-              </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Avg. Win</span>
-                  <span className={`${Styles.statValue} ${Styles.positive}`}>{fmtC(stats.avgWin, 2)}</span>
-                </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Avg. Loss</span>
-                  <span className={`${Styles.statValue} ${Styles.negative}`}>{fmtC(stats.avgLoss, 2)}</span>
-                </div>
-              </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Expectancy</span>
-                  <span className={`${Styles.statValue} ${stats.expectancy >= 0 ? Styles.positive : Styles.negative}`}>
-                    {fmtC(stats.expectancy, 2)}
-                  </span>
-                </div>
-              </div>
-            </div>
+    <div className={Styles.dashboard}>
+      {/* Header Section */}
+      <header className={Styles.header}>
+        <h1 className={Styles.title}>Trading Performance</h1>
+        <div className={Styles.summaryCards}>
+          <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
+            <div className={Styles.summaryLabel}>Total Trades</div>
+            <div className={Styles.summaryValue}>{stats.total}</div>
           </div>
-
-          {/* Updated Daily Performance Card in the component */}
-        <div className={Styles.card}>
-          <div className={Styles.cardHeader}>
-            <h3>Daily Performance</h3>
+          <div className={`${Styles.summaryCard} ${stats.winRate >= 50 ? Styles.successCard : Styles.dangerCard}`}>
+            <div className={Styles.summaryLabel}>Win Rate</div>
+            <div className={Styles.summaryValue}>{stats.winRate.toFixed(1)}%</div>
           </div>
-          <div className={Styles.cardBody}>
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Win Days</span>
-                <span className={`${Styles.statValue} ${Styles.positive}`}>{stats.dailyWinDays}</span>
-              </div>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Loss Days</span>
-                <span className={`${Styles.statValue} ${Styles.negative}`}>{stats.dailyLossDays}</span>
-              </div>
-            </div>
-            
-            {/* Updated Best/Worst Day Display */}
-            <div className={Styles.dayPerformance}>
-              <div className={Styles.dayPerformanceItem}>
-                <span className={Styles.dayPerformanceLabel}>Best Day</span>
-                {stats.bestDay ? (
-                  <>
-                    <span className={Styles.dayPerformanceDate}>{new Date(stats.bestDay.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
-                    <span className={`${Styles.dayPerformanceValue} ${Styles.positive}`}>{fmtC(stats.bestDay.pnl)}</span>
-                  </>
-                ) : (
-                  <span className={Styles.dayPerformanceEmpty}>--</span>
-                )}
-              </div>
-              <div className={Styles.dayPerformanceItem}>
-                <span className={Styles.dayPerformanceLabel}>Worst Day</span>
-                {stats.worstDay ? (
-                  <>
-                    <span className={Styles.dayPerformanceDate}>{new Date(stats.worstDay.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
-                    <span className={`${Styles.dayPerformanceValue} ${Styles.negative}`}>{fmtC(stats.worstDay.pnl)}</span>
-                  </>
-                ) : (
-                  <span className={Styles.dayPerformanceEmpty}>--</span>
-                )}
-              </div>
-            </div>
-            
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Max Consec. Win Days</span>
-                <span className={`${Styles.statValue} ${Styles.positive}`}>{stats.maxConsecWinDays}</span>
-              </div>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Max Consec. Loss Days</span>
-                <span className={`${Styles.statValue} ${Styles.negative}`}>{stats.maxConsecLossDays}</span>
-              </div>
-            </div>
+          <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
+            <div className={Styles.summaryLabel}>Expectancy</div>
+            <div className={Styles.summaryValue}>{fmtC(stats.expectancy, 2)}</div>
           </div>
         </div>
+      </header>
 
-          <div className={Styles.card}>
-            <div className={Styles.cardHeader}>
-              <h3>Streaks & Activity</h3>
+      {/* Key Metrics Section */}
+      <section className={Styles.section}>
+        <h2 className={Styles.sectionTitle}>Key Metrics</h2>
+        <div className={Styles.metricsGrid}>
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
+              <h3>Profit & Loss</h3>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Max Consec. Wins</span>
-                  <span className={`${Styles.statValue} ${Styles.positive}`}>{stats.maxConsecWins}</span>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg. Win</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{fmtC(stats.avgWin, 2)}</span>
                 </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Max Consec. Losses</span>
-                  <span className={`${Styles.statValue} ${Styles.negative}`}>{stats.maxConsecLosses}</span>
-                </div>
-              </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Avg. Trades/Day</span>
-                  <span className={Styles.statValue}>{stats.avgTradesPerDay.toFixed(1)}</span>
-                </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Max Trades/Day</span>
-                  <span className={Styles.statValue}>{stats.maxTradesDay}</span>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg. Loss</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{fmtC(stats.avgLoss, 2)}</span>
                 </div>
               </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Single Trade Days</span>
-                  <span className={Styles.statValue}>{stats.singleTradeDays}</span>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Best Day</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>
+                    {stats.bestDay ? fmtC(stats.bestDay.pnl) : "--"}
+                  </span>
                 </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Overtrading Days</span>
-                  <span className={Styles.statValue}>{stats.overtradingDays}</span>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Worst Day</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>
+                    {stats.worstDay ? fmtC(stats.worstDay.pnl) : "--"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
+              <h3>Streaks</h3>
+            </div>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Consec. Wins</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maxConsecWins}</span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Consec. Losses</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maxConsecLosses}</span>
+                </div>
+              </div>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Win Days</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maxConsecWinDays}</span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Loss Days</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maxConsecLossDays}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
+              <h3>Activity</h3>
+            </div>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg. Trades/Day</span>
+                  <span className={Styles.metricValue}>{stats.avgTradesPerDay.toFixed(1)}</span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Trades/Day</span>
+                  <span className={Styles.metricValue}>{stats.maxTradesDay}</span>
+                </div>
+              </div>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Single Trade Days</span>
+                  <span className={Styles.metricValue}>{stats.singleTradeDays}</span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Overtrading Days</span>
+                  <span className={Styles.metricValue}>{stats.overtradingDays}</span>
                 </div>
               </div>
             </div>
@@ -387,101 +350,83 @@ const Performance = () => {
         </div>
       </section>
 
-      {/* Capital & Quantity Section */}
+      {/* Capital & Risk Section */}
       <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Capital & Quantity Analysis</h2>
-        <div className={Styles.cardGrid}>
-          <div className={Styles.card}>
-            <div className={Styles.cardHeader}>
+        <h2 className={Styles.sectionTitle}>Capital & Risk</h2>
+        <div className={Styles.metricsGrid}>
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
               <h3>Capital Usage</h3>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Max Capital</span>
-                  <span className={Styles.statValue}>{fmtC(stats.maxCapital)}</span>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Capital</span>
+                  <span className={Styles.metricValue}>{fmtC(stats.maxCapital)}</span>
                 </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Min Capital</span>
-                  <span className={Styles.statValue}>{fmtC(stats.minCapital)}</span>
-                </div>
-              </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Avg Capital</span>
-                  <span className={Styles.statValue}>{fmtC(stats.avgCapital)}</span>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Min Capital</span>
+                  <span className={Styles.metricValue}>{fmtC(stats.minCapital)}</span>
                 </div>
               </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>P&L @ Max Capital</span>
-                  <span className={`${Styles.statValue} ${stats.capitalPnlAtMax >= 0 ? Styles.positive : Styles.negative}`}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg Capital</span>
+                  <span className={Styles.metricValue}>{fmtC(stats.avgCapital)}</span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>P&L @ Max Capital</span>
+                  <span className={`${Styles.metricValue} ${stats.capitalPnlAtMax >= 0 ? Styles.positive : Styles.negative}`}>
                     {fmtC(stats.capitalPnlAtMax)}
                   </span>
                 </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>P&L @ Min Capital</span>
-                  <span className={`${Styles.statValue} ${stats.capitalPnlAtMin >= 0 ? Styles.positive : Styles.negative}`}>
-                    {fmtC(stats.capitalPnlAtMin)}
-                  </span>
-                </div>
               </div>
             </div>
           </div>
 
-          <div className={Styles.card}>
-            <div className={Styles.cardHeader}>
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
               <h3>Quantity Analysis</h3>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Max Quantity</span>
-                  <span className={Styles.statValue}>{stats.maxQty}</span>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Quantity</span>
+                  <span className={Styles.metricValue}>{stats.maxQty}</span>
                 </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Min Quantity</span>
-                  <span className={Styles.statValue}>{stats.minQty}</span>
-                </div>
-              </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Avg Quantity</span>
-                  <span className={Styles.statValue}>{stats.avgQty.toFixed(1)}</span>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Min Quantity</span>
+                  <span className={Styles.metricValue}>{stats.minQty}</span>
                 </div>
               </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>P&L @ Max Qty</span>
-                  <span className={`${Styles.statValue} ${stats.qtyPnlAtMax >= 0 ? Styles.positive : Styles.negative}`}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg Quantity</span>
+                  <span className={Styles.metricValue}>{stats.avgQty.toFixed(1)}</span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>P&L @ Max Qty</span>
+                  <span className={`${Styles.metricValue} ${stats.qtyPnlAtMax >= 0 ? Styles.positive : Styles.negative}`}>
                     {fmtC(stats.qtyPnlAtMax)}
                   </span>
                 </div>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>P&L @ Min Qty</span>
-                  <span className={`${Styles.statValue} ${stats.qtyPnlAtMin >= 0 ? Styles.positive : Styles.negative}`}>
-                    {fmtC(stats.qtyPnlAtMin)}
-                  </span>
-                </div>
               </div>
             </div>
           </div>
 
-          <div className={Styles.card}>
-            <div className={Styles.cardHeader}>
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
               <h3>Risk Metrics</h3>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Avg. Risk:Reward</span>
-                  <span className={Styles.statValue}>{stats.avgRr.toFixed(2)}</span>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg. Risk:Reward</span>
+                  <span className={Styles.metricValue}>{stats.avgRr.toFixed(2)}</span>
                 </div>
-              </div>
-              <div className={Styles.statRow}>
-                <div className={Styles.statItem}>
-                  <span className={Styles.statLabel}>Most Profitable Strategy</span>
-                  <span className={`${Styles.statValue} ${Styles.positive}`}>{stats.mostProfStratName}</span>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Most Profitable Strategy</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.mostProfStratName}</span>
                 </div>
               </div>
             </div>
@@ -492,167 +437,118 @@ const Performance = () => {
       {/* Symbols & Strategies Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
-        <div className={Styles.cardGrid}>
-          {/* Symbol Performance Table */}
-          <div className={`${Styles.card} ${Styles.tableCard}`}>
-            <div className={Styles.cardHeader}>
+        <div className={Styles.doubleColumn}>
+          <div className={Styles.dataCard}>
+            <div className={Styles.dataHeader}>
               <h3>Symbol Performance</h3>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.tableContainer}>
-                <table className={Styles.dataTable}>
-                  <thead>
-                    <tr>
-                      <th>Metric</th>
-                      <th>Symbol</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Most Traded</td>
-                      <td>{stats.mostTraded?.sym}</td>
-                      <td>{stats.mostTraded?.count} trades</td>
-                    </tr>
-                    <tr>
-                      <td>Most Profitable</td>
-                      <td>{stats.mostProf?.sym}</td>
-                      <td className={Styles.positive}>{fmtC(stats.mostProf?.profit)}</td>
-                    </tr>
-                    <tr>
-                      <td>Least Profitable</td>
-                      <td>{stats.leastProf?.sym}</td>
-                      <td className={Styles.negative}>{fmtC(stats.leastProf?.profit)}</td>
-                    </tr>
-                    <tr>
-                      <td>Highest Win Rate</td>
-                      <td>{stats.highestWinr?.sym}</td>
-                      <td className={Styles.positive}>{stats.highestWinr?.winRate.toFixed(1)}%</td>
-                    </tr>
-                    <tr>
-                      <td>Lowest Win Rate</td>
-                      <td>{stats.lowestWinr?.sym}</td>
-                      <td className={Styles.negative}>{stats.lowestWinr?.winRate.toFixed(1)}%</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div className={Styles.dataBody}>
+              <table className={Styles.dataTable}>
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>Symbol</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Most Traded</td>
+                    <td>{stats.mostTraded?.sym}</td>
+                    <td>{stats.mostTraded?.count} trades</td>
+                  </tr>
+                  <tr>
+                    <td>Most Profitable</td>
+                    <td>{stats.mostProf?.sym}</td>
+                    <td className={Styles.positive}>{fmtC(stats.mostProf?.profit)}</td>
+                  </tr>
+                  <tr>
+                    <td>Least Profitable</td>
+                    <td>{stats.leastProf?.sym}</td>
+                    <td className={Styles.negative}>{fmtC(stats.leastProf?.profit)}</td>
+                  </tr>
+                  <tr>
+                    <td>Highest Win Rate</td>
+                    <td>{stats.highestWinr?.sym}</td>
+                    <td className={Styles.positive}>{stats.highestWinr?.winRate.toFixed(1)}%</td>
+                  </tr>
+                  <tr>
+                    <td>Lowest Win Rate</td>
+                    <td>{stats.lowestWinr?.sym}</td>
+                    <td className={Styles.negative}>{stats.lowestWinr?.winRate.toFixed(1)}%</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          {/* Strategy Effectiveness Table */}
-          <div className={`${Styles.card} ${Styles.tableCard}`}>
-            <div className={Styles.cardHeader}>
+          <div className={Styles.dataCard}>
+            <div className={Styles.dataHeader}>
               <h3>Strategy Effectiveness</h3>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.tableContainer}>
-                <table className={Styles.dataTable}>
-                  <thead>
-                    <tr>
-                      <th>Strategy</th>
-                      <th>Win Rate</th>
-                      <th>Trades</th>
+            <div className={Styles.dataBody}>
+              <table className={Styles.dataTable}>
+                <thead>
+                  <tr>
+                    <th>Strategy</th>
+                    <th>Win Rate</th>
+                    <th>Trades</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.setupStats.map(({ name, winRate, count }) => (
+                    <tr key={name}>
+                      <td>{name}</td>
+                      <td className={winRate >= 50 ? Styles.positive : Styles.negative}>
+                        {winRate.toFixed(1)}%
+                      </td>
+                      <td>{count}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {stats.setupStats.map(({ name, winRate, count }) => (
-                      <tr key={name}>
-                        <td>{name}</td>
-                        <td className={winRate >= 50 ? Styles.positive : Styles.negative}>
-                          {winRate.toFixed(1)}%
-                        </td>
-                        <td>{count}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-
-          {/* Weekday Analysis Table - Already wrapped */}
-          <div className={`${Styles.card} ${Styles.tableCard} ${Styles.wideCard}`}>
-            <div className={Styles.cardHeader}>
-              <h3>Performance by Weekday</h3>
-            </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.tableContainer}>
-                <table className={Styles.dataTable}>
-                  <thead>
-                    <tr>
-                      <th>Day</th>
-                      <th>Trades</th>
-                      <th>P&L</th>
-                      <th>Win Rate</th>
-                      <th>Avg. R:R</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {stats.weekdayData.map(d => (
-                      <tr key={d.day}>
-                        <td>{d.day}</td>
-                        <td>{d.trades}</td>
-                        <td className={d.pnl >= 0 ? Styles.positive : Styles.negative}>
-                          {fmtC(d.pnl)}
-                        </td>
-                        <td className={d.winRate >= 50 ? Styles.positive : Styles.negative}>
-                          {d.winRate ? d.winRate.toFixed(1) + "%" : "--"}
-                        </td>
-                        <td>{d.avgRr ? d.avgRr.toFixed(2) : "--"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
         </div>
       </section>
 
-      {/* Weekday Analysis Section */}
+      {/* Weekday Performance Section */}
       <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Weekday Analysis</h2>
-        <div className={Styles.cardGrid}>
-          <div className={`${Styles.card} ${Styles.tableCard} ${Styles.wideCard}`}>
-            <div className={Styles.cardHeader}>
-              <h3>Performance by Weekday</h3>
-            </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.tableContainer}>
-                <table className={Styles.dataTable}>
-                  <thead>
-                    <tr>
-                      <th>Day</th>
-                      <th>Trades</th>
-                      <th>P&L</th>
-                      <th>Win Rate</th>
-                      <th>Avg. R:R</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {stats.weekdayData.map(d => (
-                      <tr key={d.day}>
-                        <td>{d.day}</td>
-                        <td>{d.trades}</td>
-                        <td className={d.pnl >= 0 ? Styles.positive : Styles.negative}>
-                          {fmtC(d.pnl)}
-                        </td>
-                        <td className={d.winRate >= 50 ? Styles.positive : Styles.negative}>
-                          {d.winRate ? d.winRate.toFixed(1) + "%" : "--"}
-                        </td>
-                        <td>{d.avgRr ? d.avgRr.toFixed(2) : "--"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+        <h2 className={Styles.sectionTitle}>Weekday Performance</h2>
+        <div className={Styles.fullWidthCard}>
+          <div className={Styles.dataHeader}>
+            <h3>Performance by Day of Week</h3>
+          </div>
+          <div className={Styles.dataBody}>
+            <table className={Styles.dataTable}>
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Trades</th>
+                  <th>P&L</th>
+                  <th>Win Rate</th>
+                  <th>Avg. R:R</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.weekdayData.map(d => (
+                  <tr key={d.day}>
+                    <td>{d.day}</td>
+                    <td>{d.trades}</td>
+                    <td className={d.pnl >= 0 ? Styles.positive : Styles.negative}>
+                      {fmtC(d.pnl)}
+                    </td>
+                    <td className={d.winRate >= 50 ? Styles.positive : Styles.negative}>
+                      {d.winRate ? d.winRate.toFixed(1) + "%" : "--"}
+                    </td>
+                    <td>{d.avgRr ? d.avgRr.toFixed(2) : "--"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
-
     </div>
   );
 };
