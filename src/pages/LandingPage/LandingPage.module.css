@@ -461,6 +461,12 @@
     color: var(--primary-white);
 }
 
+@media (max-width: 608px){
+    .footerContainer{
+        padding: 0 20px;
+    }
+}
+
 
 .stickyHeader {
   position: sticky; 

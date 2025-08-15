@@ -8,7 +8,10 @@
     align-items: start;
     justify-content: center;
     gap: 30px;
+    box-sizing: border-box; /* --- THE PRIMARY FIX --- */
 }
+
+
 
 .infoTopTag{
     font-size: 14px;
@@ -21,11 +24,15 @@
     color: var(--primary-dark-text);
 }
 
+
+
 .tagContainer{ 
     display: flex;
     align-items: center;
     gap: 15px;
 }
+
+
 
 .infoTopHeading{
     display: flex;
@@ -33,14 +40,19 @@
     gap: 5px;
 }
 
+
 .heading{
     font-size: 63px;
     font-weight: 700;
     letter-spacing: -.03em;
     line-height: 1;
     color: var(--primary-dark-text);
-    width: 500px;
+    width: 100%; 
+    max-width: 500px; 
+    overflow-wrap: break-word; 
 }
+
+
 
 .subHeading{
     font-size: 63px;
@@ -48,7 +60,10 @@
     letter-spacing: -.03em;
     line-height: 1;
     color: var(--primary-dark-text);
+    overflow-wrap: break-word; /* --- ADDED FOR SAFETY --- */
 }
+
+
 
 .infoTexts{
     display: flex;
@@ -56,11 +71,15 @@
     gap: 15px;
 }
 
+
+
 .infoButtons{
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
+
+
 
 .infoPara{
     color: var(--primary-dark-text);
@@ -69,17 +88,23 @@
     font-weight: 300;
 }
 
+
 .infoPoints{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+    width: 100%; 
 }
+
+
 
 .points{
     display: flex;
     align-items: start;
     gap: 10px;
 }
+
+
 
 .pointIcon{
     display: flex;
@@ -89,6 +114,8 @@
     color: var(--primary-dark-text);
 }
 
+
+
 .pointsText{
     color: var(--primary-dark-text);
     font-size: 16px;
@@ -96,11 +123,15 @@
     font-weight: 300;
 }
 
+
 .buttons{
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-wrap: wrap; 
 }
+
+
 
 .buttonSmallText{
     font-size: 12px;
@@ -108,18 +139,22 @@
     color: var(--primary-dark-text);
 }
 
+
+
 @media (max-width: 1353px){
     .heading{
-        width: 400px;
+        max-width: 400px; 
     }
     .heading, .subHeading{
         font-size: 50px;
     }
 }
 
+
+
 @media (max-width: 998px){
     .heading{
-        width: 300px;
+        max-width: 300px; 
     }
     .heading, .subHeading{
         font-size: 40px;
@@ -135,8 +170,25 @@
     }
 }
 
+
+
 @media (max-width: 608px){
     .informationContainer{
         padding: 5.2rem 16px;
+    }
+
+    .infoPoints{
+        grid-template-columns: 1fr;
+    }
+
+
+    .heading{
+        max-width: 100%; 
+        font-size: 36px; 
+    }
+
+
+    .subHeading{
+        font-size: 36px;
     }
 }
