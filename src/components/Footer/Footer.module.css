@@ -107,7 +107,7 @@
 .footerLogo{
     display: flex;
     flex-direction: column;
-    gap: 24px; 
+    gap: 12px; 
 }
 
 .socials {
@@ -126,4 +126,11 @@
 
 .socials a:hover {
   opacity: 1; 
+}
+
+
+.email{
+    color: var(--primary-white);
+    font-weight: 300;
+    font-size: 16px;
 }

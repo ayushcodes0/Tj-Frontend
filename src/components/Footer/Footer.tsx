@@ -12,6 +12,7 @@ const Footer = () => {
       <div className={Styles.footer}>
         <div className={Styles.footerLogo}>
           <p className={Styles.logo}>TradeJournal</p>
+          <p className={Styles.email}>TradeJournal@gmail.com</p>
           {/* Social media links are a great way to build community and trust */}
           <div className={Styles.socials}>
             <a href="#" aria-label="Twitter"><RiTwitterXFill /></a>
