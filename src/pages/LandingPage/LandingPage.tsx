@@ -15,17 +15,100 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import Footer from '../../components/Footer/Footer';
 import Pricing from '../../components/Pricing/Pricing';
 import { FaBrain } from "react-icons/fa";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import type { Variants } from "framer-motion";
+
+// Animation variants
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const fadeUpItem: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      ease: [0.16, 0.77, 0.47, 0.97],
+      duration: 0.6
+    }
+  }
+};
+
+const fadeUpItemFast: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      ease: "easeOut",
+      duration: 0.4
+    }
+  }
+};
+
+// const fadeInUp: Variants = {
+//   hidden: { opacity: 0, y: 20 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       duration: 0.6,
+//       ease: [0.16, 0.77, 0.47, 0.97]
+//     }
+//   }
+// };
+
+const imageRotate: Variants = {
+  hidden: { opacity: 0, rotate: -20, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    rotate: 0,
+    scale: 1,
+    transition: {
+      delay: 0.3,
+      duration: 0.8,
+      ease: [0.16, 0.77, 0.47, 0.97]
+    }
+  }
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1
+    }
+  }
+};
 
 const LandingPage = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const [isPastInformation, setIsPastInformation] = useState<boolean>(false);
+  const [hasAnimated, setHasAnimated] = useState<boolean>(false);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const scrollTimeoutRef = useRef<number | null>(null);
   const lastScrollTimeRef = useRef<number>(0);
   const scrollDirectionRef = useRef<'up' | 'down'>('down');
   const lastScrollYRef = useRef<number>(0);
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -37,33 +120,40 @@ const LandingPage = () => {
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-useEffect(() => {
-  const handleScroll = () => {
-    const informationContainer = document.querySelector(`.${Styles.information}`);
-    if (!informationContainer) return;
-    
-    const lastChild = informationContainer.lastElementChild;
-    if (!lastChild) return;
-    
-    const containerRect = informationContainer.getBoundingClientRect();
-    const lastChildRect = lastChild.getBoundingClientRect();
-    
-    const trueEnd = Math.max(
-      containerRect.bottom + window.pageYOffset,
-      lastChildRect.bottom + window.pageYOffset
-    );
-    
-    const currentPosition = window.pageYOffset + window.innerHeight - 200;
-    setIsPastInformation(currentPosition > trueEnd);
-  };
+  useEffect(() => {
+    if (inView && !hasAnimated) {
+      controls.start("visible");
+      setHasAnimated(true);
+    }
+  }, [inView, controls, hasAnimated]);
 
-  const throttledScroll = () => {
-    requestAnimationFrame(handleScroll);
-  };
-  
-  window.addEventListener('scroll', throttledScroll, { passive: true });
-  return () => window.removeEventListener('scroll', throttledScroll);
-}, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      const informationContainer = document.querySelector(`.${Styles.information}`);
+      if (!informationContainer) return;
+      
+      const lastChild = informationContainer.lastElementChild;
+      if (!lastChild) return;
+      
+      const containerRect = informationContainer.getBoundingClientRect();
+      const lastChildRect = lastChild.getBoundingClientRect();
+      
+      const trueEnd = Math.max(
+        containerRect.bottom + window.pageYOffset,
+        lastChildRect.bottom + window.pageYOffset
+      );
+      
+      const currentPosition = window.pageYOffset + window.innerHeight - 200;
+      setIsPastInformation(currentPosition > trueEnd);
+    };
+
+    const throttledScroll = () => {
+      requestAnimationFrame(handleScroll);
+    };
+    
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    return () => window.removeEventListener('scroll', throttledScroll);
+  }, []);
 
   const registerSection = useCallback((element: HTMLElement | null, index: number) => {
     sectionsRef.current[index] = element;
@@ -159,21 +249,12 @@ useEffect(() => {
     setIsMobileDrawerOpen(prev => !prev);
   }, []);
 
-  // const gradientColors: string[] = [
-  //   "linear-gradient(#d9edca, #fff3d6)",
-  //   "linear-gradient(#f7eae4, #DBDEF0)",
-  //   "linear-gradient(#c3cdf4, #fed0b9)",
-  //   "linear-gradient(#230b5b, #4840ba)"
-  // ];
-
-const gradientColors: string[] = [
-    "linear-gradient(#C8E1FF, #E8F4FF)",   // Light pure blue to very light blue
-    "linear-gradient(#DDEEFF, #C2DDFF)",   // Soft blue to light blue with more saturation
-    "linear-gradient(#85A9DD, #B8CEFF)",   // Medium blue to light blue (more vibrant)
-    "linear-gradient(#0A3D7A, #1255CC)"    // Dark blue to brighter primary blue
-];
-
-
+  const gradientColors: string[] = [
+    "linear-gradient(#C8E1FF, #E8F4FF)",
+    "linear-gradient(#DDEEFF, #C2DDFF)",
+    "linear-gradient(#85A9DD, #B8CEFF)",
+    "linear-gradient(#0A3D7A, #1255CC)"
+  ];
 
   const menuItems = [
     { 
@@ -194,7 +275,6 @@ const gradientColors: string[] = [
     }
   ];
 
-
   return (
     <div className={Styles.landingPageContainer}> 
       <div className={Styles.landingPageHero}>
@@ -204,91 +284,206 @@ const gradientColors: string[] = [
         <div className={Styles.navbarContainer}>
           <Navbar />
         </div>
-        <div className={Styles.heroSection}>
+        <div className={Styles.heroSection} ref={ref}>
           <div className={Styles.heroSectionLeft}>
-            <div className={Styles.mainHeading}>
-              {/* Main Headline (Unchanged as requested) */}
-              <p className={Styles.topHeading}>Money works <br />better here.</p>
-              <div className={Styles.middleHeading}>
+            <motion.div 
+              className={Styles.mainHeading}
+              initial="hidden"
+              animate={controls}
+              variants={containerVariants}
+            >
+              {/* Main Headline with animation */}
+              <motion.h1 
+                className={Styles.topHeading}
+                variants={fadeUpItem}
+                custom={0}
+              >
+                Money works <br />better here.
+              </motion.h1>
+              
+              <motion.div 
+                className={Styles.middleHeading}
+                variants={staggerContainer}
+              >
                 {/* Feature 1 */}
-                <div className={Styles.middleHeadingLeft}>
-                  <div className={Styles.middleHeadingIcon}><IoFolderOpenOutline className={Styles.folderIcon} /></div>
+                <motion.div 
+                  className={Styles.middleHeadingLeft}
+                  variants={fadeUpItem}
+                  custom={1}
+                >
+                  <div className={Styles.middleHeadingIcon}>
+                    <IoFolderOpenOutline className={Styles.folderIcon} />
+                  </div>
                   <div className={Styles.middleHeadingText}>
                     <p className={Styles.middleSubHeading}>Log every detail, effortlessly.</p>
                     <p className={Styles.middleSubText}>Capture your setups, emotions, and outcomes in seconds.</p>
                   </div>
-                </div>
+                </motion.div>
+                
                 {/* Feature 2 */}
-                <div className={Styles.middleHeadingRight}>
-                  <div className={Styles.middleHeadingIcon}><TbPlant className={Styles.folderIcon} /></div>
+                <motion.div 
+                  className={Styles.middleHeadingRight}
+                  variants={fadeUpItem}
+                  custom={1.2}
+                >
+                  <div className={Styles.middleHeadingIcon}>
+                    <TbPlant className={Styles.folderIcon} />
+                  </div>
                   <p className={Styles.middleSubHeading}>Discover your winning patterns.</p>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
+              
               {/* Call to Action */}
-              <div className={Styles.ctaContainer}>
-                <div className={Styles.ctaButton}><FilledButton text='Start free' /></div>
-                {/* Updated CTA Text */}
-                <p className={Styles.ctaText}>*It will be free for first 24 hours.</p>
-              </div>
-            </div>
+              <motion.div 
+                className={Styles.ctaContainer}
+                variants={fadeUpItem}
+                custom={1.4}
+              >
+                <div className={Styles.ctaButton}>
+                  <FilledButton text='Start free' />
+                </div>
+                <motion.p 
+                  className={Styles.ctaText}
+                  variants={fadeUpItemFast}
+                  custom={1.5}
+                >
+                  *It will be free for first 24 hours.
+                </motion.p>
+              </motion.div>
+            </motion.div>
+            
             {/* Secondary Benefits */}
-            <div className={Styles.headingBottom}>
-              <div className={Styles.bottomLeft}>
-                {/* Updated Heading for AI Feature */}
+            <motion.div 
+              className={Styles.headingBottom}
+              initial="hidden"
+              animate={controls}
+              variants={staggerContainer}
+            >
+              <motion.div 
+                className={Styles.bottomLeft}
+                variants={fadeUpItem}
+                custom={1.6}
+              >
                 <p className={Styles.bottomHeading}>AI Insights</p>
                 <p className={Styles.bottomSubHeading}>Receive actionable, AI-powered feedback on every trade.</p>
-              </div>
-              <div className={Styles.bottomRight}>
-                {/* Updated Heading */}
+              </motion.div>
+              
+              <motion.div 
+                className={Styles.bottomRight}
+                variants={fadeUpItem}
+                custom={1.8}
+              >
                 <p className={Styles.bottomHeading}>Psychology</p>
                 <p className={Styles.bottomSubHeading}>Track your emotional state to conquer fear and greed.</p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
+            
             {/* Social Proof / Key Stats */}
-            <div className={Styles.stats}>
-              <div className={Styles.rightBottom}>
-                <div className={Styles.bottomLeft}>
+            <motion.div 
+              className={Styles.stats}
+              initial="hidden"
+              animate={controls}
+              variants={staggerContainer}
+            >
+              <motion.div 
+                className={Styles.rightBottom}
+                variants={fadeUpItem}
+                custom={2}
+              >
+                <motion.div 
+                  className={Styles.bottomLeft}
+                  variants={fadeUpItemFast}
+                  custom={2.1}
+                >
                   <p className={Styles.bottomHeading}>30+</p>
                   <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
-                </div>
-                <div className={Styles.bottomLeft}>
+                </motion.div>
+                <motion.div 
+                  className={Styles.bottomLeft}
+                  variants={fadeUpItemFast}
+                  custom={2.2}
+                >
                   <p className={Styles.bottomHeading}>9/10</p>
                   <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
-                </div>
-                <div className={Styles.bottomLeft}>
+                </motion.div>
+                <motion.div 
+                  className={Styles.bottomLeft}
+                  variants={fadeUpItemFast}
+                  custom={2.3}
+                >
                   <p className={Styles.bottomHeading}>5</p>
                   <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
-                </div>
-                <div className={Styles.bottomLeft}>
+                </motion.div>
+                <motion.div 
+                  className={Styles.bottomLeft}
+                  variants={fadeUpItemFast}
+                  custom={2.4}
+                >
                   <p className={Styles.bottomHeading}>100%</p>
                   <p className={Styles.bottomSubHeading}>Secure & Private</p>
-                </div>
-              </div>
-            </div>
-
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </div>
-          <div className={Styles.heroSectionRight}>
-            <div className={Styles.heroSectionImageContainer}><img src={HeroSectionImage} alt="Trade Journal Dashboard" className={Styles.heroSectionImage} /></div>
+          
+          <motion.div 
+            className={Styles.heroSectionRight}
+            initial="hidden"
+            animate={controls}
+            variants={{}}
+          >
+            <motion.div 
+              className={Styles.heroSectionImageContainer}
+              variants={imageRotate}
+            >
+              <img 
+                src={HeroSectionImage} 
+                alt="Trade Journal Dashboard" 
+                className={Styles.heroSectionImage}
+              />
+            </motion.div>
+            
             {/* Mobile-only Stats */}
-            <div className={Styles.rightBottom}>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>30+</p>
-                  <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
-                </div>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>9/10</p>
-                  <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
-                </div>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>5</p>
-                  <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
-                </div>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>100%</p>
-                  <p className={Styles.bottomSubHeading}>Secure & Private</p>
-                </div>
-              </div>
-          </div>
+            <motion.div 
+              className={Styles.rightBottom}
+              initial="hidden"
+              animate={controls}
+              variants={staggerContainer}
+            >
+              <motion.div 
+                className={Styles.bottomLeft}
+                variants={fadeUpItemFast}
+                custom={0.5}
+              >
+                <p className={Styles.bottomHeading}>30+</p>
+                <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
+              </motion.div>
+              <motion.div 
+                className={Styles.bottomLeft}
+                variants={fadeUpItemFast}
+                custom={0.6}
+              >
+                <p className={Styles.bottomHeading}>9/10</p>
+                <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
+              </motion.div>
+              <motion.div 
+                className={Styles.bottomLeft}
+                variants={fadeUpItemFast}
+                custom={0.7}
+              >
+                <p className={Styles.bottomHeading}>5</p>
+                <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
+              </motion.div>
+              <motion.div 
+                className={Styles.bottomLeft}
+                variants={fadeUpItemFast}
+                custom={0.8}
+              >
+                <p className={Styles.bottomHeading}>100%</p>
+                <p className={Styles.bottomSubHeading}>Secure & Private</p>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
@@ -361,7 +556,7 @@ const gradientColors: string[] = [
         >
           <InfoContainer
             tags={["Analytics", "Performance", "Overview"]}
-            heading="Your Trading Dashboard." // Final, shorter heading
+            heading="Your Trading Dashboard."
             subHeading="See what matters."
             infoPara="Our Unified Dashboard brings all your critical trading data into one clear, intuitive view. Track your progress, understand your habits, and make informed decisions without the clutter. It's your entire trading world, at a glance."
             points={[
@@ -452,8 +647,6 @@ const gradientColors: string[] = [
         </div>
         <div className={`${Styles.informationImageContainer} ${Styles.image3}`} style={{ background: gradientColors[3] }} />
       </div>
-
-
 
       <div className={Styles.pricingContainer}>
         <Pricing/>
