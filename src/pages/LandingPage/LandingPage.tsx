@@ -193,76 +193,87 @@ const gradientColors: string[] = [
         <div className={Styles.heroSection}>
           <div className={Styles.heroSectionLeft}>
             <div className={Styles.mainHeading}>
-              <p className={Styles.topHeading}>Money Works <br />Better Here.</p>
+              {/* Main Headline (Unchanged as requested) */}
+              <p className={Styles.topHeading}>Money works <br />better here.</p>
               <div className={Styles.middleHeading}>
+                {/* Feature 1 */}
                 <div className={Styles.middleHeadingLeft}>
                   <div className={Styles.middleHeadingIcon}><IoFolderOpenOutline className={Styles.folderIcon} /></div>
                   <div className={Styles.middleHeadingText}>
-                    <p className={Styles.middleSubHeading}>Lorem, ipsum dolor.</p>
-                    <p className={Styles.middleSubText}>Lorem ipsum dolor sit amet consectetur.</p>
+                    <p className={Styles.middleSubHeading}>Log every detail, effortlessly.</p>
+                    <p className={Styles.middleSubText}>Capture your setups, emotions, and outcomes in seconds.</p>
                   </div>
                 </div>
+                {/* Feature 2 */}
                 <div className={Styles.middleHeadingRight}>
                   <div className={Styles.middleHeadingIcon}><TbPlant className={Styles.folderIcon} /></div>
-                  <p className={Styles.middleSubHeading}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                  <p className={Styles.middleSubHeading}>Discover your winning patterns.</p>
                 </div>
               </div>
+              {/* Call to Action */}
               <div className={Styles.ctaContainer}>
-                <div className={Styles.ctaButton}><FilledButton text='Get started' /></div>
-                <p className={Styles.ctaText}>*Lorem ipsum dolor sit amet.</p>
+                <div className={Styles.ctaButton}><FilledButton text='Start free' /></div>
+                {/* Updated CTA Text */}
+                <p className={Styles.ctaText}>*It will be free for first 24 hours.</p>
               </div>
             </div>
+            {/* Secondary Benefits */}
             <div className={Styles.headingBottom}>
               <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>Lorem.</p>
-                <p className={Styles.bottomSubHeading}>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+                {/* Updated Heading for AI Feature */}
+                <p className={Styles.bottomHeading}>AI Insights</p>
+                <p className={Styles.bottomSubHeading}>Receive actionable, AI-powered feedback on every trade.</p>
               </div>
               <div className={Styles.bottomRight}>
-                <p className={Styles.bottomHeading}>Lorem.</p>
-                <p className={Styles.bottomSubHeading}>Lorem ipsum dolor sit amet consectetur <br /> adipisicing elit. Unde reiciendis magnam similique!</p>
+                {/* Updated Heading */}
+                <p className={Styles.bottomHeading}>Psychology</p>
+                <p className={Styles.bottomSubHeading}>Track your emotional state to conquer fear and greed.</p>
               </div>
             </div>
+            {/* Social Proof / Key Stats */}
             <div className={Styles.stats}>
               <div className={Styles.rightBottom}>
                 <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>1M+</p>
-                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                  <p className={Styles.bottomHeading}>30+</p>
+                  <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
                 </div>
                 <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>Lorem.</p>
-                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                  <p className={Styles.bottomHeading}>9/10</p>
+                  <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
                 </div>
                 <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>Lorem.</p>
-                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                  <p className={Styles.bottomHeading}>5</p>
+                  <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
                 </div>
                 <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>Lorem.</p>
-                  <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                  <p className={Styles.bottomHeading}>100%</p>
+                  <p className={Styles.bottomSubHeading}>Secure & Private</p>
                 </div>
               </div>
             </div>
+
           </div>
           <div className={Styles.heroSectionRight}>
-            <div className={Styles.heroSectionImageContainer}><img src={HeroSectionImage} alt="HeroSectionImage" className={Styles.heroSectionImage} /></div>
+            <div className={Styles.heroSectionImageContainer}><img src={HeroSectionImage} alt="Trade Journal Dashboard" className={Styles.heroSectionImage} /></div>
+            {/* Mobile-only Stats */}
             <div className={Styles.rightBottom}>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>1M+</p>
-                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>30+</p>
+                  <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
+                </div>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>9/10</p>
+                  <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
+                </div>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>5</p>
+                  <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
+                </div>
+                <div className={Styles.bottomLeft}>
+                  <p className={Styles.bottomHeading}>100%</p>
+                  <p className={Styles.bottomSubHeading}>Secure & Private</p>
+                </div>
               </div>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>Lorem.</p>
-                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
-              </div>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>Lorem.</p>
-                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
-              </div>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>Lorem.</p>
-                <p className={Styles.bottomSubHeading}>Lorem, ipsum.</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

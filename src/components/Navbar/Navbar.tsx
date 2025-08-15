@@ -73,7 +73,7 @@ const Navbar = () => {
   return (
     <div className={Styles.navbar}>
       {/* Logo */}
-      <Link to={"/"}><p className={Styles.logo}>LoremIpsum</p></Link>
+      <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
 
       {/* Desktop Navigation */}
       <div className={Styles.navLinks}>
