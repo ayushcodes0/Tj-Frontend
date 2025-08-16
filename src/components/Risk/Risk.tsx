@@ -51,8 +51,8 @@ const Risk = () => {
       return (sorted[mid - 1] + sorted[mid]) / 2;
     })();
 
-    const bestRR = rrList.reduce((max, t) => (t.ratio > max.ratio ? t : max), rrList[0]);
-    const worstRR = rrList.reduce((min, t) => (t.ratio < min.ratio ? t : min), rrList[0]);
+    const bestRR = rrList.length ? rrList.reduce((max, t) => (t.ratio > max.ratio ? t : max), rrList[0]) : null;
+    const worstRR = rrList.length ? rrList.reduce((min, t) => (t.ratio < min.ratio ? t : min), rrList[0]) : null;
 
     const riskAmounts = trades
       .map(trade =>
@@ -132,163 +132,176 @@ const Risk = () => {
 
   if (!stats) {
     return (
-      <div className={Styles.performancePage}>
-        <h1 className={Styles.pageTitle}>Risk Analysis</h1>
+      <div className={Styles.dashboard}>
+        <h1 className={Styles.title}>Risk Analysis</h1>
         <div className={Styles.emptyState}>No risk data found for this period.</div>
       </div>
     );
   }
 
   return (
-    <div className={Styles.performancePage}>
-      <h1 className={Styles.pageTitle}>Risk Analysis</h1>
-      
-      <div className={Styles.cardGrid}>
-        {/* Risk:Reward Card */}
-        <div className={Styles.card}>
-          <div className={Styles.cardHeader}>
-            <h3>Risk:Reward Ratio</h3>
+    <div className={Styles.dashboard}>
+      <header className={Styles.header}>
+        <h1 className={Styles.title}>Risk Analysis</h1>
+        <div className={Styles.summaryCards}>
+          <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
+            <div className={Styles.summaryLabel}>Avg Risk:Reward</div>
+            <div className={Styles.summaryValue}>
+              {stats.avgRR !== null ? prettyRiskReward(stats.avgRR) : "--"}
+            </div>
           </div>
-          <div className={Styles.cardBody}>
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Average R:R</span>
-                <span className={`${Styles.statValue} ${Styles.positive}`}>
-                  {stats.avgRR !== null ? prettyRiskReward(stats.avgRR) : "--"}
-                </span>
+          <div className={`${Styles.summaryCard} ${stats.breachPercent > 0 ? Styles.dangerCard : Styles.successCard}`}>
+            <div className={Styles.summaryLabel}>Risk Breaches</div>
+            <div className={Styles.summaryValue}>{stats.breachCount}</div>
+          </div>
+          <div className={`${Styles.summaryCard} ${Styles.primaryCard}`} >
+            <div className={Styles.summaryLabel}>Avg Risk Amount</div>
+            <div className={Styles.summaryValue}>
+              {stats.avgRiskAmt !== null ? fmtC(stats.avgRiskAmt, 0) : "--"}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section className={Styles.section}>
+        <h2 className={Styles.sectionTitle}>Risk Metrics</h2>
+        <div className={Styles.metricsGrid}>
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
+              <h3>Risk:Reward Ratio</h3>
+            </div>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Average R:R</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>
+                    {stats.avgRR !== null ? prettyRiskReward(stats.avgRR) : "--"}
+                  </span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Median R:R</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>
+                    {stats.medianRR !== null ? prettyRiskReward(stats.medianRR) : "--"}
+                  </span>
+                </div>
               </div>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Median R:R</span>
-                <span className={`${Styles.statValue} ${Styles.positive}`}>
-                  {stats.medianRR !== null ? prettyRiskReward(stats.medianRR) : "--"}
-                </span>
+              
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Best R:R</span>
+                  <span className={Styles.metricValue}>
+                    {stats.bestRR ? prettyRiskReward(stats.bestRR.ratio) : "--"}
+                  </span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Worst R:R</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>
+                    {stats.worstRR ? prettyRiskReward(stats.worstRR.ratio) : "--"}
+                  </span>
+                </div>
               </div>
             </div>
-            
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Best R:R</span>
-                <span className={Styles.statValue}>
-                  {stats.bestRR ? prettyRiskReward(stats.bestRR.ratio) : "--"}
-                </span>
+          </div>
+
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
+              <h3>Risk Amounts</h3>
+            </div>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg Risk Amount</span>
+                  <span className={Styles.metricValue}>
+                    {stats.avgRiskAmt !== null ? fmtC(stats.avgRiskAmt, 0) : "--"}
+                  </span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Avg Risk %</span>
+                  <span className={Styles.metricValue}>
+                    {stats.avgRiskPct !== null ? stats.avgRiskPct.toFixed(2) + "%" : "--"}
+                  </span>
+                </div>
               </div>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Worst R:R</span>
-                <span className={`${Styles.statValue} ${Styles.negative}`}>
-                  {stats.worstRR ? prettyRiskReward(stats.worstRR.ratio) : "--"}
-                </span>
+              
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Max Risk</span>
+                  <span className={Styles.metricValue}>
+                    {stats.maxRiskAmt !== null ? fmtC(stats.maxRiskAmt, 0) : "--"}
+                  </span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Min Risk</span>
+                  <span className={Styles.metricValue}>
+                    {stats.minRiskAmt !== null ? fmtC(stats.minRiskAmt, 0) : "--"}
+                  </span>
+                </div>
               </div>
             </div>
-            
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Trades Analyzed</span>
-                <span className={Styles.statValue}>{stats.count}</span>
+          </div>
+
+          <div className={Styles.metricCard}>
+            <div className={Styles.metricHeader}>
+              <h3>Risk Discipline</h3>
+            </div>
+            <div className={Styles.metricBody}>
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Risk Breaches</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>
+                    {stats.breachCount}
+                  </span>
+                </div>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.metricLabel}>Breach %</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>
+                    {stats.breachPercent.toFixed(1)}%
+                  </span>
+                </div>
+              </div>
+              
+              <div className={Styles.metricRow}>
+                <div className={Styles.metricItem}>
+                  <span className={Styles.statNote}>
+                    Breaches occur when loss exceeds defined risk (possible slippage or poor discipline)
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Risk Amounts Card */}
-        <div className={Styles.card}>
-          <div className={Styles.cardHeader}>
-            <h3>Risk per Trade</h3>
+      <section className={Styles.section}>
+        <h2 className={Styles.sectionTitle}>Best Risk:Reward by Symbol</h2>
+        <div className={Styles.fullWidthCard}>
+          <div className={Styles.dataHeader}>
+            <h3>Top Performing Symbols</h3>
           </div>
-          <div className={Styles.cardBody}>
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Avg Risk Amount</span>
-                <span className={Styles.statValue}>
-                  {stats.avgRiskAmt !== null ? fmtC(stats.avgRiskAmt, 0) : "--"}
-                </span>
-              </div>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Avg Risk %</span>
-                <span className={Styles.statValue}>
-                  {stats.avgRiskPct !== null ? stats.avgRiskPct.toFixed(2) + "%" : "--"}
-                </span>
-              </div>
-            </div>
-            
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Max Risk</span>
-                <span className={Styles.statValue}>
-                  {stats.maxRiskAmt !== null ? fmtC(stats.maxRiskAmt, 0) : "--"}
-                </span>
-              </div>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Min Risk</span>
-                <span className={Styles.statValue}>
-                  {stats.minRiskAmt !== null ? fmtC(stats.minRiskAmt, 0) : "--"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Risk Discipline Card */}
-        <div className={Styles.card}>
-          <div className={Styles.cardHeader}>
-            <h3>Risk Discipline</h3>
-          </div>
-          <div className={Styles.cardBody}>
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Risk Breaches</span>
-                <span className={`${Styles.statValue} ${Styles.negative}`}>
-                  {stats.breachCount}
-                </span>
-              </div>
-              <div className={Styles.statItem}>
-                <span className={Styles.statLabel}>Breach %</span>
-                <span className={`${Styles.statValue} ${Styles.negative}`}>
-                  {stats.breachPercent.toFixed(1)}%
-                </span>
-              </div>
-            </div>
-            
-            <div className={Styles.statRow}>
-              <div className={Styles.statItem}>
-                <span className={Styles.statNote}>
-                  Breaches occur when loss exceeds defined risk (possible slippage or poor discipline)
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Best R:R Symbols Card */}
-        <div className={`${Styles.card} ${Styles.wideCard}`}>
-          <div className={Styles.cardHeader}>
-            <h3>Best Risk:Reward by Symbol</h3>
-          </div>
-          <div className={Styles.cardBody}>
+          <div className={Styles.dataBody}>
             {stats.rrBySymbolSorted.length > 0 ? (
-              <div className={Styles.tableContainer}>
-                <table className={Styles.dataTable}>
-                  <thead>
-                    <tr>
-                      <th>Symbol</th>
-                      <th>Average R:R</th>
+              <table className={Styles.dataTable}>
+                <thead>
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Average R:R</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stats.rrBySymbolSorted.map(item => (
+                    <tr key={item.sym}>
+                      <td>{item.sym}</td>
+                      <td>{item.avg !== null ? prettyRiskReward(item.avg) : "--"}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {stats.rrBySymbolSorted.map(item => (
-                      <tr key={item.sym}>
-                        <td>{item.sym}</td>
-                        <td>{item.avg !== null ? prettyRiskReward(item.avg) : "--"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             ) : (
               <div className={Styles.emptyState}>No symbol data available</div>
             )}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
