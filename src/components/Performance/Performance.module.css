@@ -1,10 +1,10 @@
 .dashboard {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: var(--dashboard-right-background, #f5f7fa);
   padding: 24px;
   box-sizing: border-box;
-  color: #2d3748;
+  color: var(--dashboard-primary-text, #2d3748);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -15,7 +15,7 @@
 .title {
   font-size: 28px;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--dashboard-primary-text, #1a202c);
   margin-bottom: 16px;
 }
 
@@ -27,7 +27,7 @@
 
 .summaryCard {
   flex: 1;
-  background: #fff;
+  background: var(--dashboard-primary-background, #fff);
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -39,17 +39,17 @@
 }
 
 .primaryCard {
-  background: #4299e1;
+  background: var(--dashboard-blue-color, #4299e1);
   color: white;
 }
 
 .successCard {
-  background: #48bb78;
+  background: var(--dashboard-green-color, #48bb78);
   color: white;
 }
 
 .dangerCard {
-  background: #f56565;
+  background: var(--dashboard-red-color, #f56565);
   color: white;
 }
 
@@ -72,10 +72,10 @@
 .sectionTitle {
   font-size: 20px;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--dashboard-primary-text, #2d3748);
   margin-bottom: 16px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
 }
 
 .metricsGrid {
@@ -86,7 +86,7 @@
 }
 
 .metricCard {
-  background: #fff;
+  background: var(--dashboard-primary-background, #fff);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -94,14 +94,13 @@
 
 .metricHeader {
   padding: 16px 20px;
-  background: #edf2f7;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
 }
 
 .metricHeader h3 {
   font-size: 16px;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--dashboard-primary-text, #2d3748);
   margin: 0;
 }
 
@@ -126,7 +125,7 @@
 .metricLabel {
   display: block;
   font-size: 13px;
-  color: #718096;
+  color: var(--dashboard-secondary-text, #718096);
   margin-bottom: 4px;
 }
 
@@ -134,15 +133,15 @@
   display: block;
   font-size: 16px;
   font-weight: 500;
-  color: #2d3748;
+  color: var(--dashboard-primary-text, #2d3748);
 }
 
 .positive {
-  color: #38a169;
+  color: var(--dashboard-green-color, #38a169);
 }
 
 .negative {
-  color: #e53e3e;
+  color: var(--dashboard-red-color, #e53e3e);
 }
 
 .doubleColumn {
@@ -153,14 +152,14 @@
 }
 
 .fullWidthCard {
-  background: #fff;
+  background: var(--dashboard-primary-background, #fff);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
 
 .dataCard {
-  background: #fff;
+  background: var(--dashboard-primary-background, #fff);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -169,14 +168,13 @@
 
 .dataHeader {
   padding: 16px 20px;
-  background: #edf2f7;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
 }
 
 .dataHeader h3 {
   font-size: 16px;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--dashboard-primary-text, #2d3748);
   margin: 0;
 }
 
@@ -193,15 +191,14 @@
 .dataTable th {
   text-align: left;
   padding: 12px 16px;
-  background: #f7fafc;
-  color: #4a5568;
+  color: var(--dashboard-table-header-text, #4a5568);
   font-weight: 600;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
 }
 
 .dataTable td {
   padding: 12px 16px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
 }
 
 .dataTable tr:last-child td {
@@ -212,7 +209,7 @@
   padding: 30px;
   font-size: 18px;
   text-align: center;
-  color: #718096;
+  color: var(--dashboard-secondary-text, #718096);
 }
 
 @media (max-width: 1024px) {
