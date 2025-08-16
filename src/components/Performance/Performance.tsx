@@ -2,16 +2,16 @@ import { useMemo } from "react";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./performance.module.css";
 
-const fmtC = (num: number, d: number = 0) =>
+const formatCurrency = (num: number, decimals: number = 0) =>
   typeof num === "number"
-    ? "₹" + num.toLocaleString(undefined, { maximumFractionDigits: d })
+    ? "₹" + num.toLocaleString(undefined, { maximumFractionDigits: decimals })
     : "--";
 
-const getWinRate = (wins: number, total: number) =>
+const calculateWinRate = (wins: number, total: number) =>
   total ? (wins / total) * 100 : 0;
 
-const getExpectancy = (avgWin: number, winRate: number, avgLoss: number, lossRate: number) =>
-  avgWin * (winRate / 100) + avgLoss * (lossRate / 100);
+const calculateExpectancy = (averageWin: number, winRate: number, averageLoss: number, lossRate: number) =>
+  averageWin * (winRate / 100) + averageLoss * (lossRate / 100);
 
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -21,116 +21,116 @@ const Performance = () => {
   const stats = useMemo(() => {
     if (!trades || !trades.length) return null;
     
-    // --- win/loss/neutral
-    const wins = trades.filter(t => (t.pnl_amount ?? 0) > 0);
-    const losses = trades.filter(t => (t.pnl_amount ?? 0) < 0);
-    const breakEven = trades.filter(t => (t.pnl_amount ?? 0) === 0);
-    const days = Array.from(new Set(trades.map(t => t.date.slice(0, 10))));
+    // --- Win/Loss/Break-even
+    const wins = trades.filter(trade => (trade.pnl_amount ?? 0) > 0);
+    const losses = trades.filter(trade => (trade.pnl_amount ?? 0) < 0);
+    const breakEven = trades.filter(trade => (trade.pnl_amount ?? 0) === 0);
+    const days = Array.from(new Set(trades.map(trade => trade.date.slice(0, 10))));
     const byDay = Object.fromEntries(
-      days.map(d => [
-        d,
-        trades.filter(t => t.date.slice(0, 10) === d)
+      days.map(day => [
+        day,
+        trades.filter(trade => trade.date.slice(0, 10) === day)
       ])
     );
-    const dailyWinDays = Object.values(byDay).filter(list => list.reduce((s, t) => s + (t.pnl_amount ?? 0), 0) > 0);
-    const dailyLossDays = Object.values(byDay).filter(list => list.reduce((s, t) => s + (t.pnl_amount ?? 0), 0) < 0);
+    const dailyWinDays = Object.values(byDay).filter(list => list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) > 0);
+    const dailyLossDays = Object.values(byDay).filter(list => list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) < 0);
     const bestDay = Object.entries(byDay).reduce(
-      (best, [d, list]) => {
-        const pl = list.reduce((s, t) => s + (t.pnl_amount ?? 0), 0);
-        return !best || pl > best.pnl
-          ? { date: d, pnl: pl }
+      (best, [date, list]) => {
+        const profitLoss = list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+        return !best || profitLoss > best.profitLoss
+          ? { date, profitLoss }
           : best;
-      }, null as null | { date: string; pnl: number }
+      }, null as null | { date: string; profitLoss: number }
     );
     const worstDay = Object.entries(byDay).reduce(
-      (best, [d, list]) => {
-        const pl = list.reduce((s, t) => s + (t.pnl_amount ?? 0), 0);
-        return !best || pl < best.pnl
-          ? { date: d, pnl: pl }
+      (best, [date, list]) => {
+        const profitLoss = list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+        return !best || profitLoss < best.profitLoss
+          ? { date, profitLoss }
           : best;
-      }, null as null | { date: string; pnl: number }
+      }, null as null | { date: string; profitLoss: number }
     );
 
-    // capital/qty
-    const maxCapital = Math.max(...trades.map(t => t.total_amount ?? 0));
-    const minCapital = Math.min(...trades.map(t => t.total_amount ?? 0));
-    const avgCapital = trades.reduce((s, t) => s + (t.total_amount ?? 0), 0) / trades.length;
-    const maxQty = Math.max(...trades.map(t => t.quantity ?? 0));
-    const minQty = Math.min(...trades.map(t => t.quantity ?? 0));
-    const avgQty = trades.reduce((s, t) => s + (t.quantity ?? 0), 0) / trades.length;
-    const byQty = {
-      [maxQty]: trades.filter(t => t.quantity === maxQty),
-      [minQty]: trades.filter(t => t.quantity === minQty)
+    // Capital/Quantity
+    const maximumCapital = Math.max(...trades.map(trade => trade.total_amount ?? 0));
+    const minimumCapital = Math.min(...trades.map(trade => trade.total_amount ?? 0));
+    const averageCapital = trades.reduce((sum, trade) => sum + (trade.total_amount ?? 0), 0) / trades.length;
+    const maximumQuantity = Math.max(...trades.map(trade => trade.quantity ?? 0));
+    const minimumQuantity = Math.min(...trades.map(trade => trade.quantity ?? 0));
+    const averageQuantity = trades.reduce((sum, trade) => sum + (trade.quantity ?? 0), 0) / trades.length;
+    const byQuantity = {
+      [maximumQuantity]: trades.filter(trade => trade.quantity === maximumQuantity),
+      [minimumQuantity]: trades.filter(trade => trade.quantity === minimumQuantity)
     };
 
-    // risk: reward
-    const avgRr = (() => {
+    // Risk:Reward
+    const averageRiskReward = (() => {
       const arr = trades
-        .map(t =>
-          t.stop_loss && t.entry_price
-            ? Math.abs((t.exit_price ?? t.entry_price) - t.entry_price) /
-              Math.abs((t.entry_price - t.stop_loss) || 1)
+        .map(trade =>
+          trade.stop_loss && trade.entry_price
+            ? Math.abs((trade.exit_price ?? trade.entry_price) - trade.entry_price) /
+              Math.abs((trade.entry_price - trade.stop_loss) || 1)
             : undefined
         )
-        .filter(x => typeof x === "number" && isFinite(x)) as number[];
+        .filter(value => typeof value === "number" && isFinite(value)) as number[];
       if (!arr.length) return 0;
       return arr.reduce((a, b) => a + b, 0) / arr.length;
     })();
 
     // Setup Effectiveness
     const strategies = Array.from(
-      new Set(trades.map(t => t.strategy?.name).filter(Boolean))
+      new Set(trades.map(trade => trade.strategy?.name).filter(Boolean))
     );
     const setupStats = strategies.map(name => {
-      const ts = trades.filter(t => t.strategy?.name === name);
-      const wins = ts.filter(t => (t.pnl_amount ?? 0) > 0).length;
-      return { name, winRate: getWinRate(wins, ts.length), count: ts.length };
+      const tradesByStrategy = trades.filter(trade => trade.strategy?.name === name);
+      const wins = tradesByStrategy.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
+      return { name, winRate: calculateWinRate(wins, tradesByStrategy.length), count: tradesByStrategy.length };
     });
 
     // Symbol frequency/stats
-    const symbols = Array.from(new Set(trades.map(t => t.symbol)));
-    const symbolStatArr = symbols.map(sym => {
-      const ts = trades.filter(t => t.symbol === sym);
-      const winCount = ts.filter(t => (t.pnl_amount ?? 0) > 0).length;
-      const winRate = getWinRate(winCount, ts.length);
-      const profit = ts.reduce((s, t) => s + (t.pnl_amount ?? 0), 0);
-      return { sym, count: ts.length, profit, winRate };
+    const symbols = Array.from(new Set(trades.map(trade => trade.symbol)));
+    const symbolStatistics = symbols.map(symbol => {
+      const tradesBySymbol = trades.filter(trade => trade.symbol === symbol);
+      const winCount = tradesBySymbol.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
+      const winRate = calculateWinRate(winCount, tradesBySymbol.length);
+      const profit = tradesBySymbol.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+      return { symbol, count: tradesBySymbol.length, profit, winRate };
     });
-    const mostTraded = symbolStatArr.reduce((a, b) => a.count > b.count ? a : b, symbolStatArr[0]);
-    const mostProf = symbolStatArr.reduce((a, b) => a.profit > b.profit ? a : b, symbolStatArr[0]);
-    const leastProf = symbolStatArr.reduce((a, b) => a.profit < b.profit ? a : b, symbolStatArr[0]);
-    const highestWinr = symbolStatArr.reduce((a, b) => a.winRate > b.winRate ? a : b, symbolStatArr[0]);
-    const lowestWinr = symbolStatArr.reduce((a, b) => a.winRate < b.winRate ? a : b, symbolStatArr[0]);
+    const mostTraded = symbolStatistics.reduce((a, b) => a.count > b.count ? a : b, symbolStatistics[0]);
+    const mostProfitable = symbolStatistics.reduce((a, b) => a.profit > b.profit ? a : b, symbolStatistics[0]);
+    const leastProfitable = symbolStatistics.reduce((a, b) => a.profit < b.profit ? a : b, symbolStatistics[0]);
+    const highestWinRate = symbolStatistics.reduce((a, b) => a.winRate > b.winRate ? a : b, symbolStatistics[0]);
+    const lowestWinRate = symbolStatistics.reduce((a, b) => a.winRate < b.winRate ? a : b, symbolStatistics[0]);
 
     // Consecutive wins/losses
-    let consecWins = 0, maxConsecWins = 0, consecLosses = 0, maxConsecLosses = 0;
-    for (const t of trades) {
-      if ((t.pnl_amount ?? 0) > 0) {
-        consecWins++;
-        maxConsecWins = Math.max(maxConsecWins, consecWins);
-        consecLosses = 0;
-      } else if ((t.pnl_amount ?? 0) < 0) {
-        consecLosses++;
-        maxConsecLosses = Math.max(maxConsecLosses, consecLosses);
-        consecWins = 0;
+    let consecutiveWins = 0, maximumConsecutiveWins = 0, consecutiveLosses = 0, maximumConsecutiveLosses = 0;
+    for (const trade of trades) {
+      if ((trade.pnl_amount ?? 0) > 0) {
+        consecutiveWins++;
+        maximumConsecutiveWins = Math.max(maximumConsecutiveWins, consecutiveWins);
+        consecutiveLosses = 0;
+      } else if ((trade.pnl_amount ?? 0) < 0) {
+        consecutiveLosses++;
+        maximumConsecutiveLosses = Math.max(maximumConsecutiveLosses, consecutiveLosses);
+        consecutiveWins = 0;
       } else {
-        consecWins = 0;
-        consecLosses = 0;
+        consecutiveWins = 0;
+        consecutiveLosses = 0;
       }
     }
     
     // Win/Loss streak days by day
-    let maxConsecWinDays = 0, maxConsecLossDays = 0, lastDayWin = false, streak = 0;
+    let maximumConsecutiveWinDays = 0, maximumConsecutiveLossDays = 0, lastDayWin = false, streak = 0;
     const sortedDays = Object.keys(byDay).sort();
-    for (const d of sortedDays) {
-      const pnl = byDay[d].reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
-      if (pnl > 0) {
+    for (const day of sortedDays) {
+      const profitLoss = byDay[day].reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+      if (profitLoss > 0) {
         streak = lastDayWin ? streak + 1 : 1;
-        maxConsecWinDays = Math.max(maxConsecWinDays, streak);
+        maximumConsecutiveWinDays = Math.max(maximumConsecutiveWinDays, streak);
         lastDayWin = true;
-      } else if (pnl < 0) {
+      } else if (profitLoss < 0) {
         streak = !lastDayWin ? streak + 1 : 1;
-        maxConsecLossDays = Math.max(maxConsecLossDays, streak);
+        maximumConsecutiveLossDays = Math.max(maximumConsecutiveLossDays, streak);
         lastDayWin = false;
       } else {
         streak = 0;
@@ -140,94 +140,98 @@ const Performance = () => {
 
     // Weekday stats
     const tradesByWeekday: Record<string, typeof trades> = {};
-    trades.forEach(t => {
-      const wd = weekdays[new Date(t.date).getDay()];
-      tradesByWeekday[wd] = tradesByWeekday[wd] || [];
-      tradesByWeekday[wd].push(t);
+    trades.forEach(trade => {
+      const weekday = weekdays[new Date(trade.date).getDay()];
+      tradesByWeekday[weekday] = tradesByWeekday[weekday] || [];
+      tradesByWeekday[weekday].push(trade);
     });
 
     const weekdayData = weekdays.map(day => {
-      const ts = tradesByWeekday[day] ?? [];
-      const pnl = ts.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
-      const win = ts.filter(t => (t.pnl_amount ?? 0) > 0).length;
-      const rrArr = ts.map(t =>
-        t.stop_loss && t.entry_price
-          ? Math.abs((t.exit_price ?? t.entry_price) - t.entry_price) /
-            Math.abs((t.entry_price - t.stop_loss) || 1)
+      const tradesByDay = tradesByWeekday[day] ?? [];
+      const profitLoss = tradesByDay.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+      const wins = tradesByDay.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
+      const riskRewardArray = tradesByDay.map(trade =>
+        trade.stop_loss && trade.entry_price
+          ? Math.abs((trade.exit_price ?? trade.entry_price) - trade.entry_price) /
+            Math.abs((trade.entry_price - trade.stop_loss) || 1)
           : undefined
-      ).filter(x => typeof x === "number" && isFinite(x)) as number[];
-      const avgRr = rrArr.length ? (rrArr.reduce((a, b) => a + b, 0) / rrArr.length) : null;
+      ).filter(value => typeof value === "number" && isFinite(value)) as number[];
+      const averageRiskReward = riskRewardArray.length ? (riskRewardArray.reduce((a, b) => a + b, 0) / riskRewardArray.length) : null;
       return {
         day,
-        trades: ts.length,
-        pnl,
-        winRate: getWinRate(win, ts.length),
-        avgRr
+        trades: tradesByDay.length,
+        profitLoss,
+        winRate: calculateWinRate(wins, tradesByDay.length),
+        averageRiskReward
       };
     });
 
     // Daily trade activity
-    const tradesPerDay = Object.values(byDay).map(tl => tl.length);
-    const avgTradesPerDay = tradesPerDay.length ? tradesPerDay.reduce((a, b) => a + b, 0) / tradesPerDay.length : 0;
-    const maxTradesDay = tradesPerDay.length ? Math.max(...tradesPerDay) : 0;
-    const singleTradeDays = tradesPerDay.filter(n => n === 1).length;
-    const overtradingDays = tradesPerDay.filter(n => n > 7).length;
+    const tradesPerDay = Object.values(byDay).map(trades => trades.length);
+    const averageTradesPerDay = tradesPerDay.length ? tradesPerDay.reduce((a, b) => a + b, 0) / tradesPerDay.length : 0;
+    const maximumTradesDay = tradesPerDay.length ? Math.max(...tradesPerDay) : 0;
+    const singleTradeDays = tradesPerDay.filter(number => number === 1).length;
+    const overtradingDays = tradesPerDay.filter(number => number > 7).length;
 
     // Main stats
     const total = trades.length;
-    const avgWin = wins.length ? wins.reduce((s, t) => s + (t.pnl_amount ?? 0), 0) / wins.length : 0;
-    const avgLoss = losses.length ? losses.reduce((s, t) => s + (t.pnl_amount ?? 0), 0) / losses.length : 0;
-    const winRate = getWinRate(wins.length, total);
+    const averageWin = wins.length ? wins.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) / wins.length : 0;
+    const averageLoss = losses.length ? losses.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) / losses.length : 0;
+    const winRate = calculateWinRate(wins.length, total);
     const lossRate = total ? (losses.length / total) * 100 : 0;
-    const expectancy = getExpectancy(avgWin, winRate, avgLoss, lossRate);
+    const expectancy = calculateExpectancy(averageWin, winRate, averageLoss, lossRate);
 
     // Most profitable strategy
-    const stratProfits: Record<string, number> = {};
-    trades.forEach(t => {
-      if (t.strategy?.name)
-        stratProfits[t.strategy.name] = (stratProfits[t.strategy.name] ?? 0) + (t.pnl_amount ?? 0);
+    const strategyProfits: Record<string, number> = {};
+    trades.forEach(trade => {
+      if (trade.strategy?.name)
+        strategyProfits[trade.strategy.name] = (strategyProfits[trade.strategy.name] ?? 0) + (trade.pnl_amount ?? 0);
     });
-    const mostProfStratName = Object.entries(stratProfits).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "-";
+    const mostProfitableStrategyName = Object.entries(strategyProfits).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "-";
 
     return {
       total,
       wins: wins.length,
       losses: losses.length,
       breakEven: breakEven.length,
-      avgWin,
-      avgLoss,
+      averageWin,
+      averageLoss,
       winRate,
       expectancy,
       dailyWinDays: dailyWinDays.length,
       dailyLossDays: dailyLossDays.length,
       bestDay,
       worstDay,
-      maxCapital, minCapital, avgCapital,
-      maxQty, minQty, avgQty,
-      capitalPnlAtMax: trades.filter(t => t.total_amount === maxCapital).reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0),
-      capitalPnlAtMin: trades.filter(t => t.total_amount === minCapital).reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0),
-      qtyPnlAtMax: byQty[maxQty].reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0),
-      qtyPnlAtMin: byQty[minQty].reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0),
-      avgRr,
+      maximumCapital, 
+      minimumCapital, 
+      averageCapital,
+      maximumQuantity, 
+      minimumQuantity, 
+      averageQuantity,
+      capitalProfitLossAtMaximum: trades.filter(trade => trade.total_amount === maximumCapital).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
+      capitalProfitLossAtMinimum: trades.filter(trade => trade.total_amount === minimumCapital).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
+      quantityProfitLossAtMaximum: byQuantity[maximumQuantity].reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
+      quantityProfitLossAtMinimum: byQuantity[minimumQuantity].reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
+      averageRiskReward,
       setupStats,
       strategies,
-      symbolStatArr,
+      symbolStatistics,
       mostTraded,
-      mostProf,
-      leastProf,
-      highestWinr,
-      lowestWinr,
-      maxConsecWins,
-      maxConsecLosses,
-      maxConsecWinDays,
-      maxConsecLossDays,
+      mostProfitable,
+      leastProfitable,
+      highestWinRate,
+      lowestWinRate,
+      maximumConsecutiveWins,
+      maximumConsecutiveLosses,
+      maximumConsecutiveWinDays,
+      maximumConsecutiveLossDays,
       tradesByWeekday,
       weekdayData,
-      avgTradesPerDay,
-      maxTradesDay,
+      averageTradesPerDay,
+      maximumTradesDay,
       singleTradeDays,
       overtradingDays,
-      mostProfStratName
+      mostProfitableStrategyName
     };
   }, [trades]);
 
@@ -251,7 +255,7 @@ const Performance = () => {
           </div>
           <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
             <div className={Styles.summaryLabel}>Expectancy</div>
-            <div className={Styles.summaryValue}>{fmtC(stats.expectancy, 2)}</div>
+            <div className={Styles.summaryValue}>{formatCurrency(stats.expectancy, 2)}</div>
           </div>
         </div>
       </header>
@@ -267,25 +271,25 @@ const Performance = () => {
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Avg. Win</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{fmtC(stats.avgWin, 2)}</span>
+                  <span className={Styles.metricLabel}>Average Win</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{formatCurrency(stats.averageWin, 2)}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Avg. Loss</span>
-                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{fmtC(stats.avgLoss, 2)}</span>
+                  <span className={Styles.metricLabel}>Average Loss</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{formatCurrency(stats.averageLoss, 2)}</span>
                 </div>
               </div>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
                   <span className={Styles.metricLabel}>Best Day</span>
                   <span className={`${Styles.metricValue} ${Styles.positive}`}>
-                    {stats.bestDay ? fmtC(stats.bestDay.pnl) : "--"}
+                    {stats.bestDay ? formatCurrency(stats.bestDay.profitLoss) : "--"}
                   </span>
                 </div>
                 <div className={Styles.metricItem}>
                   <span className={Styles.metricLabel}>Worst Day</span>
                   <span className={`${Styles.metricValue} ${Styles.negative}`}>
-                    {stats.worstDay ? fmtC(stats.worstDay.pnl) : "--"}
+                    {stats.worstDay ? formatCurrency(stats.worstDay.profitLoss) : "--"}
                   </span>
                 </div>
               </div>
@@ -299,22 +303,22 @@ const Performance = () => {
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Max Consec. Wins</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maxConsecWins}</span>
+                  <span className={Styles.metricLabel}>Maximum Consecutive Wins</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maximumConsecutiveWins}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Max Consec. Losses</span>
-                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maxConsecLosses}</span>
+                  <span className={Styles.metricLabel}>Maximum Consecutive Losses</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maximumConsecutiveLosses}</span>
                 </div>
               </div>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Max Win Days</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maxConsecWinDays}</span>
+                  <span className={Styles.metricLabel}>Maximum Winning Days</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maximumConsecutiveWinDays}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Max Loss Days</span>
-                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maxConsecLossDays}</span>
+                  <span className={Styles.metricLabel}>Maximum Losing Days</span>
+                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maximumConsecutiveLossDays}</span>
                 </div>
               </div>
             </div>
@@ -327,12 +331,12 @@ const Performance = () => {
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Avg. Trades/Day</span>
-                  <span className={Styles.metricValue}>{stats.avgTradesPerDay.toFixed(1)}</span>
+                  <span className={Styles.metricLabel}>Average Trades Per Day</span>
+                  <span className={Styles.metricValue}>{stats.averageTradesPerDay.toFixed(1)}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Max Trades/Day</span>
-                  <span className={Styles.metricValue}>{stats.maxTradesDay}</span>
+                  <span className={Styles.metricLabel}>Maximum Trades In A Day</span>
+                  <span className={Styles.metricValue}>{stats.maximumTradesDay}</span>
                 </div>
               </div>
               <div className={Styles.metricRow}>
@@ -361,23 +365,23 @@ const Performance = () => {
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Max Capital</span>
-                  <span className={Styles.metricValue}>{fmtC(stats.maxCapital)}</span>
+                  <span className={Styles.metricLabel}>Maximum Capital</span>
+                  <span className={Styles.metricValue}>{formatCurrency(stats.maximumCapital)}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Min Capital</span>
-                  <span className={Styles.metricValue}>{fmtC(stats.minCapital)}</span>
+                  <span className={Styles.metricLabel}>Minimum Capital</span>
+                  <span className={Styles.metricValue}>{formatCurrency(stats.minimumCapital)}</span>
                 </div>
               </div>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Avg Capital</span>
-                  <span className={Styles.metricValue}>{fmtC(stats.avgCapital)}</span>
+                  <span className={Styles.metricLabel}>Average Capital</span>
+                  <span className={Styles.metricValue}>{formatCurrency(stats.averageCapital)}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>P&L @ Max Capital</span>
-                  <span className={`${Styles.metricValue} ${stats.capitalPnlAtMax >= 0 ? Styles.positive : Styles.negative}`}>
-                    {fmtC(stats.capitalPnlAtMax)}
+                  <span className={Styles.metricLabel}>Profit/Loss At Maximum Capital</span>
+                  <span className={`${Styles.metricValue} ${stats.capitalProfitLossAtMaximum >= 0 ? Styles.positive : Styles.negative}`}>
+                    {formatCurrency(stats.capitalProfitLossAtMaximum)}
                   </span>
                 </div>
               </div>
@@ -391,23 +395,23 @@ const Performance = () => {
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Max Quantity</span>
-                  <span className={Styles.metricValue}>{stats.maxQty}</span>
+                  <span className={Styles.metricLabel}>Maximum Quantity</span>
+                  <span className={Styles.metricValue}>{stats.maximumQuantity}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Min Quantity</span>
-                  <span className={Styles.metricValue}>{stats.minQty}</span>
+                  <span className={Styles.metricLabel}>Minimum Quantity</span>
+                  <span className={Styles.metricValue}>{stats.minimumQuantity}</span>
                 </div>
               </div>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Avg Quantity</span>
-                  <span className={Styles.metricValue}>{stats.avgQty.toFixed(1)}</span>
+                  <span className={Styles.metricLabel}>Average Quantity</span>
+                  <span className={Styles.metricValue}>{stats.averageQuantity.toFixed(1)}</span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>P&L @ Max Qty</span>
-                  <span className={`${Styles.metricValue} ${stats.qtyPnlAtMax >= 0 ? Styles.positive : Styles.negative}`}>
-                    {fmtC(stats.qtyPnlAtMax)}
+                  <span className={Styles.metricLabel}>Profit/Loss At Maximum Quantity</span>
+                  <span className={`${Styles.metricValue} ${stats.quantityProfitLossAtMaximum >= 0 ? Styles.positive : Styles.negative}`}>
+                    {formatCurrency(stats.quantityProfitLossAtMaximum)}
                   </span>
                 </div>
               </div>
@@ -421,12 +425,12 @@ const Performance = () => {
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Avg. Risk:Reward</span>
-                  <span className={Styles.metricValue}>{stats.avgRr.toFixed(2)}</span>
+                  <span className={Styles.metricLabel}>Average Risk:Reward</span>
+                  <span className={Styles.metricValue}>{stats.averageRiskReward.toFixed(2)}</span>
                 </div>
                 <div className={Styles.metricItem}>
                   <span className={Styles.metricLabel}>Most Profitable Strategy</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.mostProfStratName}</span>
+                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.mostProfitableStrategyName}</span>
                 </div>
               </div>
             </div>
@@ -454,28 +458,28 @@ const Performance = () => {
                 <tbody>
                   <tr>
                     <td>Most Traded</td>
-                    <td>{stats.mostTraded?.sym}</td>
+                    <td>{stats.mostTraded?.symbol}</td>
                     <td>{stats.mostTraded?.count} trades</td>
                   </tr>
                   <tr>
                     <td>Most Profitable</td>
-                    <td>{stats.mostProf?.sym}</td>
-                    <td className={Styles.positive}>{fmtC(stats.mostProf?.profit)}</td>
+                    <td>{stats.mostProfitable?.symbol}</td>
+                    <td className={Styles.positive}>{formatCurrency(stats.mostProfitable?.profit)}</td>
                   </tr>
                   <tr>
                     <td>Least Profitable</td>
-                    <td>{stats.leastProf?.sym}</td>
-                    <td className={Styles.negative}>{fmtC(stats.leastProf?.profit)}</td>
+                    <td>{stats.leastProfitable?.symbol}</td>
+                    <td className={Styles.negative}>{formatCurrency(stats.leastProfitable?.profit)}</td>
                   </tr>
                   <tr>
                     <td>Highest Win Rate</td>
-                    <td>{stats.highestWinr?.sym}</td>
-                    <td className={Styles.positive}>{stats.highestWinr?.winRate.toFixed(1)}%</td>
+                    <td>{stats.highestWinRate?.symbol}</td>
+                    <td className={Styles.positive}>{stats.highestWinRate?.winRate.toFixed(1)}%</td>
                   </tr>
                   <tr>
                     <td>Lowest Win Rate</td>
-                    <td>{stats.lowestWinr?.sym}</td>
-                    <td className={Styles.negative}>{stats.lowestWinr?.winRate.toFixed(1)}%</td>
+                    <td>{stats.lowestWinRate?.symbol}</td>
+                    <td className={Styles.negative}>{stats.lowestWinRate?.winRate.toFixed(1)}%</td>
                   </tr>
                 </tbody>
               </table>
@@ -525,23 +529,23 @@ const Performance = () => {
                 <tr>
                   <th>Day</th>
                   <th>Trades</th>
-                  <th>P&L</th>
+                  <th>Profit/Loss</th>
                   <th>Win Rate</th>
-                  <th>Avg. R:R</th>
+                  <th>Average Risk:Reward</th>
                 </tr>
               </thead>
               <tbody>
-                {stats.weekdayData.map(d => (
-                  <tr key={d.day}>
-                    <td>{d.day}</td>
-                    <td>{d.trades}</td>
-                    <td className={d.pnl >= 0 ? Styles.positive : Styles.negative}>
-                      {fmtC(d.pnl)}
+                {stats.weekdayData.map(dayData => (
+                  <tr key={dayData.day}>
+                    <td>{dayData.day}</td>
+                    <td>{dayData.trades}</td>
+                    <td className={dayData.profitLoss >= 0 ? Styles.positive : Styles.negative}>
+                      {formatCurrency(dayData.profitLoss)}
                     </td>
-                    <td className={d.winRate >= 50 ? Styles.positive : Styles.negative}>
-                      {d.winRate ? d.winRate.toFixed(1) + "%" : "--"}
+                    <td className={dayData.winRate >= 50 ? Styles.positive : Styles.negative}>
+                      {dayData.winRate ? dayData.winRate.toFixed(1) + "%" : "--"}
                     </td>
-                    <td>{d.avgRr ? d.avgRr.toFixed(2) : "--"}</td>
+                    <td>{dayData.averageRiskReward ? dayData.averageRiskReward.toFixed(2) : "--"}</td>
                   </tr>
                 ))}
               </tbody>
