@@ -81,8 +81,8 @@ const Psychology = () => {
   if (!stats) {
     return (
       <div className={Styles.dashboard}>
-        <h1 className={Styles.title}>Trading Psychology</h1>
-        <div className={Styles.emptyState}>No psychology data found for this period.</div>
+        <h1 className={Styles.title}>Trading Psychology Analysis</h1>
+        <div className={Styles.emptyState}>No psychological data available for the selected period.</div>
       </div>
     );
   }
@@ -90,21 +90,21 @@ const Psychology = () => {
   return (
     <div className={Styles.dashboard}>
       <header className={Styles.header}>
-        <h1 className={Styles.title}>Trading Psychology</h1>
+        <h1 className={Styles.title}>Trading Psychology Analysis</h1>
         <div className={Styles.summaryCards}>
           <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
-            <div className={Styles.summaryLabel}>Avg Confidence</div>
+            <div className={Styles.summaryLabel}>Average Confidence Level</div>
             <div className={Styles.summaryValue}>
               {stats.avgConfidence !== null ? stats.avgConfidence.toFixed(1) : "--"}
               <span className={Styles.unit}> / 10</span>
             </div>
           </div>
           <div className={`${Styles.summaryCard} ${stats.mistakePercent > 50 ? Styles.dangerCard : Styles.successCard}`}>
-            <div className={Styles.summaryLabel}>Trades with Mistakes</div>
+            <div className={Styles.summaryLabel}>Trades Containing Errors</div>
             <div className={Styles.summaryValue}>{stats.mistakeCount}</div>
           </div>
           <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
-            <div className={Styles.summaryLabel}>Avg Satisfaction</div>
+            <div className={Styles.summaryLabel}>Average Satisfaction Rating</div>
             <div className={Styles.summaryValue}>
               {stats.avgSatisfaction !== null ? stats.avgSatisfaction.toFixed(1) : "--"}
               <span className={Styles.unit}> / 10</span>
@@ -114,35 +114,35 @@ const Psychology = () => {
       </header>
 
       <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Emotional Metrics</h2>
+        <h2 className={Styles.sectionTitle}>Emotional Performance Metrics</h2>
         <div className={Styles.metricsGrid}>
           <div className={Styles.metricCard}>
             <div className={Styles.metricHeader}>
-              <h3>Confidence & Satisfaction</h3>
+              <h3>Confidence and Satisfaction Ratings</h3>
             </div>
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Confidence</span>
+                  <span className={Styles.metricLabel}>Average Confidence Score</span>
                   <span className={`${Styles.metricValue} ${stats.avgConfidence && stats.avgConfidence >= 7 ? Styles.positive : Styles.neutral}`}>
                     {stats.avgConfidence !== null ? stats.avgConfidence.toFixed(2) : "--"}
                   </span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Rated Trades</span>
+                  <span className={Styles.metricLabel}>Total Rated Transactions</span>
                   <span className={Styles.metricValue}>{stats.confidenceCount}</span>
                 </div>
               </div>
               
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Satisfaction</span>
+                  <span className={Styles.metricLabel}>Average Satisfaction Score</span>
                   <span className={`${Styles.metricValue} ${stats.avgSatisfaction && stats.avgSatisfaction >= 7 ? Styles.positive : Styles.neutral}`}>
                     {stats.avgSatisfaction !== null ? stats.avgSatisfaction.toFixed(2) : "--"}
                   </span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Rated Trades</span>
+                  <span className={Styles.metricLabel}>Total Rated Transactions</span>
                   <span className={Styles.metricValue}>{stats.satisfactionCount}</span>
                 </div>
               </div>
@@ -151,25 +151,25 @@ const Psychology = () => {
 
           <div className={Styles.metricCard}>
             <div className={Styles.metricHeader}>
-              <h3>Emotional States</h3>
+              <h3>Emotional State Tracking</h3>
             </div>
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Most Common Emotion</span>
+                  <span className={Styles.metricLabel}>Predominant Emotional State</span>
                   <span className={Styles.metricValue}>
                     {stats.mostCommonEmotion ?? "--"}
                   </span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Emotions Recorded</span>
+                  <span className={Styles.metricLabel}>Total Emotional Records</span>
                   <span className={Styles.metricValue}>{stats.emotionCount}</span>
                 </div>
               </div>
               
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Top 3 Emotions</span>
+                  <span className={Styles.metricLabel}>Top Three Emotional States</span>
                   <div className={Styles.tagContainer}>
                     {stats.topEmotions.map(([emotion, count]) => (
                       <span key={emotion} className={Styles.tag}>
@@ -185,22 +185,22 @@ const Psychology = () => {
       </section>
 
       <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Mistakes Analysis</h2>
+        <h2 className={Styles.sectionTitle}>Trading Error Analysis</h2>
         <div className={Styles.metricsGrid}>
           <div className={Styles.metricCard}>
             <div className={Styles.metricHeader}>
-              <h3>Mistake Frequency</h3>
+              <h3>Error Frequency Distribution</h3>
             </div>
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Most Common Mistake</span>
+                  <span className={Styles.metricLabel}>Most Frequent Error</span>
                   <span className={`${Styles.metricValue} ${Styles.negative}`}>
                     {stats.topMistake ?? "--"}
                   </span>
                 </div>
                 <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Trades with Mistakes</span>
+                  <span className={Styles.metricLabel}>Transactions with Errors</span>
                   <span className={`${Styles.metricValue} ${stats.mistakePercent > 50 ? Styles.negative : Styles.neutral}`}>
                     {stats.mistakePercent.toFixed(1)}%
                   </span>
@@ -211,13 +211,13 @@ const Psychology = () => {
 
           <div className={Styles.metricCard}>
             <div className={Styles.metricHeader}>
-              <h3>Mistake Types</h3>
+              <h3>Error Category Breakdown</h3>
             </div>
             <div className={Styles.metricBody}>
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
                   <span className={Styles.statNote}>
-                    Breakdown of most frequent mistakes made during trades
+                    Detailed analysis of most common trading errors encountered
                   </span>
                 </div>
               </div>
@@ -227,18 +227,18 @@ const Psychology = () => {
       </section>
 
       <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Frequent Mistakes</h2>
+        <h2 className={Styles.sectionTitle}>Common Trading Errors</h2>
         <div className={Styles.fullWidthCard}>
           <div className={Styles.dataHeader}>
-            <h3>Top 5 Mistakes</h3>
+            <h3>Top Five Recurring Errors</h3>
           </div>
           <div className={Styles.dataBody}>
             {stats.sortedMistakes.length > 0 ? (
               <table className={Styles.dataTable}>
                 <thead>
                   <tr>
-                    <th>Mistake</th>
-                    <th>Count</th>
+                    <th>Error Type</th>
+                    <th>Occurrences</th>
                     <th>Percentage</th>
                   </tr>
                 </thead>
@@ -253,25 +253,25 @@ const Psychology = () => {
                 </tbody>
               </table>
             ) : (
-              <div className={Styles.emptyState}>No mistake data recorded</div>
+              <div className={Styles.emptyState}>No error data available</div>
             )}
           </div>
         </div>
       </section>
 
       <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Lessons Learned</h2>
+        <h2 className={Styles.sectionTitle}>Key Learning Points</h2>
         <div className={Styles.fullWidthCard}>
           <div className={Styles.dataHeader}>
-            <h3>Most Common Lessons</h3>
+            <h3>Most Frequent Learning Outcomes</h3>
           </div>
           <div className={Styles.dataBody}>
             {stats.lessonsSorted.length > 0 ? (
               <table className={Styles.dataTable}>
                 <thead>
                   <tr>
-                    <th>Lesson</th>
-                    <th>Count</th>
+                    <th>Learning Point</th>
+                    <th>Occurrences</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -284,7 +284,7 @@ const Psychology = () => {
                 </tbody>
               </table>
             ) : (
-              <div className={Styles.emptyState}>No lesson data recorded</div>
+              <div className={Styles.emptyState}>No learning points documented</div>
             )}
           </div>
         </div>
