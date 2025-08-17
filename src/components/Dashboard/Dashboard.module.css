@@ -185,7 +185,6 @@ tspan{
 }
 
 .chartHeading{
-    /* padding: 8px; */
     font-weight: 400;
     color: var(--dashboard-primary-text);
 }
