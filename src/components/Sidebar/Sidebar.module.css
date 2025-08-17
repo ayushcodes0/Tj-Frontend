@@ -187,27 +187,37 @@
     color: var(--dashboard-secondary-text);
 }
 
+.themeToggleContainer {
+    padding: 12px 8px;
+}
+
+/* --- MODIFY THE EXISTING .themeToggle STYLE --- */
 .themeToggle {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
-    margin: 0 16px 16px 16px; /* Margin around the toggle */
-    border-radius: 8px;
+    gap: 10px; /* Match the gap of nav links */
+    padding: 6px 15px; /* Match the padding of nav links */
+    /* margin: 0 16px 16px 16px; <-- We REMOVE the old margin */
+    border-radius: 6px; /* Match the border radius of nav links */
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
-    color: var(--dashboard-secondary-text);
+    color: var(--dashboard-secondary-text); /* Use secondary text color */
 }
 
+/* --- MODIFY THE EXISTING .themeText STYLE --- */
+.themeText {
+    color: var(--dashboard-secondary-text); /* Match nav text color */
+    font-size: 15px; /* Match nav text size */
+    font-weight: 400; /* Match nav text weight */
+}
+
+/* This hover effect now matches the nav links */
 .themeToggle:hover {
     background-color: var(--dashboard-buttons-hover);
 }
 
+/* Ensure the icon color matches the nav icons */
 .themeIcon {
-    font-size: 18px;
-}
-
-.themeText {
-    font-size: 14px;
-    font-weight: 500;
+    color: var(--dashboard-icons-color);
+    font-size: 16px;
 }

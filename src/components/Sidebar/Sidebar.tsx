@@ -82,14 +82,17 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
                         </NavLink>
                     </nav>
                 </div>
+                <div className={Styles.themeToggleContainer}>
+                    <div className={Styles.themeToggle} onClick={toggleTheme}>
+                        {theme === 'light' ? <FaMoon className={Styles.themeIcon} /> : <FaSun className={Styles.themeIcon} />}
+                        <span className={Styles.themeText}>
+                            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                        </span>
+                    </div>
+                </div>
             </div>
             <div className={Styles.sidebarBottom}>
-                <div className={Styles.themeToggle} onClick={toggleTheme}>
-                    {theme === 'light' ? <FaMoon className={Styles.themeIcon} /> : <FaSun className={Styles.themeIcon} />}
-                    <span className={Styles.themeText}>
-                        {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-                    </span>
-                </div>
+                
                 <div className={Styles.bottomOptions}>
                     <div className={Styles.bottomLeft} onClick={logout}>
                         <IoMdLogOut className={Styles.bottomIcons} />
