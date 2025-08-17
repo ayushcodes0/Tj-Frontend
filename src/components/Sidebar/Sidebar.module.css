@@ -187,4 +187,27 @@
     color: var(--dashboard-secondary-text);
 }
 
+.themeToggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    margin: 0 16px 16px 16px; /* Margin around the toggle */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    color: var(--dashboard-secondary-text);
+}
 
+.themeToggle:hover {
+    background-color: var(--dashboard-buttons-hover);
+}
+
+.themeIcon {
+    font-size: 18px;
+}
+
+.themeText {
+    font-size: 14px;
+    font-weight: 500;
+}

@@ -226,16 +226,32 @@
 
 
   /*Dashboard Colors*/
-  --dashboard-primary-background: #FCFCFC;
+--dashboard-primary-background: #FCFCFC;
   --dashboard-right-background: #F9F9F9;
   --dashboard-primary-text: #202020;
-  --dashboard-secondary-text: #252525;
+  --dashboard-secondary-text: #646464;
   --dashboard-icons-color: #646464;
   --dashboard-buttons-hover: #F0F0F0;
   --dashboard-borders: #E8E8E8;
 
+  /* --- SHARED DASHBOARD ACCENT COLORS --- */
   --dashboard-userIcon-color: #0D9888;
   --dashboard-green-color: #008F75;
   --dashboard-red-color: #D64D4D;
   --dashboard-blue-color: #618bff;
+}
+
+/* --- DARK MODE OVERRIDES --- */
+html[data-theme='dark'] { /* Using html[...] for better specificity */
+  --dashboard-primary-background: #121212;
+  --dashboard-right-background: #1E1E1E;
+  --dashboard-primary-text: #E0E0E0;
+  --dashboard-secondary-text: #A0A0A0;
+  --dashboard-icons-color: #A0A0A0;
+  --dashboard-buttons-hover: #2A2A2A;
+  --dashboard-borders: #2A2A2A;
+
+  /* --- THE ONLY CHANGE NEEDED IS HERE --- */
+  /* Make --primary-white adopt the dark background color in dark mode */
+  --primary-white: var(--dashboard-primary-background); 
 }

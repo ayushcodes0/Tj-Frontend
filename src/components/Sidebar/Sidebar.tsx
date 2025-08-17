@@ -1,5 +1,5 @@
 import Styles from './Sidebar.module.css';
-import { FaShieldAlt } from "react-icons/fa";
+import { FaMoon, FaShieldAlt, FaSun } from "react-icons/fa";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiDashboardLine } from "react-icons/ri";
 import { useAuth } from "../../hooks/useAuth";
@@ -12,6 +12,8 @@ import { IoSettingsOutline, IoStatsChartSharp } from "react-icons/io5";
 import { LuBrain } from 'react-icons/lu';
 import { TbCalendarMonthFilled } from 'react-icons/tb';
 import { FaArrowTrendUp } from 'react-icons/fa6';
+import { useTheme } from '../../hooks/useTheme'; // <--- IMPORT THE HOOK
+
 
 // Define the interface for the props this component receives
 interface SidebarProps {
@@ -21,6 +23,8 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => { 
     const [showProfilePopup, setShowProfilePopup] = useState(false);
     const { user, logout } = useAuth();
+    const { theme, toggleTheme } = useTheme(); // <--- USE THE HOOK
+
     
     return (
         <div className={Styles.sidebar}>
@@ -80,6 +84,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
                 </div>
             </div>
             <div className={Styles.sidebarBottom}>
+                <div className={Styles.themeToggle} onClick={toggleTheme}>
+                    {theme === 'light' ? <FaMoon className={Styles.themeIcon} /> : <FaSun className={Styles.themeIcon} />}
+                    <span className={Styles.themeText}>
+                        {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                    </span>
+                </div>
                 <div className={Styles.bottomOptions}>
                     <div className={Styles.bottomLeft} onClick={logout}>
                         <IoMdLogOut className={Styles.bottomIcons} />

@@ -7,12 +7,17 @@ import App from './App.tsx'
 import { AuthProvider } from './providers/authProvider.tsx'
 import { ToastProvider } from './providers/toastProvider.tsx'
 import { TradesProvider } from './providers/tradeProvider.tsx'
+import { ThemeProvider } from './providers/themeProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
       <ToastProvider/>
-      <TradesProvider><App /></TradesProvider>
+      <TradesProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </TradesProvider>
     </AuthProvider>
   </StrictMode>,
 )
