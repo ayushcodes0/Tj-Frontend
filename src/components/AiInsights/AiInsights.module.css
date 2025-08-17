@@ -1,160 +1,213 @@
 /* src/pages/AiInsights/AiInsights.module.css */
 
+/* Define your color variables at the root for easy access */
+:root {
+  --dashboard-primary-background: #FCFCFC;
+  --dashboard-right-background: #F9F9F9;
+  --dashboard-primary-text: #202020;
+  --dashboard-secondary-text: #646464;
+  --dashboard-icons-color: #646464;
+  --dashboard-buttons-hover: #F0F0F0;
+  --dashboard-borders: #E8E8E8;
+  --dashboard-userIcon-color: #0D9888;
+  --dashboard-green-color: #008F75;
+  --dashboard-red-color: #D64D4D;
+  --dashboard-blue-color: #618bff;
+}
+
 .container {
     width: 100%;
-    max-width: 900px;
-    margin: 40px auto;
+    max-width: 950px;
+    margin: 30px auto;
     padding: 0 20px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    color: #e0e0e0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--dashboard-primary-text);
 }
 
 .header {
-    text-align: left;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
-
 .header h1 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     margin: 0;
 }
-
 .header p {
-    font-size: 16px;
-    color: #a0a0a0;
+    font-size: 15px;
+    color: var(--dashboard-secondary-text);
     margin-top: 4px;
 }
 
-.analysisBox {
-    background-color: #1e2029; /* Dark background */
-    border-radius: 12px;
-    padding: 24px;
-    border: 1px solid #333644;
-}
-
-.generateSection {
+/* Control Box for Buttons */
+.controlBox {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #333644;
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-}
-
-.generateText h2 {
-    font-size: 20px;
-    margin: 0 0 4px 0;
-    color: #fff;
-    font-weight: 600;
-}
-
-.generateText p {
-    margin: 0;
-    color: #a0a0a0;
-}
-
-.analyzeButton {
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.analyzeButton:hover {
-    background-color: #2563eb;
-}
-
-.analyzeButton:disabled {
-    background-color: #4b5563;
-    cursor: not-allowed;
-    opacity: 0.7;
+    padding: 16px;
+    background-color: var(--dashboard-primary-background);
+    border: 1px solid var(--dashboard-borders);
+    border-radius: 12px;
+    margin-bottom: 30px;
 }
 
 .periodSelector {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex-wrap: wrap;
 }
-
 .periodLabel {
-    color: #a0a0a0;
+    color: var(--dashboard-secondary-text);
     font-weight: 500;
 }
-
 .periodButton {
-    background-color: #374151;
-    color: #d1d5db;
-    border: 1px solid #4b5563;
+    background-color: var(--dashboard-right-background);
+    color: var(--dashboard-secondary-text);
+    border: 1px solid var(--dashboard-borders);
     padding: 8px 16px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     font-weight: 500;
 }
-
 .periodButton:hover {
-    background-color: #4b5563;
-    border-color: #6b7280;
+    background-color: var(--dashboard-buttons-hover);
 }
-
 .periodButton.active {
-    background-color: #3b82f6;
+    background-color: var(--dashboard-blue-color);
     color: white;
-    border-color: #3b82f6;
+    border-color: var(--dashboard-blue-color);
+}
+.analyzeButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--dashboard-userIcon-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.analyzeButton:hover {
+    background-color: #0b7e6e; /* A slightly darker green */
+}
+.analyzeButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
-.resultArea {
-    margin-top: 30px;
+/* Results Area */
+.resultArea { margin-top: 30px; }
+.pageLoader, .error { text-align: center; font-size: 16px; padding: 50px; }
+.error { color: var(--dashboard-red-color); }
+
+.loaderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 50px;
+    color: var(--dashboard-secondary-text);
+}
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #E8E8E8;
+    border-top-color: var(--dashboard-blue-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Results Container */
+.resultsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.loader, .error {
-    text-align: center;
-    padding: 40px;
-    background-color: #1e2029;
+.resultCard {
+    background-color: var(--dashboard-primary-background);
+    border: 1px solid var(--dashboard-borders);
     border-radius: 12px;
-    border: 1px solid #333644;
-    color: #d1d5db;
-    font-size: 16px;
+    padding: 24px;
 }
-
-.error {
-    color: #f87171; /* A reddish color for errors */
-}
-
-.resultContainer {
-    background-color: #1e2029;
-    border-radius: 12px;
-    padding: 16px 28px;
-    border: 1px solid #333644;
-    color: #d1d5db;
-    line-height: 1.7;
-}
-
-/* Styles for markdown content generated by the AI */
-.resultContainer h3 {
+.cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     font-size: 18px;
-    color: #60a5fa; /* A light blue for subheadings */
-    border-bottom: 1px solid #333644;
-    padding-bottom: 8px;
-    margin-top: 24px;
-    margin-bottom: 16px;
+    font-weight: 600;
+    color: var(--dashboard-primary-text);
+    margin: 0 0 20px 0;
+}
+.cardContent p {
+    color: var(--dashboard-secondary-text);
+    line-height: 1.6;
 }
 
-.resultContainer p {
-    margin-bottom: 16px;
+/* Confidence Bar */
+.confidenceContainer { margin-top: 20px; }
+.confidenceContainer span { font-size: 14px; color: var(--dashboard-secondary-text); }
+.confidenceBar {
+    width: 100%; height: 8px; background-color: #E8E8E8;
+    border-radius: 4px; margin: 8px 0; overflow: hidden;
+}
+.confidenceFill {
+    height: 100%; background-color: var(--dashboard-blue-color);
+    border-radius: 4px; transition: width 0.5s ease-in-out;
 }
 
-.resultContainer ul, .resultContainer ol {
-    padding-left: 20px;
+/* Metrics Grid */
+.metricsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
 }
+.metricItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: var(--dashboard-right-background);
+}
+.metricLabel { color: var(--dashboard-secondary-text); }
+.metricValue { font-weight: 600; }
+.positive { color: var(--dashboard-green-color); }
+.negative { color: var(--dashboard-red-color); }
+.neutral { color: var(--dashboard-primary-text); }
 
-.resultContainer li {
-    margin-bottom: 8px;
+/* Lists for Strengths, Weaknesses, Advice */
+.list {
+    list-style-type: none;
+    padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 12px;
 }
+.list li {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+.strengthItem {
+    background-color: #e6f4f2;
+    color: var(--dashboard-green-color);
+    border-color: #b3e0d9;
+}
+.weaknessItem {
+    background-color: #faeded;
+    color: var(--dashboard-red-color);
+    border-color: #f3c7c7;
+}
+.adviceItem {
+    background-color: #eef2ff;
+    color: #4338ca;
+    border-color: #c7d2fe;
+}
+.positiveIcon { color: var(--dashboard-green-color); }
+.negativeIcon { color: var(--dashboard-red-color); }
+.adviceIcon { color: #4338ca; }
+
