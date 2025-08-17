@@ -243,8 +243,8 @@
 
 /* --- DARK MODE OVERRIDES --- */
 html[data-theme='dark'] {
-  --dashboard-primary-background: #151515;
-  --dashboard-right-background: #111111;
+  --dashboard-primary-background: #121212;
+  --dashboard-right-background: #0f0f0f;
   --dashboard-primary-text: #E0E0E0;
   --dashboard-secondary-text: #A0A0A0;
   --dashboard-icons-color: #A0A0A0;
