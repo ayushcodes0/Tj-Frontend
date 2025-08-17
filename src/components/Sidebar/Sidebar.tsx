@@ -100,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
                     </div>
                     <div className={Styles.bottomDivider}></div>
                     <div className={Styles.bottomRight}>
-                        <BsQuestionCircle className={Styles.bottomIcon} />
+                        <BsQuestionCircle className={Styles.bottomIcons} />
                         <span className={Styles.bottomTexts}>Help</span>
                     </div>
                 </div>

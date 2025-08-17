@@ -149,7 +149,7 @@ tspan{
   font-weight: 400;
 }
 .statValue {
-  color: #322548;
+  color: var(--dashboard-primary-text);
   font-size: 24px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -242,11 +242,11 @@ tspan{
 }
 
 .topTradesTable th {
-  background: var(--dashboard-buttons-hover);
   font-size: 14px;
   font-weight: 500;
   color: var(--dashboard-primary-text);
   border-bottom: 1px solid var(--dashboard-borders);
+  border-top: 1px solid var(--dashboard-borders);
 }
 
 .topTradesTable td {
