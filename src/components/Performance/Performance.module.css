@@ -220,6 +220,8 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
+  background-color: var(--dashboard-primary-background);
+  border-radius: 11px;
 }
 
 

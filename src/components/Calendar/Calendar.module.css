@@ -136,11 +136,11 @@
 }
 .selectedDay {
   border: 1px solid var(--dashboard-borders);
-  background: var(--dashboard-buttons-hover);
+  background: var(--dashboard-primary-background);
 }
-.positiveDay { background: #e5f8ed; }
-.negativeDay { background: #f7e6e8; }
-.neutralDay { background: #f2f2f7; }
+.positiveDay { background: var(--dashboard-positive-background); }
+.negativeDay { background: var(--dashboard-negative-background); }
+.neutralDay { background: var(--dashboard-neutral-background); }
 .negativeDay:hover{
   border: 1.5px solid var(--dashboard-red-color);
 }

@@ -219,6 +219,10 @@
   --dashboard-green-color: #008F75;
   --dashboard-red-color: #D64D4D;
   --dashboard-blue-color: #618bff;
+
+  --dashboard-positive-background: #e5f8ed;
+  --dashboard-negative-background: #f7e6e8;
+  --dashboard-neutral-background: #f2f2f7;
 }
 
 html[data-theme='dark'] {
@@ -231,4 +235,8 @@ html[data-theme='dark'] {
   --dashboard-borders: #2A2A2A;
 
   --primary-white: var(--dashboard-primary-background); 
+
+  --dashboard-positive-background: #1c2a26; /* Dark, subtle green */
+  --dashboard-negative-background: #2f1e22; /* Dark, subtle red */
+  --dashboard-neutral-background: #2A2A2A;  /* Matches the button hover for consistency */
 }
