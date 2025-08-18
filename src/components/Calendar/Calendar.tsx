@@ -10,7 +10,7 @@ const now = new Date();
 const getMonthMatrix = (year: number, month: number) => {
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
-  const firstWeekday = firstDay.getDay(); // 0=Sunday
+  const firstWeekday = firstDay.getDay(); 
   const totalDays = lastDay.getDate();
   const calendar: (number | null)[][] = [];
   let week: (number | null)[] = Array(firstWeekday).fill(null);
@@ -28,11 +28,7 @@ const getMonthMatrix = (year: number, month: number) => {
   return calendar;
 };
 
-// Customize this if you have a real way to get R:R ratio per trade
 function computeAvgRR(trades: Trade[]): number {
-  // Replace this logic with your real one if you have a risk_reward_ratio field!
-  // Example: Math.abs(pnl_amount) / risk (if available)
-  // Here, we're faking it for demonstration, ignore trades with no PnL or total_amount.
   const ratios = trades
     .map(t =>
       typeof t.pnl_amount === "number" && typeof t.total_amount === "number" && t.total_amount !== 0
@@ -63,7 +59,7 @@ const Calendar = () => {
       }),
     [trades, monthYear]
   );
-  // Previous month and year calculation
+  
   const prevMonth = monthYear.month === 0 ? 11 : monthYear.month - 1;
   const prevYear = monthYear.month === 0 ? monthYear.year - 1 : monthYear.year;
   const prevMonthTrades = useMemo(
@@ -85,27 +81,23 @@ const Calendar = () => {
     return map;
   }, [monthTrades]);
 
-  // ---- STATS (current) ----
   const totalPnl = monthTrades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
   const totalTrades = monthTrades.length;
   const winTrades = monthTrades.filter(t => (t.pnl_amount ?? 0) > 0).length;
   const winRate = totalTrades ? (winTrades / totalTrades) * 100 : 0;
   const avgRR = computeAvgRR(monthTrades);
 
-  // ---- PREVIOUS MONTH STATS ----
   const prevTotalPnl = prevMonthTrades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
   const prevTotalTrades = prevMonthTrades.length;
   const prevWinTrades = prevMonthTrades.filter(t => (t.pnl_amount ?? 0) > 0).length;
   const prevWinRate = prevTotalTrades ? (prevWinTrades / prevTotalTrades) * 100 : 0;
   const prevAvgRR = computeAvgRR(prevMonthTrades);
 
-  // ---- DELTAS ----
   const deltaTotalPnl = calcDelta(totalPnl, prevTotalPnl);
   const deltaWinRate = calcDelta(winRate, prevWinRate);
   const deltaTotalTrades = calcDelta(totalTrades, prevTotalTrades);
   const deltaRR = calcDelta(avgRR, prevAvgRR);
 
-  // --- MONTH SWITCH HANDLERS ---
   const handlePrevMonth = () => {
     setMonthYear(({ month, year }) =>
       month === 0
@@ -123,7 +115,6 @@ const Calendar = () => {
 
   return (
     <div className={Styles.calendarPage}>
-      {/* Top Stat cards */}
       <div className={Styles.statCardsRow}>
         <StatCard
           label="TOTAL P&L"
@@ -151,7 +142,6 @@ const Calendar = () => {
         />
       </div>
 
-      {/* Month Selector */}
       <div className={Styles.monthSwitcherRow}>
         <button className={Styles.monthBtn} onClick={handlePrevMonth}>&lt;</button>
         <div className={Styles.monthDisplay}>
@@ -160,7 +150,6 @@ const Calendar = () => {
         <button className={Styles.monthBtn} onClick={handleNextMonth}>&gt;</button>
       </div>
 
-      {/* Calendar */}
       <div className={Styles.calendarGrid}>
         <div className={Styles.calendarWeekHeader}>
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(wd =>
@@ -209,7 +198,6 @@ const Calendar = () => {
           </div>
         ))}
       </div>
-      {/* Popup for active day */}
       {selectedDay && tradeByDay[selectedDay] && (
         <TradePopup
           date={new Date(monthYear.year, monthYear.month, selectedDay)}

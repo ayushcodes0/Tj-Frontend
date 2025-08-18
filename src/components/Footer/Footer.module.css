@@ -23,23 +23,20 @@
     color: var(--primary-white);
 }
 
-/* --- Corrected CSS Block --- */
 
-/* This fix prevents the parent from stretching the links */
 .footerItems {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    align-items: flex-start; /* THE KEY FIX: Stops child elements from stretching */
+    align-items: flex-start; 
 }
 
-/* This creates the text style and animated underline */
 .footerItemsText {
     font-size: 14px;
     color: var(--primary-white);
     opacity: .7;
-    position: relative; /* Required for the underline */
-    padding-bottom: 2px; /* Adds a little space between text and underline */
+    position: relative; 
+    padding-bottom: 2px; 
     cursor: pointer;
     transition: opacity 0.3s ease;
 }

@@ -1,11 +1,8 @@
-// src/pages/AiInsights/AiInsights.tsx
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTrades } from '../../hooks/useTrade';
 import Styles from './AiInsights.module.css';
 import { FaTrophy, FaChartLine, FaExclamationTriangle, FaLightbulb, FaCheckCircle, FaTimesCircle, FaBrain } from 'react-icons/fa';
 
-// --- TYPE DEFINITIONS ---
 interface KeyMetric {
   metric: string;
   value: string;
@@ -20,7 +17,6 @@ interface AnalysisData {
   actionableAdvice: string[];
 }
 
-// --- SUB-COMPONENTS for a cleaner structure ---
 const LoadingAnimation = () => (
   <div className={Styles.loaderContainer}>
     <div className={Styles.loader}></div>
@@ -61,7 +57,6 @@ const AiInsights = () => {
     setError('');
     setAnalysisResult(null);
 
-    // --- FIX: Safer date calculation that doesn't mutate the original 'now' object ---
     const periodStartDate = new Date();
     periodStartDate.setDate(periodStartDate.getDate() - analysisPeriod);
 
@@ -162,7 +157,6 @@ const AiInsights = () => {
                 </ul>
             </AnalysisSection>
 
-            {/* --- FIX: Corrected the closing tag from </Aia> to </AnalysisSection> --- */}
             <AnalysisSection icon={<FaLightbulb className={Styles.adviceIcon} />} title="Actionable Advice">
                 <ul className={Styles.list}>
                     {analysisResult.actionableAdvice.map((item, index) => <li key={index} className={Styles.adviceItem}>{item}</li>)}

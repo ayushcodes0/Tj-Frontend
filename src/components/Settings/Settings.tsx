@@ -12,24 +12,20 @@ const Settings = () => {
   const { user, updateAvatar, loading, changeUsername, changePassword } = useAuth();
   const { trades } = useTrades();
 
-  // Avatar upload logic
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [avatarUploadError, setAvatarUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Change Username state
   const [newUsername, setNewUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [usernameSuccess, setUsernameSuccess] = useState("");
 
-  // Change Password state
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
 
-  // Trade stats summary
   const tradeStats = useMemo(() => {
     if (!trades || !trades.length)
       return {
@@ -66,7 +62,6 @@ const Settings = () => {
     };
   }, [trades]);
 
-  // Recent trades for table
   const recentTrades = useMemo(
     () =>
       (trades ?? [])
@@ -136,7 +131,6 @@ const Settings = () => {
 
   return (
     <div className={Styles.dashboard}>
-      {/* Header Section */}
       <header className={Styles.header}>
         <h1 className={Styles.title}>Account Settings</h1>
         <div className={Styles.summaryCards}>
@@ -159,7 +153,6 @@ const Settings = () => {
         </div>
       </header>
 
-      {/* Profile Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Profile Information</h2>
         <div className={Styles.doubleColumn}>
@@ -272,7 +265,6 @@ const Settings = () => {
         </div>
       </section>
 
-      {/* Account Security Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Account Security</h2>
         <div className={Styles.doubleColumn}>
@@ -362,7 +354,6 @@ const Settings = () => {
         </div>
       </section>
 
-      {/* Recent Trades Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Recent Trades</h2>
         <div className={Styles.fullWidthCard}>

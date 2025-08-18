@@ -4,7 +4,6 @@ import TradesTable from "../../components/TradesTable/TradesTable";
 import Styles from "./Trades.module.css";
 import { GrPrevious, GrNext } from "react-icons/gr";
 
-// Simple pagination button bar
 const Pagination = ({
   page,
   totalPages,
@@ -41,7 +40,6 @@ const Trades = () => {
   const { trades, loading, error, fetchTrades, meta } = useTrades();
   const [page, setPage] = useState(1);
 
-  // Always fetch with 'lifetime' filter, paginated
   useEffect(() => {
     fetchTrades("lifetime", { page, limit: PAGE_SIZE });
   }, [fetchTrades, page]);

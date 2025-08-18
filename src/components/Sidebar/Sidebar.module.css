@@ -191,32 +191,27 @@
     padding: 12px 8px;
 }
 
-/* --- MODIFY THE EXISTING .themeToggle STYLE --- */
 .themeToggle {
     display: flex;
     align-items: center;
-    gap: 10px; /* Match the gap of nav links */
-    padding: 6px 15px; /* Match the padding of nav links */
-    /* margin: 0 16px 16px 16px; <-- We REMOVE the old margin */
-    border-radius: 6px; /* Match the border radius of nav links */
+    gap: 10px; 
+    padding: 6px 15px; 
+    border-radius: 6px; 
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
-    color: var(--dashboard-secondary-text); /* Use secondary text color */
+    color: var(--dashboard-secondary-text); 
 }
 
-/* --- MODIFY THE EXISTING .themeText STYLE --- */
 .themeText {
-    color: var(--dashboard-secondary-text); /* Match nav text color */
-    font-size: 15px; /* Match nav text size */
-    font-weight: 400; /* Match nav text weight */
+    color: var(--dashboard-secondary-text); 
+    font-size: 15px; 
+    font-weight: 400; 
 }
 
-/* This hover effect now matches the nav links */
 .themeToggle:hover {
     background-color: var(--dashboard-buttons-hover);
 }
 
-/* Ensure the icon color matches the nav icons */
 .themeIcon {
     color: var(--dashboard-icons-color);
     font-size: 16px;

@@ -1,4 +1,3 @@
-/* Lightest to Boldest */
 @font-face {
   font-family: 'TjFont';
   src: url('../assets/fonts/Switzer-Thin.woff2') format('woff2'),
@@ -7,6 +6,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 
 @font-face {
   font-family: 'TjFont';
@@ -17,6 +17,7 @@
   font-display: swap;
 }
 
+
 @font-face {
   font-family: 'TjFont';
   src: url('../assets/fonts/Switzer-Light.woff2') format('woff2'),
@@ -25,6 +26,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 
 @font-face {
   font-family: 'TjFont';
@@ -35,6 +37,7 @@
   font-display: swap;
 }
 
+
 @font-face {
   font-family: 'TjFont';
   src: url('../assets/fonts/Switzer-Medium.woff2') format('woff2'),
@@ -43,6 +46,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 
 @font-face {
   font-family: 'TjFont';
@@ -53,6 +57,7 @@
   font-display: swap;
 }
 
+
 @font-face {
   font-family: 'TjFont';
   src: url('../assets/fonts/Switzer-Bold.woff2') format('woff2'),
@@ -61,6 +66,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 
 @font-face {
   font-family: 'TjFont';
@@ -71,6 +77,7 @@
   font-display: swap;
 }
 
+
 @font-face {
   font-family: 'TjFont';
   src: url('../assets/fonts/Switzer-Black.woff2') format('woff2'),
@@ -80,16 +87,17 @@
   font-display: swap;
 }
 
-/* Variable Font (if applicable) */
+
 @font-face {
   font-family: 'TjFontVariable';
   src: url('../assets/fonts/Switzer-Variable.woff2') format('woff2 supports variations'),
        url('../assets/fonts/Switzer-Variable.woff2') format('woff2-variations'),
        url('../assets/fonts/Switzer-Variable.woff') format('woff');
-  font-weight: 100 900; /* Range for variable fonts */
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
+
 
 @font-face {
   font-family: 'PricingFont';
@@ -109,8 +117,8 @@
 }
 
 
+
 :root {
-  /* Colors */
   --tk-content-primary: #18172b;
   --tk-content-secondary: rgba(24, 23, 43, .63);
   --tk-content-disabled: rgba(24, 23, 43, .34);
@@ -162,37 +170,16 @@
   --tk-affordability-stretch: #ff9152;
   --tk-affordability-unaffordable: #747387;
 
-
-  /* --nav-grad-start: #3B2B7C;
-  --nav-grad-middle: #43369D;
-  --nav-grad-end: #3B2B7C;
-  --primary-text: #4840BB;
-  --primary-white: #F0F0F2;
-  --tag-color: #BDC6F5;
-  --primary-dark-text: #230B58; */
-
-  /* --nav-grad-start: #0B6B5D;
-  --nav-grad-middle: #0D9888;
-  --nav-grad-end: #0B6B5D;
-  --primary-text: #118A73;
-  --primary-white: #F0F2F1;
-  --tag-color: #B3D9D0;
-  --primary-dark-text: #064A40; */
-
   --nav-grad-start: #073A85;
   --nav-grad-middle: #0A4EAD;
   --nav-grad-end: #073A85;
   --primary-text: #0A4EAD;
   --primary-white: #FAFBFC;
   --tag-color: #9AAFCE;
-  --primary-dark-text: #052A5C; 
+  --primary-dark-text: #052A5C;
 
-
-
-  /* Gradients */
   --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));
-  /* --tk-gradient-soft: linear-gradient(to right, #f7eae4, #DBDEF0); default */ 
-  --tk-gradient-soft: linear-gradient(to right, #fbfbec, #D5E7FA); /* blue */
+  --tk-gradient-soft: linear-gradient(to right, #fbfbec, #D5E7FA);
   --tk-gradient-vibrant: linear-gradient(#c3cdf4, #fed0b9);
   --tk-gradient-aqua: linear-gradient(#c3cdf4, #d9edca);
   --tk-gradient-day: linear-gradient(#d9edca, #fff3d6);
@@ -201,7 +188,6 @@
   --tk-gradient-aqua-twilight: linear-gradient(#5ea698, #4840ba);
   --tk-gradient-night: linear-gradient(#230b5b, #4840ba);
 
-  /* Spacing */
   --tk-spacing-xxxsmall: 2px;
   --tk-spacing-xxsmall: 4px;
   --tk-spacing-xsmall: 8px;
@@ -212,7 +198,6 @@
   --tk-spacing-xxlarge: 48px;
   --tk-spacing-xxxlarge: 64px;
 
-  /* Shadows */
   --tk-valid-box-shadow-border-default: inset 0 0 0 1px var(--tk-content-divider);
   --tk-valid-box-shadow-border-hover: 0 0 0 4px var(--tk-surface-interactive-default);
   --tk-valid-box-shadow-border-focus: inset 0 0 0 2px var(--tk-content-interactive-default);
@@ -220,13 +205,9 @@
   --tk-invalid-box-shadow-border-hover: 0 0 0 4px var(--tk-surface-interactive-destructive);
   --tk-invalid-box-shadow-border-focus: inset 0 0 0 2px var(--tk-content-interactive-destructive);
 
-  /* Fonts */
   --font-main: 'TjFont', sans-serif;
 
-
-
-  /*Dashboard Colors*/
---dashboard-primary-background: #FCFCFC;
+  --dashboard-primary-background: #FCFCFC;
   --dashboard-right-background: #F9F9F9;
   --dashboard-primary-text: #202020;
   --dashboard-secondary-text: #646464;
@@ -234,17 +215,15 @@
   --dashboard-buttons-hover: #F0F0F0;
   --dashboard-borders: #E8E8E8;
 
-  /* --- SHARED DASHBOARD ACCENT COLORS --- */
   --dashboard-userIcon-color: #0D9888;
   --dashboard-green-color: #008F75;
   --dashboard-red-color: #D64D4D;
   --dashboard-blue-color: #618bff;
 }
 
-/* --- DARK MODE OVERRIDES --- */
 html[data-theme='dark'] {
---dashboard-primary-background: #1e1e22;
---dashboard-right-background: #141416;
+  --dashboard-primary-background: #1e1e22;
+  --dashboard-right-background: #141416;
 
   --dashboard-primary-text: #E0E0E0;
   --dashboard-secondary-text: #A0A0A0;
@@ -252,7 +231,5 @@ html[data-theme='dark'] {
   --dashboard-buttons-hover: #2A2A2A;
   --dashboard-borders: #2A2A2A;
 
-  /* --- THE ONLY CHANGE NEEDED IS HERE --- */
-  /* Make --primary-white adopt the dark background color in dark mode */
   --primary-white: var(--dashboard-primary-background); 
 }

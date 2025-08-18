@@ -10,6 +10,7 @@
   gap: 20px;
 }
 
+
 .dashboardFilters {
   display: flex;
   gap: 12px;
@@ -17,6 +18,7 @@
   flex-wrap: wrap;
   padding-top: 12px;
 }
+
 
 .filterInputs {
   border: 1px solid var(--dashboard-borders);
@@ -26,6 +28,7 @@
   color: var(--dashboard-primary-text);
   background-color: var(--dashboard-primary-background);
 }
+
 
 .confidenceWrapper {
   background: var(--dashboard-primary-background);
@@ -39,6 +42,7 @@
   max-width: 100%;
 }
 
+
 .confidenceLabelRow {
   display: flex;
   justify-content: space-between;
@@ -46,6 +50,7 @@
   margin-bottom: 7px;
   flex-wrap: wrap;
 }
+
 
 .confidenceLabel {
   font-size: 14px;
@@ -58,6 +63,7 @@
   margin-right: 4px;
 }
 
+
 .confidenceBar {
   width: 100%;
   height: 17px;
@@ -69,6 +75,7 @@
   position: relative;
 }
 
+
 .confidenceBarInner {
   height: 100%;
   border-radius: 7px;
@@ -77,9 +84,11 @@
   min-width: 0;
 }
 
+
 tspan{
     font-size: 10px;
 }
+
 
 .confidenceScaleLabels {
   display: flex;
@@ -89,12 +98,13 @@ tspan{
   margin-top: 3px;
 }
 
-/* Responsive tweaks */
+
 @media (max-width: 600px) {
   .confidenceWrapper {
     padding: 10px 7px 8px 10px;
   }
 }
+
 
 
 
@@ -104,6 +114,7 @@ tspan{
   gap: 20px;
   width: 100%;
 }
+
 
 .statCard {
   background: var(--dashboard-primary-background);
@@ -121,17 +132,20 @@ tspan{
 }
 
 
+
 @media (min-width: 1200px) {
   .statCard {
     flex-basis: calc((100% - 5 * 20px) / 6); 
   }
 }
 
+
 @media (max-width: 1199px) and (min-width: 901px) {
   .statCard {
     flex-basis: calc((100% - 3 * 20px) / 4); 
   }
 }
+
 
 
 @media (max-width: 900px) {
@@ -142,6 +156,7 @@ tspan{
     gap: 10px;
   }
 }
+
 
 .statLabel {
   color: var(--dashboard-primary-text);
@@ -155,6 +170,7 @@ tspan{
   letter-spacing: 1px;
 }
 
+
 .dashboardCharts {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -162,11 +178,13 @@ tspan{
   gap: 20px;
 }
 
+
 @media (max-width: 800px){
     .dashboardCharts{
         grid-template-columns: 1fr;
     }
 }
+
 
 .chartBox {
   background-color: var(--dashboard-primary-background);
@@ -184,10 +202,12 @@ tspan{
   flex-direction: column;
 }
 
+
 .chartHeading{
     font-weight: 400;
     color: var(--dashboard-primary-text);
 }
+
 
 @media (max-width: 900px) {
   .dashboardCharts {
@@ -195,6 +215,7 @@ tspan{
     gap: 16px;
   }
 }
+
 
 
 .topTradesSection {
@@ -207,6 +228,7 @@ tspan{
   overflow-x: auto;
 }
 
+
 .topTradesHeading {
   letter-spacing: 0.01em;
   display: flex;
@@ -215,15 +237,18 @@ tspan{
   padding: 12px 18px;
 }
 
+
 .heading{
     font-size: 14px;
     color: var(--dashboard-primary-text);
 }
 
+
 .viewAll{
     font-size: 14px;
     color: #618bff;
 }
+
 
 .topTradesTableWrapper {
   width: 100%;
@@ -235,11 +260,13 @@ tspan{
   min-width: 650px;
 }
 
+
 .topTradesTable th,
 .topTradesTable td {
   padding: 10px 15px;
   text-align: center;
 }
+
 
 .topTradesTable th {
   font-size: 14px;
@@ -249,15 +276,18 @@ tspan{
   border-top: 1px solid var(--dashboard-borders);
 }
 
+
 .topTradesTable td {
   font-size: 14px;
   border-bottom: 1px solid var(--dashboard-borders);
   color: var(--dashboard-primary-text);
 }
 
+
 .topTradesTable tr:last-child td {
   border-bottom: none;
 }
+
 
 .long {
   color: var(--dashboard-green-color);
@@ -265,6 +295,7 @@ tspan{
 .short {
   color: var(--dashboard-red-color);
 }
+
 
 
 @media (max-width: 600px){

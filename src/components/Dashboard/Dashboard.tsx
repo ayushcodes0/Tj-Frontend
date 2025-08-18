@@ -4,7 +4,6 @@ import Styles from "./Dashboard.module.css";
 import { LineChart, Line, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend, BarChart, Bar } from 'recharts';
 import { NavLink } from "react-router-dom";
 
-// Filters
 const getCurrentYear = () => new Date().getFullYear();
 const getCurrentMonth = () => new Date().getMonth() + 1;
 
@@ -29,7 +28,6 @@ const Dashboard = () => {
   const [month, setMonth] = useState(getCurrentMonth());
   const [day, setDay] = useState(new Date().getDate());
 
-  // loading data on mount and on filter change
   useEffect(() => {
     if (filter === "lifetime") {
       fetchTrades("lifetime", {});
@@ -42,7 +40,6 @@ const Dashboard = () => {
     }
   }, [filter, year, month, day, fetchTrades]);
 
-  // for memoization
   const stats = useMemo(() => {
     if (!trades) return null;
     const totalTrades = trades.length;
@@ -113,21 +110,16 @@ const Dashboard = () => {
 
   const topTrades = useMemo(() => {
     if (!trades) return [];
-    // Sort by descending PnL amount (highest gains at top, then lower, then loss trades)
     return [...trades]
       .sort((a, b) => (b.pnl_amount ?? 0) - (a.pnl_amount ?? 0))
       .slice(0, 5);
   }, [trades]);
 
-
-
-  // PnL Timeline for LineChart
   const timelineData = useMemo(() => {
     if (!trades) return [];
-    // Group by date (daily PnL):
     const daily: Record<string, number> = {};
     for (const t of trades) {
-      const dt = t.date.slice(0, 10); // yyyy-mm-dd
+      const dt = t.date.slice(0, 10);
       daily[dt] = (daily[dt] ?? 0) + (t.pnl_amount ?? 0);
     }
     return Object.entries(daily)
@@ -135,7 +127,6 @@ const Dashboard = () => {
       .map(([date, pnl]) => ({ date: formatDateLabel(date), pnl }));
   }, [trades]);
 
-  // Win-Loss Pie
   const pieData = useMemo(() => {
     if (!trades) return [];
     const wins = trades.filter(t => (t.pnl_amount ?? 0) > 0).length;
@@ -148,7 +139,6 @@ const Dashboard = () => {
     ].filter(d => d.value > 0);
   }, [trades]);
 
-  // Strategy Frequency Bar
   const strategyData = useMemo(() => {
     if (!trades) return [];
     const stratMap: Record<string, { name: string, count: number }> = {};
@@ -160,7 +150,6 @@ const Dashboard = () => {
     return Object.values(stratMap).sort((a, b) => b.count - a.count);
   }, [trades]);
 
-  // Mistake frequency
   const mistakeData = useMemo(() => {
     if (!trades) return [];
     const map: Record<string, number> = {};
@@ -222,7 +211,6 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* Stat Cards */}
       {stats && <div className={Styles.dashboardStatsCards}>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Gross P&L (₹)</span>
@@ -283,8 +271,6 @@ const Dashboard = () => {
       </div>
     }
 
-
-      {/* Charts */}
       <div className={Styles.dashboardCharts}>
         <div className={Styles.chartBox}>
           <div className={Styles.chartHeading}>P&L Over Time</div>
@@ -422,9 +408,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-
-
-
 
       {loading && <div style={{ fontSize: 18, marginLeft: 10, marginTop: 20 }}>Loading dashboard...</div>}
       {(!trades || trades.length === 0) && !loading && (

@@ -6,6 +6,7 @@
     position: relative;
 }
 
+
 .logo {
     font-weight: 700;
     font-size: 32px;
@@ -13,10 +14,12 @@
     letter-spacing: -.8px;
 }
 
+
 .navLinks {
     display: flex;
     gap: var(--tk-spacing-xlarge);
 }
+
 
 .navLink {
     color: var(--primary-text);
@@ -24,6 +27,7 @@
     position: relative; 
     text-decoration: none; 
 }
+
 
 .navLink::after {
     content: '';
@@ -36,11 +40,12 @@
     transition: width 0.3s ease; 
 }
 
+
 .navLink:hover::after {
     width: 100%; 
 }
 
-/* Desktop Buttons */
+
 .buttons {
     display: flex;
     justify-content: center;
@@ -48,7 +53,7 @@
     gap: var(--tk-spacing-medium);
 }
 
-/* Mobile Menu Button - hidden by default */
+
 .menuButton {
     display: none;
     background: none;
@@ -58,23 +63,21 @@
     z-index: 1001;
 }
 
-/* Mobile Menu Container */
+
 .mobileMenuContainer {
     display: none;
 }
 
+
 @media (max-width: 883px) {
-    /* Hide desktop nav and buttons on mobile */
     .navLinks, .buttons {
         display: none;
     }
     
-    /* Show mobile menu button */
     .menuButton {
         display: block;
     }
     
-    /* Mobile menu styles */
     .mobileMenuContainer {
         position: fixed;
         top: 0;
@@ -89,7 +92,7 @@
         transform: translateY(-100%);
         transition: transform 0.3s ease-out;
         will-change: transform;
-        overflow-y: auto; /* Enable scrolling if content is too long */
+        overflow-y: auto; 
     }
     
     .mobileMenuContainer.mobileMenuOpen {
@@ -112,7 +115,6 @@
         padding-bottom: 2rem;
     }
     
-    /* Adjust navLink styles for mobile */
     .mobileMenuContainer .navLink {
         color: var(--primary-white);
         font-size: 1.5rem;
@@ -135,19 +137,22 @@
     }
 }
 
-/* Animation for the buttons */
+
 .mobileButtons {
     transition: opacity 0.2s ease;
 }
+
 
 .mobileMenuContainer:not(.mobileMenuOpen) .mobileButtons {
     opacity: 0;
 }
 
+
 .mobileMenuContainer.mobileMenuOpen .mobileButtons {
     opacity: 1;
     transition-delay: 0.3s;
 }
+
 
 .avatarLink{
     display: flex;
@@ -158,6 +163,7 @@
     padding: 2px;
 }
 
+
 .avatarImg{
     width: 40px;
     height: 40px;
@@ -166,13 +172,14 @@
     object-position: center; 
 }
 
+
 .username{
     color: var(--primary-text);
     font-weight: 600;
 }
 
 
-/* Dropdown Styles */
+
 .dropdownContainer {
   position: absolute;
   top: 75px;
@@ -190,11 +197,13 @@
   z-index: 1001;
 }
 
+
 .dropdownContainer.open {
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
 }
+
 
 .dropdownHeader {
   display: flex;
@@ -203,12 +212,14 @@
   padding: 0 16px 8px;
 }
 
+
 .dropdownAvatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
+
 
 .imgContainer{
   display: flex;
@@ -219,10 +230,12 @@
   padding: 2px;
 }
 
+
 .dropdownUserInfo {
   display: flex;
   flex-direction: column;
 }
+
 
 .dropdownName {
   margin: 0;
@@ -231,6 +244,7 @@
   font-weight: 600;
 }
 
+
 .dropdownEmail {
   margin: 2px 0 0;
   font-size: 0.8rem;
@@ -238,11 +252,13 @@
   opacity: 0.7;
 }
 
+
 .dropdownDivider {
   height: 1px;
   background: rgba(0, 0, 0, 0.1);
   margin: 8px 0;
 }
+
 
 .dropdownItem {
   display: flex;
@@ -252,11 +268,13 @@
   font-size: 0.9rem;
 }
 
+
 .dropdownIcon {
   margin-right: 12px;
   color: var(--primary-text);
   opacity: 0.7;
 }
+
 
 .dropdownLogout {
   display: flex;
@@ -270,14 +288,17 @@
   font-size: 0.9rem;
 }
 
+
 .dropdownItemHover:hover{
   background: rgba(0, 0, 0, 0.03);
     cursor: pointer;
 }
 
+
 .dropdownLogout:hover {
   background: rgba(0, 0, 0, 0.03);
 }
+
 
 .overlay {
   position: fixed;
@@ -290,9 +311,11 @@
   cursor: pointer;
 }
 
+
 .overlay.open {
   display: block;
 }
+
 
 .mobileProfileSection {
   width: 100%;
@@ -302,6 +325,7 @@
   padding: 1.7rem 0 0.5rem 0;
   background: transparent;
 }
+
 
 .mobileAvatarWrap {
   display: flex;
@@ -314,6 +338,7 @@
   background: #2a1461;
 }
 
+
 .mobileAvatarImg {
   width: 56px;
   height: 56px;
@@ -323,6 +348,7 @@
   background: var(--primary-white);
 }
 
+
 .mobileUserInfo {
   display: flex;
   flex-direction: column;
@@ -330,6 +356,7 @@
   margin-bottom: 1rem;
   margin-top: 0.2rem;
 }
+
 
 .mobileUsername {
   color: var(--primary-white);
@@ -339,12 +366,14 @@
   text-align: center;
 }
 
+
 .mobileUseremail {
   color: var(--primary-white);
   font-size: 0.97rem;
   opacity: 0.78;
   text-align: center;
 }
+
 
 .mobileDropdownItem {
   display: flex;
@@ -358,11 +387,13 @@
   font-weight: 500;
 }
 
+
 .mobileDropdownItem span, 
 .mobileDropdownItem svg {
   color: var(--primary-white);
   margin: 0 5px 0 0;
 }
+
 
 .mobileLogout {
   display: flex;
@@ -381,10 +412,7 @@
   transition: background 0.18s;
 }
 
+
 .mobileLogout:hover {
   background: #4d2ab4;
 }
-
-/* @media (max-width: 883px) {
-  .mobileProfileSection { all styling applies here on mobile }
-} */

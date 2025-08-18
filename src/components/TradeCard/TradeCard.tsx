@@ -1,7 +1,6 @@
 import type { Trade } from '../../context/TradeContext';
 import Styles from "./TradeCard.module.css";
 
-// Helper to safely render referenced dropdowns
 function getRefName(ref?: { name?: string }) {
   return ref?.name || "—";
 }

@@ -10,7 +10,6 @@ const TradePopup = ({
   trades: Trade[],
   onClose: () => void
 }) => {
-  // --- Compute summary stats ---
   const total = trades.length;
   const grossPnl = trades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
   const winCount = trades.filter(t => (t.pnl_amount ?? 0) > 0).length;
@@ -29,7 +28,6 @@ const TradePopup = ({
           <span className={Styles.popupHeading}>Trades on {date.toLocaleDateString()}</span>
           <button onClick={onClose} className={Styles.popupCloseBtn}>&times;</button>
         </div>
-        {/* Clean stat-cards bar */}
         <div className={Styles.popupStatCards}>
           <div className={Styles.popupMiniCard}>
             <span className={Styles.popupMiniCardLabel}>Total Trades</span>
@@ -59,7 +57,6 @@ const TradePopup = ({
             </span>
           </div>
         </div>
-        {/* Trades list */}
         <div className={Styles.popupTradeList}>
           {trades.map(trade => (
             <div key={trade._id} className={Styles.popupTradeCard}>

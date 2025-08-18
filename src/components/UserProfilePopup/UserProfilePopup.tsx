@@ -10,16 +10,14 @@ import { TbCalendarMonthFilled } from 'react-icons/tb';
 interface UserProfilePopupProps {
   onClose: () => void;
   user: User | null;    
-  // Accept the new prop from Sidebar
   onNewTradeClick: () => void;
 }
 
 const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose, onNewTradeClick }) => {
   
-  // Create a handler that performs both actions
   const handleNewTrade = () => {
-    onClose(); // Close this popup first
-    onNewTradeClick(); // Then trigger the parent to open the NewTradePopup
+    onClose();
+    onNewTradeClick(); 
   };
 
   return (
@@ -59,7 +57,6 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose, onNe
                     <span className={Styles.navTexts}>Settings</span>
               </NavLink>
           </div>
-          {/* Attach the new handler to the button's onClick event */}
           <div className={Styles.popupBottom} onClick={handleNewTrade}>
               <div className={Styles.bottomItems}>
                   <div className={Styles.plusIconContainer}><GoPlus className={Styles.plusIcon} /></div>

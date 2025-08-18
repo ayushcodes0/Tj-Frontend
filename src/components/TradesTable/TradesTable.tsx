@@ -35,7 +35,7 @@ function riskReward(entry: number, stop?: number, target?: number) {
 // Helper for outcome/strategy
 function getName(val: undefined | null | { name?: string } | string) {
   if (!val) return '-';
-  if (typeof val === 'string') return val; // fallback if not populated
+  if (typeof val === 'string') return val;
   return val.name || '-';
 }
 

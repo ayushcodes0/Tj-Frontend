@@ -12,10 +12,9 @@ import { IoSettingsOutline, IoStatsChartSharp } from "react-icons/io5";
 import { LuBrain } from 'react-icons/lu';
 import { TbCalendarMonthFilled } from 'react-icons/tb';
 import { FaArrowTrendUp } from 'react-icons/fa6';
-import { useTheme } from '../../hooks/useTheme'; // <--- IMPORT THE HOOK
+import { useTheme } from '../../hooks/useTheme'; 
 
 
-// Define the interface for the props this component receives
 interface SidebarProps {
   onNewTradeClick: () => void;
 }
@@ -23,7 +22,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => { 
     const [showProfilePopup, setShowProfilePopup] = useState(false);
     const { user, logout } = useAuth();
-    const { theme, toggleTheme } = useTheme(); // <--- USE THE HOOK
+    const { theme, toggleTheme } = useTheme(); 
 
     
     return (
@@ -109,7 +108,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
                 <UserProfilePopup
                     onClose={() => setShowProfilePopup(false)}
                     user={user}
-                    // Pass the function down to the UserProfilePopup
                     onNewTradeClick={onNewTradeClick}
                 />
             )}

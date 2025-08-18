@@ -8,7 +8,7 @@
     align-items: start;
     justify-content: center;
     gap: 30px;
-    box-sizing: border-box; /* --- THE PRIMARY FIX --- */
+    box-sizing: border-box; 
 }
 
 
@@ -61,7 +61,7 @@
     letter-spacing: -.03em;
     line-height: 1;
     color: var(--primary-dark-text);
-    overflow-wrap: break-word; /* --- ADDED FOR SAFETY --- */
+    overflow-wrap: break-word;
 }
 
 

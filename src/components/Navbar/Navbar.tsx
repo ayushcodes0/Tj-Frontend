@@ -9,11 +9,8 @@ import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Variants } from "framer-motion";
 
-
-// Responsive threshold for mobile vs desktop nav
 const MOBILE_BREAKPOINT = 883;
 
-// Animation variants
 const menuVariants: Variants = {
   hidden: { opacity: 0, y: -20 },
   visible: {
@@ -75,7 +72,6 @@ const Navbar = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Handle resizing: Set isMobile
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
     window.addEventListener('resize', handleResize);
@@ -84,7 +80,6 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Prevent scrolling when drawer/menu is open
   useEffect(() => {
     if (isMenuOpen || isProfileOpen) {
       document.body.style.overflow = 'hidden';
@@ -96,7 +91,6 @@ const Navbar = () => {
     };
   }, [isMenuOpen, isProfileOpen]);
 
-  // Avatar Upload handler & dialog
   const handleAvatarSelect = () => {
     fileInputRef.current?.click();
   };
@@ -113,7 +107,6 @@ const Navbar = () => {
     }
   };
 
-  // Overlay/profile drawer handlers (desktop only)
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setIsProfileOpen(false);
@@ -125,7 +118,6 @@ const Navbar = () => {
 
   const isPro = user?.subscription?.plan === 'pro';
 
-  // ---- JSX ---- 
   return (
     <motion.div 
       className={Styles.navbar}
@@ -133,7 +125,6 @@ const Navbar = () => {
       animate={hasMounted ? "visible" : "hidden"}
       variants={fadeIn}
     >
-      {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -142,7 +133,6 @@ const Navbar = () => {
         <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
       </motion.div>
 
-      {/* Desktop Navigation */}
       <motion.div 
         className={Styles.navLinks}
         initial={{ opacity: 0 }}
@@ -173,7 +163,6 @@ const Navbar = () => {
         </motion.a>
       </motion.div>
       
-      {/* Desktop buttons */}
       <motion.div 
         className={Styles.buttons}
         initial={{ opacity: 0 }}
@@ -206,7 +195,6 @@ const Navbar = () => {
             >
               {user.username}
             </motion.p>
-            {/* Avatar: on desktop, show drawer on click */}
             <motion.div 
               className={Styles.avatarLink} 
               onClick={() => {
@@ -225,7 +213,6 @@ const Navbar = () => {
         )}
       </motion.div>
 
-      {/* Mobile menu button */}
       <motion.button 
         className={Styles.menuButton} 
         onClick={() => setIsMenuOpen(o => !o)}
@@ -235,7 +222,6 @@ const Navbar = () => {
         {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </motion.button>
       
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
@@ -313,7 +299,6 @@ const Navbar = () => {
                       <p className={Styles.mobileUseremail}>{user.email || 'No email provided'}</p>
                     </div>
                     <div className={Styles.dropdownDivider}></div>
-                    {/* Subscription */}
                     <motion.div 
                       className={Styles.mobileDropdownItem}
                       whileHover={{ scale: 1.02 }}
@@ -326,7 +311,6 @@ const Navbar = () => {
                       )}
                     </motion.div>
                     <div className={Styles.dropdownDivider}></div>
-                    {/* Avatar upload */}
                     <motion.div
                       className={`${Styles.mobileDropdownItem} ${Styles.dropdownItemHover}`}
                       onClick={handleAvatarSelect}
@@ -363,7 +347,6 @@ const Navbar = () => {
         )}
       </AnimatePresence>
       
-      {/* Desktop Profile Drawer (desktop only, mobile disables this) */}
       {!isMobile && (
         <AnimatePresence>
           {isProfileOpen && (
@@ -384,7 +367,6 @@ const Navbar = () => {
                 exit="exit"
                 variants={dropdownVariants}
               >
-                {/* User Info Header */}
                 <div className={Styles.dropdownHeader}>
                   <div className={Styles.imgContainer}>
                     <img

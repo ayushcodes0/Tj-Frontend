@@ -21,7 +21,6 @@ const Performance = () => {
   const stats = useMemo(() => {
     if (!trades || !trades.length) return null;
     
-    // --- Win/Loss/Break-even
     const wins = trades.filter(trade => (trade.pnl_amount ?? 0) > 0);
     const losses = trades.filter(trade => (trade.pnl_amount ?? 0) < 0);
     const breakEven = trades.filter(trade => (trade.pnl_amount ?? 0) === 0);
@@ -51,7 +50,6 @@ const Performance = () => {
       }, null as null | { date: string; profitLoss: number }
     );
 
-    // Capital/Quantity
     const maximumCapital = Math.max(...trades.map(trade => trade.total_amount ?? 0));
     const minimumCapital = Math.min(...trades.map(trade => trade.total_amount ?? 0));
     const averageCapital = trades.reduce((sum, trade) => sum + (trade.total_amount ?? 0), 0) / trades.length;
@@ -63,7 +61,6 @@ const Performance = () => {
       [minimumQuantity]: trades.filter(trade => trade.quantity === minimumQuantity)
     };
 
-    // Risk:Reward
     const averageRiskReward = (() => {
       const arr = trades
         .map(trade =>
@@ -77,7 +74,6 @@ const Performance = () => {
       return arr.reduce((a, b) => a + b, 0) / arr.length;
     })();
 
-    // Setup Effectiveness
     const strategies = Array.from(
       new Set(trades.map(trade => trade.strategy?.name).filter(Boolean))
     );
@@ -87,7 +83,6 @@ const Performance = () => {
       return { name, winRate: calculateWinRate(wins, tradesByStrategy.length), count: tradesByStrategy.length };
     });
 
-    // Symbol frequency/stats
     const symbols = Array.from(new Set(trades.map(trade => trade.symbol)));
     const symbolStatistics = symbols.map(symbol => {
       const tradesBySymbol = trades.filter(trade => trade.symbol === symbol);
@@ -102,7 +97,6 @@ const Performance = () => {
     const highestWinRate = symbolStatistics.reduce((a, b) => a.winRate > b.winRate ? a : b, symbolStatistics[0]);
     const lowestWinRate = symbolStatistics.reduce((a, b) => a.winRate < b.winRate ? a : b, symbolStatistics[0]);
 
-    // Consecutive wins/losses
     let consecutiveWins = 0, maximumConsecutiveWins = 0, consecutiveLosses = 0, maximumConsecutiveLosses = 0;
     for (const trade of trades) {
       if ((trade.pnl_amount ?? 0) > 0) {
@@ -119,7 +113,6 @@ const Performance = () => {
       }
     }
     
-    // Win/Loss streak days by day
     let maximumConsecutiveWinDays = 0, maximumConsecutiveLossDays = 0, lastDayWin = false, streak = 0;
     const sortedDays = Object.keys(byDay).sort();
     for (const day of sortedDays) {
@@ -138,7 +131,6 @@ const Performance = () => {
       }
     }
 
-    // Weekday stats
     const tradesByWeekday: Record<string, typeof trades> = {};
     trades.forEach(trade => {
       const weekday = weekdays[new Date(trade.date).getDay()];
@@ -166,14 +158,12 @@ const Performance = () => {
       };
     });
 
-    // Daily trade activity
     const tradesPerDay = Object.values(byDay).map(trades => trades.length);
     const averageTradesPerDay = tradesPerDay.length ? tradesPerDay.reduce((a, b) => a + b, 0) / tradesPerDay.length : 0;
     const maximumTradesDay = tradesPerDay.length ? Math.max(...tradesPerDay) : 0;
     const singleTradeDays = tradesPerDay.filter(number => number === 1).length;
     const overtradingDays = tradesPerDay.filter(number => number > 7).length;
 
-    // Main stats
     const total = trades.length;
     const averageWin = wins.length ? wins.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) / wins.length : 0;
     const averageLoss = losses.length ? losses.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) / losses.length : 0;
@@ -181,7 +171,6 @@ const Performance = () => {
     const lossRate = total ? (losses.length / total) * 100 : 0;
     const expectancy = calculateExpectancy(averageWin, winRate, averageLoss, lossRate);
 
-    // Most profitable strategy
     const strategyProfits: Record<string, number> = {};
     trades.forEach(trade => {
       if (trade.strategy?.name)
@@ -241,7 +230,6 @@ const Performance = () => {
 
   return (
     <div className={Styles.dashboard}>
-      {/* Header Section */}
       <header className={Styles.header}>
         <h1 className={Styles.title}>Trading Performance</h1>
         <div className={Styles.summaryCards}>
@@ -260,7 +248,6 @@ const Performance = () => {
         </div>
       </header>
 
-      {/* Key Metrics Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Key Metrics</h2>
         <div className={Styles.metricsGrid}>
@@ -354,7 +341,6 @@ const Performance = () => {
         </div>
       </section>
 
-      {/* Capital & Risk Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Capital & Risk</h2>
         <div className={Styles.metricsGrid}>
@@ -438,7 +424,6 @@ const Performance = () => {
         </div>
       </section>
 
-      {/* Symbols & Strategies Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
         <div className={Styles.doubleColumn}>
@@ -516,7 +501,6 @@ const Performance = () => {
         </div>
       </section>
 
-      {/* Weekday Performance Section */}
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Weekday Performance</h2>
         <div className={Styles.fullWidthCard}>

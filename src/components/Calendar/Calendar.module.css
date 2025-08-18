@@ -1,8 +1,5 @@
-/* //////// calendar root //////// */
-
 .calendarPage {
   width: 100%;
-  /* min-height: 100vh; */
   background: var(--dashboard-right-background);
   padding: 20px;
   box-sizing: border-box;
@@ -10,12 +7,6 @@
   flex-direction: column;
   gap: 20px;
 }
-
-/* \\\\\\\\ end calendar root \\\\\\\\ */
-
-
-
-/* //////// stat cards row //////// */
 
 .statCardsRow {
   display: grid;
@@ -28,12 +19,6 @@
       grid-template-columns: 1fr 1fr;
   }
 }
-
-/* \\\\\\\\ end stat cards row \\\\\\\\ */
-
-
-
-/* //////// individual stat card //////// */
 
 .statCard {
   padding: 20px;
@@ -80,12 +65,6 @@
   color: var(--dashboard-red-color);
 }
 
-/* \\\\\\\\ end stat card section \\\\\\\\ */
-
-
-
-/* //////// month selector //////// */
-
 .monthSwitcherRow {
   display: flex;
   justify-content: center;
@@ -108,14 +87,7 @@
   color: var(--dashboard-primary-text);
   font-size: 18px;
   font-weight: 600;
-  /* padding: 2px 10px; */
 }
-
-/* \\\\\\\\ end month selector \\\\\\\\ */
-
-
-
-/* //////// calendar grid //////// */
 
 .calendarGrid {
   width: 100%;
@@ -187,12 +159,6 @@
   font-size: 12px;
   color: var(--dashboard-primary-text);
 }
-
-/* \\\\\\\\ end calendar grid \\\\\\\\ */
-
-
-
-/* //////// popup - summary and trade cards //////// */
 
 .popupBackdrop {
   position: fixed;
@@ -361,12 +327,6 @@
   color: var(--dashboard-red-color);
 }
 
-/* \\\\\\\\ end popup summary and trade list \\\\\\\\ */
-
-
-
-/* //////// responsive design - all queries below //////// */
-
 @media (max-width: 1200px){
   .statCardsRow {
       grid-template-columns: 1fr 1fr;
@@ -426,10 +386,6 @@
   .calendarPage { padding: 10px;}
 }
 
-/* \\\\\\\\ end responsive design \\\\\\\\ */
-
-
-/* //////// popup responsive for width below 640px //////// */
 @media (max-width: 640px) {
   .popupBox {
     width: 90vw !important;
@@ -463,4 +419,3 @@
     padding: 5px 10px;
   }
 }
-/* \\\\\\\\ end popup responsive \\\\\\\\ */

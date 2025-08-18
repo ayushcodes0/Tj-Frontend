@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  /* background-color: black; */
   font-family: var(--font-main);
 }
 a {
@@ -10,7 +9,6 @@ a.active {
   font-weight: bold;
 }
 
-/* Add to your global CSS */
 .custom-success-toast {
   --toastify-icon-color-success: #4840BB;
 }

@@ -28,19 +28,16 @@ const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { updateAvatar } = useAuth();
 
-  // Open OS file dialog
   const handleAvatarSelect = () => {
     fileInputRef.current?.click();
   };
 
-  // Handle image change
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
       await updateAvatar(file);
-      onClose(); // Optionally close drawer after successful upload
-      // Optionally show toast: "Profile image updated!"
+      onClose(); 
     } catch {
       alert("Failed to update avatar.");
     }
@@ -51,7 +48,6 @@ const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
       {isOpen && <div className={Styles.overlay} onClick={e => { if (e.target === e.currentTarget) onClose(); }} />}
 
       <div className={`${Styles.dropdownContainer} ${isOpen ? Styles.open : ''}`} onClick={(e) => e.stopPropagation()}>
-        {/* Header, email, plan etc. as before */}
 
         <div className={Styles.dropdownHeader}>
           <div className={Styles.imgContainer}>
@@ -82,7 +78,6 @@ const UserDrawer = ({ user, isOpen, onClose, logout }: UserDrawerProps) => {
         </div>
         <div className={Styles.dropdownDivider}></div>
 
-        {/* --- Profile Image Upload Button/Row --- */}
         <div
           className={`${Styles.dropdownItem} ${Styles.dropdownItemHover}`}
           onClick={handleAvatarSelect}
@@ -127,7 +122,6 @@ const PricingNav = () => {
     setIsProfileOpen(!isProfileOpen);
   };
 
-  // Prevent scrolling when mobile menu or profile is open
   useEffect(() => {
     if (isMenuOpen || isProfileOpen) {
       document.body.style.overflow = 'hidden';
@@ -169,12 +163,10 @@ const PricingNav = () => {
         )}
       </div>
 
-      {/* Mobile menu button */}
       <button className={Styles.menuButton} onClick={toggleMenu}>
         {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </button>
       
-      {/* Mobile menu */}
       <div className={`${Styles.mobileMenuContainer} ${isMenuOpen ? Styles.mobileMenuOpen : ''}`}>
         <div className={Styles.mobileNavLinks}>
           <a href="#home" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Home</a>
@@ -204,7 +196,6 @@ const PricingNav = () => {
         </div>
       </div>
 
-      {/* User Drawer */}
       <UserDrawer 
         user={user}
         isOpen={isProfileOpen}

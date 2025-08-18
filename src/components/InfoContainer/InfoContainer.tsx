@@ -2,14 +2,13 @@ import type { ReactNode } from "react";
 import Styles from "./InfoContainer.module.css";
 import { FilledButton, UnfilledButton } from "../Button/Button";
 
-// Define types for your props
 type InfoPoint = {
   icon: ReactNode;
   text: string;
 };
 
 type InfoContainerProps = {
-  tags?: string[]; // Optional array of tags
+  tags?: string[]; 
   heading: string;
   subHeading: string;
   infoPara: string;
@@ -31,7 +30,6 @@ const InfoContainer = ({
 }: InfoContainerProps) => {
   return (
     <div className={Styles.informationContainer}>
-      {/* Dynamic Tags - only renders if tags exist */}
       {tags.length > 0 && (
         <div className={Styles.tagContainer}>
           {tags.map((tag, index) => (
