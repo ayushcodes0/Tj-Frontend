@@ -146,29 +146,7 @@
   --tk-surface-interactive-ambient: rgba(72, 64, 186, 0);
   --tk-surface-interactive-destructive: rgba(179, 0, 21, .1);
   --tk-content-interactive-primary-hover: #fff;
-  --tk-content-interactive-default-hover: #4840ba;
-  --tk-content-interactive-concealed-hover: #4840ba;
-  --tk-content-interactive-ambient-hover: #544cc8;
-  --tk-content-interactive-destructive-hover: #b30015;
-  --tk-surface-interactive-primary-hover: #544cc8;
-  --tk-surface-interactive-default-hover: rgba(72, 64, 186, .15);
-  --tk-surface-interactive-concealed-hover: rgba(72, 64, 186, .05);
-  --tk-surface-interactive-ambient-hover: rgba(72, 64, 186, 0);
-  --tk-surface-interactive-destructive-hover: rgba(179, 0, 21, .15);
-  --tk-content-interactive-primary-active: #fff;
-  --tk-content-interactive-default-active: #4840ba;
-  --tk-content-interactive-concealed-active: #4840ba;
-  --tk-content-interactive-ambient-active: #5e54cf;
-  --tk-content-interactive-destructive-active: #b30015;
-  --tk-surface-interactive-primary-active: #5e54cf;
-  --tk-surface-interactive-default-active: rgba(72, 64, 186, .2);
-  --tk-surface-interactive-concealed-active: rgba(72, 64, 186, .1);
-  --tk-surface-interactive-ambient-active: rgba(72, 64, 186, 0);
-  --tk-surface-interactive-destructive-active: rgba(179, 0, 21, .2);
-  --tk-affordability-comfortable: #65c8ac;
-  --tk-affordability-manageable: #f0c051;
-  --tk-affordability-stretch: #ff9152;
-  --tk-affordability-unaffordable: #747387;
+
 
   --nav-grad-start: #073A85;
   --nav-grad-middle: #0A4EAD;
@@ -180,13 +158,7 @@
 
   --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));
   --tk-gradient-soft: linear-gradient(to right, #fbfbec, #D5E7FA);
-  --tk-gradient-vibrant: linear-gradient(#c3cdf4, #fed0b9);
-  --tk-gradient-aqua: linear-gradient(#c3cdf4, #d9edca);
-  --tk-gradient-day: linear-gradient(#d9edca, #fff3d6);
-  --tk-gradient-soft-twilight: linear-gradient(#df8b5d, #6f85c8);
-  --tk-gradient-vibrant-twilight: linear-gradient(#4840ba, #ac5e35);
-  --tk-gradient-aqua-twilight: linear-gradient(#5ea698, #4840ba);
-  --tk-gradient-night: linear-gradient(#230b5b, #4840ba);
+
 
   --tk-spacing-xxxsmall: 2px;
   --tk-spacing-xxsmall: 4px;
