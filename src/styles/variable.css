@@ -195,6 +195,9 @@
   --dashboard-positive-background: #e5f8ed;
   --dashboard-negative-background: #f7e6e8;
   --dashboard-neutral-background: #f2f2f7;
+
+  --landing-background: #FCFCFC;
+  --landing-sec-background: #F9F9F9;
 }
 
 html[data-theme='dark'] {

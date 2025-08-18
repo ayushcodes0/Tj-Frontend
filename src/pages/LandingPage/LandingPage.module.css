@@ -192,7 +192,7 @@
 .infoSectionTop {
   top: 0;
   z-index: 100;
-  background-color: var(--primary-white);
+  background-color: var(--landing-background);
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   border-top: 1px solid rgb(181 178 201);
@@ -205,7 +205,7 @@
     flex-direction: column;
     justify-content: start;
     padding: 1.3rem 1rem;
-    background-color: var(--primary-white);
+    background-color: var(--landing-background);
     border-right: 1px solid rgb(181 178 201);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -342,7 +342,7 @@
         width: 100%;
         border-bottom: 1px solid rgb(181 178 201);
         z-index: 101;
-        background-color: var(--primary-white);
+        background-color: var(--landing-background);
     }
     
     .mobileDrawerHeaderContent {
@@ -458,7 +458,7 @@
     padding: 0 var(--tk-spacing-xxlarge);
     width: 100%;
     background-color: #18172B;
-    color: var(--primary-white);
+    color: var(--landing-background);
 }
 
 @media (max-width: 608px){

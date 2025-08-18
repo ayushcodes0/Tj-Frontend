@@ -20,7 +20,7 @@
 .footerItemsHead{
     font-size: 18px;
     font-weight: 700;
-    color: var(--primary-white);
+    color: var(--landing-background);
 }
 
 
@@ -33,7 +33,7 @@
 
 .footerItemsText {
     font-size: 14px;
-    color: var(--primary-white);
+    color: var(--landing-background);
     opacity: .7;
     position: relative; 
     padding-bottom: 2px; 
@@ -52,7 +52,7 @@
     height: 1px;
     bottom: 0;
     left: 0;
-    background-color: var(--primary-white);
+    background-color: var(--landing-background);
     transition: width 0.3s ease-out;
 }
 
@@ -71,7 +71,7 @@
 
 .footerBottomText{
     font-size: 14px;
-    color: var(--primary-white);
+    color: var(--landing-background);
     opacity: .7;
 }
 
@@ -114,7 +114,7 @@
 }
 
 .socials a {
-  color: var(--primary-white);
+  color: var(--landing-background);
   opacity: 0.7;
   font-size: 18px; 
   transition: opacity 0.2s ease-in-out;
@@ -127,7 +127,7 @@
 
 
 .email{
-    color: var(--primary-white);
+    color: var(--landing-background);
     font-weight: 300;
     font-size: 16px;
 }

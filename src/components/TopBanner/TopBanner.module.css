@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;
     background: var(--tj-nav-gradient);
-    color: var(--primary-white);
+    color: var(--landing-background);
     padding: var(--tk-spacing-small) var(--tk-spacing-xxxlarge) var(--tk-spacing-small) var(--tk-spacing-xxxlarge);
     border-radius: 8px;
     overflow: hidden;

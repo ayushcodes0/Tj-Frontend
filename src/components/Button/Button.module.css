@@ -3,7 +3,7 @@
     background-color: var(--primary-text);
     border: none;
     outline: none;
-    color: var(--primary-white);
+    color: var(--landing-background);
     padding: var(--tk-spacing-medium) var(--tk-spacing-large);
     font-size: 15px;
     border-radius: 6px;
