@@ -1,5 +1,5 @@
 import Styles from './Sidebar.module.css';
-import { FaMoon, FaShieldAlt, FaSun } from "react-icons/fa";
+import { FaMoon, FaShieldAlt } from "react-icons/fa";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiDashboardLine } from "react-icons/ri";
 import { useAuth } from "../../hooks/useAuth";
@@ -13,6 +13,8 @@ import { LuBrain } from 'react-icons/lu';
 import { TbCalendarMonthFilled } from 'react-icons/tb';
 import { FaArrowTrendUp } from 'react-icons/fa6';
 import { useTheme } from '../../hooks/useTheme'; 
+import { GoSun } from "react-icons/go";
+
 
 
 interface SidebarProps {
@@ -83,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
                 </div>
                 <div className={Styles.themeToggleContainer}>
                     <div className={Styles.themeToggle} onClick={toggleTheme}>
-                        {theme === 'light' ? <FaMoon className={Styles.themeIcon} /> : <FaSun className={Styles.themeIcon} />}
+                        {theme === 'light' ? <FaMoon className={Styles.themeIcon} /> : <GoSun className={Styles.themeIcon} />}
                         <span className={Styles.themeText}>
                             {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
                         </span>

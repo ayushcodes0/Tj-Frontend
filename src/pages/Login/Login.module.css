@@ -30,7 +30,6 @@
     box-shadow: 0 0 20px 10px rgba(72, 64, 187, 0.2); /* Added glow */
 }
 
-/* Larger balls with more distinct movement */
 .ball1 {
     width: 350px;
     height: 350px;
