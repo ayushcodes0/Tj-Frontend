@@ -224,7 +224,6 @@
 html[data-theme='dark'] {
   --dashboard-primary-background: #1e1e22;
   --dashboard-right-background: #141416;
-
   --dashboard-primary-text: #E0E0E0;
   --dashboard-secondary-text: #A0A0A0;
   --dashboard-icons-color: #A0A0A0;

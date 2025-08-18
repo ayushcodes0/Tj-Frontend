@@ -3,8 +3,8 @@
   overflow-x: auto;
   border: 1px solid var(--dashboard-borders);
   border-radius: 6px;
-
 }
+
 .table {
   min-width: 920px;
   border-collapse: collapse;
@@ -15,7 +15,7 @@
 th, td {
   padding: 11px 13px;
   text-align: left;
-  border-bottom: 1px solid #e6e3f5;
+  border-bottom: 1px solid var(--dashboard-borders);
   border-right: 1px solid var(--dashboard-borders);
 }
 
@@ -25,7 +25,7 @@ th, td {
 
 .table th { 
   font-weight: 600;
-  color: white;
+  color: var(--dashboard-primary-text);
   font-size: 14px;
   letter-spacing: .01em;
   text-transform: uppercase;
@@ -34,6 +34,7 @@ th, td {
 
 td{
   font-size: 14px;
+  color: var(--dashboard-primary-text);
 }
 
 tr:last-child td {

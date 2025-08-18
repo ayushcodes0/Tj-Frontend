@@ -66,7 +66,7 @@ const Trades = () => {
         )}
       </div>
 
-      {loading && <div>Loading trades...</div>}
+      {loading && <div className={Styles.loadingTrades}>Loading trades...</div>}
       {error && <div style={{ color: "red" }}>{error}</div>}
 
       {transformedTrades.length > 0 ? (

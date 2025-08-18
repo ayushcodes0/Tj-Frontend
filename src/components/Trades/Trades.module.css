@@ -36,6 +36,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  color: var(--dashboard-primary-text);
 
 }
 
@@ -69,4 +70,7 @@
     }
 }
 
+.loadingTrades{
+    color: var(--dashboard-primary-text);
+}
 
