@@ -163,7 +163,7 @@
 }
 
 .tag {
-  background: var(--dashboard-gray-100, #f7fafc);
+  background: var(--dashboard-primary-background);
   border: 1px solid var(--dashboard-borders, #e2e8f0);
   border-radius: 4px;
   padding: 4px 8px;

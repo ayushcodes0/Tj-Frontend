@@ -1,7 +1,7 @@
 .dashboard {
   width: 100%;
   min-height: 100vh;
-  background: var(--dashboard-right-background, #f5f7fa);
+  background: var(--dashboard-right-background);
   padding: 24px;
   box-sizing: border-box;
   color: var(--dashboard-primary-text, #2d3748);
@@ -31,7 +31,7 @@
 
 .summaryCard {
   flex: 1;
-  background: var(--dashboard-primary-background, #fff);
+  background: var(--dashboard-primary-background);
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -83,10 +83,10 @@
 .sectionTitle {
   font-size: 20px;
   font-weight: 600;
-  color: var(--dashboard-primary-text, #2d3748);
+  color: var(--dashboard-primary-text);
   margin-bottom: 16px;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
+  border-bottom: 1px solid var(--dashboard-borders);
 }
 
 
@@ -99,7 +99,7 @@
 
 
 .metricCard {
-  background: var(--dashboard-primary-background, #fff);
+  background: var(--dashboard-primary-background);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -109,14 +109,14 @@
 
 .metricHeader {
   padding: 16px 20px;
-  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
+  border-bottom: 1px solid var(--dashboard-borders);
 }
 
 
 .metricHeader h3 {
   font-size: 16px;
   font-weight: 600;
-  color: var(--dashboard-primary-text, #2d3748);
+  color: var(--dashboard-primary-text);
   margin: 0;
 }
 
@@ -146,7 +146,7 @@
 .metricLabel {
   display: block;
   font-size: 13px;
-  color: var(--dashboard-secondary-text, #718096);
+  color: var(--dashboard-secondary-text);
   margin-bottom: 4px;
 }
 
@@ -155,7 +155,7 @@
   display: block;
   font-size: 16px;
   font-weight: 500;
-  color: var(--dashboard-primary-text, #2d3748);
+  color: var(--dashboard-primary-text);
 }
 
 
@@ -178,16 +178,15 @@
 
 
 .fullWidthCard {
-  background: var(--dashboard-primary-background, #fff);
+  background: var(--dashboard-primary-background);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  overflow-x: scroll;
   border: 1px solid var(--dashboard-borders);
 }
 
 
 .dataCard {
-  background: var(--dashboard-primary-background, #fff);
+  background: var(--dashboard-primary-background);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -198,14 +197,14 @@
 
 .dataHeader {
   padding: 16px 20px;
-  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
+  border-bottom: 1px solid var(--dashboard-borders);
 }
 
 
 .dataHeader h3 {
   font-size: 16px;
   font-weight: 600;
-  color: var(--dashboard-primary-text, #2d3748);
+  color: var(--dashboard-primary-text);
   margin: 0;
 }
 
@@ -246,7 +245,7 @@
 
 .dataTable td {
   padding: 12px 16px;
-  border-bottom: 1px solid var(--dashboard-borders, #e2e8f0);
+  border-bottom: 1px solid var(--dashboard-borders);
 }
 
 
@@ -299,7 +298,7 @@
   padding: 30px;
   font-size: 18px;
   text-align: center;
-  color: var(--dashboard-secondary-text, #718096);
+  color: var(--dashboard-secondary-text);
 }
 
 
@@ -335,6 +334,10 @@
   .dataTable th,
   .dataTable td {
     padding: 10px 12px;
+  }
+
+  .fullWidthCard{
+      overflow-x: scroll;
   }
 }
 
