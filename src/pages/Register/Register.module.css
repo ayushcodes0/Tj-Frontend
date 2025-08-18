@@ -1,7 +1,7 @@
 .registerPageContainer {
     width: 100%;
     height: 100vh;
-    background-color: var(--primary-white);
+    background-color: var(--landing-background);
     position: relative;
     overflow: hidden;
     display: flex;
