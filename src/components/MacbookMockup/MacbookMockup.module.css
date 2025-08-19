@@ -87,11 +87,11 @@
 
 .base {
   position: absolute;
-  bottom: 10px;
+  bottom: 1.5%;
   left: -5%;
   width: 110%;
   height: 4%;
-  background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+  background: linear-gradient(to bottom, #f0f0f0, #a4a4a4);
   border-radius: 0 0 6vw 6vw;
   box-shadow: 
     inset 0 -0.1vw 0.2vw rgba(0, 0, 0, 0.3),
