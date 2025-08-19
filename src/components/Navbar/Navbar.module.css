@@ -116,7 +116,7 @@
     }
     
     .mobileMenuContainer .navLink {
-        color: var(--primary-white);
+        color: var(--landing-background);
         font-size: 1.5rem;
         padding: 0.5rem 0;
         transition: opacity 0.2s ease;
@@ -185,7 +185,7 @@
   top: 75px;
   right: 0;
   width: 240px;
-  background: var(--primary-white);
+  background: var(--landing-background);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1001;
@@ -331,7 +331,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid var(--primary-white);
+  border: 1px solid var(--landing-background);
   border-radius: 50%;
   padding: 2px;
   margin-bottom: 0.7rem;
@@ -345,7 +345,7 @@
   object-fit: cover;
   border-radius: 50%;
   display: block;
-  background: var(--primary-white);
+  background: var(--landing-background);
 }
 
 
@@ -359,7 +359,7 @@
 
 
 .mobileUsername {
-  color: var(--primary-white);
+  color: var(--landing-background);
   font-weight: 600;
   font-size: 1.11rem;
   margin-bottom: 0.15rem;
@@ -368,7 +368,7 @@
 
 
 .mobileUseremail {
-  color: var(--primary-white);
+  color: var(--landing-background);
   font-size: 0.97rem;
   opacity: 0.78;
   text-align: center;
@@ -380,7 +380,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  color: var(--primary-white);
+  color: var(--landing-background);
   font-size: 1rem;
   padding: 10px 0 10px 0;
   text-align: center;
@@ -390,7 +390,7 @@
 
 .mobileDropdownItem span, 
 .mobileDropdownItem svg {
-  color: var(--primary-white);
+  color: var(--landing-background);
   margin: 0 5px 0 0;
 }
 
@@ -402,7 +402,7 @@
   width: 88%;
   margin: 17px auto 12px auto;
   padding: 10px 0;
-  background: var(--primary-white);
+  background: var(--landing-background);
   border: none;
   color: var(--primary-text);
   cursor: pointer;

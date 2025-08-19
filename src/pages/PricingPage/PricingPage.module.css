@@ -204,3 +204,9 @@
     max-width: 200px;
     margin: 0 auto;
 }
+
+@media (max-width: 608px){
+    .pricingNavContainer{
+        padding: 0 16px;
+    }
+}
