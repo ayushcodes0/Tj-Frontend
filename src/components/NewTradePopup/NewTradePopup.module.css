@@ -1,9 +1,12 @@
+/* NewTradePopup.module.css */
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  /* This overlay color works well for both themes, so it can remain */
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
@@ -13,7 +16,7 @@
 }
 
 .newTradePopup {
-  background: var(--dashboard-primary-background, #fff);
+  background: var(--dashboard-primary-background);
   border-radius: 8px;
   width: 100%;
   max-width: 950px;
@@ -29,13 +32,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 14px 20px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--dashboard-borders);
   flex-shrink: 0;
 }
 
 .header h2 {
   margin: 0;
   font-size: 1.2rem;
+  color: var(--dashboard-primary-text);
 }
 
 .closeBtn {
@@ -48,20 +52,20 @@
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: #868e96;
+  color: var(--dashboard-secondary-text);
   border-radius: 50%;
   transition: background-color 0.2s, color 0.2s;
 }
 
 .closeBtn:hover {
-  background: #f1f3f5;
-  color: #343a40;
+  background: var(--dashboard-buttons-hover);
+  color: var(--dashboard-primary-text);
 }
 
 .tabNavigation {
   display: flex;
   padding: 0 20px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--dashboard-borders);
   flex-shrink: 0;
 }
 
@@ -71,7 +75,7 @@
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
-  color: #868e96;
+  color: var(--dashboard-secondary-text);
   font-size: 0.9rem;
   font-weight: 600;
   transition: all 0.2s;
@@ -79,8 +83,8 @@
 }
 
 .tabBtn.active {
-  color: var(--dashboard-userIcon-color, #007bff);
-  border-bottom-color: var(--dashboard-userIcon-color, #007bff);
+  color: var(--dashboard-userIcon-color);
+  border-bottom-color: var(--dashboard-userIcon-color);
 }
 
 .form {
@@ -107,8 +111,9 @@
   margin: 0;
   font-size: 1.05rem;
   font-weight: 600;
-  border-bottom: 1px solid #f1f3f5;
+  border-bottom: 1px solid var(--dashboard-borders);
   padding-bottom: 10px;
+  color: var(--dashboard-primary-text);
 }
 
 .sectionContent {
@@ -140,14 +145,14 @@
 }
 
 .formGroup label {
-  color: #495057;
+  color: var(--dashboard-primary-text);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
 }
 
 .required {
-  color: #fa5252;
+  color: var(--dashboard-red-color);
   margin-left: 2px;
 }
 
@@ -162,10 +167,10 @@
   box-sizing: border-box;
   width: 100%;
   padding: 0 10px;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--dashboard-borders);
   border-radius: 5px;
-  background-color: #fff;
-  color: var(--dashboard-primary-text, #111);
+  background-color: var(--dashboard-primary-background);
+  color: var(--dashboard-primary-text);
   font-family: inherit;
   font-size: 0.9rem;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -176,8 +181,8 @@
 .formGroup textarea:focus,
 .tagInputContainer input:focus {
   outline: none;
-  border-color: var(--dashboard-userIcon-color, #007bff);
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+  border-color: var(--dashboard-userIcon-color);
+  box-shadow: 0 0 0 2px rgba(13, 152, 136, 0.15); /* Corresponds to userIcon color */
 }
 
 .formGroup textarea {
@@ -190,7 +195,7 @@
 .calculatedField {
   display: flex;
   align-items: center;
-  background: #f8f9fa;
+  background: var(--dashboard-right-background);
   font-family: monospace;
   font-weight: 500;
 }
@@ -210,9 +215,9 @@
   justify-content: center;
   gap: 6px;
   padding: 0 12px;
-  border: 1px solid #ced4da;
-  background: #fff;
-  color: #495057;
+  border: 1px solid var(--dashboard-borders);
+  background: var(--dashboard-primary-background);
+  color: var(--dashboard-secondary-text);
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -221,17 +226,18 @@
 }
 
 .directionBtn.active {
-  background: var(--dashboard-userIcon-color, #007bff);
+  background: var(--dashboard-userIcon-color);
   color: #fff;
-  border-color: var(--dashboard-userIcon-color, #007bff);
+  border-color: var(--dashboard-userIcon-color);
 }
 
 .dateInput {
+  /* color-scheme needs to be dynamic, which is complex. This is a good default. */
   color-scheme: light;
 }
 
 .dateInput:required:invalid {
-  color: #adb5bd;
+  color: var(--dashboard-secondary-text);
 }
 
 .multiSelectContainer {
@@ -244,18 +250,18 @@
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--dashboard-borders);
   border-radius: 6px;
-  background-color: #f8f9fa;
+  background-color: var(--dashboard-right-background);
   font-size: 0.875rem;
-  color: #495057;
+  color: var(--dashboard-secondary-text);
   cursor: pointer;
   user-select: none;
   transition: all 0.2s ease-in-out;
 }
 
 .checkboxLabel:hover {
-  border-color: #adb5bd;
+  border-color: var(--dashboard-secondary-text);
 }
 
 .checkboxLabel input[type="checkbox"] {
@@ -266,18 +272,14 @@
 }
 
 .checkboxLabel:has(input:checked) {
-  background-color: #e7f5ff;
-  border-color: var(--dashboard-userIcon-color, #007bff);
-  color: var(--dashboard-userIcon-color, #007bff);
+  background-color: rgba(13, 152, 136, 0.1); /* Light version of userIcon color */
+  border-color: var(--dashboard-userIcon-color);
+  color: var(--dashboard-userIcon-color);
   font-weight: 600;
 }
 
-.addCustomContainer {
-  margin-top: 12px;
-}
-
-.tagInputContainer,
-.addCustomContainer {
+.addCustomContainer,
+.tagInputContainer {
   display: flex;
   gap: 8px;
 }
@@ -286,8 +288,8 @@
 .addCustomContainer button {
   height: 36px;
   padding: 0 14px;
-  background: #495057;
-  color: #fff;
+  background: var(--dashboard-primary-text);
+  color: var(--dashboard-primary-background);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -299,7 +301,7 @@
 
 .tagInputContainer button:hover,
 .addCustomContainer button:hover {
-  background: #343a40;
+  opacity: 0.85;
 }
 
 .tagsContainer {
@@ -314,8 +316,8 @@
   align-items: center;
   gap: 6px;
   padding: 5px 10px;
-  background: #f1f3f5;
-  color: #495057;
+  background: var(--dashboard-buttons-hover);
+  color: var(--dashboard-secondary-text);
   border: 1px solid transparent;
   border-radius: 16px;
   font-size: 0.8rem;
@@ -324,7 +326,7 @@
 .tag button {
   background: none;
   border: none;
-  color: #adb5bd;
+  color: var(--dashboard-secondary-text);
   cursor: pointer;
   font-size: 12px;
   padding: 0;
@@ -338,14 +340,14 @@
 }
 
 .tag button:hover {
-  background: #dee2e6;
-  color: #495057;
+  background: var(--dashboard-borders);
+  color: var(--dashboard-primary-text);
 }
 
 .formGroup input[type="range"] {
   padding: 0;
   height: 6px;
-  background: #e9ecef;
+  background: var(--dashboard-borders);
   border-radius: 3px;
   cursor: pointer;
   margin-top: 10px;
@@ -357,39 +359,37 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--dashboard-userIcon-color, #007bff);
+  background: var(--dashboard-userIcon-color);
 }
 
 .formActions {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* Align buttons to the right */
   align-items: center;
   gap: 12px;
-  padding: 16px 0;
-  background-color: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  padding: 16px 20px;
+  background-color: var(--dashboard-right-background);
+  border-top: 1px solid var(--dashboard-borders);
   flex-shrink: 0;
 }
 
 .resetBtn {
   height: 36px;
-  width: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  color: #868e96;
-  border: 1px solid #ced4da;
+  padding: 0 16px;
+  background: var(--dashboard-primary-background);
+  color: var(--dashboard-secondary-text);
+  border: 1px solid var(--dashboard-borders);
   border-radius: 5px;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   transition: all 0.2s ease-in-out;
 }
 
 .resetBtn:hover {
-  background-color: #f8f9fa;
-  color: #495057;
-  border-color: #adb5bd;
+  background-color: var(--dashboard-buttons-hover);
+  color: var(--dashboard-primary-text);
+  border-color: var(--dashboard-secondary-text);
 }
 
 .submitBtn {
@@ -400,7 +400,7 @@
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
-  background: var(--dashboard-userIcon-color, #007bff);
+  background: var(--dashboard-userIcon-color);
   color: #fff;
   transition: opacity 0.2s;
 }
@@ -418,12 +418,12 @@
 }
 
 .form::-webkit-scrollbar-thumb {
-  background: #dee2e6;
+  background: var(--dashboard-borders);
   border-radius: 3px;
 }
 
 .form::-webkit-scrollbar-thumb:hover {
-  background: #ced4da;
+  background: var(--dashboard-buttons-hover);
 }
 
 @media (max-width: 768px) {
@@ -440,9 +440,5 @@
   }
   .formGrid {
     grid-template-columns: 1fr;
-  }
-  .formActions {
-    flex-direction: row-reverse;
-    justify-content: flex-start;
   }
 }
