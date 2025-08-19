@@ -86,10 +86,13 @@ const Login = () => {
       </div>
       
       <div className={Styles.loginContent}>
-        <h1 className={Styles.loginTitle}>Welcome Back</h1>
+        <Link to="/" className={Styles.pageLogo}>
+          <h1>TradeJournal</h1>
+        </Link>
+        
+        <h2 className={Styles.loginTitle}>Welcome Back</h2>
         
         <form onSubmit={handleSubmit} className={Styles.loginForm} noValidate>
-          {/* Email Field */}
           <div className={Styles.formGroup}>
             <div className={`${Styles.inputContainer} ${validationErrors.email ? Styles.inputError : ''}`}>
               <FaEnvelope className={Styles.inputIcon} />
