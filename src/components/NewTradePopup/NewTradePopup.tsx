@@ -75,12 +75,12 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
         setEmotionalStates(Array.isArray(emotionsData) ? emotionsData : []);
       } catch (error) {
         console.error('Failed to fetch options:', error);
-        // --- 3. REPLACE ALERT WITH TOAST ---
         showErrorToast('Could not load trading options. Please try again.');
       }
     };
     loadOptions();
-  }, [showErrorToast]); // Add hook function to dependency array
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Add hook function to dependency array
 
   const { quantity, entry_price, exit_price, direction } = formData;
   useEffect(() => {
