@@ -1,3 +1,5 @@
+// src/components/NewTradePopup/NewTradePopup.tsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import Styles from "./NewTradePopup.module.css";
 import { RiResetLeftLine } from "react-icons/ri";
@@ -75,8 +77,6 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     loadOptions();
   }, []);
 
-  // --- FIX 1: Linter warning for useEffect dependencies ---
-  // Destructure the needed values from formData *outside* the effect.
   const { quantity, entry_price, exit_price, direction } = formData;
   useEffect(() => {
     const numQuantity = quantity ?? 0;
@@ -89,35 +89,43 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     }
     const newPnlPercentage = newTotalAmount !== 0 ? (newPnlAmount / newTotalAmount) * 100 : 0;
     setFormData(prev => ({ ...prev, total_amount: parseFloat(newTotalAmount.toFixed(2)), pnl_amount: parseFloat(newPnlAmount.toFixed(2)), pnl_percentage: parseFloat(newPnlPercentage.toFixed(2)) }));
-  // Now, the hook only depends on the primitive values, which satisfies the linter and prevents loops.
   }, [quantity, entry_price, exit_price, direction]);
 
-
+  // --- THIS IS THE FIX ---
   const handleUpdateField = useCallback(<K extends keyof TradeFormData>(field: K, value: TradeFormData[K]) => {
-      setFormData(prev => ({ ...prev, [field]: value }));
+    // If the field is 'symbol' and the value is a string, convert it to uppercase.
+    const finalValue = (field === 'symbol' && typeof value === 'string') 
+      ? value.toUpperCase() 
+      : value;
+    
+    setFormData(prev => ({ ...prev, [field]: finalValue }));
   }, []);
+
   const handlePsychologyChange = useCallback((value: Partial<TradeFormData['psychology']>) => {
       setFormData(prev => ({ ...prev, psychology: { ...prev.psychology, ...value } }));
   }, []);
+  
   const handleNumberInputChange = (field: 'quantity' | 'entry_price' | 'exit_price' | 'stop_loss' | 'target' | 'holding_period_minutes', value: string) => {
       handleUpdateField(field, value === '' ? null : Number(value));
   };
+  
   const handleMultiSelect = useCallback((ruleId: string) => {
       const currentValues = formData.rules_followed;
       const newValues = currentValues.includes(ruleId) ? currentValues.filter(id => id !== ruleId) : [...currentValues, ruleId];
       handleUpdateField('rules_followed', newValues);
   }, [formData.rules_followed, handleUpdateField]);
+  
   const addTag = useCallback(() => {
       if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
           handleUpdateField('tags', [...formData.tags, newTag.trim()]);
           setNewTag('');
       }
   }, [newTag, formData.tags, handleUpdateField]);
+  
   const removeTag = useCallback((tag: string) => {
       handleUpdateField('tags', formData.tags.filter(t => t !== tag));
   }, [formData.tags, handleUpdateField]);
   
-  // --- FIX 2: Linter warning for useCallback dependencies ---
   const addMistake = useCallback(() => {
       if (newMistake.trim() && !formData.psychology.mistakes_made.includes(newMistake.trim())) {
           handlePsychologyChange({ mistakes_made: [...formData.psychology.mistakes_made, newMistake.trim()] });
@@ -125,7 +133,6 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
       }
   }, [newMistake, formData.psychology.mistakes_made, handlePsychologyChange]);
   
-  // --- FIX 3: Linter warning for useCallback dependencies ---
   const removeMistake = useCallback((mistake: string) => {
       handlePsychologyChange({ mistakes_made: formData.psychology.mistakes_made.filter(m => m !== mistake) });
   }, [formData.psychology.mistakes_made, handlePsychologyChange]);
@@ -139,6 +146,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setNewCustomStrategyName('');
       } catch (error) { alert(`Failed to add strategy: ${error}`); }
   };
+  
   const handleAddCustomRule = async () => {
       if (!newCustomRuleName.trim()) return;
       try {
@@ -148,6 +156,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setNewCustomRuleName('');
       } catch (error) { alert(`Failed to add rule: ${error}`); }
   };
+  
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
