@@ -21,6 +21,9 @@ import type { Variants } from "framer-motion";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { HiOutlineTrendingUp } from "react-icons/hi";
 import { NavLink } from 'react-router-dom';
+import dashboardImage from "../../assets/image/dashboardImage.png";
+import aiInsightsImage from "../../assets/image/aiInsights.png"
+import newTradeImage from "../../assets/image/newTradeImage.png"
 
 // Animation variants
 const containerVariants: Variants = {
@@ -615,7 +618,9 @@ const LandingPage = () => {
         whileInView="onscreen"
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
-      />
+      >
+        <img src={dashboardImage} alt="Unified Dashboard Image" className={`${Styles.informationImage} ${Styles.dashboardImage}`}/>
+      </motion.div>
 
       {/* Section 1: AI Insights */}
       <motion.div
@@ -650,7 +655,9 @@ const LandingPage = () => {
         whileInView="onscreen"
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
-      />
+      >
+        <img src={aiInsightsImage} alt="Ai Insights Image" className={`${Styles.informationImage} ${Styles.aiInsightsImage}`}/>
+      </motion.div>
 
       {/* Section 2: Detailed Logging */}
       <motion.div
@@ -685,7 +692,9 @@ const LandingPage = () => {
         whileInView="onscreen"
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
-      />
+      >
+        <img src={newTradeImage} alt="Log Trade Image" className={`${Styles.informationImage} ${Styles.newTradeImage}`}/>
+      </motion.div>
 
       {/* Section 3: Mindful Trading */}
       <motion.div
