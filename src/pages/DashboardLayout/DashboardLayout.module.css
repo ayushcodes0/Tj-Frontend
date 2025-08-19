@@ -228,6 +228,30 @@
   }
 }
 
+@media (max-width: 450px){
+  .dashboardIcon{
+    font-size: 14px;
+  }
+  .url{
+    font-size: 12px;
+  }
+  .dashboard{
+    font-size: 12px;
+  }
+  .plusContainer{
+    /* width: 24px;
+    height: 24px; */
+    padding: 4px;
+  }
+  .createTrade{
+    font-size: 14px;
+    display: none;
+  }
+  .plusIcon{
+    font-size: 16px;
+  }
+}
+
 
 @media (max-width: 430px){
   .navbarLeft{
