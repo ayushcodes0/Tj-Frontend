@@ -10,6 +10,7 @@ import {
   saveTrade,
 } from '../../services/apiService'; 
 import type { TradeFormData } from '../../types/trade';
+import { useCustomToast } from '../../hooks/useCustomToast'; 
 
 interface NewTradePopupProps {
   onClose: () => void;
@@ -36,6 +37,9 @@ const getRangeProgressStyle = (value: number, min: number, max: number) => {
 const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<'general' | 'psychology'>('general');
   const [formData, setFormData] = useState<TradeFormData>(initialFormData);
+  
+  // --- 2. USE THE HOOK ---
+  const { showSuccessToast, showErrorToast } = useCustomToast();
 
   const [strategies, setStrategies] = useState<Option[]>([]);
   const [outcomeSummaries, setOutcomeSummaries] = useState<Option[]>([]);
@@ -71,11 +75,12 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
         setEmotionalStates(Array.isArray(emotionsData) ? emotionsData : []);
       } catch (error) {
         console.error('Failed to fetch options:', error);
-        alert('Could not load trading options. Please check your connection and try again.');
+        // --- 3. REPLACE ALERT WITH TOAST ---
+        showErrorToast('Could not load trading options. Please try again.');
       }
     };
     loadOptions();
-  }, []);
+  }, [showErrorToast]); // Add hook function to dependency array
 
   const { quantity, entry_price, exit_price, direction } = formData;
   useEffect(() => {
@@ -91,13 +96,10 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     setFormData(prev => ({ ...prev, total_amount: parseFloat(newTotalAmount.toFixed(2)), pnl_amount: parseFloat(newPnlAmount.toFixed(2)), pnl_percentage: parseFloat(newPnlPercentage.toFixed(2)) }));
   }, [quantity, entry_price, exit_price, direction]);
 
-  // --- THIS IS THE FIX ---
   const handleUpdateField = useCallback(<K extends keyof TradeFormData>(field: K, value: TradeFormData[K]) => {
-    // If the field is 'symbol' and the value is a string, convert it to uppercase.
     const finalValue = (field === 'symbol' && typeof value === 'string') 
       ? value.toUpperCase() 
       : value;
-    
     setFormData(prev => ({ ...prev, [field]: finalValue }));
   }, []);
 
@@ -144,7 +146,12 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setStrategies(prev => [...prev, newOption]);
           handleUpdateField('strategy', newOption._id);
           setNewCustomStrategyName('');
-      } catch (error) { alert(`Failed to add strategy: ${error}`); }
+          showSuccessToast(`Strategy "${newOption.name}" added!`);
+      } catch (error) { 
+          // --- 3. REPLACE ALERT WITH TOAST ---
+          const message = error instanceof Error ? error.message : "Failed to add strategy";
+          showErrorToast(message);
+      }
   };
   
   const handleAddCustomRule = async () => {
@@ -154,16 +161,27 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setRulesOptions(prev => [...prev, newOption]);
           handleMultiSelect(newOption._id);
           setNewCustomRuleName('');
-      } catch (error) { alert(`Failed to add rule: ${error}`); }
+          showSuccessToast(`Rule "${newOption.name}" added!`);
+      } catch (error) { 
+          // --- 3. REPLACE ALERT WITH TOAST ---
+          const message = error instanceof Error ? error.message : "Failed to add rule";
+          showErrorToast(message);
+      }
   };
   
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
           await saveTrade(formData);
-          alert('Trade saved successfully!');
+          // --- 3. REPLACE ALERT WITH TOAST ---
+          showSuccessToast('Trade saved successfully!');
           onClose();
-      } catch (error) { console.error('Failed to save trade:', error); alert(`Failed to save trade: ${error}`); }
+      } catch (error) { 
+          console.error('Failed to save trade:', error); 
+          // --- 3. REPLACE ALERT WITH TOAST ---
+          const message = error instanceof Error ? error.message : "Failed to save trade";
+          showErrorToast(message);
+      }
   };
 
   return (
