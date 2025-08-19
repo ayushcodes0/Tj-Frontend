@@ -24,6 +24,7 @@ import { NavLink } from 'react-router-dom';
 import dashboardImage from "../../assets/image/dashboardImage.png";
 import aiInsightsImage from "../../assets/image/aiInsights.png"
 import newTradeImage from "../../assets/image/newTradeImage.png"
+import performanceImage from "../../assets/image/performance.png"
 
 // Animation variants
 const containerVariants: Variants = {
@@ -729,7 +730,9 @@ const LandingPage = () => {
         whileInView="onscreen"
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
-      />
+      >
+        <img src={performanceImage} alt="Performance Image" className={`${Styles.informationImage} ${Styles.performanceImage}`}/>
+      </motion.div>
     </div>
 
       <div className={Styles.pricingContainer}>
