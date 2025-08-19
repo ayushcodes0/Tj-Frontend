@@ -136,7 +136,7 @@ const PricingNav = () => {
 
   return (
     <div className={Styles.navbar}>
-      <Link to={"/"}><p className={Styles.logo}>LoremIpsum</p></Link>
+      <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
       
       <div className={Styles.navLinks}>
         <a href="#pricing" className={Styles.navLink}>Pricing</a>
