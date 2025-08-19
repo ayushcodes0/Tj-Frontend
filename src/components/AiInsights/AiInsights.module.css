@@ -212,3 +212,89 @@
 .positiveIcon { color: var(--dashboard-green-color); }
 .negativeIcon { color: var(--dashboard-red-color); }
 .adviceIcon { color: #4338ca; }
+
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  /* This is the key fix for the control box */
+  .controlBox {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: stretch; /* Make children full width */
+    gap: 16px;
+  }
+
+  .periodSelector {
+    flex-direction: column; /* Stack label and buttons vertically */
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .periodLabel {
+    text-align: center; /* Center the label text */
+  }
+
+  .periodButtonContainer {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 10px;
+    flex-wrap: wrap; /* Allow buttons to wrap if needed */
+  }
+
+  .analyzeButton {
+    width: 100%; /* Make the analyze button full width */
+    justify-content: center; /* Center the text and icon inside */
+  }
+
+  .resultCard {
+    padding: 16px;
+  }
+
+  .cardHeader {
+    font-size: 16px;
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 20px;
+  }
+  .header p {
+    font-size: 14px;
+  }
+
+  .periodButton {
+    padding: 8px 12px;
+    font-size: 13px;
+    flex-grow: 1; /* Allow buttons to take up equal space */
+  }
+
+  .analyzeButton {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .list li {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .metricsGrid {
+    /* Ensure it remains single column on very small screens */
+    grid-template-columns: 1fr;
+  }
+
+  .metricItem {
+    flex-direction: column; /* Stack metric label and value */
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

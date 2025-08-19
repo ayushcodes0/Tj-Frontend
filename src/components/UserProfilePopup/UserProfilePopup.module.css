@@ -108,7 +108,7 @@
     border-bottom-Right-radius: 12px;
     display: flex;
     align-items: center;
-    background-color: #f4f4f4;
+    background-color: var(--dashboard-primary-background);
     width: 100%;
     height: 100%;
     padding: 8px;
@@ -122,10 +122,11 @@
     width: 100%;
     padding: 8px;
     border-radius: 8px;
+    border: 1px solid var(--dashboard-borders);
 }
 
 .bottomItems:hover{
-    background-color: #e8e8e8;
+    background-color: var(--dashboard-right-background);
     cursor: pointer;
     transition: all ease .3s;
 }
@@ -136,8 +137,9 @@
     align-items: center;
     height: 32px;
     width: 32px;
-    background-color: #dbdada;
+    border: 1px solid var(--dashboard-borders);
     border-radius: 8px;
+    color: var(--dashboard-primary-text);
 }
 
 .popupBottomText{
