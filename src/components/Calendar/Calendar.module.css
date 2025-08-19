@@ -308,6 +308,9 @@
   border-right: 1px solid var(--dashboard-borders);
   padding: 10px;
 }
+.tradePopupInfo{
+  color: var(--dashboard-primary-text);
+}
 .tradeDetails.noBorder{
   border-right: none;
 }

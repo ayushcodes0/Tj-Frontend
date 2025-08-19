@@ -84,7 +84,7 @@ const TradePopup = ({
                 </div>
                 <div className={Styles.tradeDetails}>
                   <span className={Styles.detailLabel}>P&L %</span>
-                  <span>
+                  <span className={(trade.pnl_amount ?? 0) >= 0 ? Styles.pnlPositive : Styles.pnlNegative}>
                     {typeof trade.pnl_percentage === "number"
                       ? (trade.pnl_percentage >= 0 ? "+" : "") + trade.pnl_percentage.toFixed(2) + "%"
                       : "--"}
@@ -92,11 +92,11 @@ const TradePopup = ({
                 </div>
                 <div className={Styles.tradeDetails}>
                   <span className={Styles.detailLabel}>Entry</span>
-                  <span>{trade.entry_price ?? "--"}</span>
+                  <span className={Styles.tradePopupInfo}>{trade.entry_price ?? "--"}</span>
                 </div>
                 <div className={`${Styles.tradeDetails} ${Styles.noBorder}`}>
                   <span className={Styles.detailLabel}>Exit</span>
-                  <span>{trade.exit_price ?? "--"}</span>
+                  <span className={Styles.tradePopupInfo}>{trade.exit_price ?? "--"}</span>
                 </div>
               </div>
             </div>
