@@ -1,0 +1,146 @@
+/* src/components/MacBookMockup/MacBookMockup.module.css */
+
+.deviceContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.macbook {
+  width: 500px; /* Base width for high-res screens */
+  max-width: 100%;
+  aspect-ratio: 3 / 2;
+  position: relative;
+  z-index: 2; /* Sits above the shadow */
+}
+
+/* --- The Screen (Top Part) --- */
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 96%; /* Slightly shorter to show the base's top edge */
+  background: #1a1a1a;
+  border-radius: 20px;
+  border: 1px solid #4a4a4a;
+  box-shadow: 
+    0 0 0 1px #000,
+    0 4px 8px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bezel {
+  width: 98%;
+  height: 96%;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #000;
+}
+
+/* --- The Notch and Camera --- */
+.notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15%;
+  height: 20px;
+  background: #1a1a1a;
+  border-radius: 0 0 12px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.camera {
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border: 1px solid #333;
+  border-radius: 50%;
+}
+
+/* --- The Base (Bottom Part) --- */
+.base {
+  position: absolute;
+  bottom: 0;
+  left: 1%;
+  width: 98%;
+  height: 5%;
+  background: linear-gradient(to bottom, #f0f0f0, #d8d8d8);
+  border-radius: 0 0 20px 20px;
+  box-shadow: 
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* The indent for opening the laptop */
+.indent {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18%;
+  height: 4px;
+  background: #c9c9c9;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Realistic Effects --- */
+.reflection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  pointer-events: none;
+}
+
+.shadow {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 10%;
+  width: 80%;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: 1;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .macbook {
+    aspect-ratio: 4 / 3;
+  }
+  .screen {
+    border-radius: 15px;
+  }
+  .bezel {
+    border-radius: 10px;
+  }
+  .notch {
+    height: 15px;
+  }
+  .base {
+    border-radius: 0 0 15px 15px;
+  }
+}

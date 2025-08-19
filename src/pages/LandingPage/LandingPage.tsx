@@ -25,6 +25,7 @@ import dashboardImage from "../../assets/image/dashboardImage.png";
 import aiInsightsImage from "../../assets/image/aiInsights.png"
 import newTradeImage from "../../assets/image/newTradeImage.png"
 import performanceImage from "../../assets/image/performance.png"
+import MacBookMockup from '../../components/MacbookMockup/MacbookMockup';
 
 // Animation variants
 const containerVariants: Variants = {
@@ -620,7 +621,10 @@ const LandingPage = () => {
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
       >
-        <img src={dashboardImage} alt="Unified Dashboard Image" className={`${Styles.informationImage} ${Styles.dashboardImage}`}/>
+        <MacBookMockup
+          imageUrl={dashboardImage} 
+          altText="Your app screenshot"
+        />
       </motion.div>
 
       {/* Section 1: AI Insights */}
