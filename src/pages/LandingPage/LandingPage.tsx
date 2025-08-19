@@ -698,7 +698,10 @@ const LandingPage = () => {
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
       >
-        <img src={newTradeImage} alt="Log Trade Image" className={`${Styles.informationImage} ${Styles.newTradeImage}`}/>
+        <MacBookMockup
+          imageUrl={newTradeImage} 
+          altText="Your app screenshot"
+        />
       </motion.div>
 
       {/* Section 3: Mindful Trading */}
@@ -735,7 +738,10 @@ const LandingPage = () => {
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
       >
-        <img src={performanceImage} alt="Performance Image" className={`${Styles.informationImage} ${Styles.performanceImage}`}/>
+        <MacBookMockup
+          imageUrl={performanceImage} 
+          altText="Your app screenshot"
+        />
       </motion.div>
     </div>
 
