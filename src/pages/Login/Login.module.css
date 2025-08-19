@@ -30,6 +30,7 @@
     box-shadow: 0 0 20px 10px rgba(72, 64, 187, 0.2); /* Added glow */
 }
 
+/* Larger balls with more distinct movement */
 .ball1 {
     width: 350px;
     height: 350px;
@@ -113,30 +114,12 @@
     backdrop-filter: blur(4px);
 }
 
-
-.pageLogo {
-  display: block; 
-  text-align: center;
-  margin-bottom: 1rem;
-  text-decoration: none; 
-}
-
-.pageLogo h1 {
-  color: var(--primary-text);
-  font-size: 2.2rem; 
-  font-weight: 700;
-  margin: 0; 
-}
-
-
 .loginTitle {
     color: var(--primary-text);
     text-align: center;
     margin-bottom: 2rem;
     font-size: 1.8rem;
-    font-weight: 500; 
 }
-
 
 .loginForm {
     display: flex;
@@ -262,23 +245,48 @@
 }
 
 .signupLink {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: #555;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  /* Use flexbox for better alignment and spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem; /* Creates space between the two lines */
 }
 
 .signupLink a {
-    color: var(--primary-text);
-    font-weight: 500;
-    text-decoration: none;
+  color: var(--primary-text);
+  font-weight: 500;
+  text-decoration: none;
 }
 
 .signupLink a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-/* Add to your existing CSS */
+
+.goBackButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit; 
+  font-size: 0.9rem;
+  color: var(--primary-text);
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.goBackButton:hover {
+  text-decoration: underline;
+  opacity: 1;
+}
+
+
 .passwordToggle {
   position: absolute;
   right: 16px;

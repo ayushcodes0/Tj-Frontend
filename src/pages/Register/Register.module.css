@@ -245,20 +245,45 @@
 }
 
 .loginLink {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: #555;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  /* Use flexbox for better alignment and spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem; /* Creates space between the two lines */
 }
 
 .loginLink a {
-    color: var(--primary-text);
-    font-weight: 500;
-    text-decoration: none;
+  color: var(--primary-text);
+  font-weight: 500;
+  text-decoration: none;
 }
 
 .loginLink a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+
+.goBackButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit; 
+  font-size: 0.9rem;
+  color: var(--primary-text);
+  font-weight: 500;
+  text-decoration: none;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.goBackButton:hover {
+  text-decoration: underline;
+  opacity: 1;
 }
 
 

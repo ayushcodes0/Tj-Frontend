@@ -86,13 +86,10 @@ const Login = () => {
       </div>
       
       <div className={Styles.loginContent}>
-        <Link to="/" className={Styles.pageLogo}>
-          <h1>TradeJournal</h1>
-        </Link>
-        
-        <h2 className={Styles.loginTitle}>Welcome Back</h2>
+        <h1 className={Styles.loginTitle}>Welcome Back</h1>
         
         <form onSubmit={handleSubmit} className={Styles.loginForm} noValidate>
+          {/* Email Field */}
           <div className={Styles.formGroup}>
             <div className={`${Styles.inputContainer} ${validationErrors.email ? Styles.inputError : ''}`}>
               <FaEnvelope className={Styles.inputIcon} />
@@ -165,7 +162,14 @@ const Login = () => {
           </button>
           
           <div className={Styles.signupLink}>
-            Don't have an account? <Link to="/register">Create account</Link>
+            <span>Don't have an account? <Link to="/register">Create account</Link></span>
+            <button 
+                  type="button" 
+                  onClick={() => navigate('/')} 
+                  className={Styles.goBackButton}
+                >
+                  Back to Home
+                </button>
           </div>
         </form>
       </div>

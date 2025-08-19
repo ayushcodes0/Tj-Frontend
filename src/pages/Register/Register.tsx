@@ -182,7 +182,14 @@ const Register = () => {
           </button>
           
           <div className={Styles.loginLink}>
-            Already have an account? <Link to="/login">Sign in</Link>
+            <span>Already have an account? <Link to="/login">Sign in</Link></span>
+            <button 
+                  type="button" 
+                  onClick={() => navigate('/')} 
+                  className={Styles.goBackButton}
+                >
+                  Back to Home
+                </button>
           </div>
         </form>
       </div>
