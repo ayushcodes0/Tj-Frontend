@@ -3,6 +3,7 @@ import { useTrades } from '../../hooks/useTrade';
 import Styles from './AiInsights.module.css';
 import { FaTrophy, FaChartLine, FaExclamationTriangle, FaLightbulb, FaCheckCircle, FaTimesCircle, FaBrain } from 'react-icons/fa';
 
+
 interface KeyMetric {
   metric: string;
   value: string;
@@ -17,12 +18,14 @@ interface AnalysisData {
   actionableAdvice: string[];
 }
 
+
 const LoadingAnimation = () => (
   <div className={Styles.loaderContainer}>
     <div className={Styles.loader}></div>
     <p>The AI is analyzing your trades... This may take a moment.</p>
   </div>
 );
+
 
 const AnalysisSection: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode; }> = ({ icon, title, children }) => (
     <div className={Styles.resultCard}>
@@ -33,12 +36,14 @@ const AnalysisSection: React.FC<{ icon: React.ReactNode; title: string; children
     </div>
 );
 
+
 const AiInsights = () => {
   const { trades, loading: tradesLoading, fetchTrades } = useTrades();
   const [isLoading, setIsLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalysisData | null>(null);
   const [error, setError] = useState('');
   const [analysisPeriod, setAnalysisPeriod] = useState(30);
+
 
   const memoizedFetchTrades = useCallback(() => {
     fetchTrades('lifetime', { limit: 10000 });
@@ -47,6 +52,7 @@ const AiInsights = () => {
   useEffect(() => {
     memoizedFetchTrades();
   }, [memoizedFetchTrades]);
+
 
   const handleAnalyze = async () => {
     if (!trades) {
@@ -57,16 +63,22 @@ const AiInsights = () => {
     setError('');
     setAnalysisResult(null);
 
-    const periodStartDate = new Date();
-    periodStartDate.setDate(periodStartDate.getDate() - analysisPeriod);
-
-    const filteredTrades = trades.filter(trade => new Date(trade.date) >= periodStartDate);
+    let filteredTrades;
+    
+    if (analysisPeriod === 0) { // lifetime option
+      filteredTrades = trades;
+    } else {
+      const periodStartDate = new Date();
+      periodStartDate.setDate(periodStartDate.getDate() - analysisPeriod);
+      filteredTrades = trades.filter(trade => new Date(trade.date) >= periodStartDate);
+    }
     
     if (filteredTrades.length === 0) {
-      setError(`No trades were found in the last ${analysisPeriod} days.`);
+      setError(analysisPeriod === 0 ? 'No trades were found.' : `No trades were found in the last ${analysisPeriod} days.`);
       setIsLoading(false);
       return;
     }
+
 
     try {
       const response = await fetch('http://localhost:5000/api/ai/analyze', {
@@ -88,9 +100,11 @@ const AiInsights = () => {
     }
   };
 
+
   if (tradesLoading && !trades) {
     return <div className={Styles.pageLoader}>Loading your trade history...</div>;
   }
+
 
   return (
     <div className={Styles.container}>
@@ -102,13 +116,18 @@ const AiInsights = () => {
       <div className={Styles.controlBox}>
         <div className={Styles.periodSelector}>
           <span className={Styles.periodLabel}>Analysis Period:</span>
-          {[30, 60, 90].map(period => (
+          {[
+            { value: 7, label: 'Last 7 Days' },
+            { value: 30, label: 'Last 30 Days' },
+            { value: 60, label: 'Last 60 Days' },
+            { value: 0, label: 'Lifetime' }
+          ].map(period => (
             <button
-              key={period}
-              className={`${Styles.periodButton} ${analysisPeriod === period ? Styles.active : ''}`}
-              onClick={() => setAnalysisPeriod(period)}
+              key={period.value}
+              className={`${Styles.periodButton} ${analysisPeriod === period.value ? Styles.active : ''}`}
+              onClick={() => setAnalysisPeriod(period.value)}
             >
-              Last {period} Days
+              {period.label}
             </button>
           ))}
         </div>
@@ -116,6 +135,7 @@ const AiInsights = () => {
           {isLoading ? 'Analyzing...' : <><FaBrain /> Generate Analysis</>}
         </button>
       </div>
+
 
       <div className={Styles.resultArea}>
         {isLoading && <LoadingAnimation />}
@@ -134,6 +154,7 @@ const AiInsights = () => {
                 </div>
             </AnalysisSection>
 
+
             <AnalysisSection icon={<FaTrophy />} title="Key Metrics">
                 <div className={Styles.metricsGrid}>
                     {analysisResult.keyMetrics.map(item => (
@@ -145,17 +166,20 @@ const AiInsights = () => {
                 </div>
             </AnalysisSection>
 
+
             <AnalysisSection icon={<FaCheckCircle className={Styles.positiveIcon} />} title="Strengths">
                 <ul className={Styles.list}>
                     {analysisResult.strengths.map((item, index) => <li key={index} className={Styles.strengthItem}>{item}</li>)}
                 </ul>
             </AnalysisSection>
 
+
             <AnalysisSection icon={<FaTimesCircle className={Styles.negativeIcon} />} title="Areas for Improvement">
                 <ul className={Styles.list}>
                     {analysisResult.weaknesses.map((item, index) => <li key={index} className={Styles.weaknessItem}>{item}</li>)}
                 </ul>
             </AnalysisSection>
+
 
             <AnalysisSection icon={<FaLightbulb className={Styles.adviceIcon} />} title="Actionable Advice">
                 <ul className={Styles.list}>
@@ -168,5 +192,6 @@ const AiInsights = () => {
     </div>
   );
 };
+
 
 export default AiInsights;
