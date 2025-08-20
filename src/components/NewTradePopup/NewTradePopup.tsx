@@ -11,6 +11,8 @@ import {
 } from '../../services/apiService'; 
 import type { TradeFormData } from '../../types/trade';
 import { useCustomToast } from '../../hooks/useCustomToast'; 
+import { useTrades } from "../../hooks/useTrade";
+
 
 interface NewTradePopupProps {
   onClose: () => void;
@@ -37,6 +39,7 @@ const getRangeProgressStyle = (value: number, min: number, max: number) => {
 const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState<'general' | 'psychology'>('general');
   const [formData, setFormData] = useState<TradeFormData>(initialFormData);
+  const { fetchTrades } = useTrades();
   
   // --- 2. USE THE HOOK ---
   const { showSuccessToast, showErrorToast } = useCustomToast();
@@ -174,6 +177,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
       try {
           await saveTrade(formData);
           // --- 3. REPLACE ALERT WITH TOAST ---
+          fetchTrades();
           showSuccessToast('Trade saved successfully!');
           onClose();
       } catch (error) { 
