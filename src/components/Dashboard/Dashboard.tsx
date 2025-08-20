@@ -6,10 +6,16 @@ import { NavLink } from "react-router-dom";
 
 const getCurrentYear = () => new Date().getFullYear();
 const getCurrentMonth = () => new Date().getMonth() + 1;
+const getCurrentWeek = () => {
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const pastDaysOfYear = (now.getTime() - startOfYear.getTime()) / 86400000;
+  return Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
+};
 
 const FILTERS = [
-  { label: 'Last Month', value: 'month' as const },
-  { label: 'This Year', value: 'year' as const },
+  { label: 'Last Week', value: 'week' as const },
+  { label: 'Last Year', value: 'year' as const },
   { label: 'Lifetime', value: 'lifetime' as const },
   { label: 'Specific Day', value: 'day' as const },
 ];
@@ -23,22 +29,23 @@ function formatDateLabel(date: string) {
 
 const Dashboard = () => {
   const { trades, loading, fetchTrades } = useTrades();
-  const [filter, setFilter] = useState<'lifetime' | 'month' | 'year' | 'day'>('month');
+  const [filter, setFilter] = useState<'lifetime' | 'week' | 'year' | 'day'>('week');
   const [year, setYear] = useState(getCurrentYear());
   const [month, setMonth] = useState(getCurrentMonth());
   const [day, setDay] = useState(new Date().getDate());
+  const [week, setWeek] = useState(getCurrentWeek());
 
   useEffect(() => {
     if (filter === "lifetime") {
       fetchTrades("lifetime", {});
     } else if (filter === "year") {
       fetchTrades("year", { year });
-    } else if (filter === "month") {
-      fetchTrades("month", { year, month });
+    } else if (filter === "week") {
+      fetchTrades("week", { year, week });
     } else if (filter === "day") {
       fetchTrades("day", { year, month, day });
     }
-  }, [filter, year, month, day, fetchTrades]);
+  }, [filter, year, month, day, week, fetchTrades]);
 
   const stats = useMemo(() => {
     if (!trades) return null;
@@ -49,8 +56,14 @@ const Dashboard = () => {
     const grossPnl = trades.reduce((sum, t) => sum + (t.pnl_amount ?? 0), 0);
     const avgPnl = totalTrades ? grossPnl / totalTrades : 0;
     const winRate = totalTrades ? (winTrades.length / totalTrades) * 100 : 0;
-    const bestTrade = trades.reduce((a, b) => ((a?.pnl_amount ?? -Infinity) > (b?.pnl_amount ?? -Infinity) ? a : b), null as typeof trades[0] | null);
-    const worstTrade = trades.reduce((a, b) => ((a?.pnl_amount ?? Infinity) < (b?.pnl_amount ?? Infinity) ? a : b), null as typeof trades[0] | null);
+    
+    // Fixed: Check for empty array first, then use reduce without initial value
+    const bestTrade = totalTrades === 0 ? null : trades.reduce((a, b) => 
+      ((a.pnl_amount ?? -Infinity) > (b.pnl_amount ?? -Infinity) ? a : b)
+    );
+    const worstTrade = totalTrades === 0 ? null : trades.reduce((a, b) => 
+      ((a.pnl_amount ?? Infinity) < (b.pnl_amount ?? Infinity) ? a : b)
+    );
 
     return {
       totalTrades,
@@ -64,6 +77,7 @@ const Dashboard = () => {
       worstTrade,
     };
   }, [trades]);
+
 
   const confidence = useMemo(() => {
     if (!trades) return null;
@@ -167,13 +181,13 @@ const Dashboard = () => {
         <select
           className={Styles.filterInputs}
           value={filter}
-          onChange={e => setFilter(e.target.value as 'lifetime' | 'month' | 'year' | 'day')}
+          onChange={e => setFilter(e.target.value as 'lifetime' | 'week' | 'year' | 'day')}
         >
           {FILTERS.map(f => (
             <option key={f.value} value={f.value}>{f.label}</option>
           ))}
         </select>
-        {(filter === "year" || filter === "month" || filter === "day") && (
+        {(filter === "year" || filter === "week" || filter === "day") && (
           <input
             className={Styles.filterInputs}
             type="number"
@@ -185,29 +199,41 @@ const Dashboard = () => {
             placeholder="Year"
           />
         )}
-        {(filter === "month" || filter === "day") && (
+        {filter === "week" && (
           <input
             className={Styles.filterInputs}
             type="number"
             min={1}
-            max={12}
-            value={month}
-            onChange={e => setMonth(Number(e.target.value))}
-            style={{ maxWidth: "55px" }}
-            placeholder="Month"
+            max={53}
+            value={week}
+            onChange={e => setWeek(Number(e.target.value))}
+            style={{ maxWidth: "65px" }}
+            placeholder="Week"
           />
         )}
         {filter === "day" && (
-          <input
-            className={Styles.filterInputs}
-            type="number"
-            min={1}
-            max={31}
-            value={day}
-            onChange={e => setDay(Number(e.target.value))}
-            style={{ maxWidth: "46px" }}
-            placeholder="Day"
-          />
+          <>
+            <input
+              className={Styles.filterInputs}
+              type="number"
+              min={1}
+              max={12}
+              value={month}
+              onChange={e => setMonth(Number(e.target.value))}
+              style={{ maxWidth: "55px" }}
+              placeholder="Month"
+            />
+            <input
+              className={Styles.filterInputs}
+              type="number"
+              min={1}
+              max={31}
+              value={day}
+              onChange={e => setDay(Number(e.target.value))}
+              style={{ maxWidth: "46px" }}
+              placeholder="Day"
+            />
+          </>
         )}
       </div>
 

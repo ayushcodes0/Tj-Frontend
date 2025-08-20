@@ -8,6 +8,7 @@ export interface Psychology {
   mistakes_made?: string[];
   lessons_learned?: string;
 }
+
 export interface Trade {
   _id: string;
   user_id: string;
@@ -38,7 +39,9 @@ export interface TradeMeta {
   total: number;
   totalPages: number;
 }
-export type TradeFilter = 'lifetime' | 'month' | 'year' | 'day';
+
+// Updated TradeFilter to match your backend and provider
+export type TradeFilter = 'lifetime' | 'week' | 'year' | 'day';
 
 interface TradesContextType {
   trades: Trade[] | null;
@@ -46,9 +49,16 @@ interface TradesContextType {
   error: string | null;
   fetchTrades: (
     filter?: TradeFilter,
-    options?: { year?: number; month?: number; day?: number; limit?: number; page?: number }
+    options?: { 
+      year?: number; 
+      week?: number; // Changed from month to week
+      day?: number; 
+      month?: number; // Keep month for 'day' filter only
+      limit?: number; 
+      page?: number; 
+    }
   ) => Promise<void>;
   meta: TradeMeta | null;
 }
-export const TradesContext = createContext<TradesContextType | undefined>(undefined);
 
+export const TradesContext = createContext<TradesContextType | undefined>(undefined);

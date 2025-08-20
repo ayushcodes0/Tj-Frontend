@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { TradesContext } from '../context/TradeContext';
 import type { Trade, TradeMeta } from '../context/TradeContext';
 
-export type TradeFilter = 'lifetime' | 'month' | 'year' | 'day';
+export type TradeFilter = 'lifetime' | 'week' | 'year' | 'day';
 
 export const TradesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [trades, setTrades] = useState<Trade[] | null>(null);
@@ -11,14 +11,14 @@ export const TradesProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [meta, setMeta] = useState<TradeMeta | null>(null);
 
   /**
-   * filter: 'lifetime' | 'month' | 'year' | 'day'
-   * options: for 'month', supply year/month; for 'year', supply year; for 'day', supply year/month/day
+   * filter: 'lifetime' | 'week' | 'year' | 'day'
+   * options: for 'week', supply year/week; for 'year', supply year; for 'day', supply year/month/day
    * page & limit for paginated tables
    */
   const fetchTrades = useCallback(
     async (
       filter: TradeFilter = 'lifetime',
-      options?: { year?: number; month?: number; day?: number; limit?: number; page?: number }
+      options?: { year?: number; month?: number; day?: number; week?: number; limit?: number; page?: number }
     ) => {
       setLoading(true);
       setError(null);
@@ -29,9 +29,9 @@ export const TradesProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         params.set('filter', filter);
 
         // Add correct params for each filter type
-        if (filter === 'month') {
+        if (filter === 'week') {
           if (options?.year) params.set('year', String(options.year));
-          if (options?.month) params.set('month', String(options.month));
+          if (options?.week) params.set('week', String(options.week));
         }
         if (filter === 'year') {
           if (options?.year) params.set('year', String(options.year));
@@ -54,7 +54,6 @@ export const TradesProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setTrades(data.data);
         setMeta(data.meta || null);
       } catch (err) {
-        // TypeScript-safe error handling without "any"
         if (typeof err === "object" && err && "message" in err) {
           setError((err as { message: string }).message);
         } else if (typeof err === "string") {
