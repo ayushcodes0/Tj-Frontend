@@ -15,7 +15,7 @@ const getCurrentWeek = () => {
 
 const FILTERS = [
   { label: 'Last Week', value: 'week' as const },
-  { label: 'Last Year', value: 'year' as const },
+  { label: 'This Year', value: 'year' as const },
   { label: 'Lifetime', value: 'lifetime' as const },
   { label: 'Specific Day', value: 'day' as const },
 ];
@@ -34,6 +34,68 @@ const Dashboard = () => {
   const [month, setMonth] = useState(getCurrentMonth());
   const [day, setDay] = useState(new Date().getDate());
   const [week, setWeek] = useState(getCurrentWeek());
+
+  // Helper function to get max days in a month
+  const getMaxDaysInMonth = (year: number, month: number) => {
+    return new Date(year, month, 0).getDate();
+  };
+
+  // Reset values to defaults when filter changes to prevent cross-contamination
+  const handleFilterChange = (newFilter: 'lifetime' | 'week' | 'year' | 'day') => {
+    setFilter(newFilter);
+    
+    // Reset to current defaults when changing filter to prevent wrong values
+    if (newFilter === 'day') {
+      setYear(getCurrentYear());
+      setMonth(getCurrentMonth());
+      setDay(new Date().getDate());
+    } else if (newFilter === 'week') {
+      setYear(getCurrentYear());
+      setWeek(getCurrentWeek());
+    } else if (newFilter === 'year') {
+      setYear(getCurrentYear());
+    }
+  };
+
+  // Input validation handlers
+  const handleYearChange = (value: number) => {
+    if (isNaN(value)) return;
+    const validatedYear = Math.max(2000, Math.min(2100, value));
+    setYear(validatedYear);
+    
+    // Adjust day if current day exceeds max days in the selected month/year
+    if (filter === 'day') {
+      const maxDay = getMaxDaysInMonth(validatedYear, month);
+      if (day > maxDay) {
+        setDay(maxDay);
+      }
+    }
+  };
+
+  const handleMonthChange = (value: number) => {
+    if (isNaN(value)) return;
+    const validatedMonth = Math.max(1, Math.min(12, value));
+    setMonth(validatedMonth);
+    
+    // Adjust day if current day exceeds max days in the selected month
+    const maxDay = getMaxDaysInMonth(year, validatedMonth);
+    if (day > maxDay) {
+      setDay(maxDay);
+    }
+  };
+
+  const handleWeekChange = (value: number) => {
+    if (isNaN(value)) return;
+    const validatedWeek = Math.max(1, Math.min(53, value));
+    setWeek(validatedWeek);
+  };
+
+  const handleDayChange = (value: number) => {
+    if (isNaN(value)) return;
+    const maxDay = getMaxDaysInMonth(year, month);
+    const validatedDay = Math.max(1, Math.min(maxDay, value));
+    setDay(validatedDay);
+  };
 
   useEffect(() => {
     if (filter === "lifetime") {
@@ -57,7 +119,6 @@ const Dashboard = () => {
     const avgPnl = totalTrades ? grossPnl / totalTrades : 0;
     const winRate = totalTrades ? (winTrades.length / totalTrades) * 100 : 0;
     
-    // Fixed: Check for empty array first, then use reduce without initial value
     const bestTrade = totalTrades === 0 ? null : trades.reduce((a, b) => 
       ((a.pnl_amount ?? -Infinity) > (b.pnl_amount ?? -Infinity) ? a : b)
     );
@@ -77,7 +138,6 @@ const Dashboard = () => {
       worstTrade,
     };
   }, [trades]);
-
 
   const confidence = useMemo(() => {
     if (!trades) return null;
@@ -181,12 +241,14 @@ const Dashboard = () => {
         <select
           className={Styles.filterInputs}
           value={filter}
-          onChange={e => setFilter(e.target.value as 'lifetime' | 'week' | 'year' | 'day')}
+          onChange={e => handleFilterChange(e.target.value as 'lifetime' | 'week' | 'year' | 'day')}
         >
           {FILTERS.map(f => (
             <option key={f.value} value={f.value}>{f.label}</option>
           ))}
         </select>
+        
+        {/* Year input - shows for year, week, and day filters */}
         {(filter === "year" || filter === "week" || filter === "day") && (
           <input
             className={Styles.filterInputs}
@@ -194,11 +256,18 @@ const Dashboard = () => {
             min={2000}
             max={2100}
             value={year}
-            onChange={e => setYear(Number(e.target.value))}
+            onChange={e => handleYearChange(Number(e.target.value))}
+            onBlur={e => {
+              const value = Number(e.target.value);
+              if (isNaN(value) || value < 2000) handleYearChange(2000);
+              else if (value > 2100) handleYearChange(2100);
+            }}
             style={{ maxWidth: "80px" }}
             placeholder="Year"
           />
         )}
+        
+        {/* Week input - only shows for week filter */}
         {filter === "week" && (
           <input
             className={Styles.filterInputs}
@@ -206,11 +275,18 @@ const Dashboard = () => {
             min={1}
             max={53}
             value={week}
-            onChange={e => setWeek(Number(e.target.value))}
+            onChange={e => handleWeekChange(Number(e.target.value))}
+            onBlur={e => {
+              const value = Number(e.target.value);
+              if (isNaN(value) || value < 1) handleWeekChange(1);
+              else if (value > 53) handleWeekChange(53);
+            }}
             style={{ maxWidth: "65px" }}
             placeholder="Week"
           />
         )}
+        
+        {/* Month and Day inputs - only show for day filter */}
         {filter === "day" && (
           <>
             <input
@@ -219,7 +295,12 @@ const Dashboard = () => {
               min={1}
               max={12}
               value={month}
-              onChange={e => setMonth(Number(e.target.value))}
+              onChange={e => handleMonthChange(Number(e.target.value))}
+              onBlur={e => {
+                const value = Number(e.target.value);
+                if (isNaN(value) || value < 1) handleMonthChange(1);
+                else if (value > 12) handleMonthChange(12);
+              }}
               style={{ maxWidth: "55px" }}
               placeholder="Month"
             />
@@ -227,9 +308,15 @@ const Dashboard = () => {
               className={Styles.filterInputs}
               type="number"
               min={1}
-              max={31}
+              max={getMaxDaysInMonth(year, month)}
               value={day}
-              onChange={e => setDay(Number(e.target.value))}
+              onChange={e => handleDayChange(Number(e.target.value))}
+              onBlur={e => {
+                const value = Number(e.target.value);
+                const maxDay = getMaxDaysInMonth(year, month);
+                if (isNaN(value) || value < 1) handleDayChange(1);
+                else if (value > maxDay) handleDayChange(maxDay);
+              }}
               style={{ maxWidth: "46px" }}
               placeholder="Day"
             />
