@@ -1,51 +1,42 @@
-/* src/components/IphoneMockup/IphoneMockup.module.css */
 
 .deviceContainer {
-  position: relative;
-  width: 100%;
-  /* Set a max-width relative to the viewport for scalability */
-  max-width: 45vw;
-  /* A standard smartphone aspect ratio */
-  aspect-ratio: 9 / 19.5;
-  margin: 0 auto;
-  padding: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vw;
   box-sizing: border-box;
-}
-
-@media (min-width: 1200px) {
-  .deviceContainer {
-    max-width: 320px; /* Cap the size on very large screens */
-  }
 }
 
 .iphone {
   position: relative;
+  width: 320px; 
+  max-width: 90vw;
+  z-index: 2;
+}
+
+.chassis {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #2c2c2e, #1a1a1c);
-  border-radius: 10%; /* iPhone has very pronounced corner rounding */
-  border: 0.15vw solid #555;
+  background: linear-gradient(165deg, #211a2c, #110e17);
+  border-radius: 15%; /* Generous corner radius */
+  position: relative;
+  border: 0.15vw solid #4a3f5a;
   box-shadow: 
-    inset 0 0 0.2vw 0.1vw #555,
-    0 0.8vw 1.5vw rgba(0, 0, 0, 0.5);
-  z-index: 2;
+    inset 0 0.2vw 0.2vw #5a4f70,
+    inset 0 -0.2vw 0.2vw #110e17,
+    0 2.5vw 5vw rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* --- The Screen --- */
 .screen {
-  position: absolute;
-  top: 4%;
-  left: 4%;
-  width: 92%;
-  height: 92%;
+  width: 93%;
+  height: 94%;
   background: #000;
-  border-radius: 8%; /* Inner screen has slightly less rounding */
+  border-radius: 12%; /* Slightly less radius than chassis for the bezel effect */
   overflow: hidden;
-}
-
-.bezel {
-  width: 100%;
-  height: 100%;
   position: relative;
 }
 
@@ -53,87 +44,81 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background-color: #000;
 }
 
 /* --- The Dynamic Island --- */
 .dynamicIsland {
   position: absolute;
-  top: 6%;
+  top: 4%;
   left: 50%;
   transform: translateX(-50%);
-  width: 35%;
+  width: 30%;
   height: 4%;
   background: #000;
   border-radius: 2vw;
   z-index: 10;
 }
 
-/* --- Side Buttons --- */
-.sideButton {
+.camera {
   position: absolute;
-  background: #444;
-  border: 0.1vw solid #666;
-  border-radius: 0.2vw;
-}
-
-.volumeUp {
-  top: 15%;
-  left: -2%;
-  width: 2%;
-  height: 8%;
-}
-
-.volumeDown {
-  top: 25%;
-  left: -2%;
-  width: 2%;
-  height: 8%;
-}
-
-.power {
-  top: 20%;
-  right: -2%;
-  width: 2%;
-  height: 15%;
+  top: 50%;
+  right: 15%;
+  transform: translateY(-50%);
+  width: 15%;
+  padding-bottom: 15%;
+  height: 0;
+  background: #101010;
+  border-radius: 50%;
 }
 
 /* --- Realistic Effects --- */
-.reflection {
+.gloss {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0) 40%
-  );
+  border-radius: 15%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 60%);
   pointer-events: none;
 }
 
-.shadow {
+/* --- Side Buttons --- */
+.sideButton {
   position: absolute;
-  bottom: -2%;
-  left: 10%;
-  width: 80%;
-  height: 4%;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  filter: blur(2.5vw);
+  background: linear-gradient(to right, #2c2638, #3e354f);
+  border: 0.1vw solid #211a2c;
   z-index: 1;
 }
 
-/* --- Responsive Adjustments for Smaller Screens --- */
-@media (max-width: 768px) {
-  .deviceContainer {
-    max-width: 50vw;
-  }
+.silentSwitch {
+  top: 10%;
+  left: -2%;
+  width: 3%;
+  height: 5%;
+  border-radius: 30%;
 }
 
-@media (max-width: 480px) {
-  .deviceContainer {
-    max-width: 60vw;
-  }
+.volumeUp {
+  top: 17%;
+  left: -2%;
+  width: 3%;
+  height: 8%;
+  border-radius: 30%;
+}
+
+.volumeDown {
+  top: 26.5%;
+  left: -2%;
+  width: 3%;
+  height: 8%;
+  border-radius: 30%;
+}
+
+.power {
+  top: 19%;
+  right: -2%;
+  width: 3%;
+  height: 12%;
+  border-radius: 30%;
 }

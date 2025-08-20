@@ -26,7 +26,6 @@ import aiInsightsImage from "../../assets/image/aiInsights.png"
 import newTradeImage from "../../assets/image/newTradeImage.png"
 import performanceImage from "../../assets/image/performance.png"
 import MacBookMockup from '../../components/MacbookMockup/MacbookMockup';
-import IphoneMockup from '../../components/IphoneMockup/IphoneMockup';
 
 // Animation variants
 const containerVariants: Variants = {
@@ -662,10 +661,7 @@ const LandingPage = () => {
         viewport={{ once: true, amount: 0.3 }}
         variants={imageContainerVariants}
       >
-        <IphoneMockup
-          imageUrl={aiInsightsImage} 
-          altText="Your app screenshot"
-        />
+        <img src={aiInsightsImage} alt="Ai Insights Image" className={`${Styles.informationImage} ${Styles.aiInsightsImage}`}/>
       </motion.div>
 
       {/* Section 2: Detailed Logging */}

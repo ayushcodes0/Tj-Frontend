@@ -17,23 +17,23 @@ const IphoneMockup: React.FC<IphoneMockupProps> = ({
   return (
     <div className={`${Styles.deviceContainer} ${className}`}>
       <div className={Styles.iphone}>
-        {/* The main screen area */}
-        <div className={Styles.screen}>
-          <div className={Styles.bezel}>
-            <img src={imageUrl} alt={altText} className={Styles.content} />
-            <div className={Styles.reflection}></div>
-          </div>
-        </div>
-        
-        {/* The Dynamic Island / Notch */}
-        <div className={Styles.dynamicIsland}></div>
-        
-        {/* Side buttons for realism */}
+        {/* The side buttons for realism */}
         <div className={`${Styles.sideButton} ${Styles.volumeUp}`}></div>
         <div className={`${Styles.sideButton} ${Styles.volumeDown}`}></div>
+        <div className={`${Styles.sideButton} ${Styles.silentSwitch}`}></div>
         <div className={`${Styles.sideButton} ${Styles.power}`}></div>
+
+        {/* The main phone body and screen */}
+        <div className={Styles.chassis}>
+          <div className={Styles.screen}>
+            <img src={imageUrl} alt={altText} className={Styles.content} />
+          </div>
+          <div className={Styles.dynamicIsland}>
+            <div className={Styles.camera}></div>
+          </div>
+          <div className={Styles.gloss}></div>
+        </div>
       </div>
-      <div className={Styles.shadow}></div>
     </div>
   );
 };
