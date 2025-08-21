@@ -41,27 +41,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   // ADD: Fetch user profile after Google OAuth
-  const fetchUserProfile = async (authToken: string) => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
-        method: 'GET',
-        headers: { 
-          'Authorization': `Bearer ${authToken}`,
-          'Content-Type': 'application/json'
-        },
-      });
-      
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Failed to fetch user profile');
-      
-      setUser(data.user || data.data);
-      localStorage.setItem('user', JSON.stringify(data.user || data.data));
-    } catch (err) {
-      console.error('Failed to fetch user profile:', err);
-      // If profile fetch fails, clear the token
-      logout();
+  // In your AuthProvider - update the fetchUserProfile function
+const fetchUserProfile = async (authToken: string) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
+      method: 'GET',
+      headers: { 
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json'
+      },
+    });
+    
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Failed to fetch user profile');
+    
+    const userData = data.user || data.data;
+    
+    // Check if user got Pro trial
+    if (userData.subscription?.plan === 'pro') {
+      console.log('🎉 User has Pro subscription!');
+      console.log('Expires at:', userData.subscription.expiresAt);
     }
-  };
+    
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+  } catch (err) {
+    console.error('Failed to fetch user profile:', err);
+    logout();
+  }
+};
+
 
   // Registration
   const register = async (username: string, email: string, password: string) => {

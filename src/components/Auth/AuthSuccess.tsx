@@ -1,5 +1,5 @@
 // src/components/Auth/AuthSuccess.tsx
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useCustomToast } from '../../hooks/useCustomToast';
@@ -8,12 +8,18 @@ import Styles from './AuthSuccess.module.css';
 const AuthSuccess = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { setAuthToken } = useAuth(); // Changed from setToken to setAuthToken
+  const { setAuthToken } = useAuth();
   const { showSuccessToast, showErrorToast } = useCustomToast();
+  const hasProcessed = useRef(false); // Prevent multiple executions
 
   useEffect(() => {
+    // Prevent multiple executions
+    if (hasProcessed.current) return;
+    hasProcessed.current = true;
+
     const token = searchParams.get('token');
     const error = searchParams.get('error');
+    const redirectPath = searchParams.get('redirect');
 
     if (error) {
       let errorMessage = 'Authentication failed';
@@ -29,10 +35,20 @@ const AuthSuccess = () => {
 
     if (token) {
       try {
-        // Use setAuthToken instead of setToken
         setAuthToken(token);
-        showSuccessToast('Login successful! Welcome back!');
-        navigate('/dashboard');
+        
+        setTimeout(() => {
+          if (redirectPath === '/dashboard') {
+            showSuccessToast('🎉 Welcome! Enjoy your Pro access!');
+          } else if (redirectPath === '/pricing') {
+            showSuccessToast('Welcome back! Your free trial has expired.');
+          } else {
+            showSuccessToast('Login successful!');
+          }
+          
+          navigate(redirectPath || '/dashboard');
+        }, 1000);
+        
       } catch (error) {
         showErrorToast('Failed to process authentication. Please try again.');
         navigate('/login');
@@ -42,7 +58,7 @@ const AuthSuccess = () => {
       showErrorToast('No authentication token received. Please try again.');
       navigate('/login');
     }
-  }, [searchParams, navigate, setAuthToken, showSuccessToast, showErrorToast]);
+  }, []); // Remove dependencies to prevent re-runs
 
   return (
     <div className={Styles.authSuccessContainer}>
