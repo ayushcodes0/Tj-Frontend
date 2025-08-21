@@ -13,6 +13,7 @@ export interface AuthContextType {
   createdAt?: string;
   changeUsername: (newUsername: string) => Promise<void>;
   changePassword: (current: string, next: string) => Promise<void>;
+  setAuthToken: (token: string) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -1,3 +1,4 @@
+// Update your existing Login component
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
@@ -5,6 +6,7 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Styles from './Login.module.css';
 import { useAuth } from '../../hooks/useAuth';
 import { useCustomToast } from '../../hooks/useCustomToast';
+import { useGoogleAuth } from '../../hooks/useGoogleAuth'; // Add this import
 
 interface FormData {
   email: string;
@@ -15,6 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { login, loading } = useAuth();
   const { showSuccessToast, showErrorToast } = useCustomToast();
+  const { initiateGoogleLogin } = useGoogleAuth(); // Add this hook
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -54,9 +57,9 @@ const Login = () => {
     }
   };
 
+  // Update this function
   const handleGoogleLogin = () => {
-    // Handle Google login logic here
-    console.log('Google login clicked');
+    initiateGoogleLogin();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

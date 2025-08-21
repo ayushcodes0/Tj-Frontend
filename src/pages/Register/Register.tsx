@@ -5,6 +5,7 @@ import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Styles from './Register.module.css';
 import { useAuth } from '../../hooks/useAuth';
 import { useCustomToast } from '../../hooks/useCustomToast';
+import { useGoogleAuth } from '../../hooks/useGoogleAuth'; // Add this import
 
 interface FormData {
   username: string;
@@ -16,6 +17,7 @@ const Register = () => {
   const navigate = useNavigate();
   const { register, loading } = useAuth();
   const { showSuccessToast, showErrorToast } = useCustomToast();
+  const { initiateGoogleSignup } = useGoogleAuth(); // Add this hook
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -78,6 +80,10 @@ const Register = () => {
         [name]: undefined
       }));
     }
+  };
+
+  const handleGoogleSignup = () => {
+    initiateGoogleSignup();
   };
 
   return (
@@ -173,13 +179,14 @@ const Register = () => {
           </div>
           
           <button 
-            type="button" 
-            className={Styles.googleButton}
-            disabled={loading}
-          >
-            <FcGoogle className={Styles.googleIcon} />
-            Sign up with Google
-          </button>
+          type="button" 
+          className={Styles.googleButton}
+          onClick={handleGoogleSignup} // Update this line
+          disabled={loading}
+        >
+          <FcGoogle className={Styles.googleIcon} />
+          Sign up with Google
+        </button>
           
           <div className={Styles.loginLink}>
             <span>Already have an account? <Link to="/login">Sign in</Link></span>

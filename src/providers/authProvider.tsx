@@ -1,14 +1,17 @@
+// Your existing AuthProvider with Google OAuth support
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import type { User } from '../types/AuthTypes';
 
-interface AuthProviderProps { children: ReactNode; }
+interface AuthProviderProps { 
+  children: ReactNode; 
+}
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false); // for auth process (not for restoring)
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Restore on page load
@@ -29,6 +32,37 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem('token', token);
   };
 
+  // ADD: Set token for Google OAuth callback
+  const setAuthToken = (newToken: string) => {
+    setToken(newToken);
+    localStorage.setItem('token', newToken);
+    // Fetch user data with the new token
+    fetchUserProfile(newToken);
+  };
+
+  // ADD: Fetch user profile after Google OAuth
+  const fetchUserProfile = async (authToken: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
+        method: 'GET',
+        headers: { 
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+      });
+      
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to fetch user profile');
+      
+      setUser(data.user || data.data);
+      localStorage.setItem('user', JSON.stringify(data.user || data.data));
+    } catch (err) {
+      console.error('Failed to fetch user profile:', err);
+      // If profile fetch fails, clear the token
+      logout();
+    }
+  };
+
   // Registration
   const register = async (username: string, email: string, password: string) => {
     setLoading(true);
@@ -45,8 +79,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Registration failed';
-      setError(errorMessage); throw new Error(errorMessage);
-    } finally { setLoading(false); }
+      setError(errorMessage); 
+      throw new Error(errorMessage);
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   // Login
@@ -65,8 +102,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Login failed';
-      setError(errorMessage); throw new Error(errorMessage);
-    } finally { setLoading(false); }
+      setError(errorMessage); 
+      throw new Error(errorMessage);
+    } finally { 
+      setLoading(false); 
+    }
   };
 
   // Logout (clears everywhere)
@@ -91,59 +131,77 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Avatar update failed");
 
-    // Merge new avatar URL into user, update state and storage
     const newUser: User = { ...user!, avatar: data.data.avatar };
     setUser(newUser);
     localStorage.setItem('user', JSON.stringify(newUser));
   };
+
   // Change username
-const changeUsername = async (newUsername: string) => {
-  if (!token) throw new Error("Not authenticated");
-  setLoading(true); setError(null);
-  try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/users/username`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ newUsername })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Update failed");
-    setUser(data.data);
-    localStorage.setItem("user", JSON.stringify(data.data));
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : "Username update failed";
-    setError(msg); throw new Error(msg);
-  } finally { setLoading(false); }
-};
+  const changeUsername = async (newUsername: string) => {
+    if (!token) throw new Error("Not authenticated");
+    setLoading(true); 
+    setError(null);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/username`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ newUsername })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Update failed");
+      setUser(data.data);
+      localStorage.setItem("user", JSON.stringify(data.data));
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Username update failed";
+      setError(msg); 
+      throw new Error(msg);
+    } finally { 
+      setLoading(false); 
+    }
+  };
 
-// Change password
-// Change password
-const changePassword = async (currentPassword: string, newPassword: string) => {
-  if (!token) throw new Error("Not authenticated");
-  setLoading(true); setError(null);
-  try {
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/users/password`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ currentPassword, newPassword })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Password update failed");
-    // Password changed, do nothing (user/token remain)
-    // REMOVE: return true;
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : "Password update failed";
-    setError(msg); throw new Error(msg);
-  } finally { setLoading(false); }
-};
+  // Change password
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    if (!token) throw new Error("Not authenticated");
+    setLoading(true); 
+    setError(null);
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/users/password`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ currentPassword, newPassword })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Password update failed");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Password update failed";
+      setError(msg); 
+      throw new Error(msg);
+    } finally { 
+      setLoading(false); 
+    }
+  };
 
-
-  const value = { user, token, register, login, logout, loading, error, updateAvatar, changePassword, changeUsername };
+  // ADD setAuthToken to the context value
+  const value = { 
+    user, 
+    token, 
+    register, 
+    login, 
+    logout, 
+    loading, 
+    error, 
+    updateAvatar, 
+    changePassword, 
+    changeUsername,
+    setAuthToken  // Add this line
+  };
+  
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
