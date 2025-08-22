@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Styles from "./InfoContainer.module.css";
 import { FilledButton, UnfilledButton } from "../Button/Button";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 type InfoPoint = {
   icon: ReactNode;
@@ -8,11 +9,11 @@ type InfoPoint = {
 };
 
 type InfoContainerProps = {
-  tags?: string[]; 
+  tags?: string[];
   heading: string;
   subHeading: string;
   infoPara: string;
-  points: InfoPoint[]; 
+  points: InfoPoint[];
   primaryButtonText: string;
   secondaryButtonText: string;
   buttonSmallText: string;
@@ -59,8 +60,14 @@ const InfoContainer = ({
 
       <div className={Styles.infoButtons}>
         <div className={Styles.buttons}>
-          <FilledButton text={primaryButtonText} />
-          <UnfilledButton text={secondaryButtonText} />
+          {/* Use Link to wrap FilledButton and navigate to /login */}
+          <Link to="/login" className={Styles.buttonLink}>
+            <FilledButton text={primaryButtonText} />
+          </Link>
+          {/* Use Link to wrap UnfilledButton and navigate to /pricing */}
+          <Link to="/pricing#pricing" className={Styles.buttonLink}>
+            <UnfilledButton text={secondaryButtonText} />
+          </Link>
         </div>
         <p className={Styles.buttonSmallText}>{buttonSmallText}</p>
       </div>
