@@ -3,8 +3,7 @@ import { FaLinkedin, FaYoutube } from 'react-icons/fa';
 import { RiTwitterXFill } from "react-icons/ri";
 import { BsInstagram } from "react-icons/bs";
 import { FaWhatsapp } from "react-icons/fa";
-
-
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -16,39 +15,34 @@ const Footer = () => {
           <div className={Styles.socials}>
             <a href="#" aria-label="Twitter"><RiTwitterXFill /></a>
             <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
-            <a href="#" aria-label="YouTube"><BsInstagram /></a>
+            <a href="#" aria-label="Instagram"><BsInstagram /></a>
             <a href="#" aria-label="YouTube"><FaYoutube /></a>
-            <a href="#" aria-label="YouTube"><FaWhatsapp /></a>
+            <a href="#" aria-label="Whatsapp"><FaWhatsapp /></a>
           </div>
         </div>
         <div className={Styles.footerContent}>
           <div className={Styles.footerItems}>
-              <p className={Styles.footerItemsHead}>Product</p>
-              <p className={Styles.footerItemsText}>Dashboard</p>
-              <p className={Styles.footerItemsText}>AI Insights</p>
-              <p className={Styles.footerItemsText}>Psychology Tracking</p>
-              <p className={Styles.footerItemsText}>Pricing</p>
+            <p className={Styles.footerItemsHead}>Product</p>
+            <Link to="/login" className={Styles.footerItemsText}>Dashboard</Link>
+            <Link to="/login" className={Styles.footerItemsText}>AI Insights</Link>
+            <Link to="/login" className={Styles.footerItemsText}>Psychology Tracking</Link>
+            <Link to="/login" className={Styles.footerItemsText}>Pricing</Link>
           </div>
           <div className={Styles.footerItems}>
-              <p className={Styles.footerItemsHead}>Company</p>
-              <p className={Styles.footerItemsText}>About Us</p>
-              <p className={Styles.footerItemsText}>Blog</p>
-              <p className={Styles.footerItemsText}>Careers</p>
-              <p className={Styles.footerItemsText}>Contact</p>
+            <p className={Styles.footerItemsHead}>Company</p>
+            <Link to="/about-us" className={Styles.footerItemsText}>About Us</Link>
+            <Link to="/contact" className={Styles.footerItemsText}>Contact</Link>
           </div>
           <div className={Styles.footerItems}>
-              <p className={Styles.footerItemsHead}>Resources</p>
-              <p className={Styles.footerItemsText}>Help Center</p>
-              <p className={Styles.footerItemsText}>Getting Started</p>
-              <p className={Styles.footerItemsText}>Community</p>
-              <p className={Styles.footerItemsText}>Feature Requests</p>
+            <p className={Styles.footerItemsHead}>Resources</p>
+            <Link to={"/getting-started"} className={Styles.footerItemsText}>Getting Started</Link>
           </div>
           <div className={Styles.footerItems}>
-              <p className={Styles.footerItemsHead}>Legal</p>
-              <p className={Styles.footerItemsText}>Terms of Service</p>
-              <p className={Styles.footerItemsText}>Privacy Policy</p>
-              <p className={Styles.footerItemsText}>Disclaimer</p>
-              <p className={Styles.footerItemsText}>Security</p>
+            <p className={Styles.footerItemsHead}>Legal</p>
+            <Link to="/terms-of-service" className={Styles.footerItemsText}>Terms of Service</Link>
+            <Link to="/privacy-policy" className={Styles.footerItemsText}>Privacy Policy</Link>
+            <Link to="/disclaimer" className={Styles.footerItemsText}>Disclaimer</Link>
+            <Link to="/security" className={Styles.footerItemsText}>Security</Link>
           </div>
         </div>
       </div>
