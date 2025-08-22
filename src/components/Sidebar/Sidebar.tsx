@@ -16,15 +16,20 @@ import { useTheme } from '../../hooks/useTheme';
 import { GoSun } from "react-icons/go";
 
 
-
 interface SidebarProps {
   onNewTradeClick: () => void;
 }
+
 
 const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => { 
     const [showProfilePopup, setShowProfilePopup] = useState(false);
     const { user, logout } = useAuth();
     const { theme, toggleTheme } = useTheme(); 
+    
+    // Logic to truncate the username if it's too long
+    const truncatedUsername = user?.username && user.username.length > 15 
+        ? `${user.username.substring(0, 12)}...` 
+        : user?.username;
 
     
     return (
@@ -38,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
                             </p>
                         </div>
                         <div className={Styles.usernameContainer}>
-                            <p className={Styles.username}>{user?.username}</p>
+                            <p className={Styles.username}>{truncatedUsername}</p>
                             <IoIosArrowDown className={Styles.downArrowIcon} />
                         </div>
                     </div>
@@ -116,5 +121,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick }) => {
         </div>
     );
 };
+
 
 export default Sidebar;
