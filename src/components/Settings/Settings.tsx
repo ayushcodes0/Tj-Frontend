@@ -70,6 +70,16 @@ const Settings = () => {
         .slice(0, 6),
     [trades]
   );
+  
+  const getInitials = (username: string | undefined) => {
+    if (!username) return "";
+    const parts = username.split(" ");
+    if (parts.length > 1) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return username.substring(0, 2).toUpperCase();
+  };
+
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setAvatarUploadError(null);
@@ -128,6 +138,9 @@ const Settings = () => {
       setPasswordError(err instanceof Error ? err.message : "Update failed");
     }
   };
+  
+  const displayAvatar = user?.avatar || avatarPreview;
+  console.log("image coming", user?.avatar);
 
   return (
     <div className={Styles.dashboard}>
@@ -163,17 +176,17 @@ const Settings = () => {
             <div className={Styles.dataBody}>
               <div className={Styles.profileContainer}>
                 <div className={Styles.avatarArea} onClick={handleAvatarClick}>
-                  <img
-                    src={
-                      avatarPreview
-                        ? avatarPreview
-                        : user?.avatar
-                        ? user.avatar
-                        : "/profile-placeholder.png"
-                    }
-                    alt="User Avatar"
-                    className={Styles.avatarImg}
-                  />
+                  {displayAvatar ? (
+                    <img
+                      src={displayAvatar}
+                      alt="User Avatar"
+                      className={Styles.avatarImg}
+                    />
+                  ) : (
+                    <div className={Styles.avatarInitials}>
+                      {getInitials(user?.username)}
+                    </div>
+                  )}
                   <input
                     ref={fileInputRef}
                     type="file"
