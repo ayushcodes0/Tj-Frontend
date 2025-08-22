@@ -14,7 +14,6 @@ import Settings from "./components/Settings/Settings";
 import Psychology from "./components/Psychology/Psychology";
 import Risk from "./components/Risk/Risk";
 import Calendar from "./components/Calendar/Calendar";
-import AuthSuccess from "./components/Auth/AuthSuccess";
 
 const App = () => (
   <Router>
@@ -22,7 +21,6 @@ const App = () => (
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<RequireGuest><Login /></RequireGuest>} />
       <Route path="/register" element={<RequireGuest><Register /></RequireGuest>} />
-      <Route path="/auth-success" element={<AuthSuccess />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route
         path="/dashboard"
