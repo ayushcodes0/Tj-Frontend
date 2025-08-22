@@ -18,10 +18,12 @@ const IphoneMockup: React.FC<IphoneMockupProps> = ({
     <div className={`${Styles.deviceContainer} ${className}`}>
       <div className={Styles.iphone}>
         {/* The side buttons for realism */}
-        <div className={`${Styles.sideButton} ${Styles.volumeUp}`}></div>
-        <div className={`${Styles.sideButton} ${Styles.volumeDown}`}></div>
-        <div className={`${Styles.sideButton} ${Styles.silentSwitch}`}></div>
-        <div className={`${Styles.sideButton} ${Styles.power}`}></div>
+        <div className={Styles.sideButtons}>
+          <div className={`${Styles.sideButton} ${Styles.silentSwitch}`}></div>
+          <div className={`${Styles.sideButton} ${Styles.volumeUp}`}></div>
+          <div className={`${Styles.sideButton} ${Styles.volumeDown}`}></div>
+          <div className={`${Styles.sideButton} ${Styles.power}`}></div>
+        </div>
 
         {/* The main phone body and screen */}
         <div className={Styles.chassis}>
@@ -29,9 +31,8 @@ const IphoneMockup: React.FC<IphoneMockupProps> = ({
             <img src={imageUrl} alt={altText} className={Styles.content} />
           </div>
           <div className={Styles.dynamicIsland}>
-            <div className={Styles.camera}></div>
-          </div>
-          <div className={Styles.gloss}></div>
+            {/* You can add internal details here if needed */}
+          </div> 
         </div>
       </div>
     </div>
