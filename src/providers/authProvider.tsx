@@ -1,4 +1,3 @@
-// Your existing AuthProvider with Google OAuth support
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { AuthContext } from '../context/AuthContext';
