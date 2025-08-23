@@ -1,7 +1,7 @@
 // src/components/MacBookMockup/MacBookMockup.tsx
 
 import React from 'react';
-import Styles from './MacBookMockup.module.css';
+import Styles from './MacbookMockup.module.css';
 
 interface MacBookMockupProps {
   imageUrl: string;
