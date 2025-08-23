@@ -31,7 +31,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 40px;
     width: 50%;
     height: 100%;
     padding-top: 80px;
@@ -329,7 +328,6 @@
     }
     .heroSectionLeft {
         width: 100%;
-        gap: 30px;
     }
     .heroSectionRight {
         display: none;
