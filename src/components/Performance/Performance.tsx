@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTrades } from "../../hooks/useTrade";
-import Styles from "./performance.module.css";
+import Styles from "./Performance.module.css";
 
 const formatCurrency = (num: number, decimals: number = 0) =>
   typeof num === "number"

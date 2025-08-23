@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTrades } from "../../hooks/useTrade";
-import Styles from "./risk.module.css";
+import Styles from "./Risk.module.css";
 
 // Formats currency with proper symbol and localization
 const fmtC = (num: number, d: number = 0) =>
