@@ -1,3 +1,4 @@
+// DashboardLayout.tsx - Updated to support click-outside functionality
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar"; 
@@ -33,6 +34,11 @@ const DashboardLayout = () => {
     setShowNewTradePopup(false);
   };
 
+  // Handler to collapse sidebar (for click-outside functionality)
+  const handleCollapseSidebar = () => {
+    setSidebarCollapsed(true);
+  };
+
   return (
     <div className={Styles.dashboardContainer}>
       {/* Sidebar */}
@@ -41,12 +47,16 @@ const DashboardLayout = () => {
       }`}>
         <div 
           className={Styles.sidebarIconContainer} 
-          onClick={() => setSidebarCollapsed(true)}
+          onClick={handleCollapseSidebar}
         >
           <PiSidebar className={Styles.sidebarIcon} />
         </div>
-        {/* Pass the click handler down to the Sidebar */}
-        <Sidebar onNewTradeClick={handleNewTradeClick} />
+        {/* Updated Sidebar with new props */}
+        <Sidebar 
+          onNewTradeClick={handleNewTradeClick} 
+          isCollapsed={sidebarCollapsed}
+          onCollapse={handleCollapseSidebar}
+        />
       </div>
       
       {/* Main Content */}

@@ -216,3 +216,84 @@
     color: var(--dashboard-icons-color);
     font-size: 16px;
 }
+
+
+/* Add to your existing Sidebar.module.css */
+
+.sidebar.collapsed {
+    min-width: 60px;
+    transition: min-width 0.3s ease;
+}
+
+.sidebar {
+    min-width: 240px;
+    height: 100vh;
+    border-right: 1px solid var(--dashboard-borders);
+    background-color: var(--dashboard-primary-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: min-width 0.3s ease; /* Add smooth transition */
+}
+
+/* Update bottom options for collapsed state */
+.collapsed .bottomOptions {
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 4px;
+}
+
+.collapsed .bottomLeft,
+.collapsed .bottomRight {
+    width: auto;
+    padding: 8px;
+    justify-content: center;
+}
+
+/* Center icons when collapsed */
+.collapsed .sidebarNavLink {
+    justify-content: center;
+    padding: 8px;
+}
+
+.collapsed .userProfile {
+    justify-content: center;
+}
+
+/* Hide overflow for smooth animation */
+.sidebar {
+    overflow: hidden;
+}
+
+.collapsed .themeToggleContainer {
+    display: none;
+}
+
+/* Tooltip for collapsed state (optional) */
+.collapsed .sidebarNavLink {
+    position: relative;
+}
+
+.collapsed .sidebarNavLink:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--dashboard-primary-text);
+    color: var(--dashboard-primary-background);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
