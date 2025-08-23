@@ -30,14 +30,14 @@ const handleResponse = async (response: Response) => {
 // --- NEW UNIFIED FETCH FUNCTION ---
 // Replaces fetchStrategies, fetchOutcomeSummaries, etc.
 export const fetchOptions = async (type: 'Strategy' | 'OutcomeSummary' | 'RulesFollowed' | 'EmotionalState'): Promise<Option[]> => {
-  const response = await fetch(`${API_BASE_URL}/api/options?type=${type}`, { headers: getAuthHeaders() });
+  const response = await fetch(`${API_BASE_URL}/options?type=${type}`, { headers: getAuthHeaders() });
   return handleResponse(response);
 };
 
 // --- NEW UNIFIED ADD FUNCTION ---
 // Replaces addStrategy, addRulesFollowed, etc.
 export const addOption = async (type: 'Strategy' | 'RulesFollowed' | 'EmotionalState', name: string): Promise<Option> => {
-  const response = await fetch(`${API_BASE_URL}/api/options`, {
+  const response = await fetch(`${API_BASE_URL}/options`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify({ type, name }),
@@ -47,7 +47,7 @@ export const addOption = async (type: 'Strategy' | 'RulesFollowed' | 'EmotionalS
 
 // --- Save Trade Function (no changes needed) ---
 export const saveTrade = async (tradeData: TradeFormData): Promise<SavedTrade> => {
-  const response = await fetch(`${API_BASE_URL}/api/trades`, {
+  const response = await fetch(`${API_BASE_URL}/trades`, {
     method: 'POST',
     headers: getAuthHeaders(),
     body: JSON.stringify(tradeData),
