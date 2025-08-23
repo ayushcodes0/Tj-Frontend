@@ -1,7 +1,7 @@
 import { useRef, useState, useMemo } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useTrades } from "../../hooks/useTrade";
-import Styles from "./settings.module.css";
+import Styles from "./Settings.module.css";
 
 const formatCurrency = (num: number, decimals: number = 0) =>
   typeof num === "number"
