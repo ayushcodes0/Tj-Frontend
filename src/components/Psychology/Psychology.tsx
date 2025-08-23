@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTrades } from "../../hooks/useTrade";
-import Styles from "./psychology.module.css";
+import Styles from "./Psychology.module.css";
 
 const Psychology = () => {
   const { trades } = useTrades();
