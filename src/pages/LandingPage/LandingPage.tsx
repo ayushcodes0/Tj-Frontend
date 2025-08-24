@@ -26,55 +26,6 @@ import performanceImage from "../../assets/image/performance.png"
 import MacBookMockup from '../../components/MacbookMockup/MacbookMockup';
 import IphoneMockup from '../../components/IphoneMockup/IphoneMockup';
 
-// Animation variants
-// const containerVariants: Variants = {
-//   hidden: { opacity: 0 },
-//   visible: {
-//     opacity: 1,
-//     transition: {
-//       when: "beforeChildren",
-//       staggerChildren: 0.1,
-//       delayChildren: 0.2
-//     }
-//   }
-// };
-
-// const fadeUpItem: Variants = {
-//   hidden: { opacity: 0, y: 20 },
-//   visible: {
-//     opacity: 1,
-//     y: 0,
-//     transition: {
-//       ease: [0.16, 0.77, 0.47, 0.97],
-//       duration: 0.6
-//     }
-//   }
-// };
-
-// const fadeUpItemFast: Variants = {
-//   hidden: { opacity: 0, y: 10 },
-//   visible: {
-//     opacity: 1,
-//     y: 0,
-//     transition: {
-//       ease: "easeOut",
-//       duration: 0.4
-//     }
-//   }
-// };
-
-// const fadeInUp: Variants = {
-//   hidden: { opacity: 0, y: 20 },
-//   visible: {
-//     opacity: 1,
-//     y: 0,
-//     transition: {
-//       duration: 0.6,
-//       ease: [0.16, 0.77, 0.47, 0.97]
-//     }
-//   }
-// };
-
 const sectionVariants: Variants = {
   offscreen: {
     opacity: 0,
@@ -120,16 +71,6 @@ const imageRotate: Variants = {
   }
 };
 
-// const staggerContainer: Variants = {
-//   hidden: { opacity: 0 },
-//   visible: {
-//     opacity: 1,
-//     transition: {
-//       when: "beforeChildren",
-//       staggerChildren: 0.1
-//     }
-//   }
-// };
 
 const LandingPage = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
