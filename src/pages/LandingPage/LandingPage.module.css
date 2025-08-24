@@ -300,6 +300,7 @@
 @media (max-width: 1353px) {
     .topHeading {
         font-size: 80px;
+        line-height: 4.5rem;
     }
     .heroSectionLeft {
         padding-top: 20px;
