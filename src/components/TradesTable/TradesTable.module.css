@@ -52,6 +52,5 @@ tr:last-child td {
 }
 
 .red {
-  color: #d93a1e;
+  color: var(--dashboard-red-color);
 }
-
