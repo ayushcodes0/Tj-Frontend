@@ -3,7 +3,10 @@ import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import { FilledButton } from '../../components/Button/Button';
 import Styles from './ContactPage.module.css';
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
+// Define the types for the state objects
 interface FormData {
   fullName: string;
   email: string;
@@ -15,6 +18,31 @@ interface FormStatus {
   error: boolean;
   message: string;
 }
+
+// Define animation variants for a modern feel
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const fadeUpItem: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      ease: [0.16, 0.77, 0.47, 0.97],
+      duration: 0.6
+    }
+  }
+};
 
 const ContactPage = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -40,7 +68,6 @@ const ContactPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Basic form validation
     if (!formData.fullName || !formData.email || !formData.message) {
       setFormStatus({
         sent: false,
@@ -50,24 +77,20 @@ const ContactPage = () => {
       return;
     }
 
-    // In a real application, you would send this data to a server
     console.log('Form Submitted:', formData);
     
-    // Simulate a successful submission
     setFormStatus({
       sent: true,
       error: false,
       message: 'Your message has been sent successfully!'
     });
 
-    // Clear the form after a successful submission
     setFormData({
       fullName: '',
       email: '',
       message: ''
     });
 
-    // Reset the status message after a few seconds
     setTimeout(() => {
       setFormStatus({ sent: false, error: false, message: '' });
     }, 5000);
@@ -77,14 +100,19 @@ const ContactPage = () => {
     <div className={Styles.contactPageContainer}>
       <div className={Styles.navbarContainer}><Navbar /></div>
       <main className={Styles.contentWrapper}>
-        <section className={Styles.contactSection}>
-          <div className={Styles.headingContainer}>
+        <motion.section 
+          className={Styles.contactSection}
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Get in Touch</h1>
             <p className={Styles.subHeading}>
               Have a question, feedback, or need support? Send us a message and we'll get back to you as soon as possible.
             </p>
-          </div>
-          <div className={Styles.contactFormContainer}>
+          </motion.div>
+          <motion.div className={Styles.contactFormContainer} variants={fadeUpItem}>
             <form onSubmit={handleSubmit} className={Styles.contactForm}>
               <div className={Styles.formGroup}>
                 <label htmlFor="fullName" className={Styles.label}>Full Name</label>
@@ -144,8 +172,8 @@ const ContactPage = () => {
                 <p className={Styles.infoText}>@tradeJournal</p>
               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
       </main>
       <div className={Styles.footerContainer}><Footer /></div>
     </div>

@@ -6,9 +6,9 @@
   font-family: 'Inter', sans-serif;
 }
 
-.navbarContainer{
-    padding: 0 64px;
-    border-bottom: .5px solid var(--primary-text);
+.navbarContainer {
+  padding: 0 64px;
+  border-bottom: .5px solid var(--primary-text);
 }
 
 .contentWrapper {
@@ -38,6 +38,7 @@
   font-weight: 800;
   color: var(--primary-text);
   line-height: 1;
+  letter-spacing: -2px;
 }
 
 .subHeading {
@@ -53,11 +54,11 @@
   display: flex;
   gap: 50px;
   width: 100%;
-  padding: 40px;
-  border-radius: 12px;
+  padding: 50px;
+  border-radius: 16px;
   background-color: var(--landing-sec-background);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.04), 0px 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .contactForm {
@@ -82,8 +83,9 @@
 .input {
   width: 100%;
   padding: 12px 16px;
-  border: .5px solid var(--primary-text);
+  border: 1px solid #ccc;
   border-radius: 8px;
+  background-color: var(--landing-background);
   font-size: 16px;
   color: var(--primary-dark-text);
   transition: all 0.2s ease-in-out;
@@ -104,7 +106,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
   padding-left: 20px;
 }
 
@@ -185,21 +187,19 @@
   }
 }
 
-
-.footerContainer{
-    background-color: #18172B;
-    padding: 0 64px;
+.footerContainer {
+  background-color: #18172B;
+  padding: 0 64px;
 }
 
-
-@media (max-width: 885px){
-    .footerContainer, .navbarContainer{
-        padding: 0 20px;
-    }
-    .contentWrapper{
-        padding: 40px 20px;
-    }
-    .contactFormContainer{
-        padding: 24px;
-    }
+@media (max-width: 885px) {
+  .footerContainer, .navbarContainer {
+    padding: 0 20px;
+  }
+  .contentWrapper {
+    padding: 40px 20px;
+  }
+  .contactFormContainer {
+    padding: 24px;
+  }
 }
