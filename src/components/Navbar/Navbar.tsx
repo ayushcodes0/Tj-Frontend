@@ -78,7 +78,7 @@ const Navbar = () => {
         <div>
           <Link to="/dashboard" className={Styles.navLink}>Dashboard</Link>
         </div>
-        <a href="#contact" className={Styles.navLink}>
+        <a href="contact" className={Styles.navLink}>
           Contact
         </a>
       </div>
