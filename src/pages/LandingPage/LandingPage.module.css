@@ -229,13 +229,13 @@
 .infoMenuTop {
     font-size: 14px;
     font-weight: 500;
-    color: var(--primary-dark-text);
+    /* color: var(--primary-dark-text); */
 }
 
 .infoMenuBottom {
     font-size: 20px;
     font-weight: 700;
-    color: var(--primary-dark-text);
+    /* color: var(--primary-dark-text); */
 }
 
 .information {

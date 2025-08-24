@@ -571,11 +571,11 @@ const LandingPage = () => {
           menuItems.map((item, index) => (
             <div
               key={index}
-              className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
+              className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''} ${index === 3 ? Styles.lastInfoMenu : ''}`}
               onClick={() => handleMenuClick(index)}
               style={activeSection === index ? {
                 background: gradientColors[index],
-                color: index === 3 ? 'white' : 'inherit'
+                color: index === 3 ? 'var(--landing-background)' : 'inherit'
               } : undefined}
             >
               <p className={Styles.infoMenuTop}>{item.top}</p>
