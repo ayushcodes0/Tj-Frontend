@@ -95,9 +95,17 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <p className={Styles.username}>
-              {user.username}
-            </p>
+            {/* The username is now wrapped in a div with the onClick handler */}
+            <div 
+              className={Styles.usernameContainer} 
+              onClick={() => {
+                if (!isMobile) setIsProfileOpen(v => !v);
+              }}
+            >
+              <p className={Styles.username}>
+                {user.username}
+              </p>
+            </div>
             <div 
               className={Styles.avatarLink} 
               onClick={() => {
