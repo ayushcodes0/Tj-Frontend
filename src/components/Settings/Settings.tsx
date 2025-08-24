@@ -1,16 +1,27 @@
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Settings.module.css";
+import type { Trade } from "../../context/TradeContext"; // Assuming Trade type is exported from here
 
-const formatCurrency = (num: number, decimals: number = 0) =>
+// Define a type for the memoized trade stats for type safety
+interface TradeStats {
+  total: number;
+  best: Trade | null;
+  worst: Trade | null;
+  mostSymbol: string | null;
+  first: Date | null;
+  last: Date | null;
+}
+
+const formatCurrency = (num: number | undefined, decimals: number = 0) =>
   typeof num === "number"
     ? "₹" + num.toLocaleString(undefined, { maximumFractionDigits: decimals })
     : "--";
 
 const Settings = () => {
   const { user, updateAvatar, loading, changeUsername, changePassword } = useAuth();
-  const { trades } = useTrades();
+  const { trades, fetchTrades } = useTrades();
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [avatarUploadError, setAvatarUploadError] = useState<string | null>(null);
@@ -26,8 +37,13 @@ const Settings = () => {
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
 
-  const tradeStats = useMemo(() => {
-    if (!trades || !trades.length)
+  // Fetch all trades for lifetime when the component mounts
+  useEffect(() => {
+    fetchTrades("lifetime");
+  }, [fetchTrades]);
+
+  const tradeStats: TradeStats = useMemo(() => {
+    if (!trades || !trades.length) {
       return {
         total: 0,
         best: null,
@@ -36,21 +52,35 @@ const Settings = () => {
         first: null,
         last: null,
       };
+    }
     
-    const best = trades.reduce((a, b) => ((b.pnl_amount ?? -Infinity) > (a.pnl_amount ?? -Infinity) ? b : a), trades[0]);
-    const worst = trades.reduce((a, b) => ((b.pnl_amount ?? Infinity) < (a.pnl_amount ?? Infinity) ? b : a), trades[0]);
+    // Find best and worst trades, handling potential null pnl
+    const best = trades.reduce(
+      (a: Trade, b: Trade) => ((b.pnl_amount ?? -Infinity) > (a.pnl_amount ?? -Infinity) ? b : a),
+      trades[0]
+    );
+    const worst = trades.reduce(
+      (a: Trade, b: Trade) => ((b.pnl_amount ?? Infinity) < (a.pnl_amount ?? Infinity) ? b : a),
+      trades[0]
+    );
     
+    // Count symbol occurrences
     const symCount: Record<string, number> = {};
     trades.forEach(t => {
-      symCount[t.symbol] = (symCount[t.symbol] ?? 0) + 1;
+      if (t.symbol) {
+        symCount[t.symbol] = (symCount[t.symbol] ?? 0) + 1;
+      }
     });
-    const mostSymbol = Object.entries(symCount).sort((a, b) => b[1] - a[1])[0]?.[0];
+    
+    const mostSymbol = Object.entries(symCount).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
 
+    // Get first and last trade dates
     const sortedDates = trades
       .map(t => t.date)
-      .sort((a, b) => (a > b ? 1 : -1));
-    const first = sortedDates[0] ? new Date(sortedDates[0]) : null;
-    const last = sortedDates[sortedDates.length - 1] ? new Date(sortedDates[sortedDates.length - 1]) : null;
+      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+    
+    const first = sortedDates.length > 0 ? new Date(sortedDates[0]) : null;
+    const last = sortedDates.length > 0 ? new Date(sortedDates[sortedDates.length - 1]) : null;
 
     return {
       total: trades.length,
@@ -66,12 +96,12 @@ const Settings = () => {
     () =>
       (trades ?? [])
         .slice()
-        .sort((a, b) => (a.date < b.date ? 1 : -1))
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .slice(0, 6),
     [trades]
   );
   
-  const getInitials = (username: string | undefined) => {
+  const getInitials = (username: string | undefined): string => {
     if (!username) return "";
     const parts = username.split(" ");
     if (parts.length > 1) {
@@ -79,7 +109,6 @@ const Settings = () => {
     }
     return username.substring(0, 2).toUpperCase();
   };
-
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setAvatarUploadError(null);
