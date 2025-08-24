@@ -281,10 +281,6 @@
   .dataTable td {
     padding: 10px 12px;
   }
-  
-  .fullWidthCard {
-    /* No changes needed here, overflow: hidden is already correct */
-  }
 }
 
 @media (max-width: 480px) {
