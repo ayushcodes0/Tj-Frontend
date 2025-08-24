@@ -2,16 +2,45 @@ import { useMemo } from "react";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Performance.module.css";
 
-const formatCurrency = (num: number, decimals: number = 0) =>
+// Re-define the corrected type for the trade data to be precise
+interface Trade {
+  _id: string;
+  pnl_amount?: number;
+  pnl_percentage?: number;
+  date: string;
+  quantity?: number;
+  total_amount?: number;
+  direction: "Long" | "Short";
+  entry_price?: number;
+  exit_price?: number;
+  stop_loss?: number;
+  symbol: string;
+  strategy?: {
+    _id: string;
+    name: string;
+  };
+  psychology?: {
+    entry_confidence_level?: number;
+    satisfaction_rating?: number;
+    emotional_state?: {
+      _id: string;
+      name: string;
+    };
+    mistakes_made?: string[];
+    lessons_learned?: string;
+  };
+}
+
+const formatCurrency = (num: number | undefined, decimals: number = 0): string =>
   typeof num === "number"
     ? "₹" + num.toLocaleString(undefined, { maximumFractionDigits: decimals })
     : "--";
 
-const calculateWinRate = (wins: number, total: number) =>
-  total ? (wins / total) * 100 : 0;
+const calculateWinRate = (wins: number, total: number): number =>
+  total > 0 ? (wins / total) * 100 : 0;
 
-const calculateExpectancy = (averageWin: number, winRate: number, averageLoss: number, lossRate: number) =>
-  averageWin * (winRate / 100) + averageLoss * (lossRate / 100);
+const calculateExpectancy = (averageWin: number, winRate: number, averageLoss: number, lossRate: number): number =>
+  (averageWin * (winRate / 100)) - (Math.abs(averageLoss) * (lossRate / 100));
 
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -19,86 +48,101 @@ const Performance = () => {
   const { trades } = useTrades();
 
   const stats = useMemo(() => {
-    if (!trades || !trades.length) return null;
+    if (!trades || !trades.length) {
+      return null;
+    }
     
-    const wins = trades.filter(trade => (trade.pnl_amount ?? 0) > 0);
-    const losses = trades.filter(trade => (trade.pnl_amount ?? 0) < 0);
-    const breakEven = trades.filter(trade => (trade.pnl_amount ?? 0) === 0);
-    const days = Array.from(new Set(trades.map(trade => trade.date.slice(0, 10))));
-    const byDay = Object.fromEntries(
-      days.map(day => [
-        day,
-        trades.filter(trade => trade.date.slice(0, 10) === day)
-      ])
+    // Explicitly cast the trades data to the corrected Trade[] type
+    const typedTrades = trades as Trade[];
+
+    const wins = typedTrades.filter(trade => (trade.pnl_amount ?? 0) > 0);
+    const losses = typedTrades.filter(trade => (trade.pnl_amount ?? 0) < 0);
+    const breakEven = typedTrades.filter(trade => (trade.pnl_amount ?? 0) === 0);
+    
+    const byDay = typedTrades.reduce((acc: Record<string, Trade[]>, trade: Trade) => {
+      const day = trade.date.slice(0, 10);
+      acc[day] = acc[day] || [];
+      acc[day].push(trade);
+      return acc;
+    }, {});
+
+    const dailyProfits = Object.entries(byDay).map(([date, tradeList]) => ({
+      date,
+      profitLoss: tradeList.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0)
+    }));
+
+    const dailyWinDays = dailyProfits.filter(day => day.profitLoss > 0);
+    const dailyLossDays = dailyProfits.filter(day => day.profitLoss < 0);
+    const bestDay = dailyProfits.reduce(
+      (best: { date: string, profitLoss: number } | null, current) => (!best || current.profitLoss > best.profitLoss) ? current : best,
+      null
     );
-    const dailyWinDays = Object.values(byDay).filter(list => list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) > 0);
-    const dailyLossDays = Object.values(byDay).filter(list => list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) < 0);
-    const bestDay = Object.entries(byDay).reduce(
-      (best, [date, list]) => {
-        const profitLoss = list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
-        return !best || profitLoss > best.profitLoss
-          ? { date, profitLoss }
-          : best;
-      }, null as null | { date: string; profitLoss: number }
-    );
-    const worstDay = Object.entries(byDay).reduce(
-      (best, [date, list]) => {
-        const profitLoss = list.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
-        return !best || profitLoss < best.profitLoss
-          ? { date, profitLoss }
-          : best;
-      }, null as null | { date: string; profitLoss: number }
+    const worstDay = dailyProfits.reduce(
+      (worst: { date: string, profitLoss: number } | null, current) => (!worst || current.profitLoss < worst.profitLoss) ? current : worst,
+      null
     );
 
-    const maximumCapital = Math.max(...trades.map(trade => trade.total_amount ?? 0));
-    const minimumCapital = Math.min(...trades.map(trade => trade.total_amount ?? 0));
-    const averageCapital = trades.reduce((sum, trade) => sum + (trade.total_amount ?? 0), 0) / trades.length;
-    const maximumQuantity = Math.max(...trades.map(trade => trade.quantity ?? 0));
-    const minimumQuantity = Math.min(...trades.map(trade => trade.quantity ?? 0));
-    const averageQuantity = trades.reduce((sum, trade) => sum + (trade.quantity ?? 0), 0) / trades.length;
-    const byQuantity = {
-      [maximumQuantity]: trades.filter(trade => trade.quantity === maximumQuantity),
-      [minimumQuantity]: trades.filter(trade => trade.quantity === minimumQuantity)
-    };
+    const validCapital = typedTrades.map(trade => trade.total_amount).filter((val): val is number => typeof val === 'number');
+    const maximumCapital = validCapital.length ? Math.max(...validCapital) : 0;
+    const minimumCapital = validCapital.length ? Math.min(...validCapital) : 0;
+    const averageCapital = validCapital.length ? validCapital.reduce((sum, val) => sum + val, 0) / validCapital.length : 0;
+    
+    const validQuantities = typedTrades.map(trade => trade.quantity).filter((val): val is number => typeof val === 'number');
+    const maximumQuantity = validQuantities.length ? Math.max(...validQuantities) : 0;
+    const minimumQuantity = validQuantities.length ? Math.min(...validQuantities) : 0;
+    const averageQuantity = validQuantities.length ? validQuantities.reduce((sum, val) => sum + val, 0) / validQuantities.length : 0;
+
+    const capitalProfitLossAtMaximum = typedTrades.filter(trade => trade.total_amount === maximumCapital).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+    const capitalProfitLossAtMinimum = typedTrades.filter(trade => trade.total_amount === minimumCapital).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+    const quantityProfitLossAtMaximum = typedTrades.filter(trade => trade.quantity === maximumQuantity).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+    const quantityProfitLossAtMinimum = typedTrades.filter(trade => trade.quantity === minimumQuantity).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
 
     const averageRiskReward = (() => {
-      const arr = trades
-        .map(trade =>
-          trade.stop_loss && trade.entry_price
-            ? Math.abs((trade.exit_price ?? trade.entry_price) - trade.entry_price) /
-              Math.abs((trade.entry_price - trade.stop_loss) || 1)
-            : undefined
-        )
-        .filter(value => typeof value === "number" && isFinite(value)) as number[];
-      if (!arr.length) return 0;
-      return arr.reduce((a, b) => a + b, 0) / arr.length;
+      const riskRewardArray = typedTrades
+        .filter(t => t.stop_loss !== undefined && t.entry_price !== undefined && t.exit_price !== undefined)
+        .map(t => {
+          const reward = Math.abs(t.exit_price! - t.entry_price!);
+          const risk = Math.abs(t.entry_price! - t.stop_loss!);
+          return risk !== 0 ? reward / risk : 0;
+        })
+        .filter(val => typeof val === "number" && isFinite(val) && val > 0);
+      return riskRewardArray.length ? riskRewardArray.reduce((a, b) => a + b, 0) / riskRewardArray.length : 0;
     })();
 
-    const strategies = Array.from(
-      new Set(trades.map(trade => trade.strategy?.name).filter(Boolean))
-    );
-    const setupStats = strategies.map(name => {
-      const tradesByStrategy = trades.filter(trade => trade.strategy?.name === name);
-      const wins = tradesByStrategy.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
-      return { name, winRate: calculateWinRate(wins, tradesByStrategy.length), count: tradesByStrategy.length };
-    });
+    const strategyStats = Object.values(
+      typedTrades.reduce((acc: Record<string, { name: string, trades: Trade[], wins: number, count: number, profit: number }>, trade: Trade) => {
+        const name = trade.strategy?.name || "Other";
+        acc[name] = acc[name] || { name, trades: [], wins: 0, count: 0, profit: 0 };
+        acc[name].trades.push(trade);
+        acc[name].count = acc[name].trades.length;
+        if ((trade.pnl_amount ?? 0) > 0) acc[name].wins++;
+        acc[name].profit += (trade.pnl_amount ?? 0);
+        return acc;
+      }, {})
+    ).map(s => ({
+      name: s.name,
+      winRate: calculateWinRate(s.wins, s.count),
+      count: s.count,
+      profit: s.profit
+    })).sort((a, b) => b.count - a.count);
 
-    const symbols = Array.from(new Set(trades.map(trade => trade.symbol)));
+    const symbols = Array.from(new Set(typedTrades.map(t => t.symbol)));
     const symbolStatistics = symbols.map(symbol => {
-      const tradesBySymbol = trades.filter(trade => trade.symbol === symbol);
+      const tradesBySymbol = typedTrades.filter(trade => trade.symbol === symbol);
       const winCount = tradesBySymbol.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
       const winRate = calculateWinRate(winCount, tradesBySymbol.length);
       const profit = tradesBySymbol.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
       return { symbol, count: tradesBySymbol.length, profit, winRate };
     });
-    const mostTraded = symbolStatistics.reduce((a, b) => a.count > b.count ? a : b, symbolStatistics[0]);
-    const mostProfitable = symbolStatistics.reduce((a, b) => a.profit > b.profit ? a : b, symbolStatistics[0]);
-    const leastProfitable = symbolStatistics.reduce((a, b) => a.profit < b.profit ? a : b, symbolStatistics[0]);
-    const highestWinRate = symbolStatistics.reduce((a, b) => a.winRate > b.winRate ? a : b, symbolStatistics[0]);
-    const lowestWinRate = symbolStatistics.reduce((a, b) => a.winRate < b.winRate ? a : b, symbolStatistics[0]);
+    
+    const mostTraded = symbolStatistics.length ? symbolStatistics.reduce((a, b) => a.count > b.count ? a : b) : null;
+    const mostProfitable = symbolStatistics.length ? symbolStatistics.reduce((a, b) => a.profit > b.profit ? a : b) : null;
+    const leastProfitable = symbolStatistics.length ? symbolStatistics.reduce((a, b) => a.profit < b.profit ? a : b) : null;
+    const highestWinRate = symbolStatistics.length ? symbolStatistics.reduce((a, b) => a.winRate > b.winRate ? a : b) : null;
+    const lowestWinRate = symbolStatistics.length ? symbolStatistics.reduce((a, b) => a.winRate < b.winRate ? a : b) : null;
 
     let consecutiveWins = 0, maximumConsecutiveWins = 0, consecutiveLosses = 0, maximumConsecutiveLosses = 0;
-    for (const trade of trades) {
+    for (const trade of typedTrades) {
       if ((trade.pnl_amount ?? 0) > 0) {
         consecutiveWins++;
         maximumConsecutiveWins = Math.max(maximumConsecutiveWins, consecutiveWins);
@@ -113,70 +157,87 @@ const Performance = () => {
       }
     }
     
-    let maximumConsecutiveWinDays = 0, maximumConsecutiveLossDays = 0, lastDayWin = false, streak = 0;
-    const sortedDays = Object.keys(byDay).sort();
-    for (const day of sortedDays) {
-      const profitLoss = byDay[day].reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
-      if (profitLoss > 0) {
-        streak = lastDayWin ? streak + 1 : 1;
+    let maximumConsecutiveWinDays = 0, maximumConsecutiveLossDays = 0, streakType: 'win' | 'loss' | null = null, streak = 0;
+    const sortedDailyProfits = dailyProfits.sort((a, b) => a.date.localeCompare(b.date));
+    for (const day of sortedDailyProfits) {
+      const isWinDay = day.profitLoss > 0;
+      const isLossDay = day.profitLoss < 0;
+
+      if (isWinDay) {
+        if (streakType === 'win') {
+          streak++;
+        } else {
+          streak = 1;
+          streakType = 'win';
+        }
         maximumConsecutiveWinDays = Math.max(maximumConsecutiveWinDays, streak);
-        lastDayWin = true;
-      } else if (profitLoss < 0) {
-        streak = !lastDayWin ? streak + 1 : 1;
+      } else if (isLossDay) {
+        if (streakType === 'loss') {
+          streak++;
+        } else {
+          streak = 1;
+          streakType = 'loss';
+        }
         maximumConsecutiveLossDays = Math.max(maximumConsecutiveLossDays, streak);
-        lastDayWin = false;
       } else {
         streak = 0;
-        lastDayWin = false;
+        streakType = null;
       }
     }
 
-    const tradesByWeekday: Record<string, typeof trades> = {};
-    trades.forEach(trade => {
-      const weekday = weekdays[new Date(trade.date).getDay()];
-      tradesByWeekday[weekday] = tradesByWeekday[weekday] || [];
-      tradesByWeekday[weekday].push(trade);
+    const tradesByWeekday: Record<string, Trade[]> = weekdays.reduce((acc, day) => {
+        acc[day] = [];
+        return acc;
+    }, {} as Record<string, Trade[]>);
+    
+    typedTrades.forEach(trade => {
+        const weekday = weekdays[new Date(trade.date).getDay()];
+        if (tradesByWeekday[weekday]) {
+            tradesByWeekday[weekday].push(trade);
+        }
     });
 
     const weekdayData = weekdays.map(day => {
-      const tradesByDay = tradesByWeekday[day] ?? [];
-      const profitLoss = tradesByDay.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
-      const wins = tradesByDay.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
-      const riskRewardArray = tradesByDay.map(trade =>
-        trade.stop_loss && trade.entry_price
-          ? Math.abs((trade.exit_price ?? trade.entry_price) - trade.entry_price) /
-            Math.abs((trade.entry_price - trade.stop_loss) || 1)
-          : undefined
-      ).filter(value => typeof value === "number" && isFinite(value)) as number[];
+      const tradesForDay = tradesByWeekday[day];
+      const profitLoss = tradesForDay.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
+      const wins = tradesForDay.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
+      
+      const riskRewardArray = tradesForDay
+        .filter(t => t.stop_loss !== undefined && t.entry_price !== undefined && t.exit_price !== undefined)
+        .map(t => {
+          const reward = Math.abs(t.exit_price! - t.entry_price!);
+          const risk = Math.abs(t.entry_price! - t.stop_loss!);
+          return risk !== 0 ? reward / risk : 0;
+        })
+        .filter(val => typeof val === "number" && isFinite(val) && val > 0);
+
       const averageRiskReward = riskRewardArray.length ? (riskRewardArray.reduce((a, b) => a + b, 0) / riskRewardArray.length) : null;
+
       return {
         day,
-        trades: tradesByDay.length,
+        trades: tradesForDay.length,
         profitLoss,
-        winRate: calculateWinRate(wins, tradesByDay.length),
+        winRate: calculateWinRate(wins, tradesForDay.length),
         averageRiskReward
       };
     });
 
-    const tradesPerDay = Object.values(byDay).map(trades => trades.length);
+    const tradesPerDay = Object.values(byDay).map(tradeList => tradeList.length);
     const averageTradesPerDay = tradesPerDay.length ? tradesPerDay.reduce((a, b) => a + b, 0) / tradesPerDay.length : 0;
     const maximumTradesDay = tradesPerDay.length ? Math.max(...tradesPerDay) : 0;
     const singleTradeDays = tradesPerDay.filter(number => number === 1).length;
     const overtradingDays = tradesPerDay.filter(number => number > 7).length;
 
-    const total = trades.length;
+    const total = typedTrades.length;
     const averageWin = wins.length ? wins.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) / wins.length : 0;
     const averageLoss = losses.length ? losses.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0) / losses.length : 0;
     const winRate = calculateWinRate(wins.length, total);
-    const lossRate = total ? (losses.length / total) * 100 : 0;
+    const lossRate = calculateWinRate(losses.length, total);
     const expectancy = calculateExpectancy(averageWin, winRate, averageLoss, lossRate);
 
-    const strategyProfits: Record<string, number> = {};
-    trades.forEach(trade => {
-      if (trade.strategy?.name)
-        strategyProfits[trade.strategy.name] = (strategyProfits[trade.strategy.name] ?? 0) + (trade.pnl_amount ?? 0);
-    });
-    const mostProfitableStrategyName = Object.entries(strategyProfits).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "-";
+    const mostProfitableStrategyName = strategyStats.length
+      ? strategyStats.reduce((a, b) => a.profit > b.profit ? a : b).name
+      : "-";
 
     return {
       total,
@@ -191,19 +252,18 @@ const Performance = () => {
       dailyLossDays: dailyLossDays.length,
       bestDay,
       worstDay,
-      maximumCapital, 
-      minimumCapital, 
+      maximumCapital,
+      minimumCapital,
       averageCapital,
-      maximumQuantity, 
-      minimumQuantity, 
+      maximumQuantity,
+      minimumQuantity,
       averageQuantity,
-      capitalProfitLossAtMaximum: trades.filter(trade => trade.total_amount === maximumCapital).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
-      capitalProfitLossAtMinimum: trades.filter(trade => trade.total_amount === minimumCapital).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
-      quantityProfitLossAtMaximum: byQuantity[maximumQuantity].reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
-      quantityProfitLossAtMinimum: byQuantity[minimumQuantity].reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0),
+      capitalProfitLossAtMaximum,
+      capitalProfitLossAtMinimum,
+      quantityProfitLossAtMaximum,
+      quantityProfitLossAtMinimum,
       averageRiskReward,
-      setupStats,
-      strategies,
+      strategyStats,
       symbolStatistics,
       mostTraded,
       mostProfitable,
@@ -247,7 +307,7 @@ const Performance = () => {
           </div>
         </div>
       </header>
-
+      <hr className={Styles.horizontalLine} />
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Key Metrics</h2>
         <div className={Styles.metricsGrid}>
@@ -340,7 +400,7 @@ const Performance = () => {
           </div>
         </div>
       </section>
-
+      <hr className={Styles.horizontalLine} />
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Capital & Risk</h2>
         <div className={Styles.metricsGrid}>
@@ -412,7 +472,7 @@ const Performance = () => {
               <div className={Styles.metricRow}>
                 <div className={Styles.metricItem}>
                   <span className={Styles.metricLabel}>Average Risk:Reward</span>
-                  <span className={Styles.metricValue}>{stats.averageRiskReward.toFixed(2)}</span>
+                  <span className={Styles.metricValue}>{stats.averageRiskReward?.toFixed(2) ?? "--"}</span>
                 </div>
                 <div className={Styles.metricItem}>
                   <span className={Styles.metricLabel}>Most Profitable Strategy</span>
@@ -423,7 +483,7 @@ const Performance = () => {
           </div>
         </div>
       </section>
-
+      <hr className={Styles.horizontalLine} />
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
         <div className={Styles.doubleColumn}>
@@ -443,28 +503,28 @@ const Performance = () => {
                 <tbody>
                   <tr>
                     <td>Most Traded</td>
-                    <td>{stats.mostTraded?.symbol}</td>
-                    <td>{stats.mostTraded?.count} trades</td>
+                    <td>{stats.mostTraded?.symbol ?? "--"}</td>
+                    <td>{stats.mostTraded?.count ?? "--"} trades</td>
                   </tr>
                   <tr>
                     <td>Most Profitable</td>
-                    <td>{stats.mostProfitable?.symbol}</td>
-                    <td className={Styles.positive}>{formatCurrency(stats.mostProfitable?.profit)}</td>
+                    <td>{stats.mostProfitable?.symbol ?? "--"}</td>
+                    <td className={stats.mostProfitable && stats.mostProfitable.profit >= 0 ? Styles.positive : Styles.negative}>{formatCurrency(stats.mostProfitable?.profit)}</td>
                   </tr>
                   <tr>
                     <td>Least Profitable</td>
-                    <td>{stats.leastProfitable?.symbol}</td>
-                    <td className={Styles.negative}>{formatCurrency(stats.leastProfitable?.profit)}</td>
+                    <td>{stats.leastProfitable?.symbol ?? "--"}</td>
+                    <td className={stats.leastProfitable && stats.leastProfitable.profit >= 0 ? Styles.positive : Styles.negative}>{formatCurrency(stats.leastProfitable?.profit)}</td>
                   </tr>
                   <tr>
                     <td>Highest Win Rate</td>
-                    <td>{stats.highestWinRate?.symbol}</td>
-                    <td className={Styles.positive}>{stats.highestWinRate?.winRate.toFixed(1)}%</td>
+                    <td>{stats.highestWinRate?.symbol ?? "--"}</td>
+                    <td className={stats.highestWinRate && stats.highestWinRate.winRate >= 50 ? Styles.positive : Styles.negative}>{stats.highestWinRate?.winRate.toFixed(1) ?? "--"}%</td>
                   </tr>
                   <tr>
                     <td>Lowest Win Rate</td>
-                    <td>{stats.lowestWinRate?.symbol}</td>
-                    <td className={Styles.negative}>{stats.lowestWinRate?.winRate.toFixed(1)}%</td>
+                    <td>{stats.lowestWinRate?.symbol ?? "--"}</td>
+                    <td className={stats.lowestWinRate && stats.lowestWinRate.winRate >= 50 ? Styles.positive : Styles.negative}>{stats.lowestWinRate?.winRate.toFixed(1) ?? "--"}%</td>
                   </tr>
                 </tbody>
               </table>
@@ -485,7 +545,7 @@ const Performance = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {stats.setupStats.map(({ name, winRate, count }) => (
+                  {stats.strategyStats.map(({ name, winRate, count }) => (
                     <tr key={name}>
                       <td>{name}</td>
                       <td className={winRate >= 50 ? Styles.positive : Styles.negative}>
@@ -500,7 +560,7 @@ const Performance = () => {
           </div>
         </div>
       </section>
-
+      <hr className={Styles.horizontalLine} />
       <section className={Styles.section}>
         <h2 className={Styles.sectionTitle}>Weekday Performance</h2>
         <div className={Styles.fullWidthCard}>
