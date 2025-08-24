@@ -426,7 +426,7 @@
 
 .popupTradeListScrollable {
   overflow-y: auto;
-  max-height: 40vh; /* Adjust this value as needed */
+  max-height: 30vh; /* Adjust this value as needed */
   -webkit-overflow-scrolling: touch;
   margin-right: -10px; /* Counteracts the scrollbar for better aesthetics */
   padding-right: 10px;
