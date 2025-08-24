@@ -39,11 +39,7 @@
     padding-bottom: 60px;
 }
 
-@media (max-width: 1558px) {
-    .heroSectionLeft {
-        padding-left: 0;
-    }
-}
+
 
 .mainHeading {
     display: flex;
@@ -57,6 +53,16 @@
     line-height: 5.8rem;
     letter-spacing: -4px;
     color: var(--primary-text);
+}
+
+
+@media (max-width: 1558px) {
+    .heroSectionLeft {
+        padding-left: 0;
+    }
+    .topHeading{
+        font-size: 90px;
+    }
 }
 
 .middleHeading {
