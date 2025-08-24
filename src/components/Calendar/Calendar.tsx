@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Calendar.module.css";
 import StatCard from "../StatCard/StatCard";
@@ -28,16 +28,24 @@ const getMonthMatrix = (year: number, month: number) => {
   return calendar;
 };
 
-function computeAvgRR(trades: Trade[]): number {
-  const ratios = trades
-    .map(t =>
-      typeof t.pnl_amount === "number" && typeof t.total_amount === "number" && t.total_amount !== 0
-        ? Math.abs(t.pnl_amount / t.total_amount)
-        : undefined
-    )
-    .filter((rr): rr is number => typeof rr === "number" && isFinite(rr));
-  if (!ratios.length) return 0;
-  return ratios.reduce((a, b) => a + b, 0) / ratios.length;
+// Corrected function to compute average Risk:Reward ratio
+function computeAvgRR(trades: Trade[]): number | null {
+  const validRatios = trades
+    .map(t => {
+      // Ensure all necessary data points exist and are numbers
+      if (t.entry_price !== undefined && t.exit_price !== undefined && t.stop_loss !== undefined) {
+        const risk = Math.abs(t.entry_price - t.stop_loss);
+        const reward = Math.abs(t.exit_price - t.entry_price);
+        return risk > 0 ? reward / risk : Infinity; // Return Infinity for zero risk
+      }
+      return null;
+    })
+    .filter((rr): rr is number => typeof rr === "number" && isFinite(rr)); // Filter out nulls and infinite values
+
+  if (!validRatios.length) return null;
+  
+  const sum = validRatios.reduce((a, b) => a + b, 0);
+  return sum / validRatios.length;
 }
 
 function calcDelta(current: number, prev: number) {
@@ -48,9 +56,15 @@ function calcDelta(current: number, prev: number) {
 const Calendar = () => {
   const [monthYear, setMonthYear] = useState({ month: now.getMonth(), year: now.getFullYear() });
   const [selectedDay, setSelectedDay] = useState<null | number>(null);
-  const { trades } = useTrades();
+  const { trades, fetchTrades } = useTrades();
+
+  // Fetch all trades once when the component mounts
+  useEffect(() => {
+    fetchTrades("lifetime");
+  }, [fetchTrades]);
 
   const matrix = useMemo(() => getMonthMatrix(monthYear.year, monthYear.month), [monthYear]);
+  
   const monthTrades = useMemo(
     () =>
       (trades ?? []).filter(trade => {
@@ -96,7 +110,7 @@ const Calendar = () => {
   const deltaTotalPnl = calcDelta(totalPnl, prevTotalPnl);
   const deltaWinRate = calcDelta(winRate, prevWinRate);
   const deltaTotalTrades = calcDelta(totalTrades, prevTotalTrades);
-  const deltaRR = calcDelta(avgRR, prevAvgRR);
+  const deltaRR = calcDelta(avgRR ?? 0, prevAvgRR ?? 0);
 
   const handlePrevMonth = () => {
     setMonthYear(({ month, year }) =>
@@ -136,8 +150,8 @@ const Calendar = () => {
         />
         <StatCard
           label="AVG. R:R"
-          value={avgRR > 0 ? avgRR.toFixed(2) : "–"}
-          positive={avgRR >= 1}
+          value={avgRR !== null ? avgRR.toFixed(2) : "–"}
+          positive={avgRR !== null && avgRR >= 1}
           delta={deltaRR}
         />
       </div>
