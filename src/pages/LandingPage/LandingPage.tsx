@@ -2,8 +2,6 @@ import { FilledButton } from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
 import TopBanner from '../../components/TopBanner/TopBanner';
 import Styles from './LandingPage.module.css';
-// import { IoFolderOpenOutline } from 'react-icons/io5';
-// import { TbPlant } from 'react-icons/tb';
 import HeroSectionImage from '../../assets/image/heroSectionImage.png';
 import { IoCloseCircle } from 'react-icons/io5';
 import { TiTick } from 'react-icons/ti';
@@ -356,7 +354,7 @@ const LandingPage = () => {
                   </div>
                   <div className={Styles.middleHeadingText}>
                     <p className={Styles.middleSubHeading}>Log every detail, effortlessly.</p>
-                    <p className={Styles.middleSubText}>Capture your setups, emotions, and outcomes in seconds.</p>
+                    {/* <p className={Styles.middleSubText}>Capture your setups, emotions, and outcomes in seconds.</p> */}
                   </div>
                 </motion.div>
                 

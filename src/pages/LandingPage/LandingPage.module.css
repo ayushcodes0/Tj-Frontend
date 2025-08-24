@@ -69,12 +69,14 @@
     display: flex;
     gap: 15px;
     width: 48%;
+    align-items: center;
 }
 
 .middleHeadingRight {
     display: flex;
     gap: 15px;
     width: 50%;
+    align-items: center;
 }
 
 .middleHeadingIcon {
