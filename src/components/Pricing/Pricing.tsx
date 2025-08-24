@@ -3,6 +3,7 @@ import planeImage from '../../assets/image/pricingPlane.webp';
 import pricingBottomImage from '../../assets/image/pricingSectionImage.svg';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 // Faster animation variants
 const containerVariants: Variants = {
@@ -118,7 +119,7 @@ const Pricing = () => {
               <p className={Styles.pricesPointsText}>Experience our AI-powered insights firsthand.</p>
               <p className={Styles.pricesPointsText}>No credit card required to start.</p>
             </div>
-            <p className={Styles.pricesButton}>Start Free Trial</p>
+            <Link to={"/login"}><p className={Styles.pricesButton}>Start Free Trial</p></Link>
           </motion.div>
           
           {/* Pro Plan */}
@@ -135,7 +136,7 @@ const Pricing = () => {
               <p className={Styles.pricesPointsText}>In-depth performance and psychology analytics.</p>
               <p className={Styles.pricesPointsText}>Secure, long-term cloud backup for your data.</p>
             </div>
-            <p className={Styles.pricesButton}>Choose Pro</p>
+            <Link to={"/pricing"}><p className={Styles.pricesButton}>Choose Pro</p></Link>
           </motion.div>
         </div>
         
