@@ -607,7 +607,7 @@ const Performance = () => {
                   <div className={Styles.metricRow}>
                     <div className={Styles.metricItem}>
                       <span className={Styles.metricLabel}>Average Risk:Reward</span>
-                      <span className={Styles.metricValue}>{stats?.averageRiskReward?.toFixed(2) ?? "--"}</span>
+                      <span className={Styles.metricValue}>{stats?.averageRiskReward?.toFixed(2) ? `1:${stats.averageRiskReward.toFixed(2)}` : "--"}</span>
                     </div>
                     <div className={Styles.metricItem}>
                       <span className={Styles.metricLabel}>Most Profitable Strategy</span>
@@ -724,7 +724,7 @@ const Performance = () => {
                         <td className={dayData.winRate >= 50 ? Styles.positive : Styles.negative}>
                           {dayData.winRate ? dayData.winRate.toFixed(1) + "%" : "--"}
                         </td>
-                        <td>{dayData.averageRiskReward ? dayData.averageRiskReward.toFixed(2) : "--"}</td>
+                        <td>{dayData.averageRiskReward ? `1:${dayData.averageRiskReward.toFixed(2)}` : "--"}</td>
                       </tr>
                     ))}
                   </tbody>
