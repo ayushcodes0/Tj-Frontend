@@ -138,21 +138,11 @@
 
 .dataBody {
   padding: 0;
-}
-
-
-.tableContainer {
-  border: 1px solid var(--dashboard-borders, #e2e8f0);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-
-.scrollableTable {
-  overflow-x: auto;
+  overflow-x: auto; /* Apply overflow here to enable scrolling on small screens */
   -webkit-overflow-scrolling: touch;
-  border-radius: 8px;
 }
+
+
 
 
 .scrollableTable::-webkit-scrollbar {
@@ -171,7 +161,6 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
-  min-width: 600px;
 }
 
 
