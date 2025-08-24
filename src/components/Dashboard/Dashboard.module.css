@@ -3,13 +3,12 @@
   padding-bottom: 40px;
   width: 100%;
   min-height: 100vh;
-  background: var(--dashboard-right-background, #f6f5fb);
+  background: var(--dashboard-right-background);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
 
 .dashboardFilters {
   display: flex;
@@ -19,7 +18,6 @@
   padding-top: 12px;
 }
 
-
 .filterInputs {
   border: 1px solid var(--dashboard-borders);
   padding: 6px;
@@ -28,7 +26,6 @@
   color: var(--dashboard-primary-text);
   background-color: var(--dashboard-primary-background);
 }
-
 
 .confidenceWrapper {
   background: var(--dashboard-primary-background);
@@ -42,7 +39,6 @@
   max-width: 100%;
 }
 
-
 .confidenceLabelRow {
   display: flex;
   justify-content: space-between;
@@ -51,18 +47,17 @@
   flex-wrap: wrap;
 }
 
-
 .confidenceLabel {
   font-size: 14px;
   color: var(--dashboard-primary-text);
 }
+
 .confidenceVal {
   font-size: 16px;
   font-weight: 700;
   color: #618bff;
   margin-right: 4px;
 }
-
 
 .confidenceBar {
   width: 100%;
@@ -75,29 +70,25 @@
   position: relative;
 }
 
-
 .confidenceBarInner {
   height: 100%;
   border-radius: 7px;
-  background: linear-gradient(90deg,#618bff 35%, var(--dashboard-green-color) 100%);
+  background: linear-gradient(90deg, #618bff 35%, var(--dashboard-green-color) 100%);
   transition: width 0.6s cubic-bezier(.82,0,.31,1);
   min-width: 0;
 }
 
-
-tspan{
+tspan {
     font-size: 10px;
 }
-
 
 .confidenceScaleLabels {
   display: flex;
   font-size: 12px;
-  color: #a6a5b5;
+  color: var(--dashboard-secondary-text);
   justify-content: space-between;
   margin-top: 3px;
 }
-
 
 @media (max-width: 600px) {
   .confidenceWrapper {
@@ -105,16 +96,12 @@ tspan{
   }
 }
 
-
-
-
 .dashboardStatsCards {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   width: 100%;
 }
-
 
 .statCard {
   background: var(--dashboard-primary-background);
@@ -128,48 +115,42 @@ tspan{
   align-items: flex-start;
   flex: 1 1 0;
   max-width: 100%;
-  flex-basis: calc(50% - 10px); 
+  flex-basis: calc(50% - 10px);
 }
-
-
 
 @media (min-width: 1200px) {
   .statCard {
-    flex-basis: calc((100% - 5 * 20px) / 6); 
+    flex-basis: calc((100% - 5 * 20px) / 6);
   }
 }
-
 
 @media (max-width: 1199px) and (min-width: 901px) {
   .statCard {
-    flex-basis: calc((100% - 3 * 20px) / 4); 
+    flex-basis: calc((100% - 3 * 20px) / 4);
   }
 }
-
-
 
 @media (max-width: 900px) {
   .statCard {
     flex-basis: calc(50% - 10px);
   }
-  .dashboardStatsCards{
+  .dashboardStatsCards {
     gap: 10px;
   }
 }
-
 
 .statLabel {
   color: var(--dashboard-primary-text);
   font-size: 14px;
   font-weight: 400;
 }
+
 .statValue {
   color: var(--dashboard-primary-text);
   font-size: 24px;
   font-weight: 600;
   letter-spacing: 1px;
 }
-
 
 .dashboardCharts {
   display: grid;
@@ -178,13 +159,11 @@ tspan{
   gap: 20px;
 }
 
-
-@media (max-width: 800px){
-    .dashboardCharts{
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 800px) {
+  .dashboardCharts {
+    grid-template-columns: 1fr;
+  }
 }
-
 
 .chartBox {
   background-color: var(--dashboard-primary-background);
@@ -202,12 +181,10 @@ tspan{
   flex-direction: column;
 }
 
-
-.chartHeading{
-    font-weight: 400;
-    color: var(--dashboard-primary-text);
+.chartHeading {
+  font-weight: 400;
+  color: var(--dashboard-primary-text);
 }
-
 
 @media (max-width: 900px) {
   .dashboardCharts {
@@ -215,8 +192,6 @@ tspan{
     gap: 16px;
   }
 }
-
-
 
 .topTradesSection {
   width: 100%;
@@ -228,7 +203,6 @@ tspan{
   overflow-x: auto;
 }
 
-
 .topTradesHeading {
   letter-spacing: 0.01em;
   display: flex;
@@ -237,36 +211,32 @@ tspan{
   padding: 12px 18px;
 }
 
-
-.heading{
-    font-size: 14px;
-    color: var(--dashboard-primary-text);
+.heading {
+  font-size: 14px;
+  color: var(--dashboard-primary-text);
 }
 
-
-.viewAll{
-    font-size: 14px;
-    color: #618bff;
+.viewAll {
+  font-size: 14px;
+  color: #618bff;
 }
-
 
 .topTradesTableWrapper {
   width: 100%;
   overflow-x: auto;
 }
+
 .topTradesTable {
   border-collapse: collapse;
   width: 100%;
   min-width: 650px;
 }
 
-
 .topTradesTable th,
 .topTradesTable td {
   padding: 10px 15px;
   text-align: center;
 }
-
 
 .topTradesTable th {
   font-size: 14px;
@@ -276,18 +246,15 @@ tspan{
   border-top: 1px solid var(--dashboard-borders);
 }
 
-
 .topTradesTable td {
   font-size: 14px;
   border-bottom: 1px solid var(--dashboard-borders);
   color: var(--dashboard-primary-text);
 }
 
-
 .topTradesTable tr:last-child td {
   border-bottom: none;
 }
-
 
 .long {
   color: var(--dashboard-green-color);
@@ -296,10 +263,12 @@ tspan{
   color: var(--dashboard-red-color);
 }
 
-
-
-@media (max-width: 600px){
-  .dashboardPage{
+@media (max-width: 600px) {
+  .dashboardPage {
     padding: 0px 10px 40px;
   }
+}
+
+.noTradesFound {
+  color: var(--dashboard-secondary-text);
 }
