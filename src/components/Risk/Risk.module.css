@@ -183,6 +183,7 @@
 
 .dataBody {
   padding: 0;
+  overflow-x: auto;
 }
 
 .dataTable {
@@ -190,6 +191,7 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
+  border-radius: 11px;
 }
 
 .dataTable th {
@@ -208,18 +210,20 @@
   border-bottom: none;
 }
 
+/* Removed border-radius from inner table elements */
 .dataTable tr:first-child th:first-child {
-  border-top-left-radius: 11px;
+  border-top-left-radius: 0;
 }
-
-
+.dataTable tr:first-child th:last-child {
+  border-top-right-radius: 0;
+}
 .dataTable tr:last-child td:first-child {
-  border-bottom-left-radius: 11px;
+  border-bottom-left-radius: 0;
+}
+.dataTable tr:last-child td:last-child {
+  border-bottom-right-radius: 0;
 }
 
-.dataTable tr:last-child td:last-child {
-  border-bottom-right-radius: 11px;
-}
 
 .noTrades {
   padding: 30px;
@@ -276,6 +280,10 @@
   .dataTable th,
   .dataTable td {
     padding: 10px 12px;
+  }
+  
+  .fullWidthCard {
+    /* No changes needed here, overflow: hidden is already correct */
   }
 }
 
