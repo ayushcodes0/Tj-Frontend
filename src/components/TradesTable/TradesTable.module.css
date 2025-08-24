@@ -25,7 +25,7 @@ th, td {
 
 .table th { 
   font-weight: 600;
-  color: var(--dashboard-primary-text);
+  color: var(--landing-background);
   font-size: 14px;
   letter-spacing: .01em;
   text-transform: uppercase;
