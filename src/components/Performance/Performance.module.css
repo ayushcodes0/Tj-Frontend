@@ -8,11 +8,11 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-
 .header {
   margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
 }
-
 
 .title {
   font-size: 28px;
@@ -21,13 +21,59 @@
   margin-bottom: 16px;
 }
 
+/* --- Filter Specific CSS --- */
+.dashboardFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 12px 0;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
 
+.filterInputs {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--dashboard-borders, #e2e8f0);
+  background-color: var(--dashboard-primary-background, #fff);
+  font-size: 14px;
+  color: var(--dashboard-primary-text, #2d3748);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 80px;
+  width: auto;
+  box-sizing: border-box;
+}
+
+.filterInputs:focus {
+  outline: none;
+  border-color: var(--dashboard-blue-color, #4299e1);
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+/* Add styles for placeholder text to ensure visibility */
+.filterInputs::placeholder {
+  color: var(--dashboard-secondary-text, #718096);
+  opacity: 1;
+}
+
+/* Specific input widths to ensure proper visibility */
+.dashboardFilters input[type="number"] {
+  min-width: 70px;
+  text-align: center;
+  padding: 8px 10px;
+}
+
+/* Make year input slightly wider */
+.dashboardFilters input[type="number"]:first-of-type {
+  min-width: 85px;
+}
+
+/* --- General Dashboard CSS --- */
 .summaryCards {
   display: flex;
   gap: 16px;
-  margin-bottom: 24px;
 }
-
 
 .summaryCard {
   flex: 1;
@@ -42,24 +88,20 @@
   min-height: 100px;
 }
 
-
 .primaryCard {
   background: var(--dashboard-blue-color, #4299e1);
   color: white;
 }
-
 
 .successCard {
   background: var(--dashboard-green-color, #48bb78);
   color: white;
 }
 
-
 .dangerCard {
   background: var(--dashboard-red-color, #f56565);
   color: white;
 }
-
 
 .summaryLabel {
   font-size: 14px;
@@ -68,17 +110,14 @@
   opacity: 0.9;
 }
 
-
 .summaryValue {
   font-size: 24px;
   font-weight: 700;
 }
 
-
 .section {
   margin-bottom: 32px;
 }
-
 
 .sectionTitle {
   font-size: 20px;
@@ -89,14 +128,12 @@
   border-bottom: 1px solid var(--dashboard-borders);
 }
 
-
 .metricsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
-
 
 .metricCard {
   background: var(--dashboard-primary-background);
@@ -106,12 +143,10 @@
   border: 1px solid var(--dashboard-borders);
 }
 
-
 .metricHeader {
   padding: 16px 20px;
   border-bottom: 1px solid var(--dashboard-borders);
 }
-
 
 .metricHeader h3 {
   font-size: 16px;
@@ -120,11 +155,9 @@
   margin: 0;
 }
 
-
 .metricBody {
   padding: 16px 20px;
 }
-
 
 .metricRow {
   display: flex;
@@ -132,16 +165,13 @@
   margin-bottom: 12px;
 }
 
-
 .metricRow:last-child {
   margin-bottom: 0;
 }
 
-
 .metricItem {
   flex: 1;
 }
-
 
 .metricLabel {
   display: block;
@@ -150,7 +180,6 @@
   margin-bottom: 4px;
 }
 
-
 .metricValue {
   display: block;
   font-size: 16px;
@@ -158,16 +187,13 @@
   color: var(--dashboard-primary-text);
 }
 
-
 .positive {
   color: var(--dashboard-green-color, #38a169);
 }
 
-
 .negative {
   color: var(--dashboard-red-color, #e53e3e);
 }
-
 
 .doubleColumn {
   display: grid;
@@ -176,15 +202,13 @@
   margin-bottom: 24px;
 }
 
-
 .fullWidthCard {
   background: var(--dashboard-primary-background);
-  border-radius: 12px; /* Apply border-radius here */
+  border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--dashboard-borders);
-  overflow: hidden; /* This will clip the content inside */
+  overflow: hidden;
 }
-
 
 .dataCard {
   background: var(--dashboard-primary-background);
@@ -195,12 +219,10 @@
   border: 1px solid var(--dashboard-borders);
 }
 
-
 .dataHeader {
   padding: 16px 20px;
   border-bottom: 1px solid var(--dashboard-borders);
 }
-
 
 .dataHeader h3 {
   font-size: 16px;
@@ -209,12 +231,10 @@
   margin: 0;
 }
 
-
 .dataBody {
   padding: 0;
-  overflow-x: auto; /* Use 'auto' instead of 'scroll' for better UX */
+  overflow-x: auto;
 }
-
 
 .dataTable {
   width: 100%;
@@ -225,76 +245,62 @@
   border-radius: 11px;
 }
 
-
 .dataTable th {
   text-align: left;
   padding: 12px 16px;
   font-weight: 600;
 }
 
-
 .dataTable th:first-child,
 .dataTable td:first-child {
   border-left: none;
 }
-
 
 .dataTable th:last-child,
 .dataTable td:last-child {
   border-right: none;
 }
 
-
 .dataTable td {
   padding: 12px 16px;
   border-bottom: 1px solid var(--dashboard-borders);
 }
 
-
 .dataTable tr:last-child td {
   border-bottom: none;
 }
-
 
 .dataTable tr:first-child th:first-child {
   border-top-left-radius: 11px;
 }
 
-
 .dataTable tr:first-child th:last-child {
   border-top-right-radius: 11px;
 }
-
 
 .dataTable tr:last-child td:first-child {
   border-bottom-left-radius: 11px;
 }
 
-
 .dataTable tr:last-child td:last-child {
   border-bottom-right-radius: 11px;
 }
-
 
 .dataTable thead tr:first-child th:first-child {
   border-top-left-radius: 11px;
 }
 
-
 .dataTable thead tr:first-child th:last-child {
   border-top-right-radius: 11px;
 }
-
 
 .dataTable tbody tr:last-child td:first-child {
   border-bottom-left-radius: 11px;
 }
 
-
 .dataTable tbody tr:last-child td:last-child {
   border-bottom-right-radius: 11px;
 }
-
 
 .noTrades {
   padding: 30px;
@@ -303,6 +309,12 @@
   color: var(--dashboard-secondary-text);
 }
 
+.horizontalLine {
+  border: none;
+  height: 1px;
+  background-color: var(--dashboard-borders);
+  margin: 32px 0;
+}
 
 @media (max-width: 1024px) {
   .metricsGrid {
@@ -313,7 +325,6 @@
     grid-template-columns: 1fr;
   }
 }
-
 
 @media (max-width: 768px) {
   .dashboard {
@@ -337,8 +348,16 @@
   .dataTable td {
     padding: 10px 12px;
   }
+  
+  .dashboardFilters {
+    flex-direction: column;
+  }
+  
+  .filterInputs {
+    width: 100%;
+    max-width: none;
+  }
 }
-
 
 @media (max-width: 480px) {
   .dashboard {

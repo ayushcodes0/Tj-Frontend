@@ -1,35 +1,29 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Performance.module.css";
+import type { Trade } from "../../context/TradeContext";
 
-// Re-define the corrected type for the trade data to be precise
-interface Trade {
+// Define a type for the related data objects
+interface RelatedObject {
   _id: string;
-  pnl_amount?: number;
-  pnl_percentage?: number;
-  date: string;
-  quantity?: number;
-  total_amount?: number;
-  direction: "Long" | "Short";
-  entry_price?: number;
-  exit_price?: number;
-  stop_loss?: number;
-  symbol: string;
-  strategy?: {
-    _id: string;
-    name: string;
-  };
-  psychology?: {
-    entry_confidence_level?: number;
-    satisfaction_rating?: number;
-    emotional_state?: {
-      _id: string;
-      name: string;
-    };
-    mistakes_made?: string[];
-    lessons_learned?: string;
-  };
+  name: string;
 }
+
+const getCurrentYear = () => new Date().getFullYear();
+const getCurrentMonth = () => new Date().getMonth() + 1;
+const getCurrentWeek = () => {
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const pastDaysOfYear = (now.getTime() - startOfYear.getTime()) / 86400000;
+  return Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
+};
+
+const FILTERS = [
+  { label: 'Last Week', value: 'week' as const },
+  { label: 'Last Year', value: 'year' as const },
+  { label: 'Lifetime', value: 'lifetime' as const },
+  { label: 'Specific Day', value: 'day' as const },
+];
 
 const formatCurrency = (num: number | undefined, decimals: number = 0): string =>
   typeof num === "number"
@@ -45,14 +39,68 @@ const calculateExpectancy = (averageWin: number, winRate: number, averageLoss: n
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const Performance = () => {
-  const { trades } = useTrades();
+  const { trades, fetchTrades } = useTrades();
+  const [filter, setFilter] = useState<'lifetime' | 'week' | 'year' | 'day'>('lifetime');
+  const [year, setYear] = useState(getCurrentYear());
+  const [month, setMonth] = useState(getCurrentMonth());
+  const [day, setDay] = useState(new Date().getDate());
+  const [week, setWeek] = useState(getCurrentWeek());
+
+  // Helper function to get max days in a month
+  const getMaxDaysInMonth = (year: number, month: number) => {
+    return new Date(year, month, 0).getDate();
+  };
+
+  // Input validation handlers
+  const handleYearChange = (value: number) => {
+    const validatedYear = Math.max(2000, Math.min(2100, value));
+    setYear(validatedYear);
+    
+    const maxDay = getMaxDaysInMonth(validatedYear, month);
+    if (day > maxDay) {
+      setDay(maxDay);
+    }
+  };
+
+  const handleMonthChange = (value: number) => {
+    const validatedMonth = Math.max(1, Math.min(12, value));
+    setMonth(validatedMonth);
+    
+    const maxDay = getMaxDaysInMonth(year, validatedMonth);
+    if (day > maxDay) {
+      setDay(maxDay);
+    }
+  };
+
+  const handleWeekChange = (value: number) => {
+    const validatedWeek = Math.max(1, Math.min(53, value));
+    setWeek(validatedWeek);
+  };
+
+  const handleDayChange = (value: number) => {
+    const maxDay = getMaxDaysInMonth(year, month);
+    const validatedDay = Math.max(1, Math.min(maxDay, value));
+    setDay(validatedDay);
+  };
+
+  // Fetch trades based on local filter state
+  useEffect(() => {
+    if (filter === "lifetime") {
+      fetchTrades("lifetime", {});
+    } else if (filter === "year") {
+      fetchTrades("year", { year });
+    } else if (filter === "week") {
+      fetchTrades("week", { year, week });
+    } else if (filter === "day") {
+      fetchTrades("day", { year, month, day });
+    }
+  }, [filter, year, month, day, week, fetchTrades]);
 
   const stats = useMemo(() => {
     if (!trades || !trades.length) {
       return null;
     }
     
-    // Explicitly cast the trades data to the corrected Trade[] type
     const typedTrades = trades as Trade[];
 
     const wins = typedTrades.filter(trade => (trade.pnl_amount ?? 0) > 0);
@@ -106,12 +154,13 @@ const Performance = () => {
           return risk !== 0 ? reward / risk : 0;
         })
         .filter(val => typeof val === "number" && isFinite(val) && val > 0);
+
       return riskRewardArray.length ? riskRewardArray.reduce((a, b) => a + b, 0) / riskRewardArray.length : 0;
     })();
 
     const strategyStats = Object.values(
       typedTrades.reduce((acc: Record<string, { name: string, trades: Trade[], wins: number, count: number, profit: number }>, trade: Trade) => {
-        const name = trade.strategy?.name || "Other";
+        const name = (trade.strategy as RelatedObject)?.name || "Other";
         acc[name] = acc[name] || { name, trades: [], wins: 0, count: 0, profit: 0 };
         acc[name].trades.push(trade);
         acc[name].count = acc[name].trades.length;
@@ -284,319 +333,402 @@ const Performance = () => {
     };
   }, [trades]);
 
-  if (!stats) {
-    return <div className={Styles.noTrades}>No trades found for this period.</div>;
-  }
+  const hasData = trades && trades.length > 0;
 
   return (
     <div className={Styles.dashboard}>
       <header className={Styles.header}>
         <h1 className={Styles.title}>Trading Performance</h1>
-        <div className={Styles.summaryCards}>
-          <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
-            <div className={Styles.summaryLabel}>Total Trades</div>
-            <div className={Styles.summaryValue}>{stats.total}</div>
-          </div>
-          <div className={`${Styles.summaryCard} ${stats.winRate >= 50 ? Styles.successCard : Styles.dangerCard}`}>
-            <div className={Styles.summaryLabel}>Win Rate</div>
-            <div className={Styles.summaryValue}>{stats.winRate.toFixed(1)}%</div>
-          </div>
-          <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
-            <div className={Styles.summaryLabel}>Expectancy</div>
-            <div className={Styles.summaryValue}>{formatCurrency(stats.expectancy, 2)}</div>
-          </div>
+        <div className={Styles.dashboardFilters}>
+          <select
+            className={Styles.filterInputs}
+            value={filter}
+            onChange={e => setFilter(e.target.value as 'lifetime' | 'week' | 'year' | 'day')}
+          >
+            {FILTERS.map(f => (
+              <option key={f.value} value={f.value}>{f.label}</option>
+            ))}
+          </select>
+          {(filter === "year" || filter === "week" || filter === "day") && (
+            <input
+              className={Styles.filterInputs}
+              type="number"
+              min={2000}
+              max={2100}
+              value={year}
+              onChange={e => handleYearChange(Number(e.target.value) || getCurrentYear())}
+              onBlur={e => {
+                const value = Number(e.target.value);
+                if (isNaN(value) || value < 2000) handleYearChange(2000);
+                else if (value > 2100) handleYearChange(2100);
+              }}
+              placeholder="Year"
+            />
+          )}
+          {filter === "week" && (
+            <input
+              className={Styles.filterInputs}
+              type="number"
+              min={1}
+              max={53}
+              value={week}
+              onChange={e => handleWeekChange(Number(e.target.value) || 1)}
+              onBlur={e => {
+                const value = Number(e.target.value);
+                if (isNaN(value) || value < 1) handleWeekChange(1);
+                else if (value > 53) handleWeekChange(53);
+              }}
+              placeholder="Week"
+            />
+          )}
+          {filter === "day" && (
+            <>
+              <input
+                className={Styles.filterInputs}
+                type="number"
+                min={1}
+                max={12}
+                value={month}
+                onChange={e => handleMonthChange(Number(e.target.value) || 1)}
+                onBlur={e => {
+                  const value = Number(e.target.value);
+                  if (isNaN(value) || value < 1) handleMonthChange(1);
+                  else if (value > 12) handleMonthChange(12);
+                }}
+                placeholder="Month"
+              />
+              <input
+                className={Styles.filterInputs}
+                type="number"
+                min={1}
+                max={getMaxDaysInMonth(year, month)}
+                value={day}
+                onChange={e => handleDayChange(Number(e.target.value) || 1)}
+                onBlur={e => {
+                  const value = Number(e.target.value);
+                  const maxDay = getMaxDaysInMonth(year, month);
+                  if (isNaN(value) || value < 1) handleDayChange(1);
+                  else if (value > maxDay) handleDayChange(maxDay);
+                }}
+                placeholder="Day"
+              />
+            </>
+          )}
         </div>
+        {hasData ? (
+          <div className={Styles.summaryCards}>
+            <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
+              <div className={Styles.summaryLabel}>Total Trades</div>
+              <div className={Styles.summaryValue}>{stats?.total}</div>
+            </div>
+            <div className={`${Styles.summaryCard} ${stats?.winRate && stats.winRate >= 50 ? Styles.successCard : Styles.dangerCard}`}>
+              <div className={Styles.summaryLabel}>Win Rate</div>
+              <div className={Styles.summaryValue}>{stats?.winRate.toFixed(1)}%</div>
+            </div>
+            <div className={`${Styles.summaryCard} ${Styles.primaryCard}`}>
+              <div className={Styles.summaryLabel}>Expectancy</div>
+              <div className={Styles.summaryValue}>{formatCurrency(stats?.expectancy, 2)}</div>
+            </div>
+          </div>
+        ) : (
+          <div className={Styles.noTrades}>No trades found for this period.</div>
+        )}
       </header>
-      <hr className={Styles.horizontalLine} />
-      <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Key Metrics</h2>
-        <div className={Styles.metricsGrid}>
-          <div className={Styles.metricCard}>
-            <div className={Styles.metricHeader}>
-              <h3>Profit & Loss</h3>
-            </div>
-            <div className={Styles.metricBody}>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Win</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{formatCurrency(stats.averageWin, 2)}</span>
-                </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Loss</span>
-                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{formatCurrency(stats.averageLoss, 2)}</span>
-                </div>
-              </div>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Best Day</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>
-                    {stats.bestDay ? formatCurrency(stats.bestDay.profitLoss) : "--"}
-                  </span>
-                </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Worst Day</span>
-                  <span className={`${Styles.metricValue} ${Styles.negative}`}>
-                    {stats.worstDay ? formatCurrency(stats.worstDay.profitLoss) : "--"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className={Styles.metricCard}>
-            <div className={Styles.metricHeader}>
-              <h3>Streaks</h3>
-            </div>
-            <div className={Styles.metricBody}>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Maximum Consecutive Wins</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maximumConsecutiveWins}</span>
+      {hasData && (
+        <>
+          <hr className={Styles.horizontalLine} />
+          <section className={Styles.section}>
+            <h2 className={Styles.sectionTitle}>Key Metrics</h2>
+            <div className={Styles.metricsGrid}>
+              <div className={Styles.metricCard}>
+                <div className={Styles.metricHeader}>
+                  <h3>Profit & Loss</h3>
                 </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Maximum Consecutive Losses</span>
-                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maximumConsecutiveLosses}</span>
+                <div className={Styles.metricBody}>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Average Win</span>
+                      <span className={`${Styles.metricValue} ${Styles.positive}`}>{formatCurrency(stats?.averageWin, 2)}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Average Loss</span>
+                      <span className={`${Styles.metricValue} ${Styles.negative}`}>{formatCurrency(stats?.averageLoss, 2)}</span>
+                    </div>
+                  </div>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Best Day</span>
+                      <span className={`${Styles.metricValue} ${Styles.positive}`}>
+                        {stats?.bestDay ? formatCurrency(stats.bestDay.profitLoss) : "--"}
+                      </span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Worst Day</span>
+                      <span className={`${Styles.metricValue} ${Styles.negative}`}>
+                        {stats?.worstDay ? formatCurrency(stats.worstDay.profitLoss) : "--"}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Maximum Winning Days</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.maximumConsecutiveWinDays}</span>
-                </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Maximum Losing Days</span>
-                  <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats.maximumConsecutiveLossDays}</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className={Styles.metricCard}>
-            <div className={Styles.metricHeader}>
-              <h3>Activity</h3>
-            </div>
-            <div className={Styles.metricBody}>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Trades Per Day</span>
-                  <span className={Styles.metricValue}>{stats.averageTradesPerDay.toFixed(1)}</span>
+              <div className={Styles.metricCard}>
+                <div className={Styles.metricHeader}>
+                  <h3>Streaks</h3>
                 </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Maximum Trades In A Day</span>
-                  <span className={Styles.metricValue}>{stats.maximumTradesDay}</span>
-                </div>
-              </div>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Single Trade Days</span>
-                  <span className={Styles.metricValue}>{stats.singleTradeDays}</span>
-                </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Overtrading Days</span>
-                  <span className={Styles.metricValue}>{stats.overtradingDays}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <hr className={Styles.horizontalLine} />
-      <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Capital & Risk</h2>
-        <div className={Styles.metricsGrid}>
-          <div className={Styles.metricCard}>
-            <div className={Styles.metricHeader}>
-              <h3>Capital Usage</h3>
-            </div>
-            <div className={Styles.metricBody}>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Maximum Capital</span>
-                  <span className={Styles.metricValue}>{formatCurrency(stats.maximumCapital)}</span>
-                </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Minimum Capital</span>
-                  <span className={Styles.metricValue}>{formatCurrency(stats.minimumCapital)}</span>
+                <div className={Styles.metricBody}>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Maximum Consecutive Wins</span>
+                      <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats?.maximumConsecutiveWins}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Maximum Consecutive Losses</span>
+                      <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats?.maximumConsecutiveLosses}</span>
+                    </div>
+                  </div>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Maximum Winning Days</span>
+                      <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats?.maximumConsecutiveWinDays}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Maximum Losing Days</span>
+                      <span className={`${Styles.metricValue} ${Styles.negative}`}>{stats?.maximumConsecutiveLossDays}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Capital</span>
-                  <span className={Styles.metricValue}>{formatCurrency(stats.averageCapital)}</span>
-                </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Profit/Loss At Maximum Capital</span>
-                  <span className={`${Styles.metricValue} ${stats.capitalProfitLossAtMaximum >= 0 ? Styles.positive : Styles.negative}`}>
-                    {formatCurrency(stats.capitalProfitLossAtMaximum)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className={Styles.metricCard}>
-            <div className={Styles.metricHeader}>
-              <h3>Quantity Analysis</h3>
-            </div>
-            <div className={Styles.metricBody}>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Maximum Quantity</span>
-                  <span className={Styles.metricValue}>{stats.maximumQuantity}</span>
+              <div className={Styles.metricCard}>
+                <div className={Styles.metricHeader}>
+                  <h3>Activity</h3>
                 </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Minimum Quantity</span>
-                  <span className={Styles.metricValue}>{stats.minimumQuantity}</span>
+                <div className={Styles.metricBody}>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Average Trades Per Day</span>
+                      <span className={Styles.metricValue}>{stats?.averageTradesPerDay.toFixed(1)}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Maximum Trades In A Day</span>
+                      <span className={Styles.metricValue}>{stats?.maximumTradesDay}</span>
+                    </div>
+                  </div>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Single Trade Days</span>
+                      <span className={Styles.metricValue}>{stats?.singleTradeDays}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Overtrading Days</span>
+                      <span className={Styles.metricValue}>{stats?.overtradingDays}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Quantity</span>
-                  <span className={Styles.metricValue}>{stats.averageQuantity.toFixed(1)}</span>
+            </div>
+          </section>
+          <hr className={Styles.horizontalLine} />
+          <section className={Styles.section}>
+            <h2 className={Styles.sectionTitle}>Capital & Risk</h2>
+            <div className={Styles.metricsGrid}>
+              <div className={Styles.metricCard}>
+                <div className={Styles.metricHeader}>
+                  <h3>Capital Usage</h3>
                 </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Profit/Loss At Maximum Quantity</span>
-                  <span className={`${Styles.metricValue} ${stats.quantityProfitLossAtMaximum >= 0 ? Styles.positive : Styles.negative}`}>
-                    {formatCurrency(stats.quantityProfitLossAtMaximum)}
-                  </span>
+                <div className={Styles.metricBody}>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Maximum Capital</span>
+                      <span className={Styles.metricValue}>{formatCurrency(stats?.maximumCapital)}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Minimum Capital</span>
+                      <span className={Styles.metricValue}>{formatCurrency(stats?.minimumCapital)}</span>
+                    </div>
+                  </div>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Average Capital</span>
+                      <span className={Styles.metricValue}>{formatCurrency(stats?.averageCapital)}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Profit/Loss At Maximum Capital</span>
+                      <span className={`${Styles.metricValue} ${stats?.capitalProfitLossAtMaximum && stats.capitalProfitLossAtMaximum >= 0 ? Styles.positive : Styles.negative}`}>
+                        {formatCurrency(stats?.capitalProfitLossAtMaximum)}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div className={Styles.metricCard}>
-            <div className={Styles.metricHeader}>
-              <h3>Risk Metrics</h3>
-            </div>
-            <div className={Styles.metricBody}>
-              <div className={Styles.metricRow}>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Average Risk:Reward</span>
-                  <span className={Styles.metricValue}>{stats.averageRiskReward?.toFixed(2) ?? "--"}</span>
+              <div className={Styles.metricCard}>
+                <div className={Styles.metricHeader}>
+                  <h3>Quantity Analysis</h3>
                 </div>
-                <div className={Styles.metricItem}>
-                  <span className={Styles.metricLabel}>Most Profitable Strategy</span>
-                  <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats.mostProfitableStrategyName}</span>
+                <div className={Styles.metricBody}>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Maximum Quantity</span>
+                      <span className={Styles.metricValue}>{stats?.maximumQuantity}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Minimum Quantity</span>
+                      <span className={Styles.metricValue}>{stats?.minimumQuantity}</span>
+                    </div>
+                  </div>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Average Quantity</span>
+                      <span className={Styles.metricValue}>{stats?.averageQuantity.toFixed(1)}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Profit/Loss At Maximum Quantity</span>
+                      <span className={`${Styles.metricValue} ${stats?.quantityProfitLossAtMaximum && stats.quantityProfitLossAtMaximum >= 0 ? Styles.positive : Styles.negative}`}>
+                        {formatCurrency(stats?.quantityProfitLossAtMaximum)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={Styles.metricCard}>
+                <div className={Styles.metricHeader}>
+                  <h3>Risk Metrics</h3>
+                </div>
+                <div className={Styles.metricBody}>
+                  <div className={Styles.metricRow}>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Average Risk:Reward</span>
+                      <span className={Styles.metricValue}>{stats?.averageRiskReward?.toFixed(2) ?? "--"}</span>
+                    </div>
+                    <div className={Styles.metricItem}>
+                      <span className={Styles.metricLabel}>Most Profitable Strategy</span>
+                      <span className={`${Styles.metricValue} ${Styles.positive}`}>{stats?.mostProfitableStrategyName}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <hr className={Styles.horizontalLine} />
-      <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
-        <div className={Styles.doubleColumn}>
-          <div className={Styles.dataCard}>
-            <div className={Styles.dataHeader}>
-              <h3>Symbol Performance</h3>
-            </div>
-            <div className={Styles.dataBody}>
-              <table className={Styles.dataTable}>
-                <thead>
-                  <tr>
-                    <th>Metric</th>
-                    <th>Symbol</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Most Traded</td>
-                    <td>{stats.mostTraded?.symbol ?? "--"}</td>
-                    <td>{stats.mostTraded?.count ?? "--"} trades</td>
-                  </tr>
-                  <tr>
-                    <td>Most Profitable</td>
-                    <td>{stats.mostProfitable?.symbol ?? "--"}</td>
-                    <td className={stats.mostProfitable && stats.mostProfitable.profit >= 0 ? Styles.positive : Styles.negative}>{formatCurrency(stats.mostProfitable?.profit)}</td>
-                  </tr>
-                  <tr>
-                    <td>Least Profitable</td>
-                    <td>{stats.leastProfitable?.symbol ?? "--"}</td>
-                    <td className={stats.leastProfitable && stats.leastProfitable.profit >= 0 ? Styles.positive : Styles.negative}>{formatCurrency(stats.leastProfitable?.profit)}</td>
-                  </tr>
-                  <tr>
-                    <td>Highest Win Rate</td>
-                    <td>{stats.highestWinRate?.symbol ?? "--"}</td>
-                    <td className={stats.highestWinRate && stats.highestWinRate.winRate >= 50 ? Styles.positive : Styles.negative}>{stats.highestWinRate?.winRate.toFixed(1) ?? "--"}%</td>
-                  </tr>
-                  <tr>
-                    <td>Lowest Win Rate</td>
-                    <td>{stats.lowestWinRate?.symbol ?? "--"}</td>
-                    <td className={stats.lowestWinRate && stats.lowestWinRate.winRate >= 50 ? Styles.positive : Styles.negative}>{stats.lowestWinRate?.winRate.toFixed(1) ?? "--"}%</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          </section>
+          <hr className={Styles.horizontalLine} />
+          <section className={Styles.section}>
+            <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
+            <div className={Styles.doubleColumn}>
+              <div className={Styles.dataCard}>
+                <div className={Styles.dataHeader}>
+                  <h3>Symbol Performance</h3>
+                </div>
+                <div className={Styles.dataBody}>
+                  <table className={Styles.dataTable}>
+                    <thead>
+                      <tr>
+                        <th>Metric</th>
+                        <th>Symbol</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Most Traded</td>
+                        <td>{stats?.mostTraded?.symbol ?? "--"}</td>
+                        <td>{stats?.mostTraded?.count ?? "--"} trades</td>
+                      </tr>
+                      <tr>
+                        <td>Most Profitable</td>
+                        <td>{stats?.mostProfitable?.symbol ?? "--"}</td>
+                        <td className={stats?.mostProfitable && stats.mostProfitable.profit >= 0 ? Styles.positive : Styles.negative}>{formatCurrency(stats?.mostProfitable?.profit)}</td>
+                      </tr>
+                      <tr>
+                        <td>Least Profitable</td>
+                        <td>{stats?.leastProfitable?.symbol ?? "--"}</td>
+                        <td className={stats?.leastProfitable && stats.leastProfitable.profit >= 0 ? Styles.positive : Styles.negative}>{formatCurrency(stats?.leastProfitable?.profit)}</td>
+                      </tr>
+                      <tr>
+                        <td>Highest Win Rate</td>
+                        <td>{stats?.highestWinRate?.symbol ?? "--"}</td>
+                        <td className={stats?.highestWinRate && stats.highestWinRate.winRate >= 50 ? Styles.positive : Styles.negative}>{stats?.highestWinRate?.winRate.toFixed(1) ?? "--"}%</td>
+                      </tr>
+                      <tr>
+                        <td>Lowest Win Rate</td>
+                        <td>{stats?.lowestWinRate?.symbol ?? "--"}</td>
+                        <td className={stats?.lowestWinRate && stats.lowestWinRate.winRate >= 50 ? Styles.positive : Styles.negative}>{stats?.lowestWinRate?.winRate.toFixed(1) ?? "--"}%</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-          <div className={Styles.dataCard}>
-            <div className={Styles.dataHeader}>
-              <h3>Strategy Effectiveness</h3>
+              <div className={Styles.dataCard}>
+                <div className={Styles.dataHeader}>
+                  <h3>Strategy Effectiveness</h3>
+                </div>
+                <div className={Styles.dataBody}>
+                  <table className={Styles.dataTable}>
+                    <thead>
+                      <tr>
+                        <th>Strategy</th>
+                        <th>Win Rate</th>
+                        <th>Trades</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stats?.strategyStats.map(({ name, winRate, count }) => (
+                        <tr key={name}>
+                          <td>{name}</td>
+                          <td className={winRate >= 50 ? Styles.positive : Styles.negative}>
+                            {winRate.toFixed(1)}%
+                          </td>
+                          <td>{count}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-            <div className={Styles.dataBody}>
-              <table className={Styles.dataTable}>
-                <thead>
-                  <tr>
-                    <th>Strategy</th>
-                    <th>Win Rate</th>
-                    <th>Trades</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stats.strategyStats.map(({ name, winRate, count }) => (
-                    <tr key={name}>
-                      <td>{name}</td>
-                      <td className={winRate >= 50 ? Styles.positive : Styles.negative}>
-                        {winRate.toFixed(1)}%
-                      </td>
-                      <td>{count}</td>
+          </section>
+          <hr className={Styles.horizontalLine} />
+          <section className={Styles.section}>
+            <h2 className={Styles.sectionTitle}>Weekday Performance</h2>
+            <div className={Styles.fullWidthCard}>
+              <div className={Styles.dataHeader}>
+                <h3>Performance by Day of Week</h3>
+              </div>
+              <div className={Styles.dataBody}>
+                <table className={Styles.dataTable}>
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Trades</th>
+                      <th>Profit/Loss</th>
+                      <th>Win Rate</th>
+                      <th>Average Risk:Reward</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {stats?.weekdayData.map(dayData => (
+                      <tr key={dayData.day}>
+                        <td>{dayData.day}</td>
+                        <td>{dayData.trades}</td>
+                        <td className={dayData.profitLoss >= 0 ? Styles.positive : Styles.negative}>
+                          {formatCurrency(dayData.profitLoss)}
+                        </td>
+                        <td className={dayData.winRate >= 50 ? Styles.positive : Styles.negative}>
+                          {dayData.winRate ? dayData.winRate.toFixed(1) + "%" : "--"}
+                        </td>
+                        <td>{dayData.averageRiskReward ? dayData.averageRiskReward.toFixed(2) : "--"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <hr className={Styles.horizontalLine} />
-      <section className={Styles.section}>
-        <h2 className={Styles.sectionTitle}>Weekday Performance</h2>
-        <div className={Styles.fullWidthCard}>
-          <div className={Styles.dataHeader}>
-            <h3>Performance by Day of Week</h3>
-          </div>
-          <div className={Styles.dataBody}>
-            <table className={Styles.dataTable}>
-              <thead>
-                <tr>
-                  <th>Day</th>
-                  <th>Trades</th>
-                  <th>Profit/Loss</th>
-                  <th>Win Rate</th>
-                  <th>Average Risk:Reward</th>
-                </tr>
-              </thead>
-              <tbody>
-                {stats.weekdayData.map(dayData => (
-                  <tr key={dayData.day}>
-                    <td>{dayData.day}</td>
-                    <td>{dayData.trades}</td>
-                    <td className={dayData.profitLoss >= 0 ? Styles.positive : Styles.negative}>
-                      {formatCurrency(dayData.profitLoss)}
-                    </td>
-                    <td className={dayData.winRate >= 50 ? Styles.positive : Styles.negative}>
-                      {dayData.winRate ? dayData.winRate.toFixed(1) + "%" : "--"}
-                    </td>
-                    <td>{dayData.averageRiskReward ? dayData.averageRiskReward.toFixed(2) : "--"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+          </section>
+        </>
+      )}
     </div>
   );
 };
