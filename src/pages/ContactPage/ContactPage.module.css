@@ -82,9 +82,8 @@
 .input {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #ccc;
+  border: .5px solid var(--primary-text);
   border-radius: 8px;
-  background-color: #f0f0f0;
   font-size: 16px;
   color: var(--primary-dark-text);
   transition: all 0.2s ease-in-out;
