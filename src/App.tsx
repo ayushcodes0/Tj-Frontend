@@ -15,6 +15,7 @@ import Psychology from "./components/Psychology/Psychology";
 import Risk from "./components/Risk/Risk";
 import Calendar from "./components/Calendar/Calendar";
 import AuthSuccess from "./components/Auth/AuthSuccess";
+import ContactPage from "./pages/ContactPage/ContactPage";
 
 
 const App = () => (
@@ -25,6 +26,7 @@ const App = () => (
       <Route path="/register" element={<RequireGuest><Register /></RequireGuest>} />
       <Route path="/auth-success" element={<AuthSuccess />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/contact" element={<ContactPage />} />
       <Route
         path="/dashboard"
         element={<RequirePro><DashboardLayout /></RequirePro>}
