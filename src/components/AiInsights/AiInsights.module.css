@@ -214,7 +214,7 @@
 .adviceIcon { color: #4338ca; }
 
 
-@media (max-width: 768px) {
+@media (max-width: 867px) {
   .container {
     padding: 0 16px;
   }
