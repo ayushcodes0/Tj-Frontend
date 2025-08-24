@@ -46,6 +46,7 @@
   max-width: 600px;
   margin-top: 15px;
   opacity: 0.8;
+  color: var(--primary-text);
 }
 
 .contactFormContainer {
@@ -189,4 +190,17 @@
 .footerContainer{
     background-color: #18172B;
     padding: 0 64px;
+}
+
+
+@media (max-width: 885px){
+    .footerContainer, .navbarContainer{
+        padding: 0 20px;
+    }
+    .contentWrapper{
+        padding: 40px 20px;
+    }
+    .contactFormContainer{
+        padding: 24px;
+    }
 }
