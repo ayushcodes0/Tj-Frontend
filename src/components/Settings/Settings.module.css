@@ -138,7 +138,7 @@
 
 .dataBody {
   padding: 0;
-  overflow-x: auto; /* Apply overflow here to enable scrolling on small screens */
+  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
 
