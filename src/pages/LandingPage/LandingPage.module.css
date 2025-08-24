@@ -147,7 +147,7 @@
     font-size: 28px;
     font-weight: 700;
     color: var(--primary-text);
-    opacity: .7;
+    opacity: .9;
 }
 
 .bottomSubHeading {
@@ -447,9 +447,6 @@
 }
 
 @media (max-width: 699px){
-    .heroSectionLeft{
-        justify-content: start;
-    }
     .stats{
         display: none;
     }
