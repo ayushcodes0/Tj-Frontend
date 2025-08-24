@@ -68,24 +68,22 @@
     font-weight: 500;
     cursor: pointer;
     transition: all ease .3s;
-    display: inline-block;
-    color: var(--primary-dark-text);
-}
-
-/* .planeImage{
-    position: absolute;
-    top: 15px;
-    right: -130px;
-} */
-
-.bottomImage{
-    height: 15vw;
 }
 
 @media(max-width: 1450px){
     .heading{
         font-size: 52px;
     }
+}
+
+.planeImage{
+    position: absolute;
+    top: 15px;
+    right: -130px;
+}
+
+.bottomImage{
+    height: 15vw;
 }
 
 @media(max-width: 1200px){
