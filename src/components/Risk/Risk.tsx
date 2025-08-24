@@ -1,17 +1,20 @@
 import { useMemo } from "react";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Risk.module.css";
+import type { Trade } from "../../context/TradeContext"; // Assuming Trade type is exported from here
 
 // Formats currency with proper symbol and localization
-const fmtC = (num: number, d: number = 0) =>
+const fmtC = (num: number | null, d: number = 0): string =>
   typeof num === "number"
     ? "₹" + num.toLocaleString(undefined, { maximumFractionDigits: d })
     : "--";
 
 // Formats Risk:Reward ratio
-function prettyRiskReward(r: number) {
-  if (!r || !isFinite(r)) return "--";
-  return `1:${Math.max(r, 0.1).toFixed(2)}`;
+function prettyRiskReward(r: number | null): string {
+  if (r === null || !isFinite(r)) {
+    return "--";
+  }
+  return `1:${Math.max(r, 0).toFixed(2)}`;
 }
 
 const Risk = () => {
@@ -20,27 +23,30 @@ const Risk = () => {
   const stats = useMemo(() => {
     if (!trades || !trades.length) return null;
 
-    type RRStat = { ratio: number; label: string; trade: typeof trades[number] };
+    type RRStat = { ratio: number; trade: Trade };
 
     const rrList: RRStat[] = trades
-      .map(trade => {
+      .map((trade: Trade) => {
         if (
           typeof trade.entry_price === "number" &&
           typeof trade.stop_loss === "number" &&
           trade.stop_loss !== trade.entry_price
         ) {
           const risk = Math.abs(trade.entry_price - trade.stop_loss);
-          const reward = Math.abs((trade.exit_price ?? trade.entry_price) - trade.entry_price);
-          if (!risk || !isFinite(risk) || reward < 0) return undefined; // Filter out invalid risk or negative reward
+          const reward = typeof trade.exit_price === "number" ? Math.abs(trade.exit_price - trade.entry_price) : null;
+          
+          if (reward === null || !isFinite(risk) || risk === 0) {
+            return undefined; // Filter out trades with invalid data
+          }
+
           return {
             ratio: reward / risk,
-            label: `1:${(reward / risk).toFixed(2)}`,
             trade,
           };
         }
         return undefined;
       })
-      .filter((rr): rr is RRStat => !!rr && isFinite(rr.ratio)); 
+      .filter((rr): rr is RRStat => !!rr && isFinite(rr.ratio));
 
     const avgRR = rrList.length
       ? rrList.reduce((a, b) => a + b.ratio, 0) / rrList.length
@@ -58,8 +64,10 @@ const Risk = () => {
     const worstRR = rrList.length ? rrList.reduce((min, t) => (t.ratio < min.ratio ? t : min), rrList[0]) : null;
 
     const riskAmounts = trades
-      .map(trade =>
-        typeof trade.entry_price === "number" && typeof trade.stop_loss === "number" && typeof trade.quantity === "number"
+      .map((trade: Trade) =>
+        typeof trade.entry_price === "number" &&
+        typeof trade.stop_loss === "number" &&
+        typeof trade.quantity === "number"
           ? Math.abs(trade.entry_price - trade.stop_loss) * trade.quantity
           : null
       )
@@ -70,7 +78,7 @@ const Risk = () => {
     const minRiskAmt = riskAmounts.length ? Math.min(...riskAmounts) : null;
 
     const riskPercents = trades
-      .map(trade => {
+      .map((trade: Trade) => {
         if (
           typeof trade.entry_price === "number" &&
           typeof trade.stop_loss === "number" &&
@@ -89,17 +97,16 @@ const Risk = () => {
       ? riskPercents.reduce((a, b) => a + b, 0) / riskPercents.length
       : null;
 
-    const breaches = trades.filter(trade => {
+    const breaches = trades.filter((trade: Trade) => {
       if (
         typeof trade.entry_price === "number" &&
         typeof trade.stop_loss === "number" &&
         typeof trade.quantity === "number" &&
-        typeof trade.total_amount === "number" &&
         typeof trade.pnl_amount === "number" &&
-        trade.total_amount > 0
+        trade.pnl_amount < 0
       ) {
         const maxRisk = Math.abs(trade.entry_price - trade.stop_loss) * trade.quantity;
-        return trade.pnl_amount < 0 && Math.abs(trade.pnl_amount) > maxRisk * 1.05;
+        return maxRisk > 0 && Math.abs(trade.pnl_amount) > maxRisk * 1.05;
       }
       return false;
     });
@@ -130,7 +137,7 @@ const Risk = () => {
       minRiskAmt,
       avgRiskPct,
       breachCount: breaches.length,
-      breachPercent: trades.length ? (breaches.length / trades.length) * 100 : 0,
+      breachPercent: trades.length > 0 ? (breaches.length / trades.length) * 100 : 0,
       rrBySymbolSorted,
     };
   }, [trades]);
