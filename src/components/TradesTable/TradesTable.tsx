@@ -1,6 +1,7 @@
 import { SlOptions } from "react-icons/sl";
 import Styles from "./TradesTable.module.css";
 
+// Define the TradeRow interface for clarity and type-safety
 export interface TradeRow {
   _id: string;
   date: string;
@@ -16,26 +17,39 @@ export interface TradeRow {
   outcome_summary?: { _id: string, name: string } | string;
 }
 
-function msToDate(input: string) {
+// Function to format milliseconds to a human-readable date
+function msToDate(input: string): string {
   const d = new Date(input);
   return !isNaN(d.getTime())
     ? d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
     : '-';
 }
 
-// Risk/reward calculator
-function riskReward(entry: number, stop?: number, target?: number) {
-  if (!stop || !target) return '-';
+// Risk/reward calculator with the requested 1:X format
+function riskReward(entry: number, stop?: number, target?: number): string {
+  if (stop === undefined || target === undefined) {
+    return '-';
+  }
+  
   const risk = Math.abs(entry - stop);
   const reward = Math.abs(target - entry);
-  if (risk === 0) return '-';
-  return (reward / risk).toFixed(2);
+  
+  if (risk === 0) {
+    return '1:∞'; // Handle division by zero
+  }
+
+  const ratio = (reward / risk).toFixed(2);
+  return `1:${ratio}`;
 }
 
-// Helper for outcome/strategy
-function getName(val: undefined | null | { name?: string } | string) {
-  if (!val) return '-';
-  if (typeof val === 'string') return val;
+// Helper for outcome/strategy name extraction
+function getName(val: undefined | null | { name?: string } | string): string {
+  if (val === undefined || val === null) {
+    return '-';
+  }
+  if (typeof val === 'string') {
+    return val;
+  }
   return val.name || '-';
 }
 

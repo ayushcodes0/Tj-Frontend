@@ -4,6 +4,7 @@ import TradesTable from "../../components/TradesTable/TradesTable";
 import Styles from "./Trades.module.css";
 import { GrPrevious, GrNext } from "react-icons/gr";
 
+
 const Pagination = ({
   page,
   totalPages,
@@ -44,6 +45,7 @@ const Trades = () => {
     fetchTrades("lifetime", { page, limit: PAGE_SIZE });
   }, [fetchTrades, page]);
 
+  // Transformed trades with null coalescing for display
   const transformedTrades =
     trades?.map(trade => ({
       ...trade,
