@@ -27,41 +27,41 @@ import MacBookMockup from '../../components/MacbookMockup/MacbookMockup';
 import IphoneMockup from '../../components/IphoneMockup/IphoneMockup';
 
 // Animation variants
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
-};
+// const containerVariants: Variants = {
+//   hidden: { opacity: 0 },
+//   visible: {
+//     opacity: 1,
+//     transition: {
+//       when: "beforeChildren",
+//       staggerChildren: 0.1,
+//       delayChildren: 0.2
+//     }
+//   }
+// };
 
-const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      ease: [0.16, 0.77, 0.47, 0.97],
-      duration: 0.6
-    }
-  }
-};
+// const fadeUpItem: Variants = {
+//   hidden: { opacity: 0, y: 20 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       ease: [0.16, 0.77, 0.47, 0.97],
+//       duration: 0.6
+//     }
+//   }
+// };
 
-const fadeUpItemFast: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      ease: "easeOut",
-      duration: 0.4
-    }
-  }
-};
+// const fadeUpItemFast: Variants = {
+//   hidden: { opacity: 0, y: 10 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       ease: "easeOut",
+//       duration: 0.4
+//     }
+//   }
+// };
 
 // const fadeInUp: Variants = {
 //   hidden: { opacity: 0, y: 20 },
@@ -120,16 +120,16 @@ const imageRotate: Variants = {
   }
 };
 
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.1
-    }
-  }
-};
+// const staggerContainer: Variants = {
+//   hidden: { opacity: 0 },
+//   visible: {
+//     opacity: 1,
+//     transition: {
+//       when: "beforeChildren",
+//       staggerChildren: 0.1
+//     }
+//   }
+// };
 
 const LandingPage = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
@@ -324,155 +324,90 @@ const LandingPage = () => {
         </div>
         <div className={Styles.heroSection} ref={ref}>
           <div className={Styles.heroSectionLeft}>
-            <motion.div 
-              className={Styles.mainHeading}
-              initial="hidden"
-              animate={controls}
-              variants={containerVariants}
-            >
-              {/* Main Headline with animation */}
-              <motion.h1 
-                className={Styles.topHeading}
-                variants={fadeUpItem}
-                custom={0}
-              >
+            {/* Remove motion component and variants from the main heading div */}
+            <div className={Styles.mainHeading}>
+              {/* Main Headline without animation */}
+              <h1 className={Styles.topHeading}>
                 Money works <br />better here.
-              </motion.h1>
+              </h1>
               
-              <motion.div 
-                className={Styles.middleHeading}
-                variants={staggerContainer}
-              >
-                {/* Feature 1 */}
-                <motion.div 
-                  className={Styles.middleHeadingLeft}
-                  variants={fadeUpItem}
-                  custom={1}
-                >
+              {/* Remove motion from middleHeading */}
+              <div className={Styles.middleHeading}>
+                {/* Feature 1 - remove motion */}
+                <div className={Styles.middleHeadingLeft}>
                   <div className={Styles.middleHeadingIcon}>
                     <IoNewspaperOutline className={Styles.folderIcon} />
                   </div>
                   <div className={Styles.middleHeadingText}>
                     <p className={Styles.middleSubHeading}>Log every detail, effortlessly.</p>
-                    {/* <p className={Styles.middleSubText}>Capture your setups, emotions, and outcomes in seconds.</p> */}
                   </div>
-                </motion.div>
+                </div>
                 
-                {/* Feature 2 */}
-                <motion.div 
-                  className={Styles.middleHeadingRight}
-                  variants={fadeUpItem}
-                  custom={1.2}
-                >
+                {/* Feature 2 - remove motion */}
+                <div className={Styles.middleHeadingRight}>
                   <div className={Styles.middleHeadingIcon}>
                     <HiOutlineTrendingUp className={Styles.folderIcon} />
                   </div>
                   <p className={Styles.middleSubHeading}>Discover your winning patterns.</p>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
               
-              {/* Call to Action */}
-              <motion.div 
-                className={Styles.ctaContainer}
-                variants={fadeUpItem}
-                custom={1.4}
-              >
+              {/* Call to Action - remove motion */}
+              <div className={Styles.ctaContainer}>
                 <div className={Styles.ctaButton}>
                   <NavLink to={"/register"} ><FilledButton text='Start free' /></NavLink>
                 </div>
-                <motion.p 
-                  className={Styles.ctaText}
-                  variants={fadeUpItemFast}
-                  custom={1.5}
-                >
+                {/* Remove motion from ctaText */}
+                <p className={Styles.ctaText}>
                   *It will be free for first 24 hours.
-                </motion.p>
-              </motion.div>
-            </motion.div>
+                </p>
+              </div>
+            </div>
             
-            {/* Secondary Benefits */}
-            <motion.div 
-              className={Styles.headingBottom}
-              initial="hidden"
-              animate={controls}
-              variants={staggerContainer}
-            >
-              <motion.div 
-                className={Styles.bottomLeft}
-                variants={fadeUpItem}
-                custom={1.6}
-              >
+            {/* Secondary Benefits - remove motion */}
+            <div className={Styles.headingBottom}>
+              {/* Remove motion from child divs */}
+              <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>AI Insights</p>
                 <p className={Styles.bottomSubHeading}>Receive actionable, AI-powered feedback on every trade.</p>
-              </motion.div>
+              </div>
               
-              <motion.div 
-                className={Styles.bottomRight}
-                variants={fadeUpItem}
-                custom={1.8}
-              >
+              <div className={Styles.bottomRight}>
                 <p className={Styles.bottomHeading}>Psychology</p>
                 <p className={Styles.bottomSubHeading}>Track your emotional state to conquer fear and greed.</p>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
             
-            {/* Social Proof / Key Stats */}
-            <motion.div 
-              className={Styles.stats}
-              initial="hidden"
-              animate={controls}
-              variants={staggerContainer}
-            >
-              <motion.div 
-                className={Styles.rightBottom}
-                variants={fadeUpItem}
-                custom={2}
-              >
-                <motion.div 
-                  className={Styles.bottomLeft}
-                  variants={fadeUpItemFast}
-                  custom={2.1}
-                >
+            {/* Social Proof / Key Stats - remove motion */}
+            <div className={Styles.stats}>
+              {/* Remove motion from child divs */}
+              <div className={Styles.rightBottom}>
+                <div className={Styles.bottomLeft}>
                   <p className={Styles.bottomHeading}>30+</p>
                   <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
-                </motion.div>
-                <motion.div 
-                  className={Styles.bottomLeft}
-                  variants={fadeUpItemFast}
-                  custom={2.2}
-                >
+                </div>
+                <div className={Styles.bottomLeft}>
                   <p className={Styles.bottomHeading}>9/10</p>
                   <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
-                </motion.div>
-                <motion.div 
-                  className={Styles.bottomLeft}
-                  variants={fadeUpItemFast}
-                  custom={2.3}
-                >
+                </div>
+                <div className={Styles.bottomLeft}>
                   <p className={Styles.bottomHeading}>5</p>
                   <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
-                </motion.div>
-                <motion.div 
-                  className={Styles.bottomLeft}
-                  variants={fadeUpItemFast}
-                  custom={2.4}
-                >
+                </div>
+                <div className={Styles.bottomLeft}>
                   <p className={Styles.bottomHeading}>100%</p>
                   <p className={Styles.bottomSubHeading}>Secure & Private</p>
-                </motion.div>
-              </motion.div>
-            </motion.div>
+                </div>
+              </div>
+            </div>
           </div>
           
-          <motion.div 
-            className={Styles.heroSectionRight}
-            initial="hidden"
-            animate={controls}
-            variants={{}}
-          >
+          <div className={Styles.heroSectionRight}>
             <motion.div 
               className={Styles.heroSectionImageContainer}
               variants={imageRotate}
+              initial="hidden"
+              animate="visible"
             >
               <img 
                 src={HeroSectionImage} 
@@ -481,47 +416,27 @@ const LandingPage = () => {
               />
             </motion.div>
             
-            {/* Mobile-only Stats */}
-            <motion.div 
-              className={Styles.rightBottom}
-              initial="hidden"
-              animate={controls}
-              variants={staggerContainer}
-            >
-              <motion.div 
-                className={Styles.bottomLeft}
-                variants={fadeUpItemFast}
-                custom={0.5}
-              >
+            {/* Mobile-only Stats - remove motion */}
+            <div className={Styles.rightBottom}>
+              {/* Remove motion from child divs */}
+              <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>30+</p>
                 <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
-              </motion.div>
-              <motion.div 
-                className={Styles.bottomLeft}
-                variants={fadeUpItemFast}
-                custom={0.6}
-              >
+              </div>
+              <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>9/10</p>
                 <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
-              </motion.div>
-              <motion.div 
-                className={Styles.bottomLeft}
-                variants={fadeUpItemFast}
-                custom={0.7}
-              >
+              </div>
+              <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>5</p>
                 <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
-              </motion.div>
-              <motion.div 
-                className={Styles.bottomLeft}
-                variants={fadeUpItemFast}
-                custom={0.8}
-              >
+              </div>
+              <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>100%</p>
                 <p className={Styles.bottomSubHeading}>Secure & Private</p>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
