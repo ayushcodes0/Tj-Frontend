@@ -2,41 +2,49 @@ import { useMemo } from "react";
 import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Psychology.module.css";
 
+// Define a type for the related data objects
+interface RelatedObject {
+  _id: string;
+  name: string;
+}
+
 const Psychology = () => {
   const { trades } = useTrades();
 
   const stats = useMemo(() => {
-    if (!trades || !trades.length) return null;
+    if (!trades || !trades.length) {
+      return null;
+    }
 
     // Confidence levels
-    const confidenceArr = trades
+    const confidenceArr: number[] = trades
       .map(t => t.psychology?.entry_confidence_level)
       .filter((n): n is number => typeof n === "number" && !isNaN(n));
-    const avgConfidence = confidenceArr.length
+    const avgConfidence: number | null = confidenceArr.length
       ? confidenceArr.reduce((a, b) => a + b, 0) / confidenceArr.length
       : null;
 
     // Satisfaction
-    const satisfactionArr = trades
+    const satisfactionArr: number[] = trades
       .map(t => t.psychology?.satisfaction_rating)
       .filter((n): n is number => typeof n === "number" && !isNaN(n));
-    const avgSatisfaction = satisfactionArr.length
+    const avgSatisfaction: number | null = satisfactionArr.length
       ? satisfactionArr.reduce((a, b) => a + b, 0) / satisfactionArr.length
       : null;
 
     // Emotional states
     const emotionMap: Record<string, number> = {};
     trades.forEach(t => {
-      const name = t.psychology?.emotional_state?.name;
+      const name = (t.psychology?.emotional_state as RelatedObject)?.name;
       if (name) {
         emotionMap[name] = (emotionMap[name] ?? 0) + 1;
       }
     });
-    const topEmotions = Object.entries(emotionMap)
+    const topEmotions: [string, number][] = Object.entries(emotionMap)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3);
-    const mostCommonEmotion = topEmotions[0]?.[0] ?? null;
-    const emotionCount = Object.values(emotionMap).reduce((a, b) => a + b, 0);
+    const mostCommonEmotion: string | null = topEmotions[0]?.[0] ?? null;
+    const emotionCount: number = Object.values(emotionMap).reduce((a, b) => a + b, 0);
 
     // Mistakes
     const mistakeMap: Record<string, number> = {};
@@ -45,10 +53,10 @@ const Psychology = () => {
         mistakeMap[m] = (mistakeMap[m] ?? 0) + 1;
       });
     });
-    const sortedMistakes = Object.entries(mistakeMap).sort((a, b) => b[1] - a[1]);
-    const topMistake = sortedMistakes[0]?.[0] ?? null;
-    const mistakeCount = trades.filter(t => t.psychology?.mistakes_made?.length).length;
-    const mistakePercent = trades.length ? (mistakeCount / trades.length) * 100 : 0;
+    const sortedMistakes: [string, number][] = Object.entries(mistakeMap).sort((a, b) => b[1] - a[1]);
+    const topMistake: string | null = sortedMistakes[0]?.[0] ?? null;
+    const mistakeCount: number = trades.filter(t => t.psychology?.mistakes_made?.length).length;
+    const mistakePercent: number = trades.length ? (mistakeCount / trades.length) * 100 : 0;
 
     // Lessons
     const lessonsFreq: Record<string, number> = {};
@@ -56,8 +64,8 @@ const Psychology = () => {
       const lesson = t.psychology?.lessons_learned?.trim();
       if (lesson) lessonsFreq[lesson] = (lessonsFreq[lesson] ?? 0) + 1;
     });
-    const lessonsSorted = Object.entries(lessonsFreq).sort((a, b) => b[1] - a[1]);
-    const mostCommonLesson = lessonsSorted[0]?.[0] ?? null;
+    const lessonsSorted: [string, number][] = Object.entries(lessonsFreq).sort((a, b) => b[1] - a[1]);
+    const mostCommonLesson: string | null = lessonsSorted[0]?.[0] ?? null;
 
     return {
       avgConfidence,
