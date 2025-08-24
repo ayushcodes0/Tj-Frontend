@@ -81,7 +81,7 @@ const AiInsights = () => {
 
 
     try {
-      const response = await fetch('http://localhost:5000/api/ai/analyze', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/ai/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ trades: filteredTrades }),
