@@ -296,7 +296,7 @@ const Dashboard = () => {
         )}
       </div>
 
-      {loading && <div style={{ fontSize: 18, marginLeft: 10, marginTop: 20 }}>Loading dashboard...</div>}
+      {loading && <div className={Styles.noTradesFound} style={{ fontSize: 18, marginLeft: 10, marginTop: 20 }}>Loading dashboard...</div>}
       {(!trades || trades.length === 0) && !loading && (
         <div className={Styles.noTradesFound} style={{ fontSize: 18, marginLeft: 10, marginTop: 20 }}>No trades found for this period.</div>
       )}
