@@ -340,80 +340,85 @@ const Performance = () => {
       <header className={Styles.header}>
         <h1 className={Styles.title}>Trading Performance</h1>
         <div className={Styles.dashboardFilters}>
-          <select
-            className={Styles.filterInputs}
-            value={filter}
-            onChange={e => setFilter(e.target.value as 'lifetime' | 'week' | 'year' | 'day')}
-          >
-            {FILTERS.map(f => (
-              <option key={f.value} value={f.value}>{f.label}</option>
-            ))}
-          </select>
-          {(filter === "year" || filter === "week" || filter === "day") && (
-            <input
-              className={Styles.filterInputs}
-              type="number"
-              min={2000}
-              max={2100}
-              value={year}
-              onChange={e => handleYearChange(Number(e.target.value) || getCurrentYear())}
-              onBlur={e => {
-                const value = Number(e.target.value);
-                if (isNaN(value) || value < 2000) handleYearChange(2000);
-                else if (value > 2100) handleYearChange(2100);
-              }}
-              placeholder="Year"
-            />
-          )}
-          {filter === "week" && (
-            <input
-              className={Styles.filterInputs}
-              type="number"
-              min={1}
-              max={53}
-              value={week}
-              onChange={e => handleWeekChange(Number(e.target.value) || 1)}
-              onBlur={e => {
-                const value = Number(e.target.value);
-                if (isNaN(value) || value < 1) handleWeekChange(1);
-                else if (value > 53) handleWeekChange(53);
-              }}
-              placeholder="Week"
-            />
-          )}
-          {filter === "day" && (
-            <>
+          <div className={Styles.filterSelectRow}>
+            <select
+              className={Styles.filterSelect}
+              value={filter}
+              onChange={e => setFilter(e.target.value as 'lifetime' | 'week' | 'year' | 'day')}
+            >
+              {FILTERS.map(f => (
+                <option key={f.value} value={f.value}>{f.label}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div className={Styles.filterInputsRow}>
+            {(filter === "year" || filter === "week" || filter === "day") && (
               <input
-                className={Styles.filterInputs}
+                className={Styles.filterInput}
                 type="number"
-                min={1}
-                max={12}
-                value={month}
-                onChange={e => handleMonthChange(Number(e.target.value) || 1)}
+                min={2000}
+                max={2100}
+                value={year}
+                onChange={e => handleYearChange(Number(e.target.value) || getCurrentYear())}
                 onBlur={e => {
                   const value = Number(e.target.value);
-                  if (isNaN(value) || value < 1) handleMonthChange(1);
-                  else if (value > 12) handleMonthChange(12);
+                  if (isNaN(value) || value < 2000) handleYearChange(2000);
+                  else if (value > 2100) handleYearChange(2100);
                 }}
-                placeholder="Month"
+                placeholder="Year"
               />
+            )}
+            {filter === "week" && (
               <input
-                className={Styles.filterInputs}
+                className={Styles.filterInput}
                 type="number"
                 min={1}
-                max={getMaxDaysInMonth(year, month)}
-                value={day}
-                onChange={e => handleDayChange(Number(e.target.value) || 1)}
+                max={53}
+                value={week}
+                onChange={e => handleWeekChange(Number(e.target.value) || 1)}
                 onBlur={e => {
                   const value = Number(e.target.value);
-                  const maxDay = getMaxDaysInMonth(year, month);
-                  if (isNaN(value) || value < 1) handleDayChange(1);
-                  else if (value > maxDay) handleDayChange(maxDay);
+                  if (isNaN(value) || value < 1) handleWeekChange(1);
+                  else if (value > 53) handleWeekChange(53);
                 }}
-                placeholder="Day"
+                placeholder="Week"
               />
-            </>
-          )}
+            )}
+            {filter === "day" && (
+              <>
+                <input
+                  className={Styles.filterInput}
+                  type="number"
+                  min={1}
+                  max={12}
+                  value={month}
+                  onChange={e => handleMonthChange(Number(e.target.value) || 1)}
+                  onBlur={e => {
+                    const value = Number(e.target.value);
+                    if (isNaN(value) || value < 1) handleMonthChange(1);
+                    else if (value > 12) handleMonthChange(12);
+                  }}
+                  placeholder="Month"
+                />
+                <input
+                  className={Styles.filterInput}
+                  type="number"
+                  min={1}
+                  max={getMaxDaysInMonth(year, month)}
+                  value={day}
+                  onChange={e => handleDayChange(Number(e.target.value) || 1)}
+                  onBlur={e => {
+                    const value = Number(e.target.value);
+                    const maxDay = getMaxDaysInMonth(year, month);
+                    if (isNaN(value) || value < 1) handleDayChange(1);
+                    else if (value > maxDay) handleDayChange(maxDay);
+                  }}
+                  placeholder="Day"
+                />
+              </>
+            )}
+          </div>
         </div>
         {hasData ? (
           <div className={Styles.summaryCards}>
@@ -437,6 +442,7 @@ const Performance = () => {
 
       {hasData && (
         <>
+          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Key Metrics</h2>
             <div className={Styles.metricsGrid}>
@@ -529,6 +535,7 @@ const Performance = () => {
               </div>
             </div>
           </section>
+          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Capital & Risk</h2>
             <div className={Styles.metricsGrid}>
@@ -611,6 +618,7 @@ const Performance = () => {
               </div>
             </div>
           </section>
+          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
             <div className={Styles.doubleColumn}>
@@ -687,6 +695,7 @@ const Performance = () => {
               </div>
             </div>
           </section>
+          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Weekday Performance</h2>
             <div className={Styles.fullWidthCard}>
