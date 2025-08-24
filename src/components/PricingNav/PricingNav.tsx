@@ -139,6 +139,7 @@ const PricingNav = () => {
       <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
       
       <div className={Styles.navLinks}>
+        <a href="/" className={Styles.navLink}>Home</a>
         <a href="#pricing" className={Styles.navLink}>Pricing</a>
         <a href="#faqs" className={Styles.navLink}>Faqs</a>
       </div>
@@ -169,10 +170,9 @@ const PricingNav = () => {
       
       <div className={`${Styles.mobileMenuContainer} ${isMenuOpen ? Styles.mobileMenuOpen : ''}`}>
         <div className={Styles.mobileNavLinks}>
-          <a href="#home" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Home</a>
-          <a href="#about" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>About</a>
-          <a href="#services" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Services</a>
-          <a href="#contact" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Contact</a>
+          <a href="/" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Home</a>
+          <a href="#pricing" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Pricing</a>
+          <a href="#faqs" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Faqs</a>
         </div>
         
         <div className={Styles.mobileButtons}>
