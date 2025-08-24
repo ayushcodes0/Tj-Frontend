@@ -57,7 +57,7 @@ const TradePopup = ({
             </span>
           </div>
         </div>
-        <div className={Styles.popupTradeList}>
+        <div className={Styles.popupTradeListScrollable}> {/* Changed class here */}
           {trades.map(trade => (
             <div key={trade._id} className={Styles.popupTradeCard}>
               <div className={Styles.tradeTopRow}>
