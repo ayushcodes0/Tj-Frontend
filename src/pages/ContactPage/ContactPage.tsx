@@ -65,7 +65,7 @@ const ContactPage = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formData.fullName || !formData.email || !formData.message) {
@@ -77,20 +77,49 @@ const ContactPage = () => {
       return;
     }
 
-    console.log('Form Submitted:', formData);
-    
+    // Indicate that the form is being submitted
     setFormStatus({
-      sent: true,
+      sent: false,
       error: false,
-      message: 'Your message has been sent successfully!'
+      message: 'Sending...'
     });
 
-    setFormData({
-      fullName: '',
-      email: '',
-      message: ''
-    });
+    try {
+      const apiUrl = `${import.meta.env.VITE_API_URL}/contact`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
+      const result = await response.json();
+
+      if (response.ok && result.status === 'success') {
+        setFormStatus({
+          sent: true,
+          error: false,
+          message: result.message
+        });
+        setFormData({ fullName: '', email: '', message: '' });
+      } else {
+        setFormStatus({
+          sent: false,
+          error: true,
+          message: result.message || 'Failed to send message. Please try again later.'
+        });
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setFormStatus({
+        sent: false,
+        error: true,
+        message: 'An unexpected error occurred. Please try again later.'
+      });
+    }
+
+    // Reset the status message after a few seconds
     setTimeout(() => {
       setFormStatus({ sent: false, error: false, message: '' });
     }, 5000);
