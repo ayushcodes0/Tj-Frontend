@@ -193,6 +193,8 @@
 
 .dataBody {
   padding: 0;
+  /* Key change to fix scrolling */
+  overflow-x: auto;
 }
 
 .dataTable {
@@ -200,6 +202,8 @@
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
+  /* Add a minimum width to ensure horizontal scrolling is possible */
+  min-width: 600px;
 }
 
 .dataTable th {
