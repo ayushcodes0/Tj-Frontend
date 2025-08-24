@@ -25,8 +25,6 @@ const Footer = () => {
             <p className={Styles.footerItemsHead}>Product</p>
             <Link to="/login" className={Styles.footerItemsText}>Dashboard</Link>
             <Link to="/login" className={Styles.footerItemsText}>AI Insights</Link>
-            <Link to="/login" className={Styles.footerItemsText}>Psychology Tracking</Link>
-            <Link to="/login" className={Styles.footerItemsText}>Pricing</Link>
           </div>
           <div className={Styles.footerItems}>
             <p className={Styles.footerItemsHead}>Company</p>
