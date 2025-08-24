@@ -142,9 +142,6 @@
   -webkit-overflow-scrolling: touch;
 }
 
-
-
-
 .scrollableTable::-webkit-scrollbar {
   height: 6px;
 }
