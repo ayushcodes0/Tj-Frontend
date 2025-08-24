@@ -47,60 +47,66 @@ const TradePopup = ({
           <div className={Styles.popupMiniCard}>
             <span className={Styles.popupMiniCardLabel}>Best</span>
             <span className={Styles.popupMiniCardValueGreen}>
-              {bestTrade ? `₹${bestTrade.pnl_amount}` : "--"}
+              {bestTrade ? `₹${bestTrade.pnl_amount?.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : "--"}
             </span>
           </div>
           <div className={Styles.popupMiniCard}>
             <span className={Styles.popupMiniCardLabel}>Worst</span>
             <span className={Styles.popupMiniCardValueRed}>
-              {worstTrade ? `₹${worstTrade.pnl_amount}` : "--"}
+              {worstTrade ? `₹${worstTrade.pnl_amount?.toLocaleString(undefined, { maximumFractionDigits: 2 })}` : "--"}
             </span>
           </div>
         </div>
-        <div className={Styles.popupTradeListScrollable}> {/* Changed class here */}
-          {trades.map(trade => (
-            <div key={trade._id} className={Styles.popupTradeCard}>
-              <div className={Styles.tradeTopRow}>
-                <span className={Styles.tradeSymbol}>{trade.symbol}</span>
-                <span className={trade.direction === "Long"
-                  ? Styles.tradeDirectionLong
-                  : Styles.tradeDirectionShort}>
-                  {trade.direction}
-                </span>
-                <span className={Styles.tradeDate}>
-                  {new Date(trade.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </span>
-              </div>
-              <div className={Styles.tradeDetailsGrid}>
-                <div className={Styles.tradeDetails}>
-                  <span className={Styles.detailLabel}>P&L</span>
-                  <span
-                    className={(trade.pnl_amount ?? 0) >= 0 ? Styles.pnlPositive : Styles.pnlNegative}
-                  >
-                    {typeof trade.pnl_amount === "number"
-                      ? (trade.pnl_amount >= 0 ? "+" : "") + `₹${trade.pnl_amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
-                      : "--"}
-                  </span>
+        <div className={Styles.popupTradeListContainer}>
+          <div className={Styles.popupTradeListScrollable}>
+            <div className={Styles.popupTradeList}>
+              {trades.map(trade => (
+                <div key={trade._id} className={Styles.popupTradeCard}>
+                  <div className={Styles.tradeTopRow}>
+                    <div className={Styles.tradeSymbolContainer}>
+                      <span className={Styles.tradeSymbol}>{trade.symbol}</span>
+                      <span className={trade.direction === "Long"
+                        ? Styles.tradeDirectionLong
+                        : Styles.tradeDirectionShort}>
+                        {trade.direction}
+                      </span>
+                    </div>
+                    <span className={Styles.tradeDate}>
+                      {new Date(trade.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className={Styles.tradeDetailsGrid}>
+                    <div className={Styles.tradeDetails}>
+                      <span className={Styles.detailLabel}>P&L</span>
+                      <span
+                        className={(trade.pnl_amount ?? 0) >= 0 ? Styles.pnlPositive : Styles.pnlNegative}
+                      >
+                        {typeof trade.pnl_amount === "number"
+                          ? (trade.pnl_amount >= 0 ? "+" : "") + `₹${trade.pnl_amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+                          : "--"}
+                      </span>
+                    </div>
+                    <div className={Styles.tradeDetails}>
+                      <span className={Styles.detailLabel}>P&L %</span>
+                      <span className={(trade.pnl_amount ?? 0) >= 0 ? Styles.pnlPositive : Styles.pnlNegative}>
+                        {typeof trade.pnl_percentage === "number"
+                          ? (trade.pnl_percentage >= 0 ? "+" : "") + trade.pnl_percentage.toFixed(2) + "%"
+                          : "--"}
+                      </span>
+                    </div>
+                    <div className={Styles.tradeDetails}>
+                      <span className={Styles.detailLabel}>Entry</span>
+                      <span className={Styles.tradePopupInfo}>{trade.entry_price ? trade.entry_price.toLocaleString(undefined, { maximumFractionDigits: 2 }) : "--"}</span>
+                    </div>
+                    <div className={Styles.tradeDetails}>
+                      <span className={Styles.detailLabel}>Exit</span>
+                      <span className={Styles.tradePopupInfo}>{trade.exit_price ? trade.exit_price.toLocaleString(undefined, { maximumFractionDigits: 2 }) : "--"}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className={Styles.tradeDetails}>
-                  <span className={Styles.detailLabel}>P&L %</span>
-                  <span className={(trade.pnl_amount ?? 0) >= 0 ? Styles.pnlPositive : Styles.pnlNegative}>
-                    {typeof trade.pnl_percentage === "number"
-                      ? (trade.pnl_percentage >= 0 ? "+" : "") + trade.pnl_percentage.toFixed(2) + "%"
-                      : "--"}
-                  </span>
-                </div>
-                <div className={Styles.tradeDetails}>
-                  <span className={Styles.detailLabel}>Entry</span>
-                  <span className={Styles.tradePopupInfo}>{trade.entry_price ?? "--"}</span>
-                </div>
-                <div className={`${Styles.tradeDetails} ${Styles.noBorder}`}>
-                  <span className={Styles.detailLabel}>Exit</span>
-                  <span className={Styles.tradePopupInfo}>{trade.exit_price ?? "--"}</span>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
