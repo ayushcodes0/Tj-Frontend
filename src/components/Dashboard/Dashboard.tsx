@@ -96,7 +96,6 @@ const Dashboard = () => {
     const avgPnl = totalTrades ? grossPnl / totalTrades : 0;
     const winRate = totalTrades ? (winTrades.length / totalTrades) * 100 : 0;
     
-    // Fixed: Check for empty array first, then use reduce without initial value
     const bestTrade = totalTrades === 0 ? null : trades.reduce((a, b) => 
       ((a.pnl_amount ?? -Infinity) > (b.pnl_amount ?? -Infinity) ? a : b)
     );
@@ -171,7 +170,8 @@ const Dashboard = () => {
     if (!trades) return [];
     const daily: Record<string, number> = {};
     for (const t of trades) {
-      const dt = t.date.slice(0, 10);
+      // Use the actual date from the trade, not current date
+      const dt = new Date(t.date).toISOString().slice(0, 10);
       daily[dt] = (daily[dt] ?? 0) + (t.pnl_amount ?? 0);
     }
     return Object.entries(daily)
@@ -323,13 +323,13 @@ const Dashboard = () => {
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Best Trade</span>
           <span className={Styles.statValue} style={{color:'var(--dashboard-green-color)'}}>
-            {stats.bestTrade ? `₹${stats.bestTrade.pnl_amount?.toLocaleString()}` : "-"}
+            {stats.bestTrade ? `₹${(stats.bestTrade.pnl_amount ?? 0).toLocaleString()}` : "-"}
           </span>
         </div>
         <div className={Styles.statCard}>
           <span className={Styles.statLabel}>Worst Trade</span>
           <span className={Styles.statValue} style={{color:'var(--dashboard-red-color)'}}>
-            {stats.worstTrade ? `₹${stats.worstTrade.pnl_amount?.toLocaleString()}` : "-"}
+            {stats.worstTrade ? `₹${(stats.worstTrade.pnl_amount ?? 0).toLocaleString()}` : "-"}
           </span>
         </div>
       </div>}
