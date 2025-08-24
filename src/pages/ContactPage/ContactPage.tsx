@@ -4,7 +4,6 @@ import Footer from '../../components/Footer/Footer';
 import { FilledButton } from '../../components/Button/Button';
 import Styles from './ContactPage.module.css';
 
-// Define the types for the state objects
 interface FormData {
   fullName: string;
   email: string;
