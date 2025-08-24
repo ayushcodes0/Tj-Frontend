@@ -1,5 +1,5 @@
 import Styles from './Pricing.module.css';
- import planeImage from '../../assets/image/pricingPlane.png';
+ import planeImage from '../../assets/image/pricingPlane.webp';
  import pricingBottomImage from '../../assets/image/pricingSectionImage.svg';
  import { motion } from 'framer-motion';
  import type { Variants } from 'framer-motion';
