@@ -179,9 +179,10 @@
 
 .fullWidthCard {
   background: var(--dashboard-primary-background);
-  border-radius: 12px;
+  border-radius: 12px; /* Apply border-radius here */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--dashboard-borders);
+  overflow: hidden; /* This will clip the content inside */
 }
 
 
@@ -211,6 +212,7 @@
 
 .dataBody {
   padding: 0;
+  overflow-x: auto; /* Use 'auto' instead of 'scroll' for better UX */
 }
 
 
@@ -334,10 +336,6 @@
   .dataTable th,
   .dataTable td {
     padding: 10px 12px;
-  }
-
-  .fullWidthCard{
-      overflow-x: scroll;
   }
 }
 
