@@ -437,7 +437,6 @@ const Performance = () => {
 
       {hasData && (
         <>
-          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Key Metrics</h2>
             <div className={Styles.metricsGrid}>
@@ -530,7 +529,6 @@ const Performance = () => {
               </div>
             </div>
           </section>
-          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Capital & Risk</h2>
             <div className={Styles.metricsGrid}>
@@ -613,7 +611,6 @@ const Performance = () => {
               </div>
             </div>
           </section>
-          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Symbols & Strategies</h2>
             <div className={Styles.doubleColumn}>
@@ -690,7 +687,6 @@ const Performance = () => {
               </div>
             </div>
           </section>
-          <hr className={Styles.horizontalLine} />
           <section className={Styles.section}>
             <h2 className={Styles.sectionTitle}>Weekday Performance</h2>
             <div className={Styles.fullWidthCard}>
