@@ -5,7 +5,6 @@ import { FaArrowTrendUp } from 'react-icons/fa6';
 import { GoPlus } from "react-icons/go";
 import { IoSettingsOutline } from 'react-icons/io5';
 import { FaRegLightbulb } from 'react-icons/fa';
-import { TbCalendarMonthFilled } from 'react-icons/tb';
 import { IoMdLogOut } from 'react-icons/io';
 import { useAuth } from '../../hooks/useAuth';
 import { BsQuestionCircle } from 'react-icons/bs';
