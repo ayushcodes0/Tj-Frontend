@@ -13,6 +13,12 @@ interface UserProfilePopupProps {
   onNewTradeClick: () => void;
 }
 
+// Helper function to extract first name from full username
+const getFirstName = (username: string | undefined | null): string => {
+  if (!username || typeof username !== 'string') return '';
+  return username.split(' ')[0];
+};
+
 const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose, onNewTradeClick }) => {
   
   const handleNewTrade = () => {
@@ -29,7 +35,7 @@ const UserProfilePopup: React.FC<UserProfilePopupProps> = ({ user, onClose, onNe
                   <p className={Styles.firstLetter}>{user?.username?.[0]?.toUpperCase()}</p>
               </div>
               <div className={Styles.userInfo}>
-                  <p className={Styles.name}>{user?.username}&apos;s Dashboard</p>
+                  <p className={Styles.name}>{getFirstName(user?.username)}'s Dashboard</p>
                   <p className={Styles.email}>{user?.email}</p>
               </div>
           </div>
