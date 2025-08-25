@@ -85,7 +85,7 @@ const AiInsights = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ trades: filteredTrades }),
-      });
+      }); 
       if (!response.ok) {
         const errData = await response.json();
         throw new Error(errData.error || 'Failed to get analysis.');
