@@ -51,13 +51,15 @@ interface TradesContextType {
     filter?: TradeFilter,
     options?: { 
       year?: number; 
-      week?: number; // Changed from month to week
+      week?: number;
       day?: number; 
-      month?: number; // Keep month for 'day' filter only
+      month?: number; 
       limit?: number; 
       page?: number; 
     }
   ) => Promise<void>;
+  deleteTrade: (id: string) => Promise<void>;
+  updateTrade: (id: string, updatedData: Partial<Trade>) => Promise<void>;
   meta: TradeMeta | null;
 }
 

@@ -1,17 +1,26 @@
+/*
+  Styles for the TradesTable component.
+  This CSS ensures the table is responsive, readable, and visually appealing.
+*/
+
+/* General table wrapper styles for responsiveness and borders */
 .tableWrapper {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: auto; /* Allows horizontal scrolling on smaller screens */
   border: 1px solid var(--dashboard-borders);
-  border-radius: 6px;
+  border-radius: 6px; /* Rounded corners for the entire table container */
 }
 
+/* Base table styles */
 .table {
-  min-width: 920px;
+  min-width: 920px; /* Ensures table columns don't collapse on small screens */
   border-collapse: collapse;
   width: 100%;
   font-size: 14px;
   background: var(--dashboard-primary-background);
 }
+
+/* Header and cell padding and border styles */
 th, td {
   padding: 11px 13px;
   text-align: left;
@@ -19,38 +28,71 @@ th, td {
   border-right: 1px solid var(--dashboard-borders);
 }
 
-.actions{
+/* Specific styling for the Actions column to remove the right border */
+.actions {
   border-right: none;
 }
 
+/* Table header specific styles */
 .table th { 
   font-weight: 600;
-  color: var(--landing-background);
+  color: var(--landing-background); /* A light color for the text, contrasting with the header background */
   font-size: 14px;
   letter-spacing: .01em;
   text-transform: uppercase;
-  background-color: var(--dashboard-green-color);
+  background-color: var(--dashboard-green-color); /* The brand color for the header */
 }
 
-td{
+/* Table body cell specific styles */
+td {
   font-size: 14px;
-  color: var(--dashboard-primary-text);
+  color: var(--dashboard-primary-text); /* Standard text color for body cells */
 }
 
+/* Removes the bottom border from the last row's cells for a clean look */
 tr:last-child td {
   border-bottom: none;
 }
 
+/* Styles for the directional arrow */
 .arrow {
   color: var(--dashboard-icons-color);
   font-size: 14px;
   margin: 0 4px;
 }
 
+/* Styles for the P/L column for positive values */
 .green {
-  color: var(--dashboard-userIcon-color);
+  color: var(--dashboard-userIcon-color); /* A vibrant green for profit */
 }
 
+/* Styles for the P/L column for negative values */
 .red {
-  color: var(--dashboard-red-color);
+  color: var(--dashboard-red-color); /* A red color for losses */
+}
+
+/* Styles for the edit and delete icons */
+.actionIcons {
+  display: flex; /* Aligns icons in a row */
+  gap: 12px; /* Adds space between the icons */
+  font-size: 18px; /* Sets icon size */
+  cursor: pointer; /* Changes cursor to a pointer on hover */
+}
+
+.actionIcons .editIcon {
+  color: #3e6d87; /* A professional blue color for the edit icon */
+  transition: color 0.2s ease;
+}
+
+.actionIcons .editIcon:hover {
+  color: #4a90e2; /* A slightly lighter shade on hover */
+}
+
+.actionIcons .deleteIcon {
+  color: #c94c4c; /* A distinct red color for the delete icon */
+  transition: color 0.2s ease;
+}
+
+.actionIcons .deleteIcon:hover {
+  color: #e25858; /* A slightly lighter shade on hover */
 }
