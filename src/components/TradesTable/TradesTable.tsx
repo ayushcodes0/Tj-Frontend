@@ -1,10 +1,10 @@
-// TradesTable.tsx - Updated to pass trade data for editing
+// TradesTable.tsx - Updated to pass trade data for editing with custom delete popup
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MdEdit, MdDelete } from "react-icons/md";
 import Styles from "./TradesTable.module.css";
 import { useTrades } from '../../hooks/useTrade';
-import { useOutletContext } from "react-router-dom"; // Import the hook to get context
+import { useOutletContext } from "react-router-dom";
 
 // Define the TradeRow interface for clarity and type-safety
 export interface TradeRow {
@@ -58,16 +58,76 @@ function getName(val: undefined | null | { name?: string } | string): string {
   return val.name || '-';
 }
 
+// Delete Confirmation Popup Component
+const DeleteConfirmationPopup: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  tradSymbol: string;
+}> = ({ isOpen, onClose, onConfirm, tradSymbol }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className={Styles.deleteOverlay} onClick={onClose}>
+      <div className={Styles.deletePopup} onClick={(e) => e.stopPropagation()}>
+        <div className={Styles.deleteHeader}>
+          <h3>Delete Trade</h3>
+        </div>
+        <div className={Styles.deleteContent}>
+          <p>Are you sure you want to delete this trade?</p>
+          <div className={Styles.tradeInfo}>
+            <strong>{tradSymbol}</strong>
+          </div>
+          <p className={Styles.warningText}>This action cannot be undone.</p>
+        </div>
+        <div className={Styles.deleteActions}>
+          <button 
+            className={Styles.cancelBtn} 
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+          <button 
+            className={Styles.deleteBtn} 
+            onClick={onConfirm}
+          >
+            Delete Trade
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
   const { deleteTrade } = useTrades();
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [tradeToDelete, setTradeToDelete] = useState<TradeRow | null>(null);
+  
   // Get the handleEditTradeClick from the outlet context
   const { handleEditTradeClick } = useOutletContext<{ handleEditTradeClick: (trade: TradeRow) => void }>();
 
-  const handleDelete = (tradeId: string) => {
-    if (window.confirm("Are you sure you want to delete this trade?")) {
-      deleteTrade(tradeId);
+  const handleDeleteClick = (trade: TradeRow) => {
+    setTradeToDelete(trade);
+    setDeletePopupOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (tradeToDelete) {
+      try {
+        await deleteTrade(tradeToDelete._id);
+        setDeletePopupOpen(false);
+        setTradeToDelete(null);
+      } catch (error) {
+        console.error('Failed to delete trade:', error);
+        // Optionally show an error toast here
+      }
     }
+  };
+
+  const handleCancelDelete = () => {
+    setDeletePopupOpen(false);
+    setTradeToDelete(null);
   };
   
   // No longer a simple alert, this now opens the popup with trade data
@@ -76,55 +136,67 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
   };
 
   return (
-    <div className={Styles.tableWrapper}>
-      <table className={Styles.table}>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Symbol</th>
-            <th>Direction</th>
-            <th>Entry / Exit</th>
-            <th>P/L (₹ / %)</th>
-            <th>Risk/Reward</th>
-            <th>Strategy</th>
-            <th>Outcome</th>
-            <th className={Styles.actions}>Actions</th>
-          </tr>
-        </thead> 
-        <tbody>
-          {trades.map(trade => (
-            <tr key={trade._id}>
-              <td>{msToDate(trade.date)}</td>
-              <td>{trade.symbol}</td>
-              <td className={Styles.direction}>{trade.direction}</td>
-              <td>
-                {trade.entry_price} <span className={Styles.arrow}>&rarr;</span> {trade.exit_price}
-              </td>
-              <td>
-                <span className={trade.pnl_amount >= 0 ? Styles.green : Styles.red}>
-                  ₹{trade.pnl_amount} ({trade.pnl_percentage}%)
-                </span>
-              </td>
-              <td>{riskReward(trade.entry_price, trade.stop_loss, trade.target)}</td>
-              <td>{getName(trade.strategy)}</td>
-              <td>{getName(trade.outcome_summary)}</td>
-              <td className={Styles.actions}>
-                <div className={Styles.actionIcons}>
-                  <MdEdit
-                    className={Styles.editIcon}
-                    onClick={() => handleEdit(trade)}
-                  />
-                  <MdDelete
-                    className={Styles.deleteIcon}
-                    onClick={() => handleDelete(trade._id)}
-                  />
-                </div>
-              </td>
+    <>
+      <div className={Styles.tableWrapper}>
+        <table className={Styles.table}>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Symbol</th>
+              <th>Direction</th>
+              <th>Entry / Exit</th>
+              <th>P/L (₹ / %)</th>
+              <th>Risk/Reward</th>
+              <th>Strategy</th>
+              <th>Outcome</th>
+              <th className={Styles.actions}>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead> 
+          <tbody>
+            {trades.map(trade => (
+              <tr key={trade._id}>
+                <td>{msToDate(trade.date)}</td>
+                <td>{trade.symbol}</td>
+                <td className={Styles.direction}>{trade.direction}</td>
+                <td>
+                  {trade.entry_price} <span className={Styles.arrow}>&rarr;</span> {trade.exit_price}
+                </td>
+                <td>
+                  <span className={trade.pnl_amount >= 0 ? Styles.green : Styles.red}>
+                    ₹{trade.pnl_amount} ({trade.pnl_percentage}%)
+                  </span>
+                </td>
+                <td>{riskReward(trade.entry_price, trade.stop_loss, trade.target)}</td>
+                <td>{getName(trade.strategy)}</td>
+                <td>{getName(trade.outcome_summary)}</td>
+                <td className={Styles.actions}>
+                  <div className={Styles.actionIcons}>
+                    <MdEdit
+                      className={Styles.editIcon}
+                      onClick={() => handleEdit(trade)}
+                      title="Edit trade"
+                    />
+                    <MdDelete
+                      className={Styles.deleteIcon}
+                      onClick={() => handleDeleteClick(trade)}
+                      title="Delete trade"
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Delete Confirmation Popup */}
+      <DeleteConfirmationPopup
+        isOpen={deletePopupOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        tradSymbol={tradeToDelete?.symbol || ''}
+      />
+    </>
   );
 };
 
