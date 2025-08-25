@@ -6,14 +6,14 @@
 /* General table wrapper styles for responsiveness and borders */
 .tableWrapper {
   width: 100%;
-  overflow-x: auto; /* Allows horizontal scrolling on smaller screens */
+  overflow-x: auto;
   border: 1px solid var(--dashboard-borders);
-  border-radius: 6px; /* Rounded corners for the entire table container */
+  border-radius: 6px;
 }
 
 /* Base table styles */
 .table {
-  min-width: 920px; /* Ensures table columns don't collapse on small screens */
+  min-width: 920px;
   border-collapse: collapse;
   width: 100%;
   font-size: 14px;
@@ -36,17 +36,17 @@ th, td {
 /* Table header specific styles */
 .table th { 
   font-weight: 600;
-  color: var(--landing-background); /* A light color for the text, contrasting with the header background */
+  color: var(--landing-background);
   font-size: 14px;
   letter-spacing: .01em;
   text-transform: uppercase;
-  background-color: var(--dashboard-green-color); /* The brand color for the header */
+  background-color: var(--dashboard-green-color);
 }
 
 /* Table body cell specific styles */
 td {
   font-size: 14px;
-  color: var(--dashboard-primary-text); /* Standard text color for body cells */
+  color: var(--dashboard-primary-text);
 }
 
 /* Removes the bottom border from the last row's cells for a clean look */
@@ -63,138 +63,115 @@ tr:last-child td {
 
 /* Styles for the P/L column for positive values */
 .green {
-  color: var(--dashboard-userIcon-color); /* A vibrant green for profit */
+  color: var(--dashboard-userIcon-color);
 }
 
 /* Styles for the P/L column for negative values */
 .red {
-  color: var(--dashboard-red-color); /* A red color for losses */
+  color: var(--dashboard-red-color);
 }
 
 /* Styles for the edit and delete icons */
 .actionIcons {
-  display: flex; /* Aligns icons in a row */
-  gap: 12px; /* Adds space between the icons */
-  font-size: 18px; /* Sets icon size */
-  cursor: pointer; /* Changes cursor to a pointer on hover */
+  display: flex;
+  gap: 12px;
+  font-size: 18px;
+  cursor: pointer;
 }
 
 .actionIcons .editIcon {
-  color: #3e6d87; /* A professional blue color for the edit icon */
+  color: #3e6d87;
   transition: color 0.2s ease;
 }
 
 .actionIcons .editIcon:hover {
-  color: #4a90e2; /* A slightly lighter shade on hover */
+  color: #4a90e2;
 }
 
 .actionIcons .deleteIcon {
-  color: #c94c4c; /* A distinct red color for the delete icon */
+  color: #c94c4c;
   transition: color 0.2s ease;
 }
 
 .actionIcons .deleteIcon:hover {
-  color: #e25858; /* A slightly lighter shade on hover */
+  color: #e25858;
 }
 
-/* Delete Confirmation Popup Styles */
+/* Simplified Delete Confirmation Popup Styles */
 .deleteOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(2px);
 }
 
 .deletePopup {
   background: var(--dashboard-primary-background);
-  border-radius: 12px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  width: 90%;
-  max-width: 420px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  width: 320px;
   border: 1px solid var(--dashboard-borders);
-  overflow: hidden;
-  animation: popupSlideIn 0.2s ease-out;
+  animation: popupSlideIn 0.15s ease-out;
 }
 
 @keyframes popupSlideIn {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(-10px);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: scale(1);
   }
 }
 
-.deleteHeader {
-  padding: 20px 24px 16px;
-  border-bottom: 1px solid var(--dashboard-borders);
+.deleteContent {
+  padding: 24px 24px 20px;
+  text-align: center;
 }
 
-.deleteHeader h3 {
-  margin: 0;
+.deleteContent h3 {
+  margin: 0 0 8px 0;
   font-size: 18px;
   font-weight: 600;
   color: var(--dashboard-primary-text);
 }
 
-.deleteContent {
-  padding: 24px;
-}
-
 .deleteContent p {
-  margin: 0 0 16px 0;
+  margin: 0;
   color: var(--dashboard-primary-text);
   font-size: 14px;
-  line-height: 1.5;
-}
-
-.tradeInfo {
-  background: var(--dashboard-borders);
-  padding: 12px 16px;
-  border-radius: 6px;
-  margin: 16px 0;
-  text-align: center;
-}
-
-.tradeInfo strong {
-  color: var(--dashboard-primary-text);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.warningText {
-  color: var(--dashboard-red-color) !important;
-  font-size: 13px !important;
-  font-weight: 500;
-  margin-top: 16px !important;
+  opacity: 0.8;
 }
 
 .deleteActions {
   display: flex;
-  gap: 12px;
-  padding: 0 24px 24px;
-  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 16px 16px;
 }
 
-.cancelBtn {
-  padding: 10px 20px;
-  border: 1px solid var(--dashboard-borders);
-  background: transparent;
-  color: var(--dashboard-primary-text);
+.cancelBtn,
+.deleteBtn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
+}
+
+.cancelBtn {
+  background: transparent;
+  color: var(--dashboard-primary-text);
+  border: 1px solid var(--dashboard-borders);
 }
 
 .cancelBtn:hover {
@@ -202,53 +179,26 @@ tr:last-child td {
 }
 
 .deleteBtn {
-  padding: 10px 20px;
-  border: none;
   background: var(--dashboard-red-color);
   color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s ease;
 }
 
 .deleteBtn:hover {
   background: #d64545;
-  transform: translateY(-1px);
 }
 
-.deleteBtn:active {
-  transform: translateY(0);
-}
-
-/* Responsive Design for Delete Popup */
+/* Mobile responsiveness */
 @media (max-width: 480px) {
   .deletePopup {
-    width: 95%;
-    margin: 0 10px;
-  }
-  
-  .deleteHeader {
-    padding: 16px 20px 12px;
+    width: 280px;
+    margin: 0 20px;
   }
   
   .deleteContent {
-    padding: 20px;
+    padding: 20px 20px 16px;
   }
   
   .deleteActions {
-    padding: 0 20px 20px;
-    flex-direction: column-reverse;
-  }
-  
-  .cancelBtn,
-  .deleteBtn {
-    width: 100%;
-    margin: 0;
-  }
-  
-  .deleteActions {
-    gap: 8px;
+    padding: 0 12px 12px;
   }
 }

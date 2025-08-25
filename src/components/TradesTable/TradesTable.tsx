@@ -1,4 +1,4 @@
-// TradesTable.tsx - Updated to pass trade data for editing with custom delete popup
+// TradesTable.tsx - Updated with simplified delete popup
 
 import React, { useState } from 'react';
 import { MdEdit, MdDelete } from "react-icons/md";
@@ -58,40 +58,27 @@ function getName(val: undefined | null | { name?: string } | string): string {
   return val.name || '-';
 }
 
-// Delete Confirmation Popup Component
+// Simplified Delete Confirmation Popup Component
 const DeleteConfirmationPopup: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  tradSymbol: string;
-}> = ({ isOpen, onClose, onConfirm, tradSymbol }) => {
+}> = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   return (
     <div className={Styles.deleteOverlay} onClick={onClose}>
       <div className={Styles.deletePopup} onClick={(e) => e.stopPropagation()}>
-        <div className={Styles.deleteHeader}>
-          <h3>Delete Trade</h3>
-        </div>
         <div className={Styles.deleteContent}>
-          <p>Are you sure you want to delete this trade?</p>
-          <div className={Styles.tradeInfo}>
-            <strong>{tradSymbol}</strong>
-          </div>
-          <p className={Styles.warningText}>This action cannot be undone.</p>
+          <h3>Delete Trade?</h3>
+          <p>This action cannot be undone.</p>
         </div>
         <div className={Styles.deleteActions}>
-          <button 
-            className={Styles.cancelBtn} 
-            onClick={onClose}
-          >
+          <button className={Styles.cancelBtn} onClick={onClose}>
             Cancel
           </button>
-          <button 
-            className={Styles.deleteBtn} 
-            onClick={onConfirm}
-          >
-            Delete Trade
+          <button className={Styles.deleteBtn} onClick={onConfirm}>
+            Delete
           </button>
         </div>
       </div>
@@ -120,7 +107,6 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
         setTradeToDelete(null);
       } catch (error) {
         console.error('Failed to delete trade:', error);
-        // Optionally show an error toast here
       }
     }
   };
@@ -130,7 +116,6 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
     setTradeToDelete(null);
   };
   
-  // No longer a simple alert, this now opens the popup with trade data
   const handleEdit = (trade: TradeRow) => {
     handleEditTradeClick(trade);
   };
@@ -189,12 +174,11 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
         </table>
       </div>
 
-      {/* Delete Confirmation Popup */}
+      {/* Simplified Delete Confirmation Popup */}
       <DeleteConfirmationPopup
         isOpen={deletePopupOpen}
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
-        tradSymbol={tradeToDelete?.symbol || ''}
       />
     </>
   );
