@@ -165,53 +165,18 @@ const Navbar = () => {
                 </div>
               </>
             ) : (
-              <div style={{ width: "100%" }}>
-                <div className={Styles.mobileProfileSection}>
-                  <div className={Styles.mobileAvatarWrap}>
-                    <img
-                      src={user.avatar || PlaceholderImage}
-                      alt={user.username}
-                      className={Styles.mobileAvatarImg}
-                    />
-                  </div>
-                  <div className={Styles.mobileUserInfo}>
-                    <p className={Styles.mobileUsername}>{user.username}</p>
-                    <p className={Styles.mobileUseremail}>{user.email || 'No email provided'}</p>
-                  </div>
-                  <div className={Styles.dropdownDivider}></div>
-                  <div className={Styles.mobileDropdownItem}>
-                    {isPro ? (
-                      <span className={Styles.proText}>Pro Plan</span>
-                    ) : (
-                      <span>Free Plan</span>
-                    )}
-                  </div>
-                  <div className={Styles.dropdownDivider}></div>
-                  <div
-                    className={`${Styles.mobileDropdownItem} ${Styles.dropdownItemHover}`}
-                    onClick={handleAvatarSelect}
-                  >
-                    <FiUpload className={Styles.drawerIcon} />
-                    <span>Profile Image</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      ref={fileInputRef}
-                      style={{ display: 'none' }}
-                      onChange={handleAvatarChange}
-                    />
-                  </div>
-                  <div className={Styles.dropdownDivider}></div>
-                  <button
-                    className={Styles.mobileLogout}
-                    onClick={() => {
-                      logout();
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    <span>Log Out</span>
-                  </button>
-                </div>
+              // Only show a logout button for authenticated users on mobile
+              <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                <button
+                  className={Styles.mobileLogoutBtn}
+                  onClick={() => {
+                    logout();
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <FiLogOut className={Styles.drawerIcon} />
+                  <span>Logout</span>
+                </button>
               </div>
             )}
           </div>

@@ -414,3 +414,22 @@
 .mobileLogout:hover {
   background: #4d2ab4;
 }
+
+
+.mobileLogoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 50%;
+  margin: 17px auto 12px auto;
+  padding: 10px 0;
+  background: var(--landing-background);
+  border: none;
+  color: #1a084c; /* Updated text color for better contrast */
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.18s;
+}
