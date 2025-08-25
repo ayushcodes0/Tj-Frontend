@@ -8,6 +8,7 @@ import { AuthProvider } from './providers/authProvider.tsx'
 import { ToastProvider } from './providers/toastProvider.tsx'
 import { TradesProvider } from './providers/tradeProvider.tsx'
 import { ThemeProvider } from './providers/themeProvider.tsx'
+import { FilterProvider } from './providers/FilterProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')!).render(
       <ToastProvider/>
       <TradesProvider>
         <ThemeProvider>
+          <FilterProvider>
           <App />
+          </FilterProvider>
         </ThemeProvider>
       </TradesProvider>
     </AuthProvider>
