@@ -1,4 +1,4 @@
-// src/components/NewTradePopup/NewTradePopup.tsx
+// src/components/NewTradePopup/NewTradePopup.tsx - Updated to support editing a trade
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Styles from "./NewTradePopup.module.css";
@@ -12,10 +12,11 @@ import {
 import type { TradeFormData } from '../../types/trade';
 import { useCustomToast } from '../../hooks/useCustomToast'; 
 import { useTrades } from "../../hooks/useTrade";
-
+import type { Trade } from '../../context/TradeContext';
 
 interface NewTradePopupProps {
   onClose: () => void;
+  tradeToEdit?: Trade | null; // New optional prop for editing
 }
 
 interface Option {
@@ -36,12 +37,11 @@ const getRangeProgressStyle = (value: number, min: number, max: number) => {
   return { '--progress-percent': `${progress}%` } as React.CSSProperties;
 };
 
-const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
+const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) => {
   const [activeTab, setActiveTab] = useState<'general' | 'psychology'>('general');
   const [formData, setFormData] = useState<TradeFormData>(initialFormData);
-  const { fetchTrades } = useTrades();
+  const { fetchTrades, updateTrade } = useTrades();
   
-  // --- 2. USE THE HOOK ---
   const { showSuccessToast, showErrorToast } = useCustomToast();
 
   const [strategies, setStrategies] = useState<Option[]>([]);
@@ -53,6 +53,51 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
   const [newCustomRuleName, setNewCustomRuleName] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newMistake, setNewMistake] = useState('');
+
+  // The corrected useEffect hook
+  useEffect(() => {
+    if (tradeToEdit) {
+      // Create a temporary object to hold the populated form data
+      const populatedFormData: TradeFormData = {
+        ...initialFormData, // Start with initial state to ensure all fields are present
+        ...tradeToEdit,
+        
+        // Convert populated Mongoose objects to string IDs
+        strategy: typeof tradeToEdit.strategy === 'object' ? tradeToEdit.strategy._id : '',
+        outcome_summary: typeof tradeToEdit.outcome_summary === 'object' ? tradeToEdit.outcome_summary._id : '',
+        
+        // Map the array of objects to an array of string IDs
+        rules_followed: tradeToEdit.rules_followed?.map(rule => typeof rule === 'object' ? rule._id : '') || [],
+        
+        // Handle nested psychology object
+        psychology: {
+          ...initialFormData.psychology, // Use initial to ensure all psychology fields are present
+          ...tradeToEdit.psychology,
+          emotional_state: typeof tradeToEdit.psychology?.emotional_state === 'object' ? tradeToEdit.psychology.emotional_state._id : '',
+          mistakes_made: tradeToEdit.psychology?.mistakes_made || [],
+        },
+        
+        // Correctly format date for datetime-local input
+        date: tradeToEdit.date ? new Date(tradeToEdit.date).toISOString().slice(0, 16) : '',
+        
+        // Ensure number fields are set to null if they are 0 or undefined,
+        // so the input can be empty.
+        quantity: tradeToEdit.quantity || null,
+        entry_price: tradeToEdit.entry_price || null,
+        exit_price: tradeToEdit.exit_price || null,
+        stop_loss: tradeToEdit.stop_loss || null,
+        target: tradeToEdit.target || null,
+        holding_period_minutes: tradeToEdit.holding_period_minutes || null,
+        
+        // Ensure tags field is an array if it's not
+        tags: tradeToEdit.tags || []
+      };
+      
+      setFormData(populatedFormData);
+    } else {
+      setFormData(initialFormData);
+    }
+  }, [tradeToEdit]);
 
   const handleReset = () => {
     setFormData(initialFormData);
@@ -83,7 +128,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
     };
     loadOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Add hook function to dependency array
+  }, []);
 
   const { quantity, entry_price, exit_price, direction } = formData;
   useEffect(() => {
@@ -151,7 +196,6 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setNewCustomStrategyName('');
           showSuccessToast(`Strategy "${newOption.name}" added!`);
       } catch (error) { 
-          // --- 3. REPLACE ALERT WITH TOAST ---
           const message = error instanceof Error ? error.message : "Failed to add strategy";
           showErrorToast(message);
       }
@@ -166,32 +210,74 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
           setNewCustomRuleName('');
           showSuccessToast(`Rule "${newOption.name}" added!`);
       } catch (error) { 
-          // --- 3. REPLACE ALERT WITH TOAST ---
           const message = error instanceof Error ? error.message : "Failed to add rule";
           showErrorToast(message);
       }
   };
-  
+
+  // FIXED: Convert TradeFormData to Trade format for updateTrade
+  // FIXED: Convert TradeFormData to Trade format for updateTrade
+const convertFormDataToTradeData = (formData: TradeFormData): Partial<Trade> => {
+  const tradeData: Partial<Trade> = {
+    ...formData,
+    // Convert null values to undefined for Trade type compatibility
+    quantity: formData.quantity ?? undefined,
+    entry_price: formData.entry_price ?? undefined,
+    exit_price: formData.exit_price ?? undefined,
+    stop_loss: formData.stop_loss ?? undefined,
+    target: formData.target ?? undefined,
+    holding_period_minutes: formData.holding_period_minutes ?? undefined,
+
+    // FIXED: Convert string IDs to objects with _id (for mongoose refs)
+    strategy: formData.strategy ? { _id: formData.strategy, name: '' } : undefined,
+    outcome_summary: formData.outcome_summary ? { _id: formData.outcome_summary, name: '' } : undefined,
+    rules_followed: formData.rules_followed ? formData.rules_followed.map(id => ({ _id: id, name: '' })) : [],
+
+    // FIXED: Handle psychology nested object
+    psychology: formData.psychology ? {
+      ...formData.psychology,
+      emotional_state: formData.psychology.emotional_state ? { _id: formData.psychology.emotional_state, name: '' } : undefined,
+    } : undefined,
+
+    tags: formData.tags || []
+  };
+
+  return tradeData;
+};
+
+
   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      try {
-          await saveTrade(formData);
-          // --- 3. REPLACE ALERT WITH TOAST ---
-          fetchTrades();
-          showSuccessToast('Trade saved successfully!');
-          onClose();
-      } catch (error) { 
-          console.error('Failed to save trade:', error); 
-          // --- 3. REPLACE ALERT WITH TOAST ---
-          const message = error instanceof Error ? error.message : "Failed to save trade";
-          showErrorToast(message);
+    e.preventDefault();
+    try {
+      if (tradeToEdit?._id) {
+        // If tradeToEdit exists, it's an update operation
+        // FIXED: Convert form data to proper Trade format
+        const tradeData = convertFormDataToTradeData(formData);
+        await updateTrade(tradeToEdit._id, tradeData);
+        showSuccessToast('Trade updated successfully!');
+      } else {
+        // Otherwise, it's a new trade creation
+        await saveTrade(formData);
+        showSuccessToast('Trade saved successfully!');
       }
+      
+      // Refresh trades data
+      await fetchTrades();
+      onClose();
+    } catch (error) { 
+        console.error('Failed to save trade:', error); 
+        const message = error instanceof Error ? error.message : "Failed to save trade";
+        showErrorToast(message);
+    }
   };
 
   return (
     <div className={Styles.overlay} onClick={onClose}>
       <div className={Styles.newTradePopup} onClick={(e) => e.stopPropagation()}>
-        <div className={Styles.header}><h2>New Trade Entry</h2><button className={Styles.closeBtn} onClick={onClose}>×</button></div>
+        <div className={Styles.header}>
+          <h2>{tradeToEdit ? 'Edit Trade' : 'New Trade Entry'}</h2>
+          <button className={Styles.closeBtn} onClick={onClose}>×</button>
+        </div>
         <div className={Styles.tabNavigation}>
           <button type="button" className={`${Styles.tabBtn} ${activeTab === 'general' ? Styles.active : ''}`} onClick={() => setActiveTab('general')}>General</button>
           <button type="button" className={`${Styles.tabBtn} ${activeTab === 'psychology' ? Styles.active : ''}`} onClick={() => setActiveTab('psychology')}>Psychology</button>
@@ -202,39 +288,126 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
               <div className={Styles.section}>
                 <h3>Trade Details</h3>
                 <div className={`${Styles.formGrid} ${Styles.tradeDetailsGrid}`}>
-                  <div className={Styles.formGroup}><label>Symbol <span className={Styles.required}>*</span></label><input type="text" value={formData.symbol} onChange={(e) => handleUpdateField('symbol', e.target.value)} required /></div>
+                  <div className={Styles.formGroup}>
+                    <label>Symbol <span className={Styles.required}>*</span></label>
+                    <input type="text" value={formData.symbol} onChange={(e) => handleUpdateField('symbol', e.target.value)} required />
+                  </div>
                   <div className={Styles.formGroup}>
                     <label htmlFor="tradeDate">Date <span className={Styles.required}>*</span></label>
                     <input id="tradeDate" type="datetime-local" value={formData.date} onChange={(e) => handleUpdateField('date', e.target.value)} required className={Styles.dateInput} />
                   </div>
-                  <div className={Styles.formGroup}><label>Quantity <span className={Styles.required}>*</span></label><input type="number" value={formData.quantity ?? ''} onChange={(e) => handleNumberInputChange('quantity', e.target.value)} required /></div>
-                  <div className={Styles.formGroup}><label>Direction <span className={Styles.required}>*</span></label><div className={Styles.directionContainer}><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Long' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Long')}><FaArrowUp /> Long</button><button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Short' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Short')}><FaArrowDown /> Short</button></div></div>
-                  <div className={Styles.formGroup}><label>Entry Price <span className={Styles.required}>*</span></label><input type="number" step="0.01" value={formData.entry_price ?? ''} onChange={(e) => handleNumberInputChange('entry_price', e.target.value)} required /></div>
-                  <div className={Styles.formGroup}><label>Exit Price</label><input type="number" step="0.01" value={formData.exit_price ?? ''} onChange={(e) => handleNumberInputChange('exit_price', e.target.value)} /></div>
-                  <div className={Styles.formGroup}><label>Stop Loss</label><input type="number" step="0.01" value={formData.stop_loss ?? ''} onChange={(e) => handleNumberInputChange('stop_loss', e.target.value)} /></div>
-                  <div className={Styles.formGroup}><label>Target</label><input type="number" step="0.01" value={formData.target ?? ''} onChange={(e) => handleNumberInputChange('target', e.target.value)} /></div>
-                  <div className={Styles.formGroup}><label>Total Amount</label><div className={Styles.calculatedField}>₹{formData.total_amount.toFixed(2)}</div></div>
+                  <div className={Styles.formGroup}>
+                    <label>Quantity <span className={Styles.required}>*</span></label>
+                    <input type="number" value={formData.quantity ?? ''} onChange={(e) => handleNumberInputChange('quantity', e.target.value)} required />
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>Direction <span className={Styles.required}>*</span></label>
+                    <div className={Styles.directionContainer}>
+                      <button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Long' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Long')}>
+                        <FaArrowUp /> Long
+                      </button>
+                      <button type="button" className={`${Styles.directionBtn} ${formData.direction === 'Short' ? Styles.active : ''}`} onClick={() => handleUpdateField('direction', 'Short')}>
+                        <FaArrowDown /> Short
+                      </button>
+                    </div>
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>Entry Price <span className={Styles.required}>*</span></label>
+                    <input type="number" step="0.01" value={formData.entry_price ?? ''} onChange={(e) => handleNumberInputChange('entry_price', e.target.value)} required />
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>Exit Price</label>
+                    <input type="number" step="0.01" value={formData.exit_price ?? ''} onChange={(e) => handleNumberInputChange('exit_price', e.target.value)} />
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>Stop Loss</label>
+                    <input type="number" step="0.01" value={formData.stop_loss ?? ''} onChange={(e) => handleNumberInputChange('stop_loss', e.target.value)} />
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>Target</label>
+                    <input type="number" step="0.01" value={formData.target ?? ''} onChange={(e) => handleNumberInputChange('target', e.target.value)} />
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>Total Amount</label>
+                    <div className={Styles.calculatedField}>₹{formData.total_amount.toFixed(2)}</div>
+                  </div>
                 </div>
               </div>
               <div className={Styles.section}>
                 <h3>Strategy & Analysis</h3>
                 <div className={Styles.sectionContent}>
                     <div className={Styles.formGrid}>
-                        <div className={Styles.formGroup}><label>Strategy <span className={Styles.required}>*</span></label><select value={formData.strategy} onChange={(e) => handleUpdateField('strategy', e.target.value)} required><option value="">Select Strategy</option>{strategies.map(o => <option key={o._id} value={o._id}>{o.name}</option>)}</select><div className={Styles.addCustomContainer}><input type="text" value={newCustomStrategyName} onChange={(e) => setNewCustomStrategyName(e.target.value)} placeholder="Or add new strategy..." onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomStrategy())} /><button type="button" onClick={handleAddCustomStrategy}>Add</button></div></div>
-                        <div className={Styles.formGroup}><label>Outcome <span className={Styles.required}>*</span></label><select value={formData.outcome_summary} onChange={(e) => handleUpdateField('outcome_summary', e.target.value)} required><option value="">Select Outcome</option>{outcomeSummaries.map(o => <option key={o._id} value={o._id}>{o.name}</option>)}</select></div>
+                        <div className={Styles.formGroup}>
+                          <label>Strategy <span className={Styles.required}>*</span></label>
+                          <select value={formData.strategy} onChange={(e) => handleUpdateField('strategy', e.target.value)} required>
+                            <option value="">Select Strategy</option>
+                            {strategies.map(o => <option key={o._id} value={o._id}>{o.name}</option>)}
+                          </select>
+                          <div className={Styles.addCustomContainer}>
+                            <input type="text" value={newCustomStrategyName} onChange={(e) => setNewCustomStrategyName(e.target.value)} placeholder="Or add new strategy..." onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomStrategy())} />
+                            <button type="button" onClick={handleAddCustomStrategy}>Add</button>
+                          </div>
+                        </div>
+                        <div className={Styles.formGroup}>
+                          <label>Outcome <span className={Styles.required}>*</span></label>
+                          <select value={formData.outcome_summary} onChange={(e) => handleUpdateField('outcome_summary', e.target.value)} required>
+                            <option value="">Select Outcome</option>
+                            {outcomeSummaries.map(o => <option key={o._id} value={o._id}>{o.name}</option>)}
+                          </select>
+                        </div>
                     </div>
-                    <div className={Styles.formGroup}><label>Trade Analysis </label><textarea value={formData.trade_analysis} onChange={(e) => handleUpdateField('trade_analysis', e.target.value)} rows={4} required /></div>
-                    <div className={Styles.formGroup}><label>Rules Followed <span className={Styles.required}>*</span></label><div className={Styles.multiSelectContainer}>{rulesOptions.map(o => <label key={o._id} className={Styles.checkboxLabel}><input type="checkbox" checked={formData.rules_followed.includes(o._id)} onChange={() => handleMultiSelect(o._id)} />{o.name}</label>)}</div><div className={Styles.addCustomContainer}><input type="text" value={newCustomRuleName} onChange={(e) => setNewCustomRuleName(e.target.value)} placeholder="Or add new rule..." onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomRule())} /><button type="button" onClick={handleAddCustomRule}>Add</button></div></div>
+                    <div className={Styles.formGroup}>
+                      <label>Trade Analysis <span className={Styles.required}>*</span></label>
+                      <textarea value={formData.trade_analysis} onChange={(e) => handleUpdateField('trade_analysis', e.target.value)} rows={4} required />
+                    </div>
+                    <div className={Styles.formGroup}>
+                      <label>Rules Followed <span className={Styles.required}>*</span></label>
+                      <div className={Styles.multiSelectContainer}>
+                        {rulesOptions.map(o => (
+                          <label key={o._id} className={Styles.checkboxLabel}>
+                            <input type="checkbox" checked={formData.rules_followed.includes(o._id)} onChange={() => handleMultiSelect(o._id)} />
+                            {o.name}
+                          </label>
+                        ))}
+                      </div>
+                      <div className={Styles.addCustomContainer}>
+                        <input type="text" value={newCustomRuleName} onChange={(e) => setNewCustomRuleName(e.target.value)} placeholder="Or add new rule..." onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCustomRule())} />
+                        <button type="button" onClick={handleAddCustomRule}>Add</button>
+                      </div>
+                    </div>
                 </div>
               </div>
               <div className={Styles.section}>
                 <h3>Performance</h3>
-                <div className={Styles.formGrid}><div className={Styles.formGroup}><label>P&L Amount</label><div className={Styles.calculatedField}>₹{formData.pnl_amount.toFixed(2)}</div></div><div className={Styles.formGroup}><label>P&L Percentage</label><div className={Styles.calculatedField}>{formData.pnl_percentage.toFixed(2)}%</div></div><div className={Styles.formGroup}><label>Holding Period (Minutes)</label><input type="number" value={formData.holding_period_minutes ?? ''} onChange={(e) => handleNumberInputChange('holding_period_minutes', e.target.value)} /></div></div>
+                <div className={Styles.formGrid}>
+                  <div className={Styles.formGroup}>
+                    <label>P&L Amount</label>
+                    <div className={Styles.calculatedField}>₹{formData.pnl_amount.toFixed(2)}</div>
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>P&L Percentage</label>
+                    <div className={Styles.calculatedField}>{formData.pnl_percentage.toFixed(2)}%</div>
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>Holding Period (Minutes)</label>
+                    <input type="number" value={formData.holding_period_minutes ?? ''} onChange={(e) => handleNumberInputChange('holding_period_minutes', e.target.value)} />
+                  </div>
+                </div>
               </div>
               <div className={Styles.section}>
                 <h3>Tags</h3>
-                <div className={Styles.tagInputContainer}><input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add tag and press Enter" onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())} /><button type="button" onClick={addTag}>Add</button></div>
-                <div className={Styles.tagsContainer}>{formData.tags.map(tag => (<span key={tag} className={Styles.tag}>{tag}<button type="button" onClick={() => removeTag(tag)}>×</button></span>))}</div>
+                <div className={Styles.tagInputContainer}>
+                  <input type="text" value={newTag} onChange={(e) => setNewTag(e.target.value)} placeholder="Add tag and press Enter" onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())} />
+                  <button type="button" onClick={addTag}>Add</button>
+                </div>
+                <div className={Styles.tagsContainer}>
+                  {formData.tags.map(tag => (
+                    <span key={tag} className={Styles.tag}>
+                      {tag}
+                      <button type="button" onClick={() => removeTag(tag)}>×</button>
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -274,8 +447,25 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
                             </select>
                           </div>
                         </div>
-                        <div className={Styles.formGroup}><label>Mistakes Made</label><div className={Styles.tagInputContainer}><input type="text" value={newMistake} onChange={(e) => setNewMistake(e.target.value)} placeholder="Add mistake and press Enter" onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addMistake())} /><button type="button" onClick={addMistake}>Add</button></div><div className={Styles.tagsContainer}>{formData.psychology.mistakes_made.map(mistake => (<span key={mistake} className={Styles.tag}>{mistake}<button type="button" onClick={() => removeMistake(mistake)}>×</button></span>))}</div></div>
-                        <div className={Styles.formGroup}><label>Lessons Learned</label><textarea value={formData.psychology.lessons_learned} onChange={(e) => handlePsychologyChange({ lessons_learned: e.target.value })} rows={4}/></div>
+                        <div className={Styles.formGroup}>
+                          <label>Mistakes Made</label>
+                          <div className={Styles.tagInputContainer}>
+                            <input type="text" value={newMistake} onChange={(e) => setNewMistake(e.target.value)} placeholder="Add mistake and press Enter" onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addMistake())} />
+                            <button type="button" onClick={addMistake}>Add</button>
+                          </div>
+                          <div className={Styles.tagsContainer}>
+                            {formData.psychology.mistakes_made.map(mistake => (
+                              <span key={mistake} className={Styles.tag}>
+                                {mistake}
+                                <button type="button" onClick={() => removeMistake(mistake)}>×</button>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className={Styles.formGroup}>
+                          <label>Lessons Learned <span className={Styles.required}>*</span></label>
+                          <textarea value={formData.psychology.lessons_learned} onChange={(e) => handlePsychologyChange({ lessons_learned: e.target.value })} rows={4} required/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -284,7 +474,9 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose }) => {
             <button type="button" onClick={handleReset} className={Styles.resetBtn} title="Reset Form">
               <RiResetLeftLine />
             </button>
-            <button type="submit" className={Styles.submitBtn}>Save Trade</button>
+            <button type="submit" className={Styles.submitBtn}>
+              {tradeToEdit ? 'Update Trade' : 'Save Trade'}
+            </button>
           </div>
         </form>
       </div>

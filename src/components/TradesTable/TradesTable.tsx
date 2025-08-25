@@ -1,7 +1,10 @@
+// TradesTable.tsx - Updated to pass trade data for editing
+
 import React from 'react';
 import { MdEdit, MdDelete } from "react-icons/md";
 import Styles from "./TradesTable.module.css";
 import { useTrades } from '../../hooks/useTrade';
+import { useOutletContext } from "react-router-dom"; // Import the hook to get context
 
 // Define the TradeRow interface for clarity and type-safety
 export interface TradeRow {
@@ -58,15 +61,18 @@ function getName(val: undefined | null | { name?: string } | string): string {
 
 const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
   const { deleteTrade } = useTrades();
+  // Get the handleEditTradeClick from the outlet context
+  const { handleEditTradeClick } = useOutletContext<{ handleEditTradeClick: (trade: TradeRow) => void }>();
 
   const handleDelete = (tradeId: string) => {
     if (window.confirm("Are you sure you want to delete this trade?")) {
       deleteTrade(tradeId);
     }
   };
-
-  const handleEdit = (tradeId: string) => {
-    alert(`Edit functionality for trade ID: ${tradeId}`);
+  
+  // No longer a simple alert, this now opens the popup with trade data
+  const handleEdit = (trade: TradeRow) => {
+    handleEditTradeClick(trade);
   };
 
   return (
@@ -106,7 +112,7 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
                 <div className={Styles.actionIcons}>
                   <MdEdit
                     className={Styles.editIcon}
-                    onClick={() => handleEdit(trade._id)}
+                    onClick={() => handleEdit(trade)}
                   />
                   <MdDelete
                     className={Styles.deleteIcon}
