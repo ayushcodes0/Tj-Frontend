@@ -1,5 +1,4 @@
-
-.sidebar{
+.sidebar {
     min-width: 240px;
     height: 100vh;
     border-right: 1px solid var(--dashboard-borders);
@@ -8,14 +7,20 @@
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    transition: min-width 0.3s ease;
+    overflow: hidden;
 }
 
-.sidebar:hover .sidebarIcon{
+.sidebar.collapsed {
+    min-width: 60px;
+}
+
+.sidebar:hover .sidebarIcon {
     display: block;
     transition: all ease .3s;
 }
 
-.userInfo{
+.userInfo {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,7 +28,7 @@
     border-bottom: 1px solid var(--dashboard-borders);
 }
 
-.userProfile{
+.userProfile {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -32,13 +37,33 @@
     border-radius: 6px;
 }
 
-.userProfile:hover{
+.userProfile:hover {
     cursor: pointer;
     background-color: var(--dashboard-buttons-hover);
     transition: all ease .3s;
 }
 
-.userIcon{
+/* NEW: Container for crown and user icon */
+.userIconContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* NEW: Crown icon styling - positioned above and tilted left */
+.crownIcon {
+    position: absolute;
+    top: -8px;
+    left: -3px;
+    font-size: 15px;
+    color: #e4c200;
+    transform: rotate(-25deg);
+    z-index: 2;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.userIcon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,32 +72,34 @@
     padding: 6px;
     border-radius: 6px;
     background-color: var(--dashboard-userIcon-color);
+    position: relative;
+    z-index: 1;
 }
 
-.firstLetter{
+.firstLetter {
     font-size: 12px;
     color: white;
     font-weight: 600;
 }
 
-.usernameContainer{
+.usernameContainer {
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.downArrowIcon{
+.downArrowIcon {
     font-size: 14px;
     color: var(--dashboard-icons-color);
 }
 
-.username{
+.username {
     font-size: 16px;
     color: var(--dashboard-primary-text);
     font-weight: 600;
 }
 
-.sidebarIconContainer{
+.sidebarIconContainer {
     width: 32px;
     height: 32px;
     border-radius: 6px;
@@ -81,68 +108,68 @@
     align-items: center;
 }
 
-.sidebarIcon{
+.sidebarIcon {
     font-size: 18px;
     color: var(--dashboard-icons-color);
     display: none;
     font-weight: 700;
 }
 
-.sidebarIconContainer:hover{
+.sidebarIconContainer:hover {
     background-color: var(--dashboard-buttons-hover);
     transition: all ease .3s;
     cursor: pointer;
 }
 
-
-.sidebarNavContainer{
+.sidebarNavContainer {
     border-bottom: 1px solid var(--dashboard-borders);
 }
 
-.sidebarNav{
+.sidebarNav {
     display: flex;
     flex-direction: column;
     gap: 4px;
     padding: 12px 8px;
 }
 
-.sidebarNavLink{
+.sidebarNavLink {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 6px 15px;
     border-radius: 6px;
     cursor: pointer;
+    text-decoration: none;
+    position: relative;
 }
 
 .sidebarNavLink.active,
 .sidebarNavLink.active:hover {
     background-color: var(--dashboard-buttons-hover);
-    transition: none; /* Prevent brief flicker when switching */
+    transition: none;
 }
 
-.sidebarNavLink:hover{
+.sidebarNavLink:hover {
     cursor: pointer;
     background-color: var(--dashboard-buttons-hover);
     transition: all ease .3s;
 }
 
-.sideIcon{
+.sideIcon {
     color: var(--dashboard-icons-color);
     font-size: 16px;
 }
 
-.navTexts{
+.navTexts {
     color: var(--dashboard-secondary-text);
     font-size: 15px;
 }
 
-.sidebarBottom{
+.sidebarBottom {
     border-top: 1px solid var(--dashboard-borders);
 }
 
-
-.bottomOptions{
+.bottomOptions {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -150,13 +177,13 @@
     padding: 4px 0;
 }
 
-.bottomDivider{
+.bottomDivider {
     width: 1px;
     height: 20px;
     background-color: var(--dashboard-borders);
 }
 
-.bottomLeft, .bottomRight{
+.bottomLeft, .bottomRight {
     padding: 10px 10px 10px 9px;
     display: flex;
     align-items: center;
@@ -166,23 +193,24 @@
     justify-content: center;
 }
 
-.bottomLeft:hover{
-    background-color: var(--dashboard-buttons-hover);
-    cursor: pointer;
-    transition: all ease .3s;
-}
-.bottomRight:hover{
+.bottomLeft:hover {
     background-color: var(--dashboard-buttons-hover);
     cursor: pointer;
     transition: all ease .3s;
 }
 
-.bottomIcons{
+.bottomRight:hover {
+    background-color: var(--dashboard-buttons-hover);
+    cursor: pointer;
+    transition: all ease .3s;
+}
+
+.bottomIcons {
     font-size: 18px;
     color: var(--dashboard-icons-color);
 }
 
-.bottomTexts{
+.bottomTexts {
     font-size: 14px;
     color: var(--dashboard-secondary-text);
 }
@@ -217,27 +245,7 @@
     font-size: 16px;
 }
 
-
-/* Add to your existing Sidebar.module.css */
-
-.sidebar.collapsed {
-    min-width: 60px;
-    transition: min-width 0.3s ease;
-}
-
-.sidebar {
-    min-width: 240px;
-    height: 100vh;
-    border-right: 1px solid var(--dashboard-borders);
-    background-color: var(--dashboard-primary-background);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    transition: min-width 0.3s ease; /* Add smooth transition */
-}
-
-/* Update bottom options for collapsed state */
+/* Collapsed state styles */
 .collapsed .bottomOptions {
     flex-direction: column;
     gap: 8px;
@@ -251,7 +259,6 @@
     justify-content: center;
 }
 
-/* Center icons when collapsed */
 .collapsed .sidebarNavLink {
     justify-content: center;
     padding: 8px;
@@ -261,16 +268,11 @@
     justify-content: center;
 }
 
-/* Hide overflow for smooth animation */
-.sidebar {
-    overflow: hidden;
-}
-
 .collapsed .themeToggleContainer {
     display: none;
 }
 
-/* Tooltip for collapsed state (optional) */
+/* Tooltip for collapsed state */
 .collapsed .sidebarNavLink {
     position: relative;
 }
@@ -290,10 +292,20 @@
     z-index: 1000;
     opacity: 0;
     animation: fadeIn 0.2s ease forwards;
+    pointer-events: none;
 }
 
 @keyframes fadeIn {
     to {
         opacity: 1;
+    }
+}
+
+/* Responsive adjustments for crown */
+@media (max-width: 768px) {
+    .crownIcon {
+        font-size: 12px;
+        top: -6px;
+        left: 1px;
     }
 }

@@ -1,6 +1,6 @@
 // Sidebar.tsx - Updated to work with your DashboardLayout
 import Styles from './Sidebar.module.css';
-import { FaMoon, FaShieldAlt } from "react-icons/fa";
+import { FaMoon, FaShieldAlt, FaCrown } from "react-icons/fa";
 import { FaRegLightbulb } from "react-icons/fa";
 import { RiDashboardLine } from "react-icons/ri";
 import { useAuth } from "../../hooks/useAuth";
@@ -65,14 +65,17 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick, isCollapsed, onColla
     }, [isCollapsed]);
 
     return (
-        <div ref={sidebarRef} className={Styles.sidebar}>
+        <div ref={sidebarRef} className={`${Styles.sidebar} ${isCollapsed ? Styles.collapsed : ''}`}>
             <div className={Styles.sidebarTopSection}>
                 <div className={Styles.userInfo}>
                     <div className={Styles.userProfile} onClick={() => setShowProfilePopup(!showProfilePopup)}>
-                        <div className={Styles.userIcon}>
-                            <p className={Styles.firstLetter}>
-                                {user?.username?.[0].toUpperCase()}
-                            </p>
+                        <div className={Styles.userIconContainer}>
+                            <FaCrown className={Styles.crownIcon} />
+                            <div className={Styles.userIcon}>
+                                <p className={Styles.firstLetter}>
+                                    {user?.username?.[0].toUpperCase()}
+                                </p>
+                            </div>
                         </div>
                         {!isCollapsed && (
                             <div className={Styles.usernameContainer}>
@@ -84,23 +87,44 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick, isCollapsed, onColla
                 </div>
                 <div className={Styles.sidebarNavContainer}>
                     <nav className={Styles.sidebarNav}>
-                        <NavLink to="/dashboard" end className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard" 
+                            end 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="Dashboard"
+                        >
                             <RiDashboardLine className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>Dashboard</span>}
                         </NavLink>
-                        <NavLink to="/dashboard/trades" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard/trades" 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="Trades"
+                        >
                             <FaArrowTrendUp className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>Trades</span>}
                         </NavLink>
-                        <NavLink to="/dashboard/performance" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard/performance" 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="Performance"
+                        >
                             <IoStatsChartSharp className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>Performance</span>}
                         </NavLink>
-                        <NavLink to="/dashboard/calendar" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard/calendar" 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="Monthly updates"
+                        >
                             <TbCalendarMonthFilled className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>Monthly updates</span>}
                         </NavLink>
-                        <NavLink to="/dashboard/ai-insights" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard/ai-insights" 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="AI Insights"
+                        >
                             <FaRegLightbulb className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>AI Insights</span>}
                         </NavLink>
@@ -108,15 +132,27 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick, isCollapsed, onColla
                 </div>
                 <div className={Styles.sidebarNavContainer}>
                     <nav className={Styles.sidebarNav}>
-                        <NavLink to="/dashboard/risk" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard/risk" 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="Risk"
+                        >
                             <FaShieldAlt className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>Risk</span>}
                         </NavLink>
-                        <NavLink to="/dashboard/psychology" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard/psychology" 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="Psychology"
+                        >
                             <LuBrain className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>Psychology</span>}
                         </NavLink>
-                        <NavLink to="/dashboard/settings" className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}>
+                        <NavLink 
+                            to="/dashboard/settings" 
+                            className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
+                            data-tooltip="Settings"
+                        >
                             <IoSettingsOutline className={Styles.sideIcon} />
                             {!isCollapsed && <span className={Styles.navTexts}>Settings</span>}
                         </NavLink>
