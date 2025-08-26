@@ -27,8 +27,6 @@
 
 .content {
   padding: 32px;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 /* Main Content Styles */
@@ -570,4 +568,69 @@
   .pageTitle {
     font-size: 24px;
   }
+}
+
+
+/* Updated Icon Styling */
+.securityIcon {
+  font-size: 24px;
+  margin-right: 16px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  color: var(--dashboard-blue-color, #3b82f6);
+}
+
+.statIcon {
+  font-size: 20px;
+  margin-right: 8px;
+  color: var(--dashboard-blue-color, #3b82f6);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--dashboard-secondary-text, #64748b);
+  padding: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--dashboard-borders, #e2e8f0);
+  color: var(--dashboard-primary-text, #334155);
+}
+
+/* Additional responsive styling for icons */
+@media (max-width: 768px) {
+  .securityIcon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .statIcon {
+    font-size: 18px;
+  }
+}
+
+/* Add color coding for performance highlights */
+.positive {
+  color: var(--dashboard-green-color, #10b981) !important;
+}
+
+.negative {
+  color: var(--dashboard-red-color, #ef4444) !important;
 }

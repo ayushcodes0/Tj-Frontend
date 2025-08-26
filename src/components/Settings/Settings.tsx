@@ -4,6 +4,20 @@ import { useTrades } from "../../hooks/useTrade";
 import Styles from "./Settings.module.css";
 import type { Trade } from "../../context/TradeContext";
 
+// React Icons imports
+import { 
+  FaLock, 
+  FaMobileAlt, 
+  FaTrophy, 
+  FaFire, 
+  FaChartLine, 
+  FaDollarSign, 
+  FaChartBar 
+} from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { FaBullseye } from 'react-icons/fa';
+
+
 interface TradeStats {
   total: number;
   best: Trade | null;
@@ -17,12 +31,12 @@ interface TradeStats {
   maxStreak: number;
 }
 
-const formatCurrency = (num: number | undefined, decimals: number = 0) =>
+const formatCurrency = (num: number | undefined, decimals: number = 0): string =>
   typeof num === "number"
     ? "₹" + num.toLocaleString(undefined, { maximumFractionDigits: decimals })
     : "--";
 
-const Settings = () => {
+const Settings: React.FC = () => {
   const { user, updateAvatar, loading, changeUsername, changePassword } = useAuth();
   const { trades, fetchTrades } = useTrades();
 
@@ -30,18 +44,18 @@ const Settings = () => {
   const [avatarUploadError, setAvatarUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [showUserModal, setShowUserModal] = useState(false);
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState<boolean>(false);
+  const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
   
-  const [newUsername, setNewUsername] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const [usernameSuccess, setUsernameSuccess] = useState("");
+  const [newUsername, setNewUsername] = useState<string>("");
+  const [usernameError, setUsernameError] = useState<string>("");
+  const [usernameSuccess, setUsernameSuccess] = useState<string>("");
 
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPass, setConfirmPass] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [passwordSuccess, setPasswordSuccess] = useState("");
+  const [currentPassword, setCurrentPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmPass, setConfirmPass] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
+  const [passwordSuccess, setPasswordSuccess] = useState<string>("");
 
   // Fetch all trades for lifetime when the component mounts
   useEffect(() => {
@@ -76,18 +90,18 @@ const Settings = () => {
 
     // Count symbol occurrences
     const symCount: Record<string, number> = {};
-    trades.forEach(t => {
+    trades.forEach((t: Trade) => {
       if (t.symbol) {
         symCount[t.symbol] = (symCount[t.symbol] ?? 0) + 1;
       }
     });
 
-    const mostSymbol = Object.entries(symCount).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+    const mostSymbol = Object.entries(symCount).sort(([, a], [, b]) => b - a)[0]?.[0] ?? null;
 
     // Get first and last trade dates
     const sortedDates = trades
-      .map(t => t.date)
-      .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+      .map((t: Trade) => t.date)
+      .sort((a: string, b: string) => new Date(a).getTime() - new Date(b).getTime());
 
     const first = sortedDates.length > 0 ? new Date(sortedDates[0]) : null;
     const last = sortedDates.length > 0 ? new Date(sortedDates[sortedDates.length - 1]) : null;
@@ -144,7 +158,7 @@ const Settings = () => {
     return username.substring(0, 2).toUpperCase();
   };
 
-  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     setAvatarUploadError(null);
     const file = e.target.files?.[0];
     if (!file) return;
@@ -164,11 +178,11 @@ const Settings = () => {
     }
   };
 
-  const handleAvatarClick = () => {
+  const handleAvatarClick = (): void => {
     fileInputRef.current?.click();
   };
 
-  const handleUsernameSubmit = async (e: React.FormEvent) => {
+  const handleUsernameSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     if (!newUsername.trim()) {
       setUsernameError("Username cannot be empty");
@@ -188,7 +202,7 @@ const Settings = () => {
     }
   };
 
-  const handlePasswordSubmit = async (e: React.FormEvent) => {
+  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setPasswordError("");
     setPasswordSuccess("");
@@ -310,10 +324,12 @@ const Settings = () => {
             <div className={Styles.sectionBody}>
               <div className={Styles.securityGrid}>
                 <div className={Styles.securityItem}>
-                  <div className={Styles.securityIcon}>🔒</div>
+                  <div className={Styles.securityIcon}>
+                    <FaLock />
+                  </div>
                   <div className={Styles.securityInfo}>
                     <h3>Password</h3>
-                    <p>Last changed: 2 months ago</p>
+                    <p>Keep your account secure with a strong password</p>
                   </div>
                   <button 
                     className={Styles.primaryButton}
@@ -324,7 +340,9 @@ const Settings = () => {
                 </div>
                 
                 <div className={Styles.securityItem}>
-                  <div className={Styles.securityIcon}>📱</div>
+                  <div className={Styles.securityIcon}>
+                    <FaMobileAlt />
+                  </div>
                   <div className={Styles.securityInfo}>
                     <h3>Two-Factor Authentication</h3>
                     <p>Add an extra layer of security to your account</p>
@@ -347,7 +365,9 @@ const Settings = () => {
               <div className={Styles.statsGrid}>
                 <div className={Styles.statCard}>
                   <div className={Styles.statHeader}>
-                    <div className={Styles.statIcon}>📈</div>
+                    <div className={Styles.statIcon}>
+                      <FaChartLine />
+                    </div>
                     <h3>Total Trades</h3>
                   </div>
                   <div className={Styles.statValue}>{tradeStats.total}</div>
@@ -355,7 +375,9 @@ const Settings = () => {
                 
                 <div className={Styles.statCard}>
                   <div className={Styles.statHeader}>
-                    <div className={Styles.statIcon}>💰</div>
+                    <div className={Styles.statIcon}>
+                      <FaDollarSign />
+                    </div>
                     <h3>Total Profit</h3>
                   </div>
                   <div className={Styles.statValue}>{formatCurrency(tradeStats.totalProfit)}</div>
@@ -363,7 +385,9 @@ const Settings = () => {
                 
                 <div className={Styles.statCard}>
                   <div className={Styles.statHeader}>
-                    <div className={Styles.statIcon}>🎯</div>
+                    <div className={Styles.statIcon}>
+                      <FaBullseye />
+                    </div>
                     <h3>Win Rate</h3>
                   </div>
                   <div className={Styles.statValue}>{tradeStats.winRate.toFixed(1)}%</div>
@@ -371,7 +395,9 @@ const Settings = () => {
                 
                 <div className={Styles.statCard}>
                   <div className={Styles.statHeader}>
-                    <div className={Styles.statIcon}>📊</div>
+                    <div className={Styles.statIcon}>
+                      <FaChartBar />
+                    </div>
                     <h3>Most Traded</h3>
                   </div>
                   <div className={Styles.statValue}>{tradeStats.mostSymbol || "--"}</div>
@@ -379,7 +405,9 @@ const Settings = () => {
 
                 <div className={Styles.statCard}>
                   <div className={Styles.statHeader}>
-                    <div className={Styles.statIcon}>🔥</div>
+                    <div className={Styles.statIcon}>
+                      <FaFire />
+                    </div>
                     <h3>Current Streak</h3>
                   </div>
                   <div className={Styles.statValue}>{tradeStats.currentStreak}</div>
@@ -387,7 +415,9 @@ const Settings = () => {
 
                 <div className={Styles.statCard}>
                   <div className={Styles.statHeader}>
-                    <div className={Styles.statIcon}>🏆</div>
+                    <div className={Styles.statIcon}>
+                      <FaTrophy />
+                    </div>
                     <h3>Max Streak</h3>
                   </div>
                   <div className={Styles.statValue}>{tradeStats.maxStreak}</div>
@@ -399,13 +429,13 @@ const Settings = () => {
                 <div className={Styles.highlightsGrid}>
                   <div className={Styles.highlightItem}>
                     <span className={Styles.highlightLabel}>Best Trade</span>
-                    <span className={Styles.highlightValue}>
+                    <span className={`${Styles.highlightValue} ${Styles.positive}`}>
                       {tradeStats.best ? formatCurrency(tradeStats.best.pnl_amount) : "--"}
                     </span>
                   </div>
                   <div className={Styles.highlightItem}>
                     <span className={Styles.highlightLabel}>Worst Trade</span>
-                    <span className={Styles.highlightValue}>
+                    <span className={`${Styles.highlightValue} ${Styles.negative}`}>
                       {tradeStats.worst ? formatCurrency(tradeStats.worst.pnl_amount) : "--"}
                     </span>
                   </div>
@@ -438,7 +468,7 @@ const Settings = () => {
                 className={Styles.closeButton}
                 onClick={() => setShowUserModal(false)}
               >
-                &times;
+                <IoClose />
               </button>
             </div>
             <div className={Styles.modalBody}>
@@ -454,7 +484,7 @@ const Settings = () => {
                     type="text"
                     placeholder="Enter new username"
                     value={newUsername}
-                    onChange={e => setNewUsername(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewUsername(e.target.value)}
                     disabled={loading}
                     minLength={3}
                     required
@@ -490,7 +520,7 @@ const Settings = () => {
                 className={Styles.closeButton}
                 onClick={() => setShowPasswordModal(false)}
               >
-                &times;
+                <IoClose />
               </button>
             </div>
             <div className={Styles.modalBody}>
@@ -503,7 +533,7 @@ const Settings = () => {
                     placeholder="Current password"
                     autoComplete="current-password"
                     value={currentPassword}
-                    onChange={e => setCurrentPassword(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCurrentPassword(e.target.value)}
                     disabled={loading}
                     required
                   />
@@ -516,7 +546,7 @@ const Settings = () => {
                     placeholder="New password"
                     autoComplete="new-password"
                     value={newPassword}
-                    onChange={e => setNewPassword(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
                     disabled={loading}
                     required
                     minLength={6}
@@ -530,7 +560,7 @@ const Settings = () => {
                     placeholder="Confirm new password"
                     autoComplete="new-password"
                     value={confirmPass}
-                    onChange={e => setConfirmPass(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setConfirmPass(e.target.value)}
                     disabled={loading}
                     required
                     minLength={6}
