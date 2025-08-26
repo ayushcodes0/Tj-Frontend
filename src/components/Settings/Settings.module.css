@@ -248,7 +248,7 @@
 .statCard {
   background: var(--dashboard-buttons-hover, #f8fafc);
   border-radius: 12px;
-  padding: 20px;
+  padding: 16px;
   border: 1px solid var(--dashboard-borders, #e2e8f0);
   text-align: center;
 }
@@ -273,7 +273,7 @@
 }
 
 .statValue {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--dashboard-primary-text, #1e293b);
 }
@@ -356,7 +356,8 @@
 }
 
 .secondaryButton:hover {
-  background: var(--dashboard-buttons-hover, #f1f5f9);
+  background-color: var(--dashboard-blue-dark, #2563eb);
+  color: white;
 }
 
 .dangerButton {
@@ -392,7 +393,7 @@
 }
 
 .modal {
-  background: white;
+  background: var(--dashboard-primary-background);
   border-radius: 16px;
   width: 100%;
   max-width: 500px;
@@ -470,6 +471,7 @@
   border-radius: 8px;
   font-size: 15px;
   transition: border-color 0.2s ease;
+  background-color: transparent;
 }
 
 .formInput:focus {
