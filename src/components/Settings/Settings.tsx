@@ -62,42 +62,54 @@ const Settings: React.FC = () => {
   }, [fetchTrades]);
 
   // Fixed streak calculation function
-  const calculateStreaks = (trades: Trade[]): { current: number; max: number } => {
-    if (!trades || trades.length === 0) return { current: 0, max: 0 };
+  // Fixed streak calculation function
+const calculateStreaks = (trades: Trade[]): { current: number; max: number } => {
+  if (!trades || trades.length === 0) return { current: 0, max: 0 };
 
-    // Get unique trading dates (remove time, keep only date)
-    const uniqueDatesSet = new Set<string>();
-    trades.forEach((trade) => {
-      const dateStr = new Date(trade.date).toISOString().slice(0, 10);
-      uniqueDatesSet.add(dateStr);
-    });
+  // Get unique trading dates (remove time, keep only date)
+  const uniqueDatesSet = new Set<string>();
+  trades.forEach((trade) => {
+    const dateStr = new Date(trade.date).toISOString().slice(0, 10);
+    uniqueDatesSet.add(dateStr);
+  });
 
-    // Convert to sorted array of Date objects
-    const uniqueDates = Array.from(uniqueDatesSet)
-      .map(dateStr => new Date(dateStr))
-      .sort((a, b) => a.getTime() - b.getTime());
+  // Convert to sorted array of Date objects
+  const uniqueDates = Array.from(uniqueDatesSet)
+    .map(dateStr => new Date(dateStr))
+    .sort((a, b) => a.getTime() - b.getTime());
 
-    if (uniqueDates.length === 0) return { current: 0, max: 0 };
-    if (uniqueDates.length === 1) return { current: 1, max: 1 };
+  if (uniqueDates.length === 0) return { current: 0, max: 0 };
+  if (uniqueDates.length === 1) return { current: 1, max: 1 };
 
-    let maxStreak = 1;
-    let tempStreak = 1;
+  let maxStreak = 1;
+  let tempStreak = 1;
 
-    // Calculate max streak
-    for (let i = 1; i < uniqueDates.length; i++) {
-      const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
-      
-      if (daysDiff === 1) {
-        tempStreak++;
-      } else {
-        maxStreak = Math.max(maxStreak, tempStreak);
-        tempStreak = 1;
-      }
+  // Calculate max streak
+  for (let i = 1; i < uniqueDates.length; i++) {
+    const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
+    
+    if (daysDiff === 1) {
+      tempStreak++;
+    } else {
+      maxStreak = Math.max(maxStreak, tempStreak);
+      tempStreak = 1;
     }
-    maxStreak = Math.max(maxStreak, tempStreak);
+  }
+  maxStreak = Math.max(maxStreak, tempStreak);
 
-    // Calculate current streak (from the most recent date going backwards)
+  // Calculate current streak - FIXED: Check if last trade was today or yesterday
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
+  const yesterdayStr = yesterday.toISOString().slice(0, 10);
+  
+  const lastTradeDateStr = uniqueDates[uniqueDates.length - 1].toISOString().slice(0, 10);
+
+  // Only count current streak if last trade was today or yesterday
+  if (lastTradeDateStr === todayStr || lastTradeDateStr === yesterdayStr) {
     let currentStreak = 1;
+    
+    // Count backwards from the most recent date
     for (let i = uniqueDates.length - 1; i > 0; i--) {
       const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
       
@@ -107,9 +119,14 @@ const Settings: React.FC = () => {
         break;
       }
     }
-
+    
     return { current: currentStreak, max: maxStreak };
-  };
+  } else {
+    // Last trade was more than 1 day ago, so current streak is 0
+    return { current: 0, max: maxStreak };
+  }
+};
+
 
   const tradeStats: TradeStats = useMemo(() => {
     if (!trades || !trades.length) {
