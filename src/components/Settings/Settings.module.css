@@ -188,6 +188,7 @@
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 /* Security Section */
@@ -344,7 +345,7 @@
 
 .secondaryButton {
   background: white;
-  color: var(--dashboard-primary-text, #334155);
+  color: var(--dark-text, #334155);
   border: 1px solid var(--dashboard-borders, #cbd5e1);
   border-radius: 8px;
   padding: 10px 20px;

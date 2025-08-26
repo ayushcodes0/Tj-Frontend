@@ -196,6 +196,7 @@
 
   --landing-background: #FCFCFC;
   --landing-sec-background: #F9F9F9;
+  --dark-text: #1e1e22;
 }
 
 html[data-theme='dark'] {
