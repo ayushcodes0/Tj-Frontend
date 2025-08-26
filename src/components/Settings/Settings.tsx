@@ -13,6 +13,8 @@ interface TradeStats {
   last: Date | null;
   totalProfit: number;
   winRate: number;
+  currentStreak: number;
+  maxStreak: number;
 }
 
 const formatCurrency = (num: number | undefined, decimals: number = 0) =>
@@ -21,7 +23,7 @@ const formatCurrency = (num: number | undefined, decimals: number = 0) =>
     : "--";
 
 const Settings = () => {
-  const { user, updateAvatar, loading, changeUsername, changePassword, logout } = useAuth();
+  const { user, updateAvatar, loading, changeUsername, changePassword } = useAuth();
   const { trades, fetchTrades } = useTrades();
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -57,6 +59,8 @@ const Settings = () => {
         last: null,
         totalProfit: 0,
         winRate: 0,
+        currentStreak: 0,
+        maxStreak: 0
       };
     }
 
@@ -95,6 +99,28 @@ const Settings = () => {
     const winningTrades = trades.filter(trade => (trade.pnl_amount || 0) > 0).length;
     const winRate = trades.length > 0 ? (winningTrades / trades.length) * 100 : 0;
 
+    // Calculate streaks
+    let currentStreak = 0;
+    let maxStreak = 0;
+    let tempStreak = 0;
+    
+    // Sort trades by date to calculate streaks correctly
+    const sortedTrades = [...trades].sort((a, b) => 
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+    
+    sortedTrades.forEach(trade => {
+      if ((trade.pnl_amount || 0) > 0) {
+        tempStreak++;
+        currentStreak = tempStreak;
+        if (tempStreak > maxStreak) {
+          maxStreak = tempStreak;
+        }
+      } else {
+        tempStreak = 0;
+      }
+    });
+
     return {
       total: trades.length,
       best,
@@ -104,6 +130,8 @@ const Settings = () => {
       last,
       totalProfit,
       winRate,
+      currentStreak,
+      maxStreak
     };
   }, [trades]);
 
@@ -197,73 +225,76 @@ const Settings = () => {
       </div>
 
       <div className={Styles.content}>
-        <div className={Styles.settingsGrid}>
+        <div className={Styles.mainContent}>
           {/* Profile Section */}
-          <div className={Styles.settingsCard}>
-            <div className={Styles.cardHeader}>
+          <div className={Styles.sectionCard}>
+            <div className={Styles.sectionHeader}>
               <h2>Profile Information</h2>
+              <p>Manage your personal information and how others see you on the platform</p>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.avatarSection}>
-                <div className={Styles.avatarContainer} onClick={handleAvatarClick}>
-                  {displayAvatar ? (
-                    <img
-                      src={displayAvatar}
-                      alt="User Avatar"
-                      className={Styles.avatarImg}
-                    />
-                  ) : (
-                    <div className={Styles.avatarInitials}>
-                      {getInitials(user?.username)}
+            <div className={Styles.sectionBody}>
+              <div className={Styles.profileGrid}>
+                <div className={Styles.avatarSection}>
+                  <div className={Styles.avatarContainer} onClick={handleAvatarClick}>
+                    {displayAvatar ? (
+                      <img
+                        src={displayAvatar}
+                        alt="User Avatar"
+                        className={Styles.avatarImg}
+                      />
+                    ) : (
+                      <div className={Styles.avatarInitials}>
+                        {getInitials(user?.username)}
+                      </div>
+                    )}
+                    <div className={Styles.avatarOverlay}>
+                      <span>Change</span>
                     </div>
+                  </div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={handleAvatarChange}
+                    disabled={loading}
+                  />
+                  {avatarUploadError && (
+                    <div className={Styles.error}>{avatarUploadError}</div>
                   )}
-                  <div className={Styles.avatarOverlay}>
-                    <span>Change</span>
+                  <p className={Styles.avatarHint}>JPG, PNG. Max size 5MB.</p>
+                </div>
+                
+                <div className={Styles.profileDetails}>
+                  <div className={Styles.detailItem}>
+                    <label className={Styles.detailLabel}>Username</label>
+                    <div className={Styles.detailValue}>{user?.username || "--"}</div>
+                    <button 
+                      className={Styles.editFieldButton}
+                      onClick={() => setShowUserModal(true)}
+                    >
+                      Edit
+                    </button>
                   </div>
-                </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  onChange={handleAvatarChange}
-                  disabled={loading}
-                />
-                {avatarUploadError && (
-                  <div className={Styles.error}>{avatarUploadError}</div>
-                )}
-                <p className={Styles.avatarHint}>Click to upload a new photo. Max size 5MB.</p>
-              </div>
-              
-              <div className={Styles.profileDetails}>
-                <div className={Styles.detailRow}>
-                  <div className={Styles.detailLabel}>Username</div>
-                  <div className={Styles.detailValue}>{user?.username || "--"}</div>
-                  <button 
-                    className={Styles.editButton}
-                    onClick={() => setShowUserModal(true)}
-                  >
-                    ⋮
-                  </button>
-                </div>
-                <div className={Styles.detailRow}>
-                  <div className={Styles.detailLabel}>Email</div>
-                  <div className={Styles.detailValue}>{user?.email || "--"}</div>
-                </div>
-                <div className={Styles.detailRow}>
-                  <div className={Styles.detailLabel}>Member Since</div>
-                  <div className={Styles.detailValue}>
-                    {user?.createdAt
-                      ? new Date(user.createdAt).toLocaleDateString()
-                      : "--"}
+                  <div className={Styles.detailItem}>
+                    <label className={Styles.detailLabel}>Email</label>
+                    <div className={Styles.detailValue}>{user?.email || "--"}</div>
                   </div>
-                </div>
-                <div className={Styles.detailRow}>
-                  <div className={Styles.detailLabel}>Subscription</div>
-                  <div className={Styles.detailValue}>
-                    <span className={Styles.subscriptionBadge}>
-                      {user?.subscription?.plan || "Free"}
-                    </span>
+                  <div className={Styles.detailItem}>
+                    <label className={Styles.detailLabel}>Member Since</label>
+                    <div className={Styles.detailValue}>
+                      {user?.createdAt
+                        ? new Date(user.createdAt).toLocaleDateString()
+                        : "--"}
+                    </div>
+                  </div>
+                  <div className={Styles.detailItem}>
+                    <label className={Styles.detailLabel}>Subscription</label>
+                    <div className={Styles.detailValue}>
+                      <span className={Styles.subscriptionBadge}>
+                        {user?.subscription?.plan || "Free"}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -271,32 +302,35 @@ const Settings = () => {
           </div>
 
           {/* Security Section */}
-          <div className={Styles.settingsCard}>
-            <div className={Styles.cardHeader}>
+          <div className={Styles.sectionCard}>
+            <div className={Styles.sectionHeader}>
               <h2>Security</h2>
+              <p>Manage your password and account security settings</p>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.securityOptions}>
-                <div className={Styles.securityOption}>
-                  <div className={Styles.optionInfo}>
-                    <h3>Change Password</h3>
-                    <p>Update your password to keep your account secure</p>
+            <div className={Styles.sectionBody}>
+              <div className={Styles.securityGrid}>
+                <div className={Styles.securityItem}>
+                  <div className={Styles.securityIcon}>🔒</div>
+                  <div className={Styles.securityInfo}>
+                    <h3>Password</h3>
+                    <p>Last changed: 2 months ago</p>
                   </div>
                   <button 
-                    className={Styles.optionButton}
+                    className={Styles.primaryButton}
                     onClick={() => setShowPasswordModal(true)}
                   >
-                    Change
+                    Update
                   </button>
                 </div>
                 
-                <div className={Styles.securityOption}>
-                  <div className={Styles.optionInfo}>
-                    <h3>Session Management</h3>
-                    <p>Manage your active sessions</p>
+                <div className={Styles.securityItem}>
+                  <div className={Styles.securityIcon}>📱</div>
+                  <div className={Styles.securityInfo}>
+                    <h3>Two-Factor Authentication</h3>
+                    <p>Add an extra layer of security to your account</p>
                   </div>
-                  <button className={Styles.optionButton} onClick={logout}>
-                    Logout All
+                  <button className={Styles.secondaryButton}>
+                    Enable
                   </button>
                 </div>
               </div>
@@ -304,61 +338,89 @@ const Settings = () => {
           </div>
 
           {/* Trading Stats Section */}
-          <div className={Styles.settingsCard}>
-            <div className={Styles.cardHeader}>
+          <div className={Styles.sectionCard}>
+            <div className={Styles.sectionHeader}>
               <h2>Trading Statistics</h2>
+              <p>Your overall trading performance summary</p>
             </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.statsOverview}>
-                <div className={Styles.statItem}>
-                  <div className={Styles.statIcon}>📈</div>
-                  <div className={Styles.statContent}>
-                    <div className={Styles.statNumber}>{tradeStats.total}</div>
-                    <div className={Styles.statLabel}>Total Trades</div>
+            <div className={Styles.sectionBody}>
+              <div className={Styles.statsGrid}>
+                <div className={Styles.statCard}>
+                  <div className={Styles.statHeader}>
+                    <div className={Styles.statIcon}>📈</div>
+                    <h3>Total Trades</h3>
                   </div>
-                </div>
-                <div className={Styles.statItem}>
-                  <div className={Styles.statIcon}>💰</div>
-                  <div className={Styles.statContent}>
-                    <div className={Styles.statNumber}>{formatCurrency(tradeStats.totalProfit)}</div>
-                    <div className={Styles.statLabel}>Total Profit</div>
-                  </div>
-                </div>
-                <div className={Styles.statItem}>
-                  <div className={Styles.statIcon}>🎯</div>
-                  <div className={Styles.statContent}>
-                    <div className={Styles.statNumber}>{tradeStats.winRate.toFixed(1)}%</div>
-                    <div className={Styles.statLabel}>Win Rate</div>
-                  </div>
-                </div>
-                <div className={Styles.statItem}>
-                  <div className={Styles.statIcon}>📊</div>
-                  <div className={Styles.statContent}>
-                    <div className={Styles.statNumber}>{tradeStats.mostSymbol || "--"}</div>
-                    <div className={Styles.statLabel}>Most Traded</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Account Management Section */}
-          <div className={Styles.settingsCard}>
-            <div className={Styles.cardHeader}>
-              <h2>Account Management</h2>
-            </div>
-            <div className={Styles.cardBody}>
-              <div className={Styles.accountActions}>
-                <div className={Styles.accountAction}>
-                  <h3>Export Data</h3>
-                  <p>Download a copy of your trading data</p>
-                  <button className={Styles.secondaryButton}>Export Data</button>
+                  <div className={Styles.statValue}>{tradeStats.total}</div>
                 </div>
                 
-                <div className={Styles.accountAction}>
-                  <h3>Delete Account</h3>
-                  <p>Permanently delete your account and all data</p>
-                  <button className={Styles.dangerButton}>Delete Account</button>
+                <div className={Styles.statCard}>
+                  <div className={Styles.statHeader}>
+                    <div className={Styles.statIcon}>💰</div>
+                    <h3>Total Profit</h3>
+                  </div>
+                  <div className={Styles.statValue}>{formatCurrency(tradeStats.totalProfit)}</div>
+                </div>
+                
+                <div className={Styles.statCard}>
+                  <div className={Styles.statHeader}>
+                    <div className={Styles.statIcon}>🎯</div>
+                    <h3>Win Rate</h3>
+                  </div>
+                  <div className={Styles.statValue}>{tradeStats.winRate.toFixed(1)}%</div>
+                </div>
+                
+                <div className={Styles.statCard}>
+                  <div className={Styles.statHeader}>
+                    <div className={Styles.statIcon}>📊</div>
+                    <h3>Most Traded</h3>
+                  </div>
+                  <div className={Styles.statValue}>{tradeStats.mostSymbol || "--"}</div>
+                </div>
+
+                <div className={Styles.statCard}>
+                  <div className={Styles.statHeader}>
+                    <div className={Styles.statIcon}>🔥</div>
+                    <h3>Current Streak</h3>
+                  </div>
+                  <div className={Styles.statValue}>{tradeStats.currentStreak}</div>
+                </div>
+
+                <div className={Styles.statCard}>
+                  <div className={Styles.statHeader}>
+                    <div className={Styles.statIcon}>🏆</div>
+                    <h3>Max Streak</h3>
+                  </div>
+                  <div className={Styles.statValue}>{tradeStats.maxStreak}</div>
+                </div>
+              </div>
+              
+              <div className={Styles.advancedStats}>
+                <h3>Performance Highlights</h3>
+                <div className={Styles.highlightsGrid}>
+                  <div className={Styles.highlightItem}>
+                    <span className={Styles.highlightLabel}>Best Trade</span>
+                    <span className={Styles.highlightValue}>
+                      {tradeStats.best ? formatCurrency(tradeStats.best.pnl_amount) : "--"}
+                    </span>
+                  </div>
+                  <div className={Styles.highlightItem}>
+                    <span className={Styles.highlightLabel}>Worst Trade</span>
+                    <span className={Styles.highlightValue}>
+                      {tradeStats.worst ? formatCurrency(tradeStats.worst.pnl_amount) : "--"}
+                    </span>
+                  </div>
+                  <div className={Styles.highlightItem}>
+                    <span className={Styles.highlightLabel}>First Trade</span>
+                    <span className={Styles.highlightValue}>
+                      {tradeStats.first ? tradeStats.first.toLocaleDateString() : "--"}
+                    </span>
+                  </div>
+                  <div className={Styles.highlightItem}>
+                    <span className={Styles.highlightLabel}>Last Trade</span>
+                    <span className={Styles.highlightValue}>
+                      {tradeStats.last ? tradeStats.last.toLocaleDateString() : "--"}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
