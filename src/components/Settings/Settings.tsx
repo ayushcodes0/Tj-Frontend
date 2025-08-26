@@ -17,7 +17,6 @@ import {
 import { IoClose } from "react-icons/io5";
 import { FaBullseye } from 'react-icons/fa';
 
-
 interface TradeStats {
   total: number;
   best: Trade | null;
@@ -61,6 +60,56 @@ const Settings: React.FC = () => {
   useEffect(() => {
     fetchTrades("lifetime");
   }, [fetchTrades]);
+
+  // Fixed streak calculation function
+  const calculateStreaks = (trades: Trade[]): { current: number; max: number } => {
+    if (!trades || trades.length === 0) return { current: 0, max: 0 };
+
+    // Get unique trading dates (remove time, keep only date)
+    const uniqueDatesSet = new Set<string>();
+    trades.forEach((trade) => {
+      const dateStr = new Date(trade.date).toISOString().slice(0, 10);
+      uniqueDatesSet.add(dateStr);
+    });
+
+    // Convert to sorted array of Date objects
+    const uniqueDates = Array.from(uniqueDatesSet)
+      .map(dateStr => new Date(dateStr))
+      .sort((a, b) => a.getTime() - b.getTime());
+
+    if (uniqueDates.length === 0) return { current: 0, max: 0 };
+    if (uniqueDates.length === 1) return { current: 1, max: 1 };
+
+    let maxStreak = 1;
+    let tempStreak = 1;
+
+    // Calculate max streak
+    for (let i = 1; i < uniqueDates.length; i++) {
+      const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
+      
+      if (daysDiff === 1) {
+        tempStreak++;
+      } else {
+        maxStreak = Math.max(maxStreak, tempStreak);
+        tempStreak = 1;
+      }
+    }
+    maxStreak = Math.max(maxStreak, tempStreak);
+
+    // Calculate current streak (from the most recent date going backwards)
+    let currentStreak = 1;
+    for (let i = uniqueDates.length - 1; i > 0; i--) {
+      const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
+      
+      if (daysDiff === 1) {
+        currentStreak++;
+      } else {
+        break;
+      }
+    }
+
+    return { current: currentStreak, max: maxStreak };
+  };
 
   const tradeStats: TradeStats = useMemo(() => {
     if (!trades || !trades.length) {
@@ -113,27 +162,8 @@ const Settings: React.FC = () => {
     const winningTrades = trades.filter(trade => (trade.pnl_amount || 0) > 0).length;
     const winRate = trades.length > 0 ? (winningTrades / trades.length) * 100 : 0;
 
-    // Calculate streaks
-    let currentStreak = 0;
-    let maxStreak = 0;
-    let tempStreak = 0;
-    
-    // Sort trades by date to calculate streaks correctly
-    const sortedTrades = [...trades].sort((a, b) => 
-      new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
-    
-    sortedTrades.forEach(trade => {
-      if ((trade.pnl_amount || 0) > 0) {
-        tempStreak++;
-        currentStreak = tempStreak;
-        if (tempStreak > maxStreak) {
-          maxStreak = tempStreak;
-        }
-      } else {
-        tempStreak = 0;
-      }
-    });
+    // FIXED: Calculate streaks based on consecutive trading days
+    const streaks = calculateStreaks(trades);
 
     return {
       total: trades.length,
@@ -144,8 +174,8 @@ const Settings: React.FC = () => {
       last,
       totalProfit,
       winRate,
-      currentStreak,
-      maxStreak
+      currentStreak: streaks.current,
+      maxStreak: streaks.max
     };
   }, [trades]);
 
@@ -410,7 +440,7 @@ const Settings: React.FC = () => {
                     </div>
                     <h3>Current Streak</h3>
                   </div>
-                  <div className={Styles.statValue}>{tradeStats.currentStreak}</div>
+                  <div className={Styles.statValue}>{tradeStats.currentStreak} days</div>
                 </div>
 
                 <div className={Styles.statCard}>
@@ -420,7 +450,7 @@ const Settings: React.FC = () => {
                     </div>
                     <h3>Max Streak</h3>
                   </div>
-                  <div className={Styles.statValue}>{tradeStats.maxStreak}</div>
+                  <div className={Styles.statValue}>{tradeStats.maxStreak} days</div>
                 </div>
               </div>
               
