@@ -472,6 +472,7 @@
   font-size: 15px;
   transition: border-color 0.2s ease;
   background-color: transparent;
+  color: var(--dashboard-primary-text, #334155);
 }
 
 .formInput:focus {

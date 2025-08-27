@@ -1,6 +1,7 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useTrades } from "../../hooks/useTrade";
+import { useCustomToast } from "../../hooks/useCustomToast"; // Add this import
 import Styles from "./Settings.module.css";
 import type { Trade } from "../../context/TradeContext";
 
@@ -38,96 +39,90 @@ const formatCurrency = (num: number | undefined, decimals: number = 0): string =
 const Settings: React.FC = () => {
   const { user, updateAvatar, loading, changeUsername, changePassword } = useAuth();
   const { trades, fetchTrades } = useTrades();
+  const toast = useCustomToast(); // Add toast hook
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [avatarUploadError, setAvatarUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [showUserModal, setShowUserModal] = useState<boolean>(false);
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
   
   const [newUsername, setNewUsername] = useState<string>("");
-  const [usernameError, setUsernameError] = useState<string>("");
-  const [usernameSuccess, setUsernameSuccess] = useState<string>("");
+  // Remove manual error/success states - we'll use toasts instead
+  // const [usernameError, setUsernameError] = useState<string>("");
+  // const [usernameSuccess, setUsernameSuccess] = useState<string>("");
 
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmPass, setConfirmPass] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<string>("");
-  const [passwordSuccess, setPasswordSuccess] = useState<string>("");
+  // Remove manual error/success states - we'll use toasts instead
+  // const [passwordError, setPasswordError] = useState<string>("");
+  // const [passwordSuccess, setPasswordSuccess] = useState<string>("");
 
   // Fetch all trades for lifetime when the component mounts
   useEffect(() => {
     fetchTrades("lifetime");
   }, [fetchTrades]);
 
-  // Fixed streak calculation function
-  // Fixed streak calculation function
-const calculateStreaks = (trades: Trade[]): { current: number; max: number } => {
-  if (!trades || trades.length === 0) return { current: 0, max: 0 };
+  // Your existing calculateStreaks function stays the same...
+  const calculateStreaks = (trades: Trade[]): { current: number; max: number } => {
+    if (!trades || trades.length === 0) return { current: 0, max: 0 };
 
-  // Get unique trading dates (remove time, keep only date)
-  const uniqueDatesSet = new Set<string>();
-  trades.forEach((trade) => {
-    const dateStr = new Date(trade.date).toISOString().slice(0, 10);
-    uniqueDatesSet.add(dateStr);
-  });
+    const uniqueDatesSet = new Set<string>();
+    trades.forEach((trade) => {
+      const dateStr = new Date(trade.date).toISOString().slice(0, 10);
+      uniqueDatesSet.add(dateStr);
+    });
 
-  // Convert to sorted array of Date objects
-  const uniqueDates = Array.from(uniqueDatesSet)
-    .map(dateStr => new Date(dateStr))
-    .sort((a, b) => a.getTime() - b.getTime());
+    const uniqueDates = Array.from(uniqueDatesSet)
+      .map(dateStr => new Date(dateStr))
+      .sort((a, b) => a.getTime() - b.getTime());
 
-  if (uniqueDates.length === 0) return { current: 0, max: 0 };
-  if (uniqueDates.length === 1) return { current: 1, max: 1 };
+    if (uniqueDates.length === 0) return { current: 0, max: 0 };
+    if (uniqueDates.length === 1) return { current: 1, max: 1 };
 
-  let maxStreak = 1;
-  let tempStreak = 1;
+    let maxStreak = 1;
+    let tempStreak = 1;
 
-  // Calculate max streak
-  for (let i = 1; i < uniqueDates.length; i++) {
-    const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
-    
-    if (daysDiff === 1) {
-      tempStreak++;
-    } else {
-      maxStreak = Math.max(maxStreak, tempStreak);
-      tempStreak = 1;
-    }
-  }
-  maxStreak = Math.max(maxStreak, tempStreak);
-
-  // Calculate current streak - FIXED: Check if last trade was today or yesterday
-  const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
-  const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
-  const yesterdayStr = yesterday.toISOString().slice(0, 10);
-  
-  const lastTradeDateStr = uniqueDates[uniqueDates.length - 1].toISOString().slice(0, 10);
-
-  // Only count current streak if last trade was today or yesterday
-  if (lastTradeDateStr === todayStr || lastTradeDateStr === yesterdayStr) {
-    let currentStreak = 1;
-    
-    // Count backwards from the most recent date
-    for (let i = uniqueDates.length - 1; i > 0; i--) {
+    for (let i = 1; i < uniqueDates.length; i++) {
       const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
       
       if (daysDiff === 1) {
-        currentStreak++;
+        tempStreak++;
       } else {
-        break;
+        maxStreak = Math.max(maxStreak, tempStreak);
+        tempStreak = 1;
       }
     }
+    maxStreak = Math.max(maxStreak, tempStreak);
+
+    const today = new Date();
+    const todayStr = today.toISOString().slice(0, 10);
+    const yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000));
+    const yesterdayStr = yesterday.toISOString().slice(0, 10);
     
-    return { current: currentStreak, max: maxStreak };
-  } else {
-    // Last trade was more than 1 day ago, so current streak is 0
-    return { current: 0, max: maxStreak };
-  }
-};
+    const lastTradeDateStr = uniqueDates[uniqueDates.length - 1].toISOString().slice(0, 10);
 
+    if (lastTradeDateStr === todayStr || lastTradeDateStr === yesterdayStr) {
+      let currentStreak = 1;
+      
+      for (let i = uniqueDates.length - 1; i > 0; i--) {
+        const daysDiff = (uniqueDates[i].getTime() - uniqueDates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
+        
+        if (daysDiff === 1) {
+          currentStreak++;
+        } else {
+          break;
+        }
+      }
+      
+      return { current: currentStreak, max: maxStreak };
+    } else {
+      return { current: 0, max: maxStreak };
+    }
+  };
 
+  // Your existing tradeStats calculation stays the same...
   const tradeStats: TradeStats = useMemo(() => {
     if (!trades || !trades.length) {
       return {
@@ -144,7 +139,6 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
       };
     }
 
-    // Find best and worst trades, handling potential null pnl
     const best = trades.reduce(
       (a: Trade, b: Trade) => ((b.pnl_amount ?? -Infinity) > (a.pnl_amount ?? -Infinity) ? b : a),
       trades[0]
@@ -154,7 +148,6 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
       trades[0]
     );
 
-    // Count symbol occurrences
     const symCount: Record<string, number> = {};
     trades.forEach((t: Trade) => {
       if (t.symbol) {
@@ -164,7 +157,6 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
 
     const mostSymbol = Object.entries(symCount).sort(([, a], [, b]) => b - a)[0]?.[0] ?? null;
 
-    // Get first and last trade dates
     const sortedDates = trades
       .map((t: Trade) => t.date)
       .sort((a: string, b: string) => new Date(a).getTime() - new Date(b).getTime());
@@ -172,14 +164,11 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
     const first = sortedDates.length > 0 ? new Date(sortedDates[0]) : null;
     const last = sortedDates.length > 0 ? new Date(sortedDates[sortedDates.length - 1]) : null;
     
-    // Calculate total profit
     const totalProfit = trades.reduce((sum, trade) => sum + (trade.pnl_amount || 0), 0);
     
-    // Calculate win rate
     const winningTrades = trades.filter(trade => (trade.pnl_amount || 0) > 0).length;
     const winRate = trades.length > 0 ? (winningTrades / trades.length) * 100 : 0;
 
-    // FIXED: Calculate streaks based on consecutive trading days
     const streaks = calculateStreaks(trades);
 
     return {
@@ -205,23 +194,31 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
     return username.substring(0, 2).toUpperCase();
   };
 
+  // UPDATED: Avatar change with toast messages
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
-    setAvatarUploadError(null);
     const file = e.target.files?.[0];
     if (!file) return;
     
-    // Check file size (max 5MB)
+    // Client-side validation with toast messages
     if (file.size > 5 * 1024 * 1024) {
-      setAvatarUploadError("File size must be less than 5MB");
+      toast.files.uploadLimit();
+      return;
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.files.invalidFormat();
       return;
     }
     
     setAvatarPreview(URL.createObjectURL(file));
+    
     try {
       await updateAvatar(file);
-      setAvatarUploadError(null);
-    } catch (err) {
-      setAvatarUploadError(err instanceof Error ? err.message : "Upload failed");
+      toast.showSuccessToast("Profile picture updated successfully!");
+    } catch (error) {
+      toast.handleApiError(error);
+      setAvatarPreview(null); // Reset preview on error
     }
   };
 
@@ -229,50 +226,85 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
     fileInputRef.current?.click();
   };
 
+  // UPDATED: Username change with toast messages
   const handleUsernameSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+    
+    // Client-side validation
     if (!newUsername.trim()) {
-      setUsernameError("Username cannot be empty");
+      toast.handleValidationError("Username", "required");
       return;
     }
-    setUsernameError("");
+
+    if (newUsername.trim().length < 3) {
+      toast.showErrorToast("Username must be at least 3 characters long.");
+      return;
+    }
+
+    if (newUsername.trim() === user?.username) {
+      toast.showWarningToast("Please enter a different username.");
+      return;
+    }
+    
     try {
       await changeUsername(newUsername.trim());
-      setUsernameSuccess("Username updated!");
+      toast.showSuccessToast("Username updated successfully!");
       setNewUsername("");
+      
+      // Close modal after short delay
       setTimeout(() => {
-        setUsernameSuccess("");
         setShowUserModal(false);
       }, 1500);
-    } catch (err) {
-      setUsernameError(err instanceof Error ? err.message : "Update failed");
+    } catch (error) {
+      toast.handleApiError(error);
     }
   };
 
+  // UPDATED: Password change with toast messages
   const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    setPasswordError("");
-    setPasswordSuccess("");
-    if (!currentPassword || !newPassword) {
-      setPasswordError("All fields required");
+    
+    // Client-side validation
+    if (!currentPassword) {
+      toast.handleValidationError("Current password", "required");
       return;
     }
+
+    if (!newPassword) {
+      toast.handleValidationError("New password", "required");
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      toast.showErrorToast("New password must be at least 6 characters long.");
+      return;
+    }
+
     if (newPassword !== confirmPass) {
-      setPasswordError("Passwords do not match");
+      toast.showErrorToast("New password and confirmation don't match.");
       return;
     }
+
+    if (currentPassword === newPassword) {
+      toast.showWarningToast("New password must be different from current password.");
+      return;
+    }
+    
     try {
       await changePassword(currentPassword, newPassword);
-      setPasswordSuccess("Password updated!");
+      toast.showSuccessToast("Password updated successfully!");
+      
+      // Clear form
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPass("");
+      
+      // Close modal after short delay
       setTimeout(() => {
-        setPasswordSuccess("");
         setShowPasswordModal(false);
       }, 1500);
-    } catch (err) {
-      setPasswordError(err instanceof Error ? err.message : "Update failed");
+    } catch (error) {
+      toast.handleApiError(error);
     }
   };
 
@@ -320,9 +352,7 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
                     onChange={handleAvatarChange}
                     disabled={loading}
                   />
-                  {avatarUploadError && (
-                    <div className={Styles.error}>{avatarUploadError}</div>
-                  )}
+                  {/* Removed avatarUploadError div - using toasts now */}
                   <p className={Styles.avatarHint}>JPG, PNG. Max size 5MB.</p>
                 </div>
                 
@@ -362,7 +392,7 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
             </div>
           </div>
 
-          {/* Security Section */}
+          {/* Security Section - stays the same */}
           <div className={Styles.sectionCard}>
             <div className={Styles.sectionHeader}>
               <h2>Security</h2>
@@ -402,7 +432,7 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
             </div>
           </div>
 
-          {/* Trading Stats Section */}
+          {/* Trading Stats Section - stays the same */}
           <div className={Styles.sectionCard}>
             <div className={Styles.sectionHeader}>
               <h2>Trading Statistics</h2>
@@ -505,7 +535,7 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
         </div>
       </div>
 
-      {/* Username Change Modal */}
+      {/* UPDATED: Username Change Modal - removed error/success divs */}
       {showUserModal && (
         <div className={Styles.modalOverlay}>
           <div className={Styles.modal}>
@@ -513,7 +543,10 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
               <h2>Change Username</h2>
               <button 
                 className={Styles.closeButton}
-                onClick={() => setShowUserModal(false)}
+                onClick={() => {
+                  setShowUserModal(false);
+                  setNewUsername(""); // Clear form on close
+                }}
               >
                 <IoClose />
               </button>
@@ -541,7 +574,10 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
                   <button 
                     type="button" 
                     className={Styles.secondaryButton}
-                    onClick={() => setShowUserModal(false)}
+                    onClick={() => {
+                      setShowUserModal(false);
+                      setNewUsername(""); // Clear form on cancel
+                    }}
                   >
                     Cancel
                   </button>
@@ -549,15 +585,14 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
                     Update Username
                   </button>
                 </div>
-                {usernameError && <div className={Styles.errorMessage}>{usernameError}</div>}
-                {usernameSuccess && <div className={Styles.successMessage}>{usernameSuccess}</div>}
+                {/* Removed error/success message divs - using toasts now */}
               </form>
             </div>
           </div>
         </div>
       )}
 
-      {/* Password Change Modal */}
+      {/* UPDATED: Password Change Modal - removed error/success divs */}
       {showPasswordModal && (
         <div className={Styles.modalOverlay}>
           <div className={Styles.modal}>
@@ -565,7 +600,13 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
               <h2>Change Password</h2>
               <button 
                 className={Styles.closeButton}
-                onClick={() => setShowPasswordModal(false)}
+                onClick={() => {
+                  setShowPasswordModal(false);
+                  // Clear form on close
+                  setCurrentPassword("");
+                  setNewPassword("");
+                  setConfirmPass("");
+                }}
               >
                 <IoClose />
               </button>
@@ -590,7 +631,7 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
                   <input
                     className={Styles.formInput}
                     type="password"
-                    placeholder="New password"
+                    placeholder="New password (min 6 characters)"
                     autoComplete="new-password"
                     value={newPassword}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
@@ -600,7 +641,7 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
                   />
                 </div>
                 <div className={Styles.formGroup}>
-                  <label className={Styles.formLabel}>Confirm Password</label>
+                  <label className={Styles.formLabel}>Confirm New Password</label>
                   <input
                     className={Styles.formInput}
                     type="password"
@@ -617,7 +658,13 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
                   <button 
                     type="button" 
                     className={Styles.secondaryButton}
-                    onClick={() => setShowPasswordModal(false)}
+                    onClick={() => {
+                      setShowPasswordModal(false);
+                      // Clear form on cancel
+                      setCurrentPassword("");
+                      setNewPassword("");
+                      setConfirmPass("");
+                    }}
                   >
                     Cancel
                   </button>
@@ -625,8 +672,7 @@ const calculateStreaks = (trades: Trade[]): { current: number; max: number } => 
                     Update Password
                   </button>
                 </div>
-                {passwordError && <div className={Styles.errorMessage}>{passwordError}</div>}
-                {passwordSuccess && <div className={Styles.successMessage}>{passwordSuccess}</div>}
+                {/* Removed error/success message divs - using toasts now */}
               </form>
             </div>
           </div>
