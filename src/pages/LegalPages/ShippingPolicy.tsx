@@ -41,7 +41,7 @@ const ShippingPolicy: React.FC = () => {
           variants={containerVariants}
         >
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
-            <h1 className={Styles.mainHeading}>Digital Service Delivery</h1>
+            <h1 className={Styles.mainHeading}>Shipping Policy</h1>
             <p className={Styles.subHeading}>
               Effective Date: August 2025
             </p>
