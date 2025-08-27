@@ -148,7 +148,7 @@ const Settings: React.FC = () => {
       trades[0]
     );
 
-    const symCount: Record<string, number> = {};
+    const symCount: Record<string, number> = {}; 
     trades.forEach((t: Trade) => {
       if (t.symbol) {
         symCount[t.symbol] = (symCount[t.symbol] ?? 0) + 1;
@@ -323,7 +323,7 @@ const Settings: React.FC = () => {
           <div className={Styles.sectionCard}>
             <div className={Styles.sectionHeader}>
               <h2>Profile Information</h2>
-              <p>Manage your personal information and how others see you on the platform</p>
+              <p>Manage your personal information and subscription details</p>
             </div>
             <div className={Styles.sectionBody}>
               <div className={Styles.profileGrid}>
@@ -352,7 +352,6 @@ const Settings: React.FC = () => {
                     onChange={handleAvatarChange}
                     disabled={loading}
                   />
-                  {/* Removed avatarUploadError div - using toasts now */}
                   <p className={Styles.avatarHint}>JPG, PNG. Max size 5MB.</p>
                 </div>
                 
@@ -379,19 +378,89 @@ const Settings: React.FC = () => {
                         : "--"}
                     </div>
                   </div>
-                  <div className={Styles.detailItem}>
-                    <label className={Styles.detailLabel}>Subscription</label>
-                    <div className={Styles.detailValue}>
-                      <span className={Styles.subscriptionBadge}>
-                        {user?.subscription?.plan || "Free"}
-                      </span>
+                  
+                  {/* Subscription Information */}
+                  <div className={Styles.subscriptionDetails}>
+                    <div className={Styles.detailItem}>
+                      <label className={Styles.detailLabel}>Plan</label>
+                      <div className={Styles.detailValue}>
+                        <span className={`${Styles.subscriptionBadge} ${
+                          user?.subscription?.plan === 'pro' ? Styles.proBadge : Styles.freeBadge
+                        }`}>
+                          {user?.subscription?.plan?.toUpperCase() || "FREE"}
+                        </span>
+                      </div>
                     </div>
+                    
+                    {user?.subscription?.startedAt && (
+                      <div className={Styles.detailItem}>
+                        <label className={Styles.detailLabel}>Started</label>
+                        <div className={Styles.detailValue}>
+                          {new Date(user.subscription.startedAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long', 
+                            day: 'numeric'
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {user?.subscription?.expiresAt && (
+                      <div className={Styles.detailItem}>
+                        <label className={Styles.detailLabel}>Expires</label>
+                        <div className={`${Styles.detailValue} ${
+                          new Date(user.subscription.expiresAt) > new Date() 
+                            ? Styles.validExpiry 
+                            : Styles.expiredPlan
+                        }`}>
+                          {new Date(user.subscription.expiresAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {user?.subscription?.expiresAt && (
+                      <div className={Styles.detailItem}>
+                        <label className={Styles.detailLabel}>Time Remaining</label>
+                        <div className={`${Styles.detailValue} ${Styles.timeRemaining} ${
+                          new Date(user.subscription.expiresAt) > new Date() 
+                            ? Styles.validTime 
+                            : Styles.expiredTime
+                        }`}>
+                          {(() => {
+                            const now = new Date();
+                            const expiry = new Date(user.subscription.expiresAt);
+                            const diff = expiry.getTime() - now.getTime();
+                            
+                            if (diff <= 0) {
+                              return 'Expired';
+                            }
+                            
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                            
+                            if (days > 0) {
+                              return `${days} day${days !== 1 ? 's' : ''}, ${hours} hour${hours !== 1 ? 's' : ''}`;
+                            } else if (hours > 0) {
+                              return `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+                            } else {
+                              return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+                            }
+                          })()}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
           {/* Security Section - stays the same */}
           <div className={Styles.sectionCard}>
             <div className={Styles.sectionHeader}>

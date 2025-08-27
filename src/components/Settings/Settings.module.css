@@ -638,3 +638,42 @@
 .negative {
   color: var(--dashboard-red-color, #ef4444) !important;
 }
+
+
+/* Add these to your existing Settings.module.css */
+
+.subscriptionDetails {
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.proBadge {
+  background: linear-gradient(135deg, var(--dashboard-green-color, #10b981) 0%, #059669 100%);
+  color: white;
+}
+
+.freeBadge {
+  background: var(--dashboard-secondary-text, #64748b);
+  color: white;
+}
+
+.validExpiry {
+  font-weight: 600;
+}
+
+.expiredPlan {
+  color: var(--dashboard-red-color, #ef4444) !important;
+  font-weight: 600;
+}
+
+.timeRemaining {
+  font-weight: 600;
+}
+
+.validTime {
+  color: var(--dashboard-green-color, #10b981) !important;
+}
+
+.expiredTime {
+  color: var(--dashboard-red-color, #ef4444) !important;
+}
