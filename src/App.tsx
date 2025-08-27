@@ -16,6 +16,7 @@ import Risk from "./components/Risk/Risk";
 import Calendar from "./components/Calendar/Calendar";
 import AuthSuccess from "./components/Auth/AuthSuccess";
 import ContactPage from "./pages/ContactPage/ContactPage";
+import TermsAndConditions from "./pages/LegalPages/TermsAndConditions";
 
 
 const App = () => (
@@ -27,6 +28,7 @@ const App = () => (
       <Route path="/auth-success" element={<AuthSuccess />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/contact" element={<ContactPage />} />
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route
         path="/dashboard"
         element={<RequirePro><DashboardLayout /></RequirePro>}
