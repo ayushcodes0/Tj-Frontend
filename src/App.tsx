@@ -18,6 +18,10 @@ import AuthSuccess from "./components/Auth/AuthSuccess";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import TermsAndConditions from "./pages/LegalPages/TermsAndConditions";
 import CancellationAndRefund from "./pages/LegalPages/CancellationAndRefund";
+import ShippingPolicy from "./pages/LegalPages/ShippingPolicy.tsx";
+import Disclosures from "./pages/LegalPages/Disclosure.tsx";
+import PrivacyPolicy from "./pages/LegalPages/PrivacyPolicy.tsx";
+import Disclaimer from "./pages/LegalPages/Disclaimer.tsx";
 
 
 const App = () => (
@@ -31,6 +35,10 @@ const App = () => (
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/cancellation-and-refund" element={<CancellationAndRefund />} />
+      <Route path="/shipping-policy" element={<ShippingPolicy />} />
+      <Route path="/disclosure" element={<Disclosures />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/disclaimer" element={<Disclaimer />} />
       <Route
         path="/dashboard"
         element={<RequirePro><DashboardLayout /></RequirePro>}
