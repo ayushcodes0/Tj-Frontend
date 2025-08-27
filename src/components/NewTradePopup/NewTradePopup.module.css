@@ -442,3 +442,28 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+.nextBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #4840BB;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: auto;
+}
+
+.nextBtn:hover {
+  background: #3d35a0;
+}
+
+.nextBtn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}

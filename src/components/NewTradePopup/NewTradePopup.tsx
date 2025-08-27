@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Styles from "./NewTradePopup.module.css";
 import { RiResetLeftLine } from "react-icons/ri";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa6";
+import { FaArrowUp, FaArrowDown, FaArrowRight } from "react-icons/fa6"; // Added FaArrowRight for Next button
 import {
   fetchOptions,
   addOption,
@@ -58,7 +58,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
   const [activeTab, setActiveTab] = useState<'general' | 'psychology'>('general');
   const [formData, setFormData] = useState<TradeFormData>(initialFormData);
   const { fetchTrades, updateTrade } = useTrades();
-  const toast = useCustomToast(); // Use the full toast functionality
+  const toast = useCustomToast();
 
   const [strategies, setStrategies] = useState<Option[]>([]);
   const [outcomeSummaries, setOutcomeSummaries] = useState<Option[]>([]);
@@ -122,9 +122,8 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
         setOutcomeSummaries(Array.isArray(outcomesData) ? outcomesData : []);
         setRulesOptions(Array.isArray(rulesData) ? rulesData : []);
         setEmotionalStates(Array.isArray(emotionsData) ? emotionsData : []);
-      } catch (err) {
-        toast.showErrorToast('Could not load trading options. Please try again.');
-        console.error('Error fetching options:', err);
+      } catch (error: unknown) {
+        toast.handleApiError(error);
       }
     };
     loadOptions();
@@ -243,7 +242,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
       handleUpdateField('strategy', newOption._id);
       setNewCustomStrategyName('');
       toast.showSuccessToast(`Strategy "${newOption.name}" added!`);
-    } catch (error) {
+    } catch (error: unknown) {
       toast.handleApiError(error);
     }
   };
@@ -259,7 +258,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
       handleMultiSelect(newOption._id);
       setNewCustomRuleName('');
       toast.showSuccessToast(`Rule "${newOption.name}" added!`);
-    } catch (error) {
+    } catch (error: unknown) {
       toast.handleApiError(error);
     }
   };
@@ -291,8 +290,8 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
     };
   };
 
-  // Client-side validation with user-friendly toast messaging
-  const validateForm = (): boolean => {
+  // Validate only required fields for General tab
+  const validateGeneralTab = (): boolean => {
     if (!formData.symbol.trim()) {
       toast.handleValidationError("Symbol", "required");
       return false;
@@ -325,6 +324,13 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
       toast.showErrorToast("Please select at least one rule followed.");
       return false;
     }
+    return true;
+  };
+
+  // Complete form validation (for submission)
+  const validateForm = (): boolean => {
+    if (!validateGeneralTab()) return false;
+    
     // Psychology tab required fields
     if (!formData.psychology.entry_confidence_level ||
         formData.psychology.entry_confidence_level < 1 ||
@@ -342,14 +348,20 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
       toast.handleValidationError("Emotional state", "required");
       return false;
     }
-    // All validations passed
     return true;
+  };
+
+  // Handle Next button click (from General to Psychology)
+  const handleNext = () => {
+    if (validateGeneralTab()) {
+      setActiveTab('psychology');
+      toast.showInfoToast("Great! Now fill in the psychology details.");
+    }
   };
 
   // Form Submission Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Only validate and allow submit if all fields required are correct (user-friendly error)
     if (!validateForm()) return;
 
     try {
@@ -364,29 +376,9 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
       await fetchTrades();
       onClose();
     } catch (error: unknown) {
-      // User-friendly error message with proper type handling
-      let errMsg = "Failed to save trade. Please check your entries.";
-
-      // Type guard: check if error is an object with message property
-      if (typeof error === "object" && error !== null && "message" in error) {
-        const err = error as { message: string };
-        
-        if (err.message.includes("validation failed")) {
-          errMsg = "One or more fields have invalid data. Please review and try again.";
-        } else if (err.message.includes("ObjectId")) {
-          errMsg = "One of the option fields (such as Psychology / Strategy) was not selected. Please select a valid option.";
-        } else {
-          errMsg = err.message;
-        }
-      } else if (error instanceof Error) {
-        // Handle standard Error objects
-        errMsg = error.message;
-      }
-
-      toast.showErrorToast(errMsg);
+      toast.handleApiError(error);
     }
   };
-
 
   return (
     <div className={Styles.overlay} onClick={onClose}>
@@ -623,10 +615,20 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                   ))}
                 </div>
               </div>
+              
+              {/* Next Button for General Tab */}
+              <div className={Styles.formActions}>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className={Styles.nextBtn}
+                >
+                  Next: Psychology <FaArrowRight />
+                </button>
+              </div>
             </div>
           )}
           {activeTab === "psychology" && (
-            // Only show Save/Reset in Psychology tab
             <div className={Styles.formContent}>
               <div className={Styles.section}>
                 <h3>Psychology</h3>
