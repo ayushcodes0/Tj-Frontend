@@ -209,3 +209,77 @@
         padding: 0 16px;
     }
 }
+
+/* Add these styles to your existing PricingPage.module.css */
+
+.trialNotice {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 8px 16px;
+  margin: 16px 0;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.buttonContainer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+.activeButton {
+  background: #10b981 !important;
+  color: white !important;
+  cursor: default !important;
+  opacity: 0.9;
+}
+
+.activeButton:hover {
+  background: #10b981 !important;
+  transform: none !important;
+}
+
+.loadingButton {
+  background: #6b7280 !important;
+  color: white !important;
+  cursor: wait !important;
+}
+
+.loadingButton:hover {
+  background: #6b7280 !important;
+  transform: none !important;
+}
+
+/* Enhanced features list */
+.features li {
+  text-align: left;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+/* FAQ icon rotation */
+.faqIcon.rotated {
+  transform: rotate(45deg);
+}
+
+.faqIcon {
+  transition: transform 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .trialNotice {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  
+  .buttonContainer {
+    min-height: 50px;
+    margin-top: 16px;
+  }
+}

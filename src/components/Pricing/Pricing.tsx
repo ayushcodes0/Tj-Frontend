@@ -71,7 +71,7 @@ const Pricing = () => {
             className={Styles.prices}
             custom={1}
           >
-            <p className={Styles.pricesTop}>Pro Plan</p>
+            <p className={Styles.pricesTop}>Pro Plan</p> 
             <p className={Styles.pricesHeading}>₹99 per month</p>
             <div className={Styles.pricesPoints}>
               <p className={Styles.pricesPointsText}>Everything from the free trial, plus:</p>
