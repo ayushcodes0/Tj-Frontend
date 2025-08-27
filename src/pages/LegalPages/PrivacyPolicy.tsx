@@ -43,105 +43,120 @@ const PrivacyPolicy: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Privacy Policy</h1>
             <p className={Styles.subHeading}>
-              Last updated: June 2025
+              Last updated: August 2025
             </p>
           </motion.div>
           
           <motion.div className={Styles.termsContentContainer} variants={fadeUpItem}>
             <div className={Styles.termsContent}>
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Introduction</h2>
+                <h2 className={Styles.sectionHeading}>Our Privacy Commitment</h2>
                 <p className={Styles.sectionText}>
-                  At Trade Diary, your privacy is important to us. This Privacy Policy outlines how we collect, use, 
-                  and protect your personal information when you use our trading journal platform and related services.
+                  At TradeJournalAI, we are committed to protecting your privacy and securing your trading data. This policy explains how we collect, use, and protect your information when you use our trading journal platform.
                 </p>
                 <p className={Styles.sectionText}>
-                  By using Trade Diary, you consent to the practices described in this policy. 
-                  Please read it carefully to understand your rights.
+                  By using TradeJournalAI, you consent to the practices described in this policy. We handle your data responsibly and transparently.
                 </p>
               </section>
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Information We Collect</h2>
                 <p className={Styles.sectionText}>
-                  We collect various types of information to help you get the most out of Trade Diary 
-                  and to continuously improve our services.
+                  We collect information necessary to provide our trading journal and analysis services:
                 </p>
                 <p className={Styles.sectionText}>
-                  <strong>Account Data:</strong> Name, email, password, and other details provided during registration.
+                  <strong>Account Information:</strong> Email address, username, password (encrypted), and subscription status when you register for our platform.
                 </p>
                 <p className={Styles.sectionText}>
-                  <strong>Trade Entries:</strong> Information about your trades including stock symbols, price, quantity, and notes.
+                  <strong>Trading Journal Data:</strong> All trade information you manually enter through our forms including stock symbols, entry/exit prices, quantities, dates, profit/loss amounts, trading strategies, and psychological notes.
                 </p>
                 <p className={Styles.sectionText}>
-                  <strong>Usage Data:</strong> How you interact with our platform and features.
+                  <strong>Usage Analytics:</strong> How you interact with our dashboard, which analysis tools you use, time spent on platform, and feature engagement patterns.
                 </p>
                 <p className={Styles.sectionText}>
-                  <strong>Technical Data:</strong> IP address, browser type, operating system, and device information.
-                </p>
-                <p className={Styles.sectionText}>
-                  <strong>Cookies:</strong> We use cookies to maintain sessions and enhance user experience.
+                  <strong>Technical Data:</strong> IP address, browser information, device type, and session data for security and platform optimization.
                 </p>
               </section>
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>How We Use Your Data</h2>
-                <p className={Styles.sectionText}>The data we collect is used to:</p>
+                <p className={Styles.sectionText}>Your information enables us to provide personalized trading analytics:</p>
                 <p className={Styles.sectionText}>
-                  • Provide and maintain your trading journal account<br />
-                  • Analyze and improve platform features<br />
-                  • Generate performance analytics and insights<br />
-                  • Enhance your overall user experience<br />
-                  • Communicate important updates or support messages<br />
-                  • Ensure platform security and fraud prevention
+                  • Process and display your manually entered trade data<br />
+                  • Generate performance charts, graphs, and analysis reports<br />
+                  • Calculate risk metrics and trading statistics<br />
+                  • Provide psychology tracking and monthly analysis<br />
+                  • Track trading streaks and performance trends<br />
+                  • Improve our platform features and user experience<br />
+                  • Provide customer support and technical assistance
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Sharing & Disclosure</h2>
+                <h2 className={Styles.sectionHeading}>Data Processing and Analysis</h2>
                 <p className={Styles.sectionText}>
-                  We do not sell your data. However, we may share your information in the following circumstances:
+                  Our platform processes your manually entered trading data to generate charts, performance metrics, risk analysis, and monthly reports. All calculations and analysis are performed on your individual data set.
                 </p>
                 <p className={Styles.sectionText}>
-                  <strong>Service Providers:</strong> Trusted vendors who help operate and support our platform.
-                </p>
-                <p className={Styles.sectionText}>
-                  <strong>Business Transfers:</strong> In case of a merger, acquisition, or asset sale.
-                </p>
-                <p className={Styles.sectionText}>
-                  <strong>Legal Obligations:</strong> To comply with applicable laws or government requests.
-                </p>
-                <p className={Styles.sectionText}>
-                  <strong>Platform Protection:</strong> To detect, prevent, or address fraud, security, or technical issues.
+                  We may use aggregated and anonymized usage patterns to improve our analysis algorithms and platform features, but individual trading data is never shared or combined with other users' information.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Your Rights</h2>
-                <p className={Styles.sectionText}>Depending on your location, you may have the right to:</p>
+                <h2 className={Styles.sectionHeading}>Data Security and Storage</h2>
                 <p className={Styles.sectionText}>
-                  • Access the data we hold about you<br />
-                  • Update or correct inaccuracies in your data<br />
-                  • Request deletion of your account and associated data<br />
-                  • Restrict or object to certain data processing activities<br />
-                  • Download your data in a portable format
+                  Your trading data is stored securely and is never shared with third parties. We implement standard security measures including encrypted connections and secure data storage to protect your information.
                 </p>
                 <p className={Styles.sectionText}>
-                  To exercise these rights, please contact us through the details below.
+                  Only you have access to your specific trading journal data through your secured account login. We do not sell, rent, or distribute your trading information to any external parties.
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Information Sharing</h2>
+                <p className={Styles.sectionText}>
+                  We do not share your personal or trading data with third parties except in these limited circumstances:
+                </p>
+                <p className={Styles.sectionText}>
+                  <strong>Legal Requirements:</strong> When required by law, court order, or government regulation.<br />
+                  <strong>Platform Security:</strong> To investigate fraud, security breaches, or terms violations.<br />
+                  <strong>Service Providers:</strong> Trusted technical services that help operate our platform under strict confidentiality agreements.
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Your Data Rights</h2>
+                <p className={Styles.sectionText}>You have complete control over your trading journal data:</p>
+                <p className={Styles.sectionText}>
+                  • <strong>Access:</strong> View all data we store about your account and trading entries<br />
+                  • <strong>Modification:</strong> Edit or update your trade entries and account information anytime<br />
+                  • <strong>Deletion:</strong> Request complete removal of your account and all associated trading data<br />
+                  • <strong>Export:</strong> Download your trading data in a portable format<br />
+                  • <strong>Correction:</strong> Update any inaccurate information in your profile or trade logs
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Future Broker Integrations</h2>
+                <p className={Styles.sectionText}>
+                  We plan to offer optional broker API integrations in the future for automated trade logging. When available, these integrations will be entirely optional and subject to additional privacy terms.
+                </p>
+                <p className={Styles.sectionText}>
+                  Any broker integration will require explicit user consent and will follow strict security protocols to protect your brokerage account information.
                 </p>
               </section>
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Contact Us</h2>
                 <p className={Styles.sectionText}>
-                  If you have any questions or concerns about our Privacy Policy or data practices, feel free to reach out:
+                  For questions about this Privacy Policy or your data:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: info@tradediary.in<br />
-                  Address: 20/A, Balli Buring, Cuncolim Salcete - 403 703, Goa, India
+                  Email: support@tradejournalai.in<br />
+                  Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
-                  We may update this policy periodically. The latest version will always be available on our website.
+                  We review and update this policy regularly. We'll notify users of any significant changes through email or platform notifications.
                 </p>
               </section>
             </div>

@@ -1,11 +1,10 @@
 import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
-import Styles from './TermsAndConditions.module.css'; 
+import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
-// Define animation variants (same as Terms & Conditions)
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -44,7 +43,7 @@ const CancellationAndRefund: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Refund & Cancellation Policy</h1>
             <p className={Styles.subHeading}>
-              Last updated: June 2025
+              Last updated: August 2025
             </p>
           </motion.div>
           
@@ -53,61 +52,74 @@ const CancellationAndRefund: React.FC = () => {
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>No Refund Policy</h2>
                 <p className={Styles.sectionText}>
-                  All payments made to Trade Diary are final. As our services involve access to digital tools, analytics, 
-                  and personal data management, once a subscription is purchased, it cannot be canceled, refunded, 
-                  or transferred under any circumstances.
+                  All payments made for TradeJournalAI Pro subscription (₹99) are final and non-refundable. Once payment is processed, you gain immediate access to our dashboard, analysis tools, and all premium features.
+                </p>
+                <p className={Styles.sectionText}>
+                  Due to the digital nature of our service and instant access provided upon payment, refunds cannot be issued under any circumstances.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Cancellation Policy</h2>
+                <h2 className={Styles.sectionHeading}>24-Hour Free Trial</h2>
                 <p className={Styles.sectionText}>
-                  Trade Diary operates on a subscription-based model. Once your subscription is activated, 
-                  you will continue to have access until the end of the current billing cycle.
+                  We provide all new users with 24 hours of free access to our complete dashboard and analysis features upon registration. This trial period allows you to fully evaluate our platform before making a purchase decision.
                 </p>
                 <p className={Styles.sectionText}>
-                  You may choose to cancel your subscription at any time.
-                </p>
-                <p className={Styles.sectionText}>
-                  Cancellation will prevent the next renewal, but no refund will be issued for the remaining period 
-                  of an active subscription.
+                  We strongly encourage users to thoroughly test all features during this trial period, including entering sample trade data and exploring our analysis tools, charts, and reports.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Important Disclaimer</h2>
+                <h2 className={Styles.sectionHeading}>Subscription Access</h2>
                 <p className={Styles.sectionText}>
-                  The Trade Diary platform is intended for journaling, analysis, and performance tracking only. 
-                  We do not provide trading advice, stock recommendations, or financial guidance. All insights and reports 
-                  are based on user-input data and should be used at your own discretion.
+                  After purchasing the ₹99 Pro subscription, you will have continued access to log trades, view detailed performance analytics, risk analysis, psychology tracking, monthly reports, and streak tracking features.
                 </p>
                 <p className={Styles.sectionText}>
-                  Trading and investing involve risk, and we make no guarantee of returns or outcomes based on the use of our platform.
+                  Your subscription remains active until you choose to discontinue using the platform. There are no automatic renewals or recurring charges unless explicitly stated at the time of purchase.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Transparency & Responsibility</h2>
+                <h2 className={Styles.sectionHeading}>Service Understanding</h2>
                 <p className={Styles.sectionText}>
-                  We urge users to fully understand the scope and features of Trade Diary before making any payment. 
-                  Please carefully review our Terms of Service, Privacy Policy, and this Refund Policy prior to subscribing.
+                  TradeJournalAI is a manual trade logging and analysis platform. Users must enter their own trade data through our forms to generate performance reports, charts, and analytics. 
                 </p>
                 <p className={Styles.sectionText}>
-                  By subscribing to Trade Diary, you acknowledge that you have read, understood, and agreed to the terms stated above.
+                  We do not provide trading advice, signals, or guaranteed profits. Our platform is purely for tracking and analyzing trading performance based on user-input data.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Contact Us</h2>
+                <h2 className={Styles.sectionHeading}>Technical Support</h2>
                 <p className={Styles.sectionText}>
-                  For any queries or support regarding refunds or cancellations, please reach out to:
+                  If you experience technical difficulties accessing your dashboard or using our features after payment, please contact our support team immediately for assistance.
+                </p>
+                <p className={Styles.sectionText}>
+                  Technical issues will be resolved promptly, but they do not constitute grounds for refunds as per this policy.
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Pre-Purchase Considerations</h2>
+                <p className={Styles.sectionText}>
+                  Before purchasing, please ensure you understand that our platform requires manual trade data entry and is designed for performance tracking and analysis only. Take full advantage of your 24-hour trial period.
+                </p>
+                <p className={Styles.sectionText}>
+                  Review our features thoroughly: trade logging forms, performance charts, risk analysis, psychology tracking, monthly analysis with calendar view, and streak tracking.
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Contact Information</h2>
+                <p className={Styles.sectionText}>
+                  For questions about billing or our services:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: info@tradediary.in<br />
-                  Address: 20/A, Balli Buring, Cuncolim Salcete - 403 703, Goa, India
+                  Email: support@tradejournalai.in<br />
+                  Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
-                  We may update this policy from time to time. The updated version will be indicated by an updated "Last updated" date.
+                  This policy may be updated periodically. The current version will always be available on our website.
                 </p>
               </section>
             </div>

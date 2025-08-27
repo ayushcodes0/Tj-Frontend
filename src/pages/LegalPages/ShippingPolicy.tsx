@@ -1,11 +1,10 @@
 import React from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
-import Styles from './TermsAndConditions.module.css'; // Reusing the same CSS
+import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
-// Define animation variants (same as Terms & Conditions)
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -42,67 +41,106 @@ const ShippingPolicy: React.FC = () => {
           variants={containerVariants}
         >
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
-            <h1 className={Styles.mainHeading}>Shipping Policy</h1>
+            <h1 className={Styles.mainHeading}>Digital Service Delivery</h1>
             <p className={Styles.subHeading}>
-              Effective Date: June 2025
+              Effective Date: August 2025
             </p>
           </motion.div>
           
           <motion.div className={Styles.termsContentContainer} variants={fadeUpItem}>
             <div className={Styles.termsContent}>
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Digital Service Only</h2>
+                <h2 className={Styles.sectionHeading}>Web-Based Platform Only</h2>
                 <p className={Styles.sectionText}>
-                  Trade Diary is a digital platform that provides trading journal services online. No physical goods are shipped. 
-                  All our services are accessible through our web and mobile applications.
+                  TradeJournalAI is exclusively a web-based trading journal platform accessible through tradejournalai.in. We provide digital services only - no physical products are sold, shipped, or delivered.
+                </p>
+                <p className={Styles.sectionText}>
+                  All features including trade logging forms, dashboard analytics, performance charts, risk analysis, and monthly reports are delivered electronically through your web browser.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Instant Access</h2>
+                <h2 className={Styles.sectionHeading}>Immediate Access After Payment</h2>
                 <p className={Styles.sectionText}>
-                  Upon successful payment, users will receive immediate access to the selected subscription plan or premium features. 
-                  There is no waiting period for service activation.
+                  Upon successful payment of the ₹99 Pro subscription, you will receive immediate access to your dashboard. There is no waiting period or processing delay for accessing our trade logging and analysis features.
+                </p>
+                <p className={Styles.sectionText}>
+                  You can start entering your trade data and generating performance analysis immediately after payment confirmation.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Email Confirmation</h2>
+                <h2 className={Styles.sectionHeading}>24-Hour Free Trial Access</h2>
                 <p className={Styles.sectionText}>
-                  Subscription and account details will be sent to your registered email address. 
-                  If you do not see the email, please check your spam or junk folder before contacting support.
+                  New registrations automatically receive 24 hours of free access to our complete dashboard, including all analysis tools, charts, and reporting features.
+                </p>
+                <p className={Styles.sectionText}>
+                  During your trial period, you can explore trade logging, performance analytics, risk analysis, psychology tracking, monthly analysis, and streak tracking without any restrictions.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Support</h2>
+                <h2 className={Styles.sectionHeading}>Account Confirmation</h2>
                 <p className={Styles.sectionText}>
-                  If you do not gain access within 1 hour of completing your payment, please reach out to us at:
+                  After registration or subscription purchase, you will receive email confirmation containing:
+                </p>
+                <p className={Styles.sectionText}>
+                  • Account activation details<br />
+                  • Dashboard access instructions<br />
+                  • Getting started guide for trade logging<br />
+                  • Payment receipt (for paid subscriptions)
+                </p>
+                <p className={Styles.sectionText}>
+                  If confirmation emails are not received within 15 minutes, please check your spam folder or contact support.
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Platform Features Delivery</h2>
+                <p className={Styles.sectionText}>
+                  All TradeJournalAI features are delivered instantly through our web platform:
+                </p>
+                <p className={Styles.sectionText}>
+                  • Trade logging forms and data entry<br />
+                  • Performance analysis charts and graphs<br />
+                  • Detailed risk analysis tools<br />
+                  • Psychology tracking features<br />
+                  • Monthly analysis with calendar view<br />
+                  • Trading streak tracking and statistics
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>No Shipping Costs or Delays</h2>
+                <p className={Styles.sectionText}>
+                  Since TradeJournalAI is entirely web-based, there are no shipping fees, delivery charges, or geographical restrictions. The ₹99 subscription fee is the only cost - no additional charges apply.
+                </p>
+                <p className={Styles.sectionText}>
+                  Users worldwide can access our platform immediately upon registration or payment, without any delivery delays or shipping considerations.
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Future Broker Integration</h2>
+                <p className={Styles.sectionText}>
+                  We plan to introduce broker API integrations in the future to allow automatic trade logging. When available, these features will be delivered digitally through platform updates - no additional shipping or installation required.
+                </p>
+                <p className={Styles.sectionText}>
+                  Current subscribers will be notified of new features through email and platform announcements.
+                </p>
+              </section>
+
+              <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>Technical Support</h2>
+                <p className={Styles.sectionText}>
+                  For assistance with platform access, trade logging, or dashboard features:
                 </p>
                 <address className={Styles.contactInfo}>
-                  support@tradediary.in
-                </address>
-              </section>
-
-              <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>No Shipping Policy</h2>
-                <p className={Styles.sectionText}>
-                  As all our services are delivered digitally through our web or app platform, no shipping, delivery tracking, 
-                  or physical dispatch is required. There are no shipping fees applicable to any of our services.
-                </p>
-              </section>
-
-              <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>Need Help?</h2>
-                <p className={Styles.sectionText}>
-                  For any questions regarding your digital service access or account setup:
-                </p>
-                <address className={Styles.contactInfo}>
-                  Email: info@tradediary.in<br />
-                  Address: 20/A, Balli Buring, Cuncolim Salcete - 403 703, Goa, India
+                  Email: support@tradejournalai.in<br />
+                  Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
-                  We may update this policy from time to time. The updated version will be indicated by an updated "Effective Date".
+                  All support is provided digitally through email correspondence. No physical documentation or materials are shipped.
                 </p>
               </section>
             </div>

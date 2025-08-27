@@ -44,125 +44,140 @@ const TermsAndConditions: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Terms & Conditions</h1>
             <p className={Styles.subHeading}>
-              Last Updated: June 2025
+              Last Updated: August 2025
             </p>
           </motion.div>
           
           <motion.div className={Styles.termsContentContainer} variants={fadeUpItem}>
             <div className={Styles.termsContent}>
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>1. Acceptance of Terms</h2>
+                <h2 className={Styles.sectionHeading}>1. Agreement to Terms</h2>
                 <p className={Styles.sectionText}>
-                  Welcome to Trade Diary. By accessing or using our platform, you agree to comply with and be bound by the following Terms and Conditions. 
-                  Please read them carefully before using our services.
+                  Welcome to TradeJournalAI. By accessing tradejournalai.in or using our trading journal dashboard, you agree to be bound by these Terms and Conditions. Please read these terms carefully before registering or using our services.
                 </p>
                 <p className={Styles.sectionText}>
-                  By using Trade Diary, you confirm that you have read, understood, and agreed to be legally bound by these Terms and Conditions, 
-                  along with our Privacy Policy, Refund Policy, and Disclosure Statement.
+                  By creating an account, entering trade data, or subscribing to our services, you confirm that you accept these terms and agree to comply with them.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>2. Nature of Services</h2>
+                <h2 className={Styles.sectionHeading}>2. Service Description</h2>
                 <p className={Styles.sectionText}>
-                  Trade Diary is a digital journaling platform designed to help traders record, analyze, and reflect on their trading activity. 
-                  We do not provide brokerage services, stock recommendations, investment advice, or any financial consulting.
+                  TradeJournalAI provides a web-based trading journal platform where users can manually log their trades, analyze their trading performance through detailed charts and graphs, and track their progress over time.
+                </p>
+                <p className={Styles.sectionText}>
+                  Our services include: trade logging forms, performance analysis dashboards, risk analysis tools, psychology tracking, monthly analysis with calendar view, streak tracking, and detailed profit/loss analytics. We are purely a data tracking and analysis tool.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>3. No Investment Advice</h2>
+                <h2 className={Styles.sectionHeading}>3. Trial and Subscription Model</h2>
                 <p className={Styles.sectionText}>
-                  All features and tools provided on Trade Diary are strictly for personal documentation and educational use. 
-                  Users should seek advice from a licensed financial advisor before making any trading or investment decisions. 
-                  Trade Diary shall not be held liable for financial outcomes based on journal usage or interpretation.
+                  New users receive 24 hours of free access to our dashboard upon registration. After the trial period expires, continued access requires purchasing our Pro subscription at ₹99.
+                </p>
+                <p className={Styles.sectionText}>
+                  The subscription provides full access to all dashboard features including detailed analysis, risk management tools, psychology tracking, and monthly performance reports.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>4. User Responsibility</h2>
+                <h2 className={Styles.sectionHeading}>4. User Data and Input Responsibility</h2>
                 <p className={Styles.sectionText}>
-                  You are solely responsible for the accuracy and completeness of the data you input and how you interpret the insights generated. 
-                  Trade Diary is not responsible for any trading actions you take based on journal metrics or analytics. 
-                  You agree not to hold us or our team liable for any resulting gains or losses.
+                  Users are entirely responsible for manually entering accurate trade data into our platform. All analysis, charts, and performance metrics are based solely on the information you provide through our trade logging forms.
+                </p>
+                <p className={Styles.sectionText}>
+                  We do not verify the accuracy of your trade entries. Incorrect data input will result in inaccurate analysis and reports. You are responsible for maintaining the accuracy of all entered information.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>5. Intellectual Property</h2>
+                <h2 className={Styles.sectionHeading}>5. No Investment Advice or Trading Services</h2>
                 <p className={Styles.sectionText}>
-                  All content, branding, tools, code, and designs on the Trade Diary platform are the intellectual property of Trade Diary. 
-                  Unauthorized copying, modification, distribution, or reproduction is strictly prohibited and may lead to legal action.
+                  TradeJournalAI is strictly a data logging and analysis platform. We do not provide investment advice, trading signals, stock recommendations, or financial consulting services of any kind.
+                </p>
+                <p className={Styles.sectionText}>
+                  Our charts, graphs, and analysis tools are for personal performance tracking only. All trading decisions remain entirely your own responsibility.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>6. Account & Access</h2>
+                <h2 className={Styles.sectionHeading}>6. Account Access and Security</h2>
                 <p className={Styles.sectionText}>
-                  Some features of Trade Diary require account creation and subscription. 
-                  You agree to provide accurate information and keep your credentials secure. 
-                  You are responsible for all activity under your account.
+                  You must provide accurate registration information and maintain the security of your account credentials. You are responsible for all activity that occurs under your account.
+                </p>
+                <p className={Styles.sectionText}>
+                  We reserve the right to suspend or terminate accounts that violate these terms or engage in suspicious activity.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>7. Subscription & Payments</h2>
+                <h2 className={Styles.sectionHeading}>7. Payment Terms</h2>
                 <p className={Styles.sectionText}>
-                  Subscriptions are non-refundable and non-transferable. By making a payment, you confirm that you have read and accepted our Refund & Cancellation Policy. 
-                  Subscriptions will renew automatically unless canceled before the end of the billing cycle.
+                  Our Pro subscription costs ₹99 and provides ongoing access to the dashboard and all analysis features. All payments are processed securely and are non-refundable once processed.
+                </p>
+                <p className={Styles.sectionText}>
+                  Subscription fees must be paid in advance. We reserve the right to modify pricing with advance notice to existing subscribers.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>8. Service Availability</h2>
+                <h2 className={Styles.sectionHeading}>8. Future Features and Integrations</h2>
                 <p className={Styles.sectionText}>
-                  We strive to maintain high platform uptime but do not guarantee uninterrupted access. 
-                  Maintenance, technical issues, or upgrades may temporarily affect availability without prior notice.
+                  We may introduce additional features such as broker API integrations for automated trade logging in the future. Such features will be optional and subject to separate terms and conditions.
+                </p>
+                <p className={Styles.sectionText}>
+                  Current subscribers will be notified of new features, but access may require additional fees or subscription upgrades.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>9. Modifications to Terms</h2>
+                <h2 className={Styles.sectionHeading}>9. Service Availability</h2>
                 <p className={Styles.sectionText}>
-                  Trade Diary reserves the right to modify or update these Terms at any time. 
-                  Continued use of the platform after changes constitutes your acceptance of the revised terms.
+                  While we strive to maintain high uptime for our dashboard, we do not guarantee uninterrupted service availability. Maintenance, updates, or technical issues may temporarily affect access.
+                </p>
+                <p className={Styles.sectionText}>
+                  We are not liable for any losses or inconveniences caused by service interruptions or data processing delays.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>10. Third-Party Links & Integrations</h2>
+                <h2 className={Styles.sectionHeading}>10. Data Analysis Limitations</h2>
                 <p className={Styles.sectionText}>
-                  Trade Diary may include optional integrations or links to third-party tools and services (e.g., broker APIs). 
-                  We do not endorse or control external content and are not responsible for its accuracy, reliability, or security.
+                  Our analysis tools, charts, and performance metrics are based entirely on user-input data. We make no guarantees about the accuracy of calculations or the effectiveness of our analysis algorithms.
+                </p>
+                <p className={Styles.sectionText}>
+                  Users should independently verify all analysis results and not rely solely on our platform for trading decisions or performance evaluation.
                 </p>
               </section>
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>11. Limitation of Liability</h2>
                 <p className={Styles.sectionText}>
-                  To the maximum extent allowed by law, Trade Diary and its team shall not be liable for any direct, indirect, incidental, 
-                  or consequential damages arising from your use or inability to use the platform or related services.
+                  TradeJournalAI and its operators shall not be liable for any trading losses, missed opportunities, data loss, or other damages arising from platform usage or reliance on our analysis tools.
+                </p>
+                <p className={Styles.sectionText}>
+                  Our maximum liability is limited to the amount of subscription fees paid by the user in the twelve months preceding any claim.
                 </p>
               </section>
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>12. Governing Law</h2>
                 <p className={Styles.sectionText}>
-                  These Terms shall be governed by the laws of India, without regard to any conflicts of law principles.
+                  These terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in Bhagalpur, Bihar, India.
                 </p>
               </section>
 
               <section className={Styles.section}>
-                <h2 className={Styles.sectionHeading}>13. Contact Us</h2>
+                <h2 className={Styles.sectionHeading}>13. Contact Information</h2>
                 <p className={Styles.sectionText}>
-                  If you have any questions or concerns about these Terms, please contact us at:
+                  For questions about these terms or our services:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: info@tradediary.in<br />
-                  Address: 20/A, Balli Buring, Cuncolim Salcete - 403 703, Goa, India
+                  Email: support@tradejournalai.in<br />
+                  Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
-                  We may update this policy from time to time. The updated version will be indicated by an updated "Effective Date".
+                  These terms may be updated periodically. Continued use of our platform constitutes acceptance of any changes.
                 </p>
               </section>
             </div>
