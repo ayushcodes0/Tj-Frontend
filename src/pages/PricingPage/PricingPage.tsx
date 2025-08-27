@@ -7,6 +7,7 @@ import PaymentButton from "../../components/PaymentButton/PaymentButton";
 import { upgradeUserToPro } from '../../services/subscriptionService';
 import { useAuth } from '../../hooks/useAuth';
 import { hasActivePro } from '../../utils/subscriptionUtils';
+import { useCustomToast } from '../../hooks/useCustomToast'; // Your custom toast hook
 
 interface FAQItem {
   question: string;
@@ -17,22 +18,23 @@ const PricingPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { user, updateUserData } = useAuth();
   const navigate = useNavigate();
+  const toast = useCustomToast(); // Use your custom toast hook
 
   const handleToggle = (index: number): void => {
     setOpenIndex(openIndex === index ? null : index);
-  };
+  }; 
 
   const handlePaymentSuccess = async (paymentId: string): Promise<void> => {
     console.log('Payment successful:', paymentId);
     
     if (!user) {
-      alert('❌ User not found. Please login again.');
+      toast.showErrorToast('❌ User not found. Please login again.');
       return;
     }
 
     try {
-      // Show immediate feedback
-      alert('🎉 Payment successful! Upgrading your subscription...');
+      // Show processing toast
+      toast.showInfoToast('🔄 Payment successful! Upgrading your subscription...');
 
       // Call backend to upgrade subscription to Pro for 1 month
       const response = await upgradeUserToPro(user.id, paymentId);
@@ -46,27 +48,31 @@ const PricingPage = () => {
           expiresAt: response.data.subscription.expiresAt
         });
         
-        // Success message
-        alert('✅ Welcome to TradeJournalAI Pro! You now have 1 month of premium access.');
+        // Success toast
+        toast.showSuccessToast('🎉 Welcome to TradeJournalAI Pro! You now have 1 month of premium access.');
         
         // Redirect to dashboard after a short delay
         setTimeout(() => {
           navigate('/dashboard');
-        }, 1500);
+        }, 2000);
       } else {
         throw new Error(response.message || 'Failed to upgrade subscription');
       }
 
     } catch (error) {
       console.error('Subscription upgrade failed:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-      alert(`❌ Payment successful but upgrade failed. Please contact support with Payment ID: ${paymentId}\nError: ${errorMessage}`);
+      
+      // Handle API errors with your custom toast
+      toast.handleApiError(error);
+      
+      // Additional context for payment ID
+      toast.showWarningToast(`Please save this Payment ID for support: ${paymentId}`);
     }
   };
 
   const handlePaymentFailure = (error: string): void => {
     console.error('Payment failed:', error);
-    alert('❌ Payment failed. Please try again or contact support.');
+    toast.showErrorToast('❌ Payment failed. Please try again or contact support.');
   };
 
   // Use proper subscription checking with your utils
@@ -171,6 +177,40 @@ const PricingPage = () => {
                     )}
                   </p>
                 )}
+                
+                {/* Time Remaining Display */}
+                {user.subscription.expiresAt && (
+                  <p className={Styles.timeInfo}>
+                    <strong>Time Remaining: </strong>
+                    <span className={`${
+                      new Date(user.subscription.expiresAt) > new Date() 
+                        ? Styles.validTime 
+                        : Styles.expiredTime
+                    }`}>
+                      {(() => {
+                        const now = new Date();
+                        const expiry = new Date(user.subscription.expiresAt);
+                        const diff = expiry.getTime() - now.getTime();
+                        
+                        if (diff <= 0) {
+                          return 'Expired';
+                        }
+                        
+                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        
+                        if (days > 0) {
+                          return `${days} day${days !== 1 ? 's' : ''}, ${hours} hour${hours !== 1 ? 's' : ''}`;
+                        } else if (hours > 0) {
+                          return `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+                        } else {
+                          return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+                        }
+                      })()}
+                    </span>
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -211,7 +251,10 @@ const PricingPage = () => {
             <p>Still have questions?</p>
             <button 
               className={Styles.ctaButton}
-              onClick={() => window.location.href = 'mailto:support@tradejournalai.in'}
+              onClick={() => {
+                window.location.href = 'mailto:support@tradejournalai.in';
+                toast.showInfoToast('📧 Opening email client...');
+              }}
             >
               Contact Support
             </button>

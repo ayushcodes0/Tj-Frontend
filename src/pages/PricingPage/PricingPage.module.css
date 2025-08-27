@@ -283,3 +283,22 @@
     margin-top: 16px;
   }
 }
+
+/* Add these styles to your existing PricingPage.module.css */
+
+.timeInfo {
+  font-size: 13px;
+  margin: 6px 0;
+  color: #666;
+}
+
+.validTime {
+  color: var(--dashboard-green-color, #10b981) !important;
+  font-weight: 600;
+}
+
+.expiredTime {
+  color: var(--dashboard-red-color, #ef4444) !important;
+  font-weight: 600;
+}
+
