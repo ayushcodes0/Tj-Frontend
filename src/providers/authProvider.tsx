@@ -1,3 +1,4 @@
+// providers/AuthProvider.tsx
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -19,60 +20,73 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const savedUser = localStorage.getItem('user');
     if (savedToken && savedUser) {
       setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (parseError) {
+        console.error('Error parsing saved user:', parseError);
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      }
     }
   }, []);
 
   // Helper: persist user/token
-  const persistAuth = (user: User, token: string) => {
+  const persistAuth = (user: User, token: string): void => {
     setUser(user);
     setToken(token);
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
   };
 
-  // ADD: Set token for Google OAuth callback
-  const setAuthToken = (newToken: string) => {
+  // ADD: Update user data (for subscription updates)
+  const updateUserData = (userData: User): void => {
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+    console.log('✅ User data updated:', {
+      plan: userData.subscription.plan,
+      expiresAt: userData.subscription.expiresAt
+    });
+  };
+
+  // SET: Token for Google OAuth callback
+  const setAuthToken = (newToken: string): void => {
     setToken(newToken);
     localStorage.setItem('token', newToken);
-    // Fetch user data with the new token
     fetchUserProfile(newToken);
   };
 
-  // ADD: Fetch user profile after Google OAuth
-  // In your AuthProvider - update the fetchUserProfile function
-const fetchUserProfile = async (authToken: string) => {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
-      method: 'GET',
-      headers: { 
-        'Authorization': `Bearer ${authToken}`,
-        'Content-Type': 'application/json'
-      },
-    });
-    
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message || 'Failed to fetch user profile');
-    
-    const userData = data.user || data.data;
-    
-    // Check if user got Pro trial
-    if (userData.subscription?.plan === 'pro') {
-      console.log('🎉 User has Pro subscription!');
-      console.log('Expires at:', userData.subscription.expiresAt);
+  // FETCH: User profile after Google OAuth
+  const fetchUserProfile = async (authToken: string): Promise<void> => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/profile`, {
+        method: 'GET',
+        headers: { 
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        },
+      });
+      
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to fetch user profile');
+      
+      const userData: User = data.user || data.data;
+      
+      // Check if user has Pro subscription
+      if (userData.subscription?.plan === 'pro') {
+        console.log('🎉 User has Pro subscription!');
+        console.log('Expires at:', userData.subscription.expiresAt);
+      }
+      
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+    } catch (err) {
+      console.error('Failed to fetch user profile:', err);
+      logout();
     }
-    
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-  } catch (err) {
-    console.error('Failed to fetch user profile:', err);
-    logout();
-  }
-};
-
+  };
 
   // Registration
-  const register = async (username: string, email: string, password: string) => {
+  const register = async (username: string, email: string, password: string): Promise<void> => {
     setLoading(true);
     setError(null);
     try {
@@ -84,7 +98,6 @@ const fetchUserProfile = async (authToken: string) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Registration failed');
       persistAuth(data.data, data.token);
-      return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Registration failed';
       setError(errorMessage); 
@@ -95,7 +108,7 @@ const fetchUserProfile = async (authToken: string) => {
   };
 
   // Login
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<void> => {
     setLoading(true);
     setError(null);
     try {
@@ -107,7 +120,6 @@ const fetchUserProfile = async (authToken: string) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Login failed');
       persistAuth(data.data, data.token);
-      return data;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Login failed';
       setError(errorMessage); 
@@ -118,7 +130,7 @@ const fetchUserProfile = async (authToken: string) => {
   };
 
   // Logout (clears everywhere)
-  const logout = () => {
+  const logout = (): void => {
     setUser(null);
     setToken(null);
     localStorage.removeItem('user');
@@ -139,13 +151,15 @@ const fetchUserProfile = async (authToken: string) => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "Avatar update failed");
 
-    const newUser: User = { ...user!, avatar: data.data.avatar };
-    setUser(newUser);
-    localStorage.setItem('user', JSON.stringify(newUser));
+    if (user) {
+      const newUser: User = { ...user, avatar: data.data.avatar };
+      setUser(newUser);
+      localStorage.setItem('user', JSON.stringify(newUser));
+    }
   };
 
   // Change username
-  const changeUsername = async (newUsername: string) => {
+  const changeUsername = async (newUsername: string): Promise<void> => {
     if (!token) throw new Error("Not authenticated");
     setLoading(true); 
     setError(null);
@@ -172,7 +186,7 @@ const fetchUserProfile = async (authToken: string) => {
   };
 
   // Change password
-  const changePassword = async (currentPassword: string, newPassword: string) => {
+  const changePassword = async (currentPassword: string, newPassword: string): Promise<void> => {
     if (!token) throw new Error("Not authenticated");
     setLoading(true); 
     setError(null);
@@ -196,7 +210,7 @@ const fetchUserProfile = async (authToken: string) => {
     }
   };
 
-  // ADD setAuthToken to the context value
+  // Context value with proper typing
   const value = { 
     user, 
     token, 
@@ -208,7 +222,8 @@ const fetchUserProfile = async (authToken: string) => {
     updateAvatar, 
     changePassword, 
     changeUsername,
-    setAuthToken  // Add this line
+    setAuthToken,
+    updateUserData  // Add this line
   };
   
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

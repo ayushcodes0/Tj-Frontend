@@ -1,3 +1,4 @@
+// context/AuthContext.ts
 import { createContext } from 'react';
 import type { User } from '../types/AuthTypes';
 
@@ -10,10 +11,10 @@ export interface AuthContextType {
   loading: boolean;
   error: string | null;
   updateAvatar: (file: File) => Promise<void>;
-  createdAt?: string;
   changeUsername: (newUsername: string) => Promise<void>;
   changePassword: (current: string, next: string) => Promise<void>;
   setAuthToken: (token: string) => void;
+  updateUserData: (userData: User) => void; // Add this line
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

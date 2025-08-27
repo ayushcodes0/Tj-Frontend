@@ -1,4 +1,4 @@
-
+// types/AuthTypes.ts
 export interface Subscription {
   plan: 'free' | 'pro' | 'enterprise';
   startedAt?: string | null;
@@ -13,4 +13,16 @@ export interface User {
   subscription: Subscription;
   createdAt?: string;
   // ...any other profile fields
+}
+
+// Add these new response types
+export interface ApiResponse<T = unknown> {
+  success: boolean;
+  message: string;
+  data?: T;
+  error: boolean;
+}
+
+export interface SubscriptionUpdateResponse extends ApiResponse<User> {
+  data: User;
 }

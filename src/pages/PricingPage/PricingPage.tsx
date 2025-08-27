@@ -1,71 +1,67 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PricingNav from "../../components/PricingNav/PricingNav";
 import Styles from "./PricingPage.module.css";
 import { IoMdAdd } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import PaymentButton from "../../components/PaymentButton/PaymentButton";
+import { upgradeUserToPro } from '../../services/subscriptionService';
+import { useAuth } from '../../hooks/useAuth';
+import { hasActivePro } from '../../utils/subscriptionUtils';
 
 interface FAQItem {
   question: string;
   answer: string;
 }
 
-interface User {
-  id: string;
-  email: string;
-  subscription?: {
-    status: string;
-    expiresAt: string;
-  };
-}
-
 const PricingPage = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const { user, updateUserData } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const getUserData = (): void => {
-      try {
-        const userData = localStorage.getItem('user');
-        if (userData) {
-          const parsedUser = JSON.parse(userData) as User;
-          setUser(parsedUser);
-        }
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-        setUser(null);
-      }
-    };
-
-    getUserData();
-  }, []);
 
   const handleToggle = (index: number): void => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const handlePaymentSuccess = (paymentId: string): void => {
+  const handlePaymentSuccess = async (paymentId: string): Promise<void> => {
     console.log('Payment successful:', paymentId);
     
-    // Update user subscription status
-    if (user) {
-      const updatedUser: User = {
-        ...user,
-        subscription: {
-          status: 'active',
-          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days from now
-        }
-      };
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      setUser(updatedUser);
+    if (!user) {
+      alert('❌ User not found. Please login again.');
+      return;
     }
 
-    // Show success message and redirect
-    alert('🎉 Payment successful! Welcome to TradeJournalAI Pro!');
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 2000);
+    try {
+      // Show immediate feedback
+      alert('🎉 Payment successful! Upgrading your subscription...');
+
+      // Call backend to upgrade subscription to Pro for 1 month
+      const response = await upgradeUserToPro(user.id, paymentId);
+      
+      if (response.success && response.data) {
+        // Update user context with new subscription data
+        updateUserData(response.data);
+        
+        console.log('✅ Subscription upgraded:', {
+          plan: response.data.subscription.plan,
+          expiresAt: response.data.subscription.expiresAt
+        });
+        
+        // Success message
+        alert('✅ Welcome to TradeJournalAI Pro! You now have 1 month of premium access.');
+        
+        // Redirect to dashboard after a short delay
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1500);
+      } else {
+        throw new Error(response.message || 'Failed to upgrade subscription');
+      }
+
+    } catch (error) {
+      console.error('Subscription upgrade failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      alert(`❌ Payment successful but upgrade failed. Please contact support with Payment ID: ${paymentId}\nError: ${errorMessage}`);
+    }
   };
 
   const handlePaymentFailure = (error: string): void => {
@@ -73,7 +69,8 @@ const PricingPage = () => {
     alert('❌ Payment failed. Please try again or contact support.');
   };
 
-  const isSubscribed = user?.subscription?.status === 'active';
+  // Use proper subscription checking with your utils
+  const isSubscribed = hasActivePro(user);
 
   const faqs: FAQItem[] = [
     {
@@ -156,6 +153,26 @@ const PricingPage = () => {
                 />
               )}
             </div>
+
+            {/* Show subscription info for logged in users */}
+            {user && (
+              <div className={Styles.subscriptionInfo}>
+                <p className={Styles.planInfo}>
+                  Current Plan: <strong>{user.subscription.plan.toUpperCase()}</strong>
+                </p>
+                {user.subscription.expiresAt && (
+                  <p className={Styles.expiryInfo}>
+                    {isSubscribed ? (
+                      <>Expires: {new Date(user.subscription.expiresAt).toLocaleDateString()}</>
+                    ) : (
+                      <span className={Styles.expiredText}>
+                        Trial Expired: {new Date(user.subscription.expiresAt).toLocaleDateString()}
+                      </span>
+                    )}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
