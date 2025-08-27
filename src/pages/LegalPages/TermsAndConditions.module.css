@@ -63,7 +63,7 @@
 .termsContent {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 40px;
 }
 
 .section {
@@ -86,29 +86,16 @@
   opacity: 0.9;
 }
 
-.list {
-  padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.listItem {
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--primary-dark-text);
-  opacity: 0.9;
-}
-
 .contactInfo {
   font-style: normal;
   line-height: 1.8;
   color: var(--primary-dark-text);
   background-color: var(--landing-background);
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 8px;
   margin-top: 0.5rem;
   opacity: 0.9;
+  border-left: 4px solid #85A9DD;
 }
 
 .footerContainer {
@@ -154,7 +141,7 @@
   .sectionHeading {
     font-size: 20px;
   }
-  .sectionText, .listItem {
+  .sectionText {
     font-size: 15px;
   }
 }

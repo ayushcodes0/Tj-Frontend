@@ -17,6 +17,7 @@ import Calendar from "./components/Calendar/Calendar";
 import AuthSuccess from "./components/Auth/AuthSuccess";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import TermsAndConditions from "./pages/LegalPages/TermsAndConditions";
+import CancellationAndRefund from "./pages/LegalPages/CancellationAndRefund";
 
 
 const App = () => (
@@ -29,6 +30,7 @@ const App = () => (
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      <Route path="/cancellation-and-refund" element={<CancellationAndRefund />} />
       <Route
         path="/dashboard"
         element={<RequirePro><DashboardLayout /></RequirePro>}

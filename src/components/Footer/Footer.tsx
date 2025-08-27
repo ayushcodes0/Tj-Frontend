@@ -37,7 +37,8 @@ const Footer = () => {
           </div>
           <div className={Styles.footerItems}>
             <p className={Styles.footerItemsHead}>Legal</p>
-            <Link to="/terms-and-conditions" className={Styles.footerItemsText}>Terms of Service</Link>
+            <Link to="/terms-and-conditions" className={Styles.footerItemsText}>Terms & Conditions</Link>
+            <Link to="/cancellation-and-refund" className={Styles.footerItemsText}>Cancellation & Refund</Link>
             <Link to="/privacy-policy" className={Styles.footerItemsText}>Privacy Policy</Link>
             <Link to="/disclaimer" className={Styles.footerItemsText}>Disclaimer</Link>
             <Link to="/security" className={Styles.footerItemsText}>Security</Link>
