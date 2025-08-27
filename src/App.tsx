@@ -35,7 +35,7 @@ const App = () => (
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/cancellation-and-refund" element={<CancellationAndRefund />} />
-      <Route path="/shipping-policy" element={<ShippingPolicy />} />
+      <Route path="/shipping" element={<ShippingPolicy />} />
       <Route path="/disclosure" element={<Disclosures />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/disclaimer" element={<Disclaimer />} />
