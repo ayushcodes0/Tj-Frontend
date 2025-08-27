@@ -28,7 +28,7 @@
     color: var(--primary-text);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 2.5rem;
+    padding: 20px 30px;
     max-width: 400px;
     width: 100%;
     text-align: center;
@@ -40,12 +40,12 @@
 }
 
 .cardHeader {
-    margin-bottom: 2rem;
+    margin-bottom: 1.2rem;
 }
 
 .cardHeader h3 {
     font-size: 1.8rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
     color: var(--primary-text);
 }
 
@@ -58,7 +58,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    margin-bottom: 2rem;
+    margin-bottom: 1.2rem;
 }
 
 .currency {
@@ -84,12 +84,12 @@
 .features {
     list-style: none;
     padding: 0;
-    margin: 0 0 2rem 0;
+    margin: 0 0 1.2rem 0;
     text-align: left;
 }
 
 .features li {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     display: flex;
     align-items: center;

@@ -129,13 +129,13 @@ const PricingPage = () => {
             </div>
             
             <ul className={Styles.features}>
-              <li>✅ Unlimited trade journaling</li>
-              <li>✅ Advanced charts and graphs</li>
-              <li>✅ AI-powered trade insights</li>
-              <li>✅ Psychology & risk analysis</li>
-              <li>✅ Monthly performance reports</li>
-              <li>✅ Secure cloud backup</li>
-              <li>✅ Priority support</li>
+              <li>Unlimited trade journaling</li>
+              <li>Advanced charts and graphs</li>
+              <li>AI-powered trade insights</li>
+              <li>Psychology & risk analysis</li>
+              <li>Monthly performance reports</li>
+              <li>Secure cloud backup</li>
+              <li>Priority support</li>
             </ul>
             
             {/* Dynamic Button Based on User State */}
