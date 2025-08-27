@@ -50,6 +50,10 @@ const ShippingPolicy: React.FC = () => {
           <motion.div className={Styles.termsContentContainer} variants={fadeUpItem}>
             <div className={Styles.termsContent}>
               <section className={Styles.section}>
+                <h2 className={Styles.sectionHeading}>No Physical Shipping</h2>
+                <p className={Styles.sectionText}>
+                    TradeJournalAI does not sell or ship any physical goods. All products and services provided by TradeJournalAI are delivered digitally and accessible online only. There are no shipping charges. No products will be delivered to your address.   
+                </p>
                 <h2 className={Styles.sectionHeading}>Web-Based Platform Only</h2>
                 <p className={Styles.sectionText}>
                   TradeJournalAI is exclusively a web-based trading journal platform accessible through tradejournalai.in. We provide digital services only - no physical products are sold, shipped, or delivered.
