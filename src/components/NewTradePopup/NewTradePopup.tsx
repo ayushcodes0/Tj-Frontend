@@ -491,6 +491,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                     <input 
                       type="number" 
                       step="0.01" 
+                      max={999999999}
                       value={formData.exit_price ?? ""} 
                       onChange={e => handleNumberInputChange("exit_price", e.target.value)} 
                       placeholder="e.g., 25250.75, 18300.00"
