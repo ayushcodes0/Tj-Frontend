@@ -419,7 +419,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       type="text" 
                       value={formData.symbol} 
                       onChange={e => handleUpdateField("symbol", e.target.value)} 
-                      placeholder="e.g., NIFTY50, SENSEX, RELIANCE"
+                      placeholder="e.g., NIFTY50, SENSEX"
                       required 
                     />
                   </div>
@@ -442,6 +442,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                     </label>
                     <input 
                       type="number" 
+                      max={10000000}
                       value={formData.quantity ?? ""} 
                       min={1} 
                       onChange={e => handleNumberInputChange("quantity", e.target.value)} 
@@ -478,6 +479,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       type="number" 
                       step="0.01" 
                       value={formData.entry_price ?? ""} 
+                      max={999999999}
                       min={0.01} 
                       onChange={e => handleNumberInputChange("entry_price", e.target.value)} 
                       placeholder="e.g., 25000.50, 18500.25"
