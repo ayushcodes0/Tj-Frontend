@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Styles from "./NewTradePopup.module.css";
 import { RiResetLeftLine } from "react-icons/ri";
-import { FaArrowUp, FaArrowDown, FaArrowRight } from "react-icons/fa6"; // Added FaArrowRight for Next button
+import { FaArrowUp, FaArrowDown, FaArrowRight } from "react-icons/fa6"; 
 import {
   fetchOptions,
   addOption,
@@ -415,7 +415,13 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                     <label>
                       Symbol <span className={Styles.required}>*</span>
                     </label>
-                    <input type="text" value={formData.symbol} onChange={e => handleUpdateField("symbol", e.target.value)} required />
+                    <input 
+                      type="text" 
+                      value={formData.symbol} 
+                      onChange={e => handleUpdateField("symbol", e.target.value)} 
+                      placeholder="e.g., NIFTY50, SENSEX, RELIANCE"
+                      required 
+                    />
                   </div>
                   <div className={Styles.formGroup}>
                     <label htmlFor="tradeDate">
@@ -434,7 +440,14 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                     <label>
                       Quantity <span className={Styles.required}>*</span>
                     </label>
-                    <input type="number" value={formData.quantity ?? ""} min={1} onChange={e => handleNumberInputChange("quantity", e.target.value)} required />
+                    <input 
+                      type="number" 
+                      value={formData.quantity ?? ""} 
+                      min={1} 
+                      onChange={e => handleNumberInputChange("quantity", e.target.value)} 
+                      placeholder="e.g., 100, 500, 1000"
+                      required 
+                    />
                   </div>
                   <div className={Styles.formGroup}>
                     <label>
@@ -450,7 +463,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       </button>
                       <button
                         type="button"
-                        className={`${Styles.directionBtn} ${formData.direction === "Short" ? Styles.active : ""}`}
+                        className={`${Styles.directionBtn} ${formData.direction === "Short" ? Styles.active2 : ""}`}
                         onClick={() => handleUpdateField("direction", "Short")}
                       >
                         <FaArrowDown /> Short
@@ -461,19 +474,45 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                     <label>
                       Entry Price <span className={Styles.required}>*</span>
                     </label>
-                    <input type="number" step="0.01" value={formData.entry_price ?? ""} min={0.01} onChange={e => handleNumberInputChange("entry_price", e.target.value)} required />
+                    <input 
+                      type="number" 
+                      step="0.01" 
+                      value={formData.entry_price ?? ""} 
+                      min={0.01} 
+                      onChange={e => handleNumberInputChange("entry_price", e.target.value)} 
+                      placeholder="e.g., 25000.50, 18500.25"
+                      required 
+                    />
                   </div>
                   <div className={Styles.formGroup}>
                     <label>Exit Price</label>
-                    <input type="number" step="0.01" value={formData.exit_price ?? ""} onChange={e => handleNumberInputChange("exit_price", e.target.value)} />
+                    <input 
+                      type="number" 
+                      step="0.01" 
+                      value={formData.exit_price ?? ""} 
+                      onChange={e => handleNumberInputChange("exit_price", e.target.value)} 
+                      placeholder="e.g., 25250.75, 18300.00"
+                    />
                   </div>
                   <div className={Styles.formGroup}>
                     <label>Stop Loss</label>
-                    <input type="number" step="0.01" value={formData.stop_loss ?? ""} onChange={e => handleNumberInputChange("stop_loss", e.target.value)} />
+                    <input 
+                      type="number" 
+                      step="0.01" 
+                      value={formData.stop_loss ?? ""} 
+                      onChange={e => handleNumberInputChange("stop_loss", e.target.value)} 
+                      placeholder="e.g., 24800.00, 18200.50"
+                    />
                   </div>
                   <div className={Styles.formGroup}>
                     <label>Target</label>
-                    <input type="number" step="0.01" value={formData.target ?? ""} onChange={e => handleNumberInputChange("target", e.target.value)} />
+                    <input 
+                      type="number" 
+                      step="0.01" 
+                      value={formData.target ?? ""} 
+                      onChange={e => handleNumberInputChange("target", e.target.value)} 
+                      placeholder="e.g., 25500.00, 19000.25"
+                    />
                   </div>
                   <div className={Styles.formGroup}>
                     <label>Total Amount</label>
@@ -502,7 +541,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                           type="text"
                           value={newCustomStrategyName}
                           onChange={e => setNewCustomStrategyName(e.target.value)}
-                          placeholder="Or add new strategy..."
+                          placeholder="e.g., Breakout Trading, Swing Trading, Scalping"
                           onKeyPress={e =>
                             e.key === "Enter" && (e.preventDefault(), handleAddCustomStrategy())
                           }
@@ -528,7 +567,12 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                   </div>
                   <div className={Styles.formGroup}>
                     <label>Trade Analysis</label>
-                    <textarea value={formData.trade_analysis} onChange={e => handleUpdateField("trade_analysis", e.target.value)} rows={4} />
+                    <textarea 
+                      value={formData.trade_analysis} 
+                      onChange={e => handleUpdateField("trade_analysis", e.target.value)} 
+                      rows={4} 
+                      placeholder="Explain why you entered this trade, market conditions, technical indicators used, etc."
+                    />
                   </div>
                   <div className={Styles.formGroup}>
                     <label>
@@ -551,7 +595,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                         type="text"
                         value={newCustomRuleName}
                         onChange={e => setNewCustomRuleName(e.target.value)}
-                        placeholder="Or add new rule..."
+                        placeholder="e.g., Risk Management, Stop Loss Set, Position Sizing"
                         onKeyPress={e =>
                           e.key === "Enter" && (e.preventDefault(), handleAddCustomRule())
                         }
@@ -584,6 +628,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       type="number"
                       value={formData.holding_period_minutes ?? ""}
                       onChange={e => handleNumberInputChange("holding_period_minutes", e.target.value)}
+                      placeholder="e.g., 30, 120, 1440 (1 day)"
                     />
                   </div>
                 </div>
@@ -595,7 +640,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                     type="text"
                     value={newTag}
                     onChange={e => setNewTag(e.target.value)}
-                    placeholder="Add tag and press Enter"
+                    placeholder="e.g., Earnings, Momentum, Gap-up, Support-Resistance"
                     onKeyPress={e =>
                       e.key === "Enter" && (e.preventDefault(), addTag())
                     }
@@ -711,7 +756,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                         type="text"
                         value={newMistake}
                         onChange={e => setNewMistake(e.target.value)}
-                        placeholder="Add mistake and press Enter"
+                        placeholder="e.g., No Stop Loss, FOMO Entry, Revenge Trading, Over-leveraging"
                         onKeyPress={e =>
                           e.key === "Enter" && (e.preventDefault(), addMistake())
                         }
@@ -744,6 +789,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                         })
                       }
                       rows={4}
+                      placeholder="What did you learn from this trade? How will you improve next time? Any behavioral patterns you noticed?"
                     />
                   </div>
                 </div>

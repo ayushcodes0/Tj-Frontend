@@ -467,3 +467,8 @@
   background: #ccc;
   cursor: not-allowed;
 }
+
+.active2{
+  background-color: var(--dashboard-red-color);
+  color: white;
+}
