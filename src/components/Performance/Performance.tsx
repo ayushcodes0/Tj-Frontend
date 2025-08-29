@@ -36,6 +36,40 @@ const calculateWinRate = (wins: number, total: number): number =>
 const calculateExpectancy = (averageWin: number, winRate: number, averageLoss: number, lossRate: number): number =>
   (averageWin * (winRate / 100)) - (Math.abs(averageLoss) * (lossRate / 100));
 
+// Direction-aware risk-reward calculation
+const calculateRiskReward = (
+  entry_price: number,
+  stop_loss: number,
+  exit_price: number | null,
+  target: number | null,
+  direction: 'Long' | 'Short'
+): number | null => {
+  // Use exit price for reward calculation (actual performance)
+  const reward_price = exit_price;
+  
+  if (reward_price === null || reward_price === undefined) {
+    return null;
+  }
+
+  let risk: number;
+  let reward: number;
+
+  if (direction === 'Long') {
+    risk = entry_price - stop_loss;    // Risk is distance below entry
+    reward = reward_price - entry_price;  // Reward is distance above entry
+  } else { // Short
+    risk = stop_loss - entry_price;    // Risk is distance above entry
+    reward = entry_price - reward_price;  // Reward is distance below entry
+  }
+
+  // Invalid setups return null
+  if (risk <= 0 || reward <= 0) {
+    return null;
+  }
+
+  return reward / risk;
+};
+
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const Performance = () => {
@@ -164,15 +198,23 @@ const Performance = () => {
     const quantityProfitLossAtMaximum = typedTrades.filter(trade => trade.quantity === maximumQuantity).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
     const quantityProfitLossAtMinimum = typedTrades.filter(trade => trade.quantity === minimumQuantity).reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
 
+    // Updated average risk-reward calculation with direction awareness
     const averageRiskReward = (() => {
       const riskRewardArray = typedTrades
-        .filter(t => t.stop_loss !== undefined && t.entry_price !== undefined && t.exit_price !== undefined)
-        .map(t => {
-          const reward = Math.abs(t.exit_price! - t.entry_price!);
-          const risk = Math.abs(t.entry_price! - t.stop_loss!);
-          return risk !== 0 ? reward / risk : 0;
-        })
-        .filter(val => typeof val === "number" && isFinite(val) && val > 0);
+        .filter(t => 
+          t.stop_loss !== undefined && 
+          t.entry_price !== undefined && 
+          t.exit_price !== undefined &&
+          t.direction
+        )
+        .map(t => calculateRiskReward(
+          t.entry_price!,
+          t.stop_loss!,
+          t.exit_price!,
+          t.target || null,
+          t.direction!
+        ))
+        .filter((val): val is number => typeof val === "number" && isFinite(val) && val > 0);
 
       return riskRewardArray.length ? riskRewardArray.reduce((a, b) => a + b, 0) / riskRewardArray.length : 0;
     })();
@@ -270,14 +312,22 @@ const Performance = () => {
       const profitLoss = tradesForDay.reduce((sum, trade) => sum + (trade.pnl_amount ?? 0), 0);
       const wins = tradesForDay.filter(trade => (trade.pnl_amount ?? 0) > 0).length;
       
+      // Updated weekday risk-reward calculation with direction awareness
       const riskRewardArray = tradesForDay
-        .filter(t => t.stop_loss !== undefined && t.entry_price !== undefined && t.exit_price !== undefined)
-        .map(t => {
-          const reward = Math.abs(t.exit_price! - t.entry_price!);
-          const risk = Math.abs(t.entry_price! - t.stop_loss!);
-          return risk !== 0 ? reward / risk : 0;
-        })
-        .filter(val => typeof val === "number" && isFinite(val) && val > 0);
+        .filter(t => 
+          t.stop_loss !== undefined && 
+          t.entry_price !== undefined && 
+          t.exit_price !== undefined &&
+          t.direction
+        )
+        .map(t => calculateRiskReward(
+          t.entry_price!,
+          t.stop_loss!,
+          t.exit_price!,
+          t.target || null,
+          t.direction!
+        ))
+        .filter((val): val is number => typeof val === "number" && isFinite(val) && val > 0);
 
       const averageRiskReward = riskRewardArray.length ? (riskRewardArray.reduce((a, b) => a + b, 0) / riskRewardArray.length) : null;
 

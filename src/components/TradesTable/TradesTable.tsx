@@ -31,21 +31,38 @@ function msToDate(input: string): string {
 }
 
 // Risk/reward calculator with the requested 1:X format
-function riskReward(entry: number, stop?: number, target?: number): string {
-  if (stop === undefined || target === undefined) {
+// Updated function considering trade direction
+function riskReward(entry: number, stop?: number, target?: number, direction?: 'Long' | 'Short'): string {
+  if (stop === undefined || target === undefined || !direction) {
     return '-';
   }
   
-  const risk = Math.abs(entry - stop);
-  const reward = Math.abs(target - entry);
-  
-  if (risk === 0) {
-    return '1:∞'; // Handle division by zero
+  let risk: number;
+  let reward: number;
+
+  if (direction === 'Long') {
+    // For Long trades: Risk = Entry - Stop Loss, Reward = Target - Entry
+    risk = entry - stop;
+    reward = target - entry;
+  } else { // Short trades
+    // For Short trades: Risk = Stop Loss - Entry, Reward = Entry - Target
+    risk = stop - entry;
+    reward = entry - target;
+  }
+
+  // Check for invalid setups
+  if (risk <= 0) {
+    return 'Invalid Risk';
+  }
+
+  if (reward <= 0) {
+    return 'Invalid Reward';
   }
 
   const ratio = (reward / risk).toFixed(2);
   return `1:${ratio}`;
 }
+
 
 // Helper for outcome/strategy name extraction
 function getName(val: undefined | null | { name?: string } | string): string {
@@ -151,7 +168,7 @@ const TradesTable: React.FC<{ trades: TradeRow[] }> = ({ trades }) => {
                     ₹{trade.pnl_amount} ({trade.pnl_percentage}%)
                   </span>
                 </td>
-                <td>{riskReward(trade.entry_price, trade.stop_loss, trade.target)}</td>
+                <td>{riskReward(trade.entry_price, trade.stop_loss, trade.target, trade.direction)}</td>
                 <td>{getName(trade.strategy)}</td>
                 <td>{getName(trade.outcome_summary)}</td>
                 <td className={Styles.actions}>

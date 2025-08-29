@@ -17,6 +17,63 @@ function prettyRiskReward(r: number | null): string {
   return `1:${Math.max(r, 0).toFixed(2)}`;
 }
 
+// Direction-aware risk-reward calculation
+function calculateRiskReward(
+  entry_price: number,
+  stop_loss: number,
+  target_price: number | null,
+  exit_price: number | null,
+  direction: 'Long' | 'Short'
+): number | null {
+  // Use target if available, otherwise use exit price for reward calculation
+  const reward_price = target_price !== null ? target_price : exit_price;
+  
+  if (reward_price === null) {
+    return null;
+  }
+
+  let risk: number;
+  let reward: number;
+
+  if (direction === 'Long') {
+    risk = entry_price - stop_loss;  // Risk is distance below entry
+    reward = reward_price - entry_price;  // Reward is distance above entry
+  } else { // Short
+    risk = stop_loss - entry_price;  // Risk is distance above entry
+    reward = entry_price - reward_price;  // Reward is distance below entry
+  }
+
+  // Invalid setups return null
+  if (risk <= 0 || reward <= 0) {
+    return null;
+  }
+
+  return reward / risk;
+}
+
+// Direction-aware risk amount calculation
+function calculateRiskAmount(
+  entry_price: number,
+  stop_loss: number,
+  quantity: number,
+  direction: 'Long' | 'Short'
+): number | null {
+  let risk_per_share: number;
+
+  if (direction === 'Long') {
+    risk_per_share = entry_price - stop_loss;
+  } else { // Short
+    risk_per_share = stop_loss - entry_price;
+  }
+
+  // Invalid setup
+  if (risk_per_share <= 0) {
+    return null;
+  }
+
+  return risk_per_share * quantity;
+}
+
 const Risk = () => {
   const { trades } = useTrades();
 
@@ -30,17 +87,23 @@ const Risk = () => {
         if (
           typeof trade.entry_price === "number" &&
           typeof trade.stop_loss === "number" &&
+          trade.direction &&
           trade.stop_loss !== trade.entry_price
         ) {
-          const risk = Math.abs(trade.entry_price - trade.stop_loss);
-          const reward = typeof trade.exit_price === "number" ? Math.abs(trade.exit_price - trade.entry_price) : null;
+          const ratio = calculateRiskReward(
+            trade.entry_price,
+            trade.stop_loss,
+            trade.target || null,
+            trade.exit_price || null,
+            trade.direction
+          );
           
-          if (reward === null || !isFinite(risk) || risk === 0) {
+          if (ratio === null || !isFinite(ratio)) {
             return undefined; // Filter out trades with invalid data
           }
 
           return {
-            ratio: reward / risk,
+            ratio,
             trade,
           };
         }
@@ -64,13 +127,22 @@ const Risk = () => {
     const worstRR = rrList.length ? rrList.reduce((min, t) => (t.ratio < min.ratio ? t : min), rrList[0]) : null;
 
     const riskAmounts = trades
-      .map((trade: Trade) =>
-        typeof trade.entry_price === "number" &&
-        typeof trade.stop_loss === "number" &&
-        typeof trade.quantity === "number"
-          ? Math.abs(trade.entry_price - trade.stop_loss) * trade.quantity
-          : null
-      )
+      .map((trade: Trade) => {
+        if (
+          typeof trade.entry_price === "number" &&
+          typeof trade.stop_loss === "number" &&
+          typeof trade.quantity === "number" &&
+          trade.direction
+        ) {
+          return calculateRiskAmount(
+            trade.entry_price,
+            trade.stop_loss,
+            trade.quantity,
+            trade.direction
+          );
+        }
+        return null;
+      })
       .filter((r): r is number => typeof r === "number" && isFinite(r));
 
     const avgRiskAmt = riskAmounts.length ? riskAmounts.reduce((a, b) => a + b, 0) / riskAmounts.length : null;
@@ -84,9 +156,18 @@ const Risk = () => {
           typeof trade.stop_loss === "number" &&
           typeof trade.quantity === "number" &&
           typeof trade.total_amount === "number" &&
-          trade.total_amount > 0
+          trade.total_amount > 0 &&
+          trade.direction
         ) {
-          const amtRisk = Math.abs(trade.entry_price - trade.stop_loss) * trade.quantity;
+          const amtRisk = calculateRiskAmount(
+            trade.entry_price,
+            trade.stop_loss,
+            trade.quantity,
+            trade.direction
+          );
+          
+          if (amtRisk === null) return undefined;
+          
           return (amtRisk / trade.total_amount) * 100;
         }
         return undefined;
@@ -103,10 +184,19 @@ const Risk = () => {
         typeof trade.stop_loss === "number" &&
         typeof trade.quantity === "number" &&
         typeof trade.pnl_amount === "number" &&
-        trade.pnl_amount < 0
+        trade.pnl_amount < 0 &&
+        trade.direction
       ) {
-        const maxRisk = Math.abs(trade.entry_price - trade.stop_loss) * trade.quantity;
-        return maxRisk > 0 && Math.abs(trade.pnl_amount) > maxRisk * 1.05;
+        const maxRisk = calculateRiskAmount(
+          trade.entry_price,
+          trade.stop_loss,
+          trade.quantity,
+          trade.direction
+        );
+        
+        if (maxRisk === null || maxRisk <= 0) return false;
+        
+        return Math.abs(trade.pnl_amount) > maxRisk * 1.05;
       }
       return false;
     });
