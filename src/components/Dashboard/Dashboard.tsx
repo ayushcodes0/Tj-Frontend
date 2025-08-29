@@ -36,7 +36,7 @@ const Dashboard = () => {
     return new Date(year, month, 0).getDate();
   };
 
-  // The change handlers now accept a string value from the input and update the context state.
+  // Your existing change handlers remain the same...
   const handleYearChange = (value: string) => {
     setYear(value);
   };
@@ -78,8 +78,6 @@ const Dashboard = () => {
     setDay(validatedDay);
   };
 
-  // The useEffect hook now relies on the context state, so it will re-fetch
-  // whenever the shared filter values change, regardless of the page.
   useEffect(() => {
     const currentYear = Number(year);
     const currentMonth = Number(month);
@@ -97,6 +95,7 @@ const Dashboard = () => {
     }
   }, [filter, year, month, day, week, fetchTrades]);
 
+  // All your existing useMemo calculations remain the same...
   const stats = useMemo(() => {
     if (!trades) return null;
     const totalTrades = trades.length;
@@ -169,6 +168,72 @@ const Dashboard = () => {
       }))
       .sort((a, b) => b.avgMinutes - a.avgMinutes);
   }, [trades]);
+
+  // NEW: Stocks/Equity Performance Data
+  const stocksEquityData = useMemo(() => {
+    if (!trades) return [];
+    const symbolMap: Record<string, { name: string, count: number, totalPnl: number, winRate: number }> = {};
+    
+    for (const trade of trades) {
+      const symbol = trade.symbol || "Unknown";
+      if (!symbolMap[symbol]) {
+        symbolMap[symbol] = { 
+          name: symbol, 
+          count: 0, 
+          totalPnl: 0, 
+          winRate: 0 
+        };
+      }
+      symbolMap[symbol].count += 1;
+      symbolMap[symbol].totalPnl += (trade.pnl_amount ?? 0);
+    }
+
+    // Calculate win rate for each symbol
+    for (const symbol in symbolMap) {
+      const symbolTrades = trades.filter(t => t.symbol === symbol);
+      const winningTrades = symbolTrades.filter(t => (t.pnl_amount ?? 0) > 0);
+      symbolMap[symbol].winRate = symbolTrades.length > 0 
+        ? (winningTrades.length / symbolTrades.length) * 100 
+        : 0;
+    }
+
+    return Object.values(symbolMap)
+      .sort((a, b) => b.totalPnl - a.totalPnl) // Sort by total PnL descending
+      .slice(0, 10); // Show top 10 stocks
+  }, [trades]);
+
+  // Add this with your existing useMemo calculations
+const strategyPnLData = useMemo(() => {
+  if (!trades) return [];
+  
+  const strategyMap = new Map();
+  
+  trades.forEach(trade => {
+    const strategyName = trade.strategy?.name || 'Other';
+    const pnl = trade.pnl_amount ?? 0;
+    
+    if (!strategyMap.has(strategyName)) {
+      strategyMap.set(strategyName, { 
+        strategy: strategyName, 
+        profit: 0, 
+        loss: 0,
+        netPnL: 0 
+      });
+    }
+    
+    const stats = strategyMap.get(strategyName);
+    if (pnl >= 0) {
+      stats.profit += pnl;
+    } else {
+      stats.loss += Math.abs(pnl);
+    }
+    stats.netPnL += pnl;
+  });
+  
+  return Array.from(strategyMap.values())
+    .sort((a, b) => b.netPnL - a.netPnL); // Sort by net P&L
+}, [trades]);
+
 
   const topTrades = useMemo(() => {
     if (!trades) return [];
@@ -438,7 +503,93 @@ const Dashboard = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
+
+        {/* NEW: Stocks / Equity Performance Chart */}
+        <div className={Styles.chartBox}>
+          <div className={Styles.chartHeading}>Stocks / Equity Performance</div>
+          <ResponsiveContainer height={300} width="100%">
+            <BarChart data={stocksEquityData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey="name" 
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                interval={0}
+              />
+              <YAxis 
+                yAxisId="left"
+                orientation="left"
+                label={{ value: 'Trade Count', angle: -90, position: 'insideLeft' }}
+              />
+              <YAxis 
+                yAxisId="right" 
+                orientation="right"
+                label={{ value: 'Total P&L (₹)', angle: 90, position: 'insideRight' }}
+              />
+              <Tooltip 
+                formatter={(value, name) => {
+                  if (name === 'Total P&L (₹)') {
+                    return [`₹${Number(value).toLocaleString()}`, name];
+                  }
+                  if (name === 'Win Rate (%)') {
+                    return [`${Number(value).toFixed(1)}%`, name];
+                  }
+                  return [value, name];
+                }}
+              />
+              <Legend />
+              <Bar 
+                yAxisId="left" 
+                dataKey="count" 
+                fill="#8884d8" 
+                name="Trade Count" 
+              />
+              <Bar 
+                yAxisId="right" 
+                dataKey="totalPnl" 
+                fill="#82ca9d" 
+                name="Total P&L (₹)" 
+              />
+              <Bar 
+                yAxisId="left" 
+                dataKey="winRate" 
+                fill="#ffc658" 
+                name="Win Rate (%)" 
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
+
+      {/* NEW: Profit & Loss by Strategy */}
+      <div className={Styles.chartBox}>
+        <div className={Styles.chartHeading}>Profit & Loss by Strategy</div>
+        <ResponsiveContainer height={300} width={"100%"}>
+          <BarChart data={strategyPnLData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+              dataKey="strategy" 
+              angle={-45}
+              textAnchor="end"
+              height={80}
+              interval={0}
+            />
+            <YAxis tickFormatter={(value) => `₹${value.toLocaleString()}`} />
+            <Tooltip 
+              formatter={(value, name) => {
+                const formattedValue = `₹${Number(value).toLocaleString()}`;
+                return [formattedValue, name];
+              }}
+              labelFormatter={(label) => `Strategy: ${label}`}
+            />
+            <Legend />
+            <Bar dataKey="profit" stackId="a" fill="#4caf50" name="Total Profit" />
+            <Bar dataKey="loss" stackId="a" fill="#f44336" name="Total Loss" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
 
       {topTrades.length > 0 && (
         <div className={Styles.topTradesSection}>
@@ -491,8 +642,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-
-      
     </div>
   );
 };
