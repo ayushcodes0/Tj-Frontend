@@ -6,7 +6,6 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  /* This overlay color works well for both themes, so it can remain */
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
@@ -156,12 +155,12 @@
   margin-left: 2px;
 }
 
+/* Updated all form inputs with dashboard-buttons-hover background */
 .formGroup input,
 .formGroup select,
 .formGroup textarea,
 .tagInputContainer input,
 .calculatedField,
-.directionContainer,
 .addCustomContainer input {
   height: 36px;
   box-sizing: border-box;
@@ -169,35 +168,59 @@
   padding: 0 10px;
   border: 1px solid var(--dashboard-borders);
   border-radius: 5px;
-  background-color: var(--dashboard-primary-background);
+  background-color: var(--dashboard-buttons-hover); /* Updated to use hover color */
   color: var(--dashboard-primary-text);
   font-family: inherit;
   font-size: 0.9rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
+/* Focus states - switch to primary background for contrast */
 .formGroup input:focus,
 .formGroup select:focus,
 .formGroup textarea:focus,
-.tagInputContainer input:focus {
+.tagInputContainer input:focus,
+.addCustomContainer input:focus {
   outline: none;
   border-color: var(--dashboard-userIcon-color);
-  box-shadow: 0 0 0 2px rgba(13, 152, 136, 0.15); /* Corresponds to userIcon color */
+  background-color: var(--dashboard-primary-background); /* Focus switches back to primary */
+  box-shadow: 0 0 0 2px rgba(13, 152, 136, 0.15);
 }
 
+/* Placeholder styling */
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+  color: var(--dashboard-secondary-text);
+  opacity: 0.8;
+}
+
+/* Textarea specific styling */
 .formGroup textarea {
   height: auto;
   min-height: 80px;
   padding: 8px 10px;
   resize: vertical;
+  background-color: var(--dashboard-buttons-hover); /* Ensure textarea gets same color */
 }
 
+/* Disabled input styling */
+.formGroup input:disabled,
+.formGroup select:disabled,
+.formGroup textarea:disabled {
+  background-color: var(--dashboard-neutral-background);
+  color: var(--dashboard-secondary-text);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Calculated field specific styling */
 .calculatedField {
   display: flex;
   align-items: center;
-  background: var(--dashboard-right-background);
+  background: var(--dashboard-buttons-hover); /* Updated color */
   font-family: monospace;
   font-weight: 500;
+  color: var(--dashboard-primary-text);
 }
 
 .directionContainer {
@@ -216,7 +239,7 @@
   gap: 6px;
   padding: 0 12px;
   border: 1px solid var(--dashboard-borders);
-  background: var(--dashboard-primary-background);
+  background: var(--dashboard-buttons-hover); /* Updated color */
   color: var(--dashboard-secondary-text);
   border-radius: 5px;
   cursor: pointer;
@@ -232,7 +255,7 @@
 }
 
 .dateInput {
-  /* color-scheme needs to be dynamic, which is complex. This is a good default. */
+  background-color: var(--dashboard-buttons-hover); /* Ensure date inputs match */
   color-scheme: light;
 }
 
@@ -252,7 +275,7 @@
   padding: 8px 12px;
   border: 1px solid var(--dashboard-borders);
   border-radius: 6px;
-  background-color: var(--dashboard-right-background);
+  background-color: var(--dashboard-buttons-hover); /* Updated to match other inputs */
   font-size: 0.875rem;
   color: var(--dashboard-secondary-text);
   cursor: pointer;
@@ -262,6 +285,7 @@
 
 .checkboxLabel:hover {
   border-color: var(--dashboard-secondary-text);
+  background-color: var(--dashboard-primary-background);
 }
 
 .checkboxLabel input[type="checkbox"] {
@@ -272,7 +296,7 @@
 }
 
 .checkboxLabel:has(input:checked) {
-  background-color: rgba(13, 152, 136, 0.1); /* Light version of userIcon color */
+  background-color: rgba(13, 152, 136, 0.1);
   border-color: var(--dashboard-userIcon-color);
   color: var(--dashboard-userIcon-color);
   font-weight: 600;
@@ -345,9 +369,9 @@
 }
 
 .formGroup input[type="range"] {
+  background: var(--dashboard-borders);
   padding: 0;
   height: 6px;
-  background: var(--dashboard-borders);
   border-radius: 3px;
   cursor: pointer;
   margin-top: 10px;
@@ -364,11 +388,10 @@
 
 .formActions {
   display: flex;
-  justify-content: flex-end; /* Align buttons to the right */
+  justify-content: flex-end;
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background-color: var(--dashboard-right-background);
   border-top: 1px solid var(--dashboard-borders);
   flex-shrink: 0;
 }
@@ -409,47 +432,12 @@
   opacity: 0.85;
 }
 
-.form::-webkit-scrollbar {
-  width: 6px;
-}
-
-.form::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.form::-webkit-scrollbar-thumb {
-  background: var(--dashboard-borders);
-  border-radius: 3px;
-}
-
-.form::-webkit-scrollbar-thumb:hover {
-  background: var(--dashboard-buttons-hover);
-}
-
-@media (max-width: 768px) {
-  .overlay {
-    padding: 0;
-    align-items: stretch;
-  }
-  .newTradePopup {
-    border-radius: 0;
-    max-height: 100vh;
-  }
-  .tradeDetailsGrid {
-    grid-template-columns: 1fr;
-  }
-  .formGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
 .nextBtn {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: #4840BB;
+  background: var(--dashboard-userIcon-color);
   color: white;
   border: none;
   border-radius: 8px;
@@ -460,7 +448,7 @@
 }
 
 .nextBtn:hover {
-  background: #3d35a0;
+  background: var(--dashboard-userIcon-color);
 }
 
 .nextBtn:disabled {
@@ -471,4 +459,120 @@
 .active2{
   background-color: var(--dashboard-red-color);
   color: white;
+}
+
+/* Custom scrollbar for form */
+.form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form::-webkit-scrollbar-track {
+  background: var(--dashboard-primary-background);
+  border-radius: 4px;
+}
+
+.form::-webkit-scrollbar-thumb {
+  background: var(--dashboard-buttons-hover);
+  border-radius: 4px;
+  border: 1px solid var(--dashboard-borders);
+}
+
+.form::-webkit-scrollbar-thumb:hover {
+  background: var(--dashboard-secondary-text);
+}
+
+/* Firefox scrollbar */
+.form {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dashboard-buttons-hover) var(--dashboard-primary-background);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .overlay {
+    padding: 0;
+    align-items: stretch;
+  }
+  
+  .newTradePopup {
+    border-radius: 0;
+    max-height: 100vh;
+  }
+  
+  .tradeDetailsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .formActions {
+    padding: 12px 16px;
+  }
+  
+  .header {
+    padding: 12px 16px;
+  }
+  
+  .form {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .formActions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .resetBtn,
+  .submitBtn,
+  .nextBtn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .multiSelectContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Additional hover effects for better UX */
+.formGroup input:hover,
+.formGroup select:hover,
+.formGroup textarea:hover {
+  border-color: var(--dashboard-secondary-text);
+}
+
+/* Focus within for better form section highlighting */
+.section:focus-within h3 {
+  color: var(--dashboard-userIcon-color);
+}
+
+/* Improved tag styling */
+.tag:hover {
+  background: var(--dashboard-primary-background);
+  border-color: var(--dashboard-borders);
+}
+
+/* Better disabled state visibility */
+.formGroup input:disabled,
+.formGroup select:disabled,
+.formGroup textarea:disabled {
+  background-color: var(--dashboard-neutral-background);
+  color: var(--dashboard-secondary-text);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Enhanced checkbox label hover */
+.checkboxLabel:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
