@@ -41,7 +41,7 @@ const calculateRiskReward = (
   entry_price: number,
   stop_loss: number,
   exit_price: number | null,
-  target: number | null,
+  // target: number | null,
   direction: 'Long' | 'Short'
 ): number | null => {
   // Use exit price for reward calculation (actual performance)
@@ -211,7 +211,7 @@ const Performance = () => {
           t.entry_price!,
           t.stop_loss!,
           t.exit_price!,
-          t.target || null,
+          // t.target || null,
           t.direction!
         ))
         .filter((val): val is number => typeof val === "number" && isFinite(val) && val > 0);
@@ -324,7 +324,7 @@ const Performance = () => {
           t.entry_price!,
           t.stop_loss!,
           t.exit_price!,
-          t.target || null,
+          // t.target || null,
           t.direction!
         ))
         .filter((val): val is number => typeof val === "number" && isFinite(val) && val > 0);

@@ -28,19 +28,57 @@ const getMonthMatrix = (year: number, month: number) => {
   return calendar;
 };
 
-// Corrected function to compute average Risk:Reward ratio
+// Direction-aware risk-reward calculation
+function calculateRiskReward(
+  entry_price: number,
+  stop_loss: number,
+  exit_price: number | null,
+  target: number | null,
+  direction: 'Long' | 'Short'
+): number | null {
+  // Use exit price if available, otherwise target
+  const reward_price = exit_price !== null ? exit_price : target;
+  
+  if (reward_price === null || reward_price === undefined) {
+    return null;
+  }
+
+  let risk: number;
+  let reward: number;
+
+  if (direction === 'Long') {
+    risk = entry_price - stop_loss;    // Risk is distance below entry
+    reward = reward_price - entry_price;  // Reward is distance above entry
+  } else { // Short
+    risk = stop_loss - entry_price;    // Risk is distance above entry
+    reward = entry_price - reward_price;  // Reward is distance below entry
+  }
+
+  // Invalid setups return null
+  if (risk <= 0 || reward <= 0) {
+    return null;
+  }
+
+  return reward / risk;
+}
+
+// Updated function to compute average Risk:Reward ratio with direction awareness
 function computeAvgRR(trades: Trade[]): number | null {
   const validRatios = trades
-    .map(t => {
-      // Ensure all necessary data points exist and are numbers
-      if (t.entry_price !== undefined && t.exit_price !== undefined && t.stop_loss !== undefined) {
-        const risk = Math.abs(t.entry_price - t.stop_loss);
-        const reward = Math.abs(t.exit_price - t.entry_price);
-        return risk > 0 ? reward / risk : Infinity; // Return Infinity for zero risk
-      }
-      return null;
-    })
-    .filter((rr): rr is number => typeof rr === "number" && isFinite(rr)); // Filter out nulls and infinite values
+    .filter(t => 
+      t.entry_price !== undefined && 
+      t.stop_loss !== undefined && 
+      t.direction &&
+      (t.exit_price !== undefined || t.target !== undefined)
+    )
+    .map(t => calculateRiskReward(
+      t.entry_price!,
+      t.stop_loss!,
+      t.exit_price || null,
+      t.target || null,
+      t.direction!
+    ))
+    .filter((rr): rr is number => typeof rr === "number" && isFinite(rr));
 
   if (!validRatios.length) return null;
   
@@ -150,7 +188,7 @@ const Calendar = () => {
         />
         <StatCard
           label="AVG. R:R"
-          value={avgRR !== null ? avgRR.toFixed(2) : "–"}
+          value={avgRR !== null ? `1:${avgRR.toFixed(2)}` : "–"}
           positive={avgRR !== null && avgRR >= 1}
           delta={deltaRR}
         />
