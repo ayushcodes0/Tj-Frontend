@@ -95,7 +95,7 @@ const Dashboard = () => {
     }
   }, [filter, year, month, day, week, fetchTrades]);
 
-  // All your existing useMemo calculations remain the same...
+  // All your existing useMemo calculations...
   const stats = useMemo(() => {
     if (!trades) return null;
     const totalTrades = trades.length;
@@ -202,38 +202,37 @@ const Dashboard = () => {
       .slice(0, 10); // Show top 10 stocks
   }, [trades]);
 
-  // Add this with your existing useMemo calculations
-const strategyPnLData = useMemo(() => {
-  if (!trades) return [];
-  
-  const strategyMap = new Map();
-  
-  trades.forEach(trade => {
-    const strategyName = trade.strategy?.name || 'Other';
-    const pnl = trade.pnl_amount ?? 0;
+  // NEW: Strategy PnL Data
+  const strategyPnLData = useMemo(() => {
+    if (!trades) return [];
     
-    if (!strategyMap.has(strategyName)) {
-      strategyMap.set(strategyName, { 
-        strategy: strategyName, 
-        profit: 0, 
-        loss: 0,
-        netPnL: 0 
-      });
-    }
+    const strategyMap = new Map();
     
-    const stats = strategyMap.get(strategyName);
-    if (pnl >= 0) {
-      stats.profit += pnl;
-    } else {
-      stats.loss += Math.abs(pnl);
-    }
-    stats.netPnL += pnl;
-  });
-  
-  return Array.from(strategyMap.values())
-    .sort((a, b) => b.netPnL - a.netPnL); // Sort by net P&L
-}, [trades]);
-
+    trades.forEach(trade => {
+      const strategyName = trade.strategy?.name || 'Other';
+      const pnl = trade.pnl_amount ?? 0;
+      
+      if (!strategyMap.has(strategyName)) {
+        strategyMap.set(strategyName, { 
+          strategy: strategyName, 
+          profit: 0, 
+          loss: 0,
+          netPnL: 0 
+        });
+      }
+      
+      const stats = strategyMap.get(strategyName);
+      if (pnl >= 0) {
+        stats.profit += pnl;
+      } else {
+        stats.loss += Math.abs(pnl);
+      }
+      stats.netPnL += pnl;
+    });
+    
+    return Array.from(strategyMap.values())
+      .sort((a, b) => b.netPnL - a.netPnL); // Sort by net P&L
+  }, [trades]);
 
   const topTrades = useMemo(() => {
     if (!trades) return [];
@@ -504,7 +503,7 @@ const strategyPnLData = useMemo(() => {
           </ResponsiveContainer>
         </div>
 
-        {/* NEW: Stocks / Equity Performance Chart */}
+        {/* Stocks / Equity Performance Chart */}
         <div className={Styles.chartBox}>
           <div className={Styles.chartHeading}>Stocks / Equity Performance</div>
           <ResponsiveContainer height={300} width="100%">
@@ -560,36 +559,35 @@ const strategyPnLData = useMemo(() => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </div>
 
-      {/* NEW: Profit & Loss by Strategy */}
-      <div className={Styles.chartBox}>
-        <div className={Styles.chartHeading}>Profit & Loss by Strategy</div>
-        <ResponsiveContainer height={300} width={"100%"}>
-          <BarChart data={strategyPnLData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="strategy" 
-              angle={-45}
-              textAnchor="end"
-              height={80}
-              interval={0}
-            />
-            <YAxis tickFormatter={(value) => `₹${value.toLocaleString()}`} />
-            <Tooltip 
-              formatter={(value, name) => {
-                const formattedValue = `₹${Number(value).toLocaleString()}`;
-                return [formattedValue, name];
-              }}
-              labelFormatter={(label) => `Strategy: ${label}`}
-            />
-            <Legend />
-            <Bar dataKey="profit" stackId="a" fill="#4caf50" name="Total Profit" />
-            <Bar dataKey="loss" stackId="a" fill="#f44336" name="Total Loss" />
-          </BarChart>
-        </ResponsiveContainer>
+        {/* Profit & Loss by Strategy Chart */}
+        <div className={Styles.chartBox}>
+          <div className={Styles.chartHeading}>Profit & Loss by Strategy</div>
+          <ResponsiveContainer height={300} width="100%">
+            <BarChart data={strategyPnLData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis 
+                dataKey="strategy" 
+                angle={-45}
+                textAnchor="end"
+                height={80}
+                interval={0}
+              />
+              <YAxis tickFormatter={(value) => `₹${value.toLocaleString()}`} />
+              <Tooltip 
+                formatter={(value, name) => {
+                  const formattedValue = `₹${Number(value).toLocaleString()}`;
+                  return [formattedValue, name];
+                }}
+                labelFormatter={(label) => `Strategy: ${label}`}
+              />
+              <Legend />
+              <Bar dataKey="profit" stackId="a" fill="#4caf50" name="Total Profit" />
+              <Bar dataKey="loss" stackId="a" fill="#f44336" name="Total Loss" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
-
 
       {topTrades.length > 0 && (
         <div className={Styles.topTradesSection}>
