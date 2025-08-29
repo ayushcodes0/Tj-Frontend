@@ -113,7 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick, isCollapsed, onColla
                             {!isCollapsed && <span className={Styles.navTexts}>Performance</span>}
                         </NavLink>
                         <NavLink 
-                            to="/dashboard/calendar" 
+                            to="/dashboard/monthly-updates" 
                             className={({ isActive }) => `${Styles.sidebarNavLink} ${isActive ? Styles.active : ""}`}
                             data-tooltip="Monthly updates"
                         >
