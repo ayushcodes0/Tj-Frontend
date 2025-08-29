@@ -176,10 +176,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onNewTradeClick, isCollapsed, onColla
                         {!isCollapsed && <span className={Styles.bottomTexts}>Logout</span>}
                     </div>
                     {!isCollapsed && <div className={Styles.bottomDivider}></div>}
-                    <div className={Styles.bottomRight}>
+                    <NavLink to={"/dashboard/help"} className={Styles.bottomRight}>
                         <BsQuestionCircle className={Styles.bottomIcons} />
                         {!isCollapsed && <span className={Styles.bottomTexts}>Help</span>}
-                    </div>
+                    </NavLink>
                 </div>
             </div>
             {showProfilePopup && !isCollapsed && (

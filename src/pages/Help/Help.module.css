@@ -1,0 +1,510 @@
+/* Custom Scrollbar Styles */
+.helpContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  min-height: 100vh;
+  background: var(--dashboard-right-background);
+  color: var(--dashboard-primary-text);
+  /* Custom scrollbar for the main container */
+  overflow-y: auto;
+}
+
+/* Webkit Scrollbar (Chrome, Safari, Edge) */
+.helpContainer::-webkit-scrollbar,
+.modalBody::-webkit-scrollbar {
+  width: 8px;
+}
+
+.helpContainer::-webkit-scrollbar-track,
+.modalBody::-webkit-scrollbar-track {
+  background: var(--dashboard-primary-background);
+  border-radius: 4px;
+}
+
+.helpContainer::-webkit-scrollbar-thumb,
+.modalBody::-webkit-scrollbar-thumb {
+  background: var(--dashboard-buttons-hover);
+  border-radius: 4px;
+  border: 1px solid var(--dashboard-borders);
+}
+
+.helpContainer::-webkit-scrollbar-thumb:hover,
+.modalBody::-webkit-scrollbar-thumb:hover {
+  background: var(--dashboard-secondary-text);
+}
+
+/* Firefox Scrollbar */
+.helpContainer,
+.modalBody {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dashboard-buttons-hover) var(--dashboard-primary-background);
+}
+
+/* Global scrollbar styling for entire page */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dashboard-buttons-hover) var(--dashboard-primary-background);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--dashboard-primary-background);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--dashboard-buttons-hover);
+  border-radius: 4px;
+  border: 1px solid var(--dashboard-borders);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--dashboard-secondary-text);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--dashboard-primary-background);
+}
+
+/* Specific scrollbar for modal body */
+.modalBody {
+  padding: 32px;
+  overflow-y: auto;
+  max-height: calc(80vh - 120px); /* Ensure proper height calculation */
+}
+
+/* Your existing styles remain the same... */
+.header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.pageTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--dashboard-primary-text);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.titleIcon {
+  color: var(--dashboard-blue-color);
+}
+
+.pageSubtitle {
+  font-size: 1.1rem;
+  color: var(--dashboard-secondary-text);
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.mainContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Section Cards */
+.sectionCard {
+  background: var(--dashboard-primary-background);
+  border-radius: 16px;
+  border: 1px solid var(--dashboard-borders);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.sectionHeader {
+  padding: 24px 32px 16px;
+  background: var(--dashboard-buttons-hover);
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.sectionHeader h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--dashboard-primary-text);
+  margin: 0 0 8px 0;
+}
+
+.sectionIcon {
+  color: var(--dashboard-blue-color);
+}
+
+.sectionHeader p {
+  color: var(--dashboard-secondary-text);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.sectionBody {
+  padding: 32px;
+}
+
+/* Feature Grid - Fixed to prevent adjacent opening */
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.featureCard {
+  background: var(--dashboard-buttons-hover);
+  border: 2px solid var(--dashboard-borders);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.featureCard:hover {
+  border-color: var(--dashboard-blue-color);
+  background: var(--dashboard-buttons-hover);
+}
+
+.featureCard.active {
+  border-color: var(--dashboard-blue-color);
+  background: var(--dashboard-neutral-background);
+}
+
+.featureHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.featureIcon {
+  color: var(--dashboard-blue-color);
+  font-size: 1.3rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.featureHeader h3 {
+  font-size: 1.1rem;
+  color: var(--dashboard-primary-text);
+  margin: 0;
+  font-weight: 600;
+}
+
+.featureDetails {
+  margin-top: 16px;
+  animation: slideDown 0.3s ease;
+}
+
+.featureDetails ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.featureDetails li {
+  padding: 6px 0;
+  color: var(--dashboard-secondary-text);
+  position: relative;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+
+.featureDetails li::before {
+  content: "•";
+  color: var(--dashboard-blue-color);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+/* FAQ Section */
+.faqPreview {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.faqItem {
+  background: var(--dashboard-buttons-hover);
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid var(--dashboard-blue-color);
+}
+
+.faqItem h4 {
+  color: var(--dashboard-primary-text);
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.faqItem p {
+  color: var(--dashboard-secondary-text);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Support Section */
+.supportGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.supportCard {
+  background: var(--dashboard-buttons-hover);
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid var(--dashboard-borders);
+}
+
+.supportCard h3 {
+  color: var(--dashboard-primary-text);
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.supportCard p {
+  color: var(--dashboard-secondary-text);
+  margin: 0 0 16px 0;
+}
+
+.supportStatus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--dashboard-green-color);
+  font-weight: 500;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  background: var(--dashboard-green-color);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+.supportLink {
+  color: var(--dashboard-blue-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.supportLink:hover {
+  text-decoration: underline;
+}
+
+.supportBadge {
+  display: inline-block;
+  background: var(--dashboard-blue-color);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Buttons */
+.primaryButton {
+  background: var(--dashboard-blue-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primaryButton:hover {
+  background: var(--dashboard-blue-color);
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--dashboard-primary-background);
+  border-radius: 16px;
+  border: 1px solid var(--dashboard-borders);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background: var(--dashboard-buttons-hover);
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.modalHeader h2 {
+  color: var(--dashboard-primary-text);
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--dashboard-secondary-text);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.closeButton:hover {
+  background: var(--dashboard-buttons-hover);
+  color: var(--dashboard-primary-text);
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.faqModalItem {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--dashboard-borders);
+}
+
+.faqModalItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.faqModalItem h4 {
+  color: var(--dashboard-primary-text);
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.faqModalItem p {
+  color: var(--dashboard-secondary-text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .helpContainer {
+    padding: 16px;
+  }
+
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+
+  .sectionBody {
+    padding: 20px;
+  }
+
+  .sectionHeader {
+    padding: 20px 20px 12px;
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .supportGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    margin: 10px;
+    max-height: 90vh;
+  }
+
+  .modalHeader {
+    padding: 20px;
+  }
+
+  .modalBody {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .helpContainer {
+    padding: 12px;
+  }
+
+  .pageTitle {
+    font-size: 1.6rem;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pageSubtitle {
+    font-size: 1rem;
+  }
+}

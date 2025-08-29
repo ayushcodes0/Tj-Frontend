@@ -22,6 +22,7 @@ import ShippingPolicy from "./pages/LegalPages/ShippingPolicy.tsx";
 import Disclosures from "./pages/LegalPages/Disclosure.tsx";
 import PrivacyPolicy from "./pages/LegalPages/PrivacyPolicy.tsx";
 import Disclaimer from "./pages/LegalPages/Disclaimer.tsx";
+import Help from "./pages/Help/Help.tsx";
 
 
 const App = () => (
@@ -51,6 +52,8 @@ const App = () => (
         <Route path="psychology" element={<Psychology />} />
         <Route path="risk" element={<Risk />} />
         <Route path="settings" element={<Settings />} />
+        <Route path="help" element={<Help />} />
+
         {/* Add more nested subroutes as needed */}
       </Route>
     </Routes>
