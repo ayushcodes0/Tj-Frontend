@@ -253,7 +253,7 @@ const PricingPage = () => {
               className={Styles.ctaButton}
               onClick={() => {
                 window.location.href = 'mailto:support@tradejournalai.in';
-                toast.showInfoToast('📧 Opening email client...');
+                toast.showInfoToast('Opening email client...');
               }}
             >
               Contact Support
