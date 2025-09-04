@@ -137,9 +137,9 @@ const Login = () => {
             {validationErrors.password && (
               <span className={Styles.validationError}>{validationErrors.password}</span>
             )}
-            <div className={Styles.forgotPassword}>
+            {/* <div className={Styles.forgotPassword}>
               <Link to="/forgot-password">Forgot password?</Link>
-            </div>
+            </div> */}
           </div>
           
           <button 
