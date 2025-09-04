@@ -65,7 +65,7 @@ const Navbar = () => {
   return (
     <div className={Styles.navbar}>
       <div>
-        <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
+        <Link to={"/"}><p className={Styles.logo}>Tradejournalai</p></Link>
       </div>
 
       <div className={Styles.navLinks}>

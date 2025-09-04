@@ -10,8 +10,8 @@ const Footer = () => {
     <div className={Styles.footerWrapper}>
       <div className={Styles.footer}>
         <div className={Styles.footerLogo}>
-          <p className={Styles.logo}>TradeJournal</p>
-          <p className={Styles.email}>TradeJournal@gmail.com</p>
+          <p className={Styles.logo}>Tradejournalai</p>
+          <p className={Styles.email}>Tradejournalai@gmail.com</p>
           <div className={Styles.socials}>
             <a href="#" aria-label="Twitter"><RiTwitterXFill /></a>
             <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
@@ -47,7 +47,7 @@ const Footer = () => {
         </div>
       </div>
       <div className={Styles.footerBottom}>
-        <p className={Styles.footerBottomText}>© {new Date().getFullYear()} TradeJournal. All rights reserved.</p>
+        <p className={Styles.footerBottomText}>© {new Date().getFullYear()} Tradejournalai. All rights reserved.</p>
       </div>
     </div>
   )

@@ -18,7 +18,9 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.7.1",
     "react-toastify": "^11.0.5",
-    "recharts": "^3.1.1"
+    "recharts": "^3.1.1",
+    "speakeasy": "^2.0.0",
+    "twilio": "^5.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
