@@ -29,9 +29,10 @@ const getMonthMatrix = (year: number, month: number) => {
 };
 
 // Direction-aware risk-reward calculation
+// Direction-aware risk-reward calculation with stop_loss as distance
 function calculateRiskReward(
   entry_price: number,
-  stop_loss: number,
+  stop_loss: number, // Now treating as distance, not price
   exit_price: number | null,
   target: number | null,
   direction: 'Long' | 'Short'
@@ -43,14 +44,14 @@ function calculateRiskReward(
     return null;
   }
 
-  let risk: number;
+  const risk = stop_loss;
   let reward: number;
 
+  // Updated logic: stop_loss is now distance from entry
+
   if (direction === 'Long') {
-    risk = entry_price - stop_loss;    // Risk is distance below entry
     reward = reward_price - entry_price;  // Reward is distance above entry
   } else { // Short
-    risk = stop_loss - entry_price;    // Risk is distance above entry
     reward = entry_price - reward_price;  // Reward is distance below entry
   }
 
@@ -61,6 +62,7 @@ function calculateRiskReward(
 
   return reward / risk;
 }
+
 
 // Updated function to compute average Risk:Reward ratio with direction awareness
 function computeAvgRR(trades: Trade[]): number | null {

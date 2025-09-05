@@ -18,9 +18,10 @@ function prettyRiskReward(r: number | null): string {
 }
 
 // Direction-aware risk-reward calculation
+// Direction-aware risk-reward calculation with stop_loss as distance
 function calculateRiskReward(
   entry_price: number,
-  stop_loss: number,
+  stop_loss: number, // Now treating as distance, not price
   target_price: number | null,
   exit_price: number | null,
   direction: 'Long' | 'Short'
@@ -32,14 +33,14 @@ function calculateRiskReward(
     return null;
   }
 
-  let risk: number;
   let reward: number;
 
+  // Updated logic: stop_loss is now distance from entry
+  const risk = stop_loss; // Distance itself is the risk
+
   if (direction === 'Long') {
-    risk = entry_price - stop_loss;  // Risk is distance below entry
     reward = reward_price - entry_price;  // Reward is distance above entry
   } else { // Short
-    risk = stop_loss - entry_price;  // Risk is distance above entry
     reward = entry_price - reward_price;  // Reward is distance below entry
   }
 
@@ -51,20 +52,13 @@ function calculateRiskReward(
   return reward / risk;
 }
 
-// Direction-aware risk amount calculation
+// Direction-aware risk amount calculation with stop_loss as distance
 function calculateRiskAmount(
-  entry_price: number,
-  stop_loss: number,
+  stop_loss: number, // Now treating as distance, not price
   quantity: number,
-  direction: 'Long' | 'Short'
 ): number | null {
-  let risk_per_share: number;
-
-  if (direction === 'Long') {
-    risk_per_share = entry_price - stop_loss;
-  } else { // Short
-    risk_per_share = stop_loss - entry_price;
-  }
+  // Since stop_loss is now distance, risk per share is simply the distance
+  const risk_per_share = stop_loss;
 
   // Invalid setup
   if (risk_per_share <= 0) {
@@ -73,6 +67,7 @@ function calculateRiskAmount(
 
   return risk_per_share * quantity;
 }
+
 
 const Risk = () => {
   const { trades } = useTrades();
@@ -135,10 +130,8 @@ const Risk = () => {
           trade.direction
         ) {
           return calculateRiskAmount(
-            trade.entry_price,
             trade.stop_loss,
             trade.quantity,
-            trade.direction
           );
         }
         return null;
@@ -160,10 +153,8 @@ const Risk = () => {
           trade.direction
         ) {
           const amtRisk = calculateRiskAmount(
-            trade.entry_price,
             trade.stop_loss,
             trade.quantity,
-            trade.direction
           );
           
           if (amtRisk === null) return undefined;
@@ -188,10 +179,8 @@ const Risk = () => {
         trade.direction
       ) {
         const maxRisk = calculateRiskAmount(
-          trade.entry_price,
           trade.stop_loss,
           trade.quantity,
-          trade.direction
         );
         
         if (maxRisk === null || maxRisk <= 0) return false;

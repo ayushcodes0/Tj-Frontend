@@ -37,11 +37,11 @@ const calculateExpectancy = (averageWin: number, winRate: number, averageLoss: n
   (averageWin * (winRate / 100)) - (Math.abs(averageLoss) * (lossRate / 100));
 
 // Direction-aware risk-reward calculation
+// Direction-aware risk-reward calculation with stop_loss as distance
 const calculateRiskReward = (
   entry_price: number,
-  stop_loss: number,
+  stop_loss: number, // Now treating this as distance, not price
   exit_price: number | null,
-  // target: number | null,
   direction: 'Long' | 'Short'
 ): number | null => {
   // Use exit price for reward calculation (actual performance)
@@ -51,14 +51,14 @@ const calculateRiskReward = (
     return null;
   }
 
-  let risk: number;
+  const risk = stop_loss;
   let reward: number;
 
+  // Updated logic: stop_loss is now distance from entry
+
   if (direction === 'Long') {
-    risk = entry_price - stop_loss;    // Risk is distance below entry
     reward = reward_price - entry_price;  // Reward is distance above entry
   } else { // Short
-    risk = stop_loss - entry_price;    // Risk is distance above entry
     reward = entry_price - reward_price;  // Reward is distance below entry
   }
 
@@ -69,6 +69,7 @@ const calculateRiskReward = (
 
   return reward / risk;
 };
+
 
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
