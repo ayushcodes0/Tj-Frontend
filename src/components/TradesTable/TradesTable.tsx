@@ -32,6 +32,7 @@ function msToDate(input: string): string {
 
 // Risk/reward calculator with the requested 1:X format
 // Updated function considering trade direction
+// Updated function considering stop loss as distance from entry price
 function riskReward(entry: number, stop?: number, target?: number, direction?: 'Long' | 'Short'): string {
   if (stop === undefined || target === undefined || !direction) {
     return '-';
@@ -41,13 +42,13 @@ function riskReward(entry: number, stop?: number, target?: number, direction?: '
   let reward: number;
 
   if (direction === 'Long') {
-    // For Long trades: Risk = Entry - Stop Loss, Reward = Target - Entry
-    risk = entry - stop;
-    reward = target - entry;
+    // For Long trades: Stop loss distance below entry
+    risk = stop; // Distance itself is the risk
+    reward = target - entry; // Target above entry
   } else { // Short trades
-    // For Short trades: Risk = Stop Loss - Entry, Reward = Entry - Target
-    risk = stop - entry;
-    reward = entry - target;
+    // For Short trades: Stop loss distance above entry  
+    risk = stop; // Distance itself is the risk
+    reward = entry - target; // Target below entry
   }
 
   // Check for invalid setups
@@ -62,6 +63,7 @@ function riskReward(entry: number, stop?: number, target?: number, direction?: '
   const ratio = (reward / risk).toFixed(2);
   return `1:${ratio}`;
 }
+
 
 
 // Helper for outcome/strategy name extraction
