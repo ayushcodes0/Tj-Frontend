@@ -48,6 +48,7 @@ const Footer = () => {
       </div>
       <div className={Styles.footerBottom}>
         <p className={Styles.footerBottomText}>© {new Date().getFullYear()} Tradejournalai. All rights reserved.</p>
+        <p className={`${Styles.footerBottomText} ${Styles.version}`}>Version 1.0.1</p>
       </div>
     </div>
   )
