@@ -5,6 +5,7 @@ import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -17,6 +18,7 @@ const containerVariants: Variants = {
   }
 };
 
+
 const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -28,6 +30,7 @@ const fadeUpItem: Variants = {
     }
   }
 };
+
 
 const Disclaimer: React.FC = () => {
   return (
@@ -43,7 +46,7 @@ const Disclaimer: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Important Disclaimer</h1>
             <p className={Styles.subHeading}>
-              Last updated: August 2025
+              Last updated: September 2025
             </p>
           </motion.div>
           
@@ -59,6 +62,7 @@ const Disclaimer: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>No Financial or Investment Advice</h2>
                 <p className={Styles.sectionText}>
@@ -68,6 +72,7 @@ const Disclaimer: React.FC = () => {
                   All trading decisions remain entirely your responsibility. We strongly recommend consulting qualified financial advisors before making any investment decisions.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>User Input Dependency</h2>
@@ -79,6 +84,7 @@ const Disclaimer: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Market Risk Warning</h2>
                 <p className={Styles.sectionText}>
@@ -88,6 +94,7 @@ const Disclaimer: React.FC = () => {
                   You could lose some or all of your invested capital. Our platform is for tracking and learning purposes only - not for making trading decisions.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Platform Limitations</h2>
@@ -99,6 +106,7 @@ const Disclaimer: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Subscription and Access</h2>
                 <p className={Styles.sectionText}>
@@ -108,6 +116,7 @@ const Disclaimer: React.FC = () => {
                   The 24-hour free trial allows you to evaluate our platform before purchasing. We encourage thorough testing during this period.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Future Features Disclaimer</h2>
@@ -119,6 +128,7 @@ const Disclaimer: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Limitation of Liability</h2>
                 <p className={Styles.sectionText}>
@@ -129,13 +139,16 @@ const Disclaimer: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Contact Information</h2>
                 <p className={Styles.sectionText}>
                   For questions about this disclaimer or our services:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: support@tradejournalai.in<br />
+                  Email: tradejournalai@gmail.com<br />
+                  Phone: +91 9999999999<br />
+                  Address: Bengaluru, Karnataka, India<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
@@ -150,5 +163,6 @@ const Disclaimer: React.FC = () => {
     </div>
   );
 };
+
 
 export default Disclaimer;

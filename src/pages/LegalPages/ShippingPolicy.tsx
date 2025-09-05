@@ -5,6 +5,7 @@ import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -17,6 +18,7 @@ const containerVariants: Variants = {
   }
 };
 
+
 const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -28,6 +30,7 @@ const fadeUpItem: Variants = {
     }
   }
 };
+
 
 const ShippingPolicy: React.FC = () => {
   return (
@@ -43,7 +46,7 @@ const ShippingPolicy: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Shipping Policy</h1>
             <p className={Styles.subHeading}>
-              Effective Date: August 2025
+              Effective Date: September 2025
             </p>
           </motion.div>
           
@@ -63,6 +66,7 @@ const ShippingPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Immediate Access After Payment</h2>
                 <p className={Styles.sectionText}>
@@ -73,6 +77,7 @@ const ShippingPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>24-Hour Free Trial Access</h2>
                 <p className={Styles.sectionText}>
@@ -82,6 +87,7 @@ const ShippingPolicy: React.FC = () => {
                   During your trial period, you can explore trade logging, performance analytics, risk analysis, psychology tracking, monthly analysis, and streak tracking without any restrictions.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Account Confirmation</h2>
@@ -99,6 +105,7 @@ const ShippingPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Platform Features Delivery</h2>
                 <p className={Styles.sectionText}>
@@ -114,6 +121,7 @@ const ShippingPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>No Shipping Costs or Delays</h2>
                 <p className={Styles.sectionText}>
@@ -123,6 +131,7 @@ const ShippingPolicy: React.FC = () => {
                   Users worldwide can access our platform immediately upon registration or payment, without any delivery delays or shipping considerations.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Future Broker Integration</h2>
@@ -134,13 +143,16 @@ const ShippingPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Technical Support</h2>
                 <p className={Styles.sectionText}>
                   For assistance with platform access, trade logging, or dashboard features:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: support@tradejournalai.in<br />
+                  Email: tradejournalai@gmail.com<br />
+                  Phone: +91 9999999999<br />
+                  Address: Bengaluru, Karnataka, India<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
@@ -155,5 +167,6 @@ const ShippingPolicy: React.FC = () => {
     </div>
   );
 };
+
 
 export default ShippingPolicy;

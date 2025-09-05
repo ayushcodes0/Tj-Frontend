@@ -5,6 +5,7 @@ import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
+
 // Define animation variants
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -18,6 +19,7 @@ const containerVariants: Variants = {
   }
 };
 
+
 const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -29,6 +31,7 @@ const fadeUpItem: Variants = {
     }
   }
 };
+
 
 const TermsAndConditions: React.FC = () => {
   return (
@@ -44,7 +47,7 @@ const TermsAndConditions: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Terms & Conditions</h1>
             <p className={Styles.subHeading}>
-              Last Updated: August 2025
+              Last Updated: September 2025
             </p>
           </motion.div>
           
@@ -60,6 +63,7 @@ const TermsAndConditions: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>2. Service Description</h2>
                 <p className={Styles.sectionText}>
@@ -69,6 +73,7 @@ const TermsAndConditions: React.FC = () => {
                   Our services include: trade logging forms, performance analysis dashboards, risk analysis tools, psychology tracking, monthly analysis with calendar view, streak tracking, and detailed profit/loss analytics. We are purely a data tracking and analysis tool.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>3. Trial and Subscription Model</h2>
@@ -80,6 +85,7 @@ const TermsAndConditions: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>4. User Data and Input Responsibility</h2>
                 <p className={Styles.sectionText}>
@@ -89,6 +95,7 @@ const TermsAndConditions: React.FC = () => {
                   We do not verify the accuracy of your trade entries. Incorrect data input will result in inaccurate analysis and reports. You are responsible for maintaining the accuracy of all entered information.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>5. No Investment Advice or Trading Services</h2>
@@ -100,6 +107,7 @@ const TermsAndConditions: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>6. Account Access and Security</h2>
                 <p className={Styles.sectionText}>
@@ -109,6 +117,7 @@ const TermsAndConditions: React.FC = () => {
                   We reserve the right to suspend or terminate accounts that violate these terms or engage in suspicious activity.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>7. Payment Terms</h2>
@@ -120,6 +129,7 @@ const TermsAndConditions: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>8. Future Features and Integrations</h2>
                 <p className={Styles.sectionText}>
@@ -129,6 +139,7 @@ const TermsAndConditions: React.FC = () => {
                   Current subscribers will be notified of new features, but access may require additional fees or subscription upgrades.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>9. Service Availability</h2>
@@ -140,6 +151,7 @@ const TermsAndConditions: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>10. Data Analysis Limitations</h2>
                 <p className={Styles.sectionText}>
@@ -149,6 +161,7 @@ const TermsAndConditions: React.FC = () => {
                   Users should independently verify all analysis results and not rely solely on our platform for trading decisions or performance evaluation.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>11. Limitation of Liability</h2>
@@ -160,12 +173,14 @@ const TermsAndConditions: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>12. Governing Law</h2>
                 <p className={Styles.sectionText}>
-                  These terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in Bhagalpur, Bihar, India.
+                  These terms are governed by the laws of India. Any disputes shall be subject to the jurisdiction of courts in Bengaluru, Karnataka, India.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>13. Contact Information</h2>
@@ -173,7 +188,9 @@ const TermsAndConditions: React.FC = () => {
                   For questions about these terms or our services:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: support@tradejournalai.in<br />
+                  Email: tradejournalai@gmail.com<br />
+                  Phone: +91 9999999999<br />
+                  Address: Bengaluru, Karnataka, India<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
@@ -188,5 +205,6 @@ const TermsAndConditions: React.FC = () => {
     </div>
   );
 };
+
 
 export default TermsAndConditions;

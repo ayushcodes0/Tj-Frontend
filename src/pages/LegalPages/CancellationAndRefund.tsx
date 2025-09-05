@@ -5,6 +5,7 @@ import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -17,6 +18,7 @@ const containerVariants: Variants = {
   }
 };
 
+
 const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -28,6 +30,7 @@ const fadeUpItem: Variants = {
     }
   }
 };
+
 
 const CancellationAndRefund: React.FC = () => {
   return (
@@ -43,7 +46,7 @@ const CancellationAndRefund: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Refund & Cancellation Policy</h1>
             <p className={Styles.subHeading}>
-              Last updated: August 2025
+              Last updated: September 2025
             </p>
           </motion.div>
           
@@ -52,12 +55,13 @@ const CancellationAndRefund: React.FC = () => {
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>No Refund Policy</h2>
                 <p className={Styles.sectionText}>
-                  All payments made for TradeJournalAI Pro subscription (₹99) are final and non-refundable. Once payment is processed, you gain immediate access to our dashboard, analysis tools, and all premium features.
+                  All payments made for TradeJournalAI Pro subscription (₹99) are final and non-refundable. Once payment is processed, you gain immediate access to our dashboard, analysis tools, and all premium features provided by Deepanshu Yadav.
                 </p>
                 <p className={Styles.sectionText}>
                   Due to the digital nature of our service and instant access provided upon payment, refunds cannot be issued under any circumstances.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>24-Hour Free Trial</h2>
@@ -65,9 +69,10 @@ const CancellationAndRefund: React.FC = () => {
                   We provide all new users with 24 hours of free access to our complete dashboard and analysis features upon registration. This trial period allows you to fully evaluate our platform before making a purchase decision.
                 </p>
                 <p className={Styles.sectionText}>
-                  We strongly encourage users to thoroughly test all features during this trial period, including entering sample trade data and exploring our analysis tools, charts, and reports.
+                  We strongly encourage users to thoroughly test all features during this trial period, including entering sample trade data and exploring our analysis tools, charts, and reports developed by Deepanshu Yadav.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Subscription Access</h2>
@@ -79,25 +84,28 @@ const CancellationAndRefund: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Service Understanding</h2>
                 <p className={Styles.sectionText}>
-                  TradeJournalAI is a manual trade logging and analysis platform. Users must enter their own trade data through our forms to generate performance reports, charts, and analytics. 
+                  TradeJournalAI is a manual trade logging and analysis platform developed by Deepanshu Yadav. Users must enter their own trade data through our forms to generate performance reports, charts, and analytics. 
                 </p>
                 <p className={Styles.sectionText}>
                   We do not provide trading advice, signals, or guaranteed profits. Our platform is purely for tracking and analyzing trading performance based on user-input data.
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Technical Support</h2>
                 <p className={Styles.sectionText}>
-                  If you experience technical difficulties accessing your dashboard or using our features after payment, please contact our support team immediately for assistance.
+                  If you experience technical difficulties accessing your dashboard or using our features after payment, please contact Deepanshu Yadav's support team immediately for assistance.
                 </p>
                 <p className={Styles.sectionText}>
                   Technical issues will be resolved promptly, but they do not constitute grounds for refunds as per this policy.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Pre-Purchase Considerations</h2>
@@ -108,18 +116,19 @@ const CancellationAndRefund: React.FC = () => {
                   Review our features thoroughly: trade logging forms, performance charts, risk analysis, psychology tracking, monthly analysis with calendar view, and streak tracking.
                 </p>
               </section>
-
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Contact Information</h2>
                 <p className={Styles.sectionText}>
-                  For questions about billing or our services:
+                  For questions about billing, technical support, or our services, please contact:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: support@tradejournalai.in<br />
+                  Email: tradejournalai@gmail.com<br />
+                  Phone: +91 9999999999<br />
+                  Address: Bengaluru, Karnataka, India<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
-                  This policy may be updated periodically. The current version will always be available on our website.
+                  This policy may be updated periodically by Deepanshu Yadav. The current version will always be available on our website.
                 </p>
               </section>
             </div>
@@ -130,5 +139,6 @@ const CancellationAndRefund: React.FC = () => {
     </div>
   );
 };
+
 
 export default CancellationAndRefund;

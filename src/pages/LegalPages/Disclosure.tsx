@@ -5,6 +5,7 @@ import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -17,6 +18,7 @@ const containerVariants: Variants = {
   }
 };
 
+
 const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -28,6 +30,7 @@ const fadeUpItem: Variants = {
     }
   }
 };
+
 
 const Disclosures: React.FC = () => {
   return (
@@ -43,7 +46,7 @@ const Disclosures: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Legal Disclosures</h1>
             <p className={Styles.subHeading}>
-              Effective Date: August 2025
+              Effective Date: September 2025
             </p>
           </motion.div>
           
@@ -59,6 +62,7 @@ const Disclosures: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>2. Manual Data Entry Requirement</h2>
                 <p className={Styles.sectionText}>
@@ -68,6 +72,7 @@ const Disclosures: React.FC = () => {
                   New users will find their dashboard empty until they begin entering their trade data. All analysis and reporting is dependent on the accuracy and completeness of user-entered information.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>3. No Performance Guarantees</h2>
@@ -79,6 +84,7 @@ const Disclosures: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>4. Pricing and Subscription Model</h2>
                 <p className={Styles.sectionText}>
@@ -88,6 +94,7 @@ const Disclosures: React.FC = () => {
                   The subscription provides access to trade logging, performance analytics, risk analysis, psychology tracking, monthly reports, and streak tracking. No additional features or trading success are guaranteed with subscription purchase.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>5. Data Accuracy and Reliability</h2>
@@ -99,6 +106,7 @@ const Disclosures: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>6. Future Feature Development</h2>
                 <p className={Styles.sectionText}>
@@ -108,6 +116,7 @@ const Disclosures: React.FC = () => {
                   Current subscribers are not guaranteed access to future features without additional payment or agreement to updated terms and conditions.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>7. Platform Features and Limitations</h2>
@@ -119,6 +128,7 @@ const Disclosures: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>8. User Responsibility and Risk</h2>
                 <p className={Styles.sectionText}>
@@ -128,6 +138,7 @@ const Disclosures: React.FC = () => {
                   We recommend consulting qualified financial professionals before making any trading or investment decisions, regardless of insights provided by our platform.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>9. Limitation of Liability</h2>
@@ -139,13 +150,16 @@ const Disclosures: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Contact Information</h2>
                 <p className={Styles.sectionText}>
                   For questions regarding these disclosures or our services:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: support@tradejournalai.in<br />
+                  Email: tradejournalai@gmail.com<br />
+                  Phone: +91 9999999999<br />
+                  Address: Bengaluru, Karnataka, India<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
@@ -160,5 +174,6 @@ const Disclosures: React.FC = () => {
     </div>
   );
 };
+
 
 export default Disclosures;

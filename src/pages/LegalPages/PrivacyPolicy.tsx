@@ -5,6 +5,7 @@ import Styles from './TermsAndConditions.module.css';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -17,6 +18,7 @@ const containerVariants: Variants = {
   }
 };
 
+
 const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -28,6 +30,7 @@ const fadeUpItem: Variants = {
     }
   }
 };
+
 
 const PrivacyPolicy: React.FC = () => {
   return (
@@ -43,7 +46,7 @@ const PrivacyPolicy: React.FC = () => {
           <motion.div className={Styles.headingContainer} variants={fadeUpItem}>
             <h1 className={Styles.mainHeading}>Privacy Policy</h1>
             <p className={Styles.subHeading}>
-              Last updated: August 2025
+              Last updated: September 2025
             </p>
           </motion.div>
           
@@ -58,6 +61,7 @@ const PrivacyPolicy: React.FC = () => {
                   By using TradeJournalAI, you consent to the practices described in this policy. We handle your data responsibly and transparently.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Information We Collect</h2>
@@ -78,6 +82,7 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>How We Use Your Data</h2>
                 <p className={Styles.sectionText}>Your information enables us to provide personalized trading analytics:</p>
@@ -92,6 +97,7 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Data Processing and Analysis</h2>
                 <p className={Styles.sectionText}>
@@ -102,6 +108,7 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Data Security and Storage</h2>
                 <p className={Styles.sectionText}>
@@ -111,6 +118,7 @@ const PrivacyPolicy: React.FC = () => {
                   Only you have access to your specific trading journal data through your secured account login. We do not sell, rent, or distribute your trading information to any external parties.
                 </p>
               </section>
+
 
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Information Sharing</h2>
@@ -124,6 +132,7 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Your Data Rights</h2>
                 <p className={Styles.sectionText}>You have complete control over your trading journal data:</p>
@@ -136,6 +145,7 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Future Broker Integrations</h2>
                 <p className={Styles.sectionText}>
@@ -146,13 +156,16 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
               </section>
 
+
               <section className={Styles.section}>
                 <h2 className={Styles.sectionHeading}>Contact Us</h2>
                 <p className={Styles.sectionText}>
                   For questions about this Privacy Policy or your data:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: support@tradejournalai.in<br />
+                  Email: tradejournalai@gmail.com<br />
+                  Phone: +91 9999999999<br />
+                  Address: Bengaluru, Karnataka, India<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>
@@ -167,5 +180,6 @@ const PrivacyPolicy: React.FC = () => {
     </div>
   );
 };
+
 
 export default PrivacyPolicy;
