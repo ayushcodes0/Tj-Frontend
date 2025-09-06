@@ -1,30 +1,31 @@
 import { FilledButton } from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
-import TopBanner from '../../components/TopBanner/TopBanner';
 import Styles from './LandingPage.module.css';
 import HeroSectionImage from '../../assets/image/heroSectionImage.png';
-import { IoCloseCircle } from 'react-icons/io5';
-import { TiTick } from 'react-icons/ti';
-import { FaArrowRightArrowLeft } from 'react-icons/fa6';
-import { GoHomeFill } from 'react-icons/go';
-import InfoContainer from '../../components/InfoContainer/InfoContainer';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Pricing from '../../components/Pricing/Pricing';
-import { FaBrain } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import type { Variants } from "framer-motion";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { HiOutlineTrendingUp } from "react-icons/hi";
 import { NavLink } from 'react-router-dom';
-import dashboardImage from "../../assets/image/dashboardImage.png";
-import aiInsightsImage from "../../assets/image/aiInsights.png"
-import newTradeImage from "../../assets/image/newTradeImage.png"
-import performanceImage from "../../assets/image/performance.png"
-import MacBookMockup from '../../components/MacbookMockup/MacbookMockup';
-import IphoneMockup from '../../components/IphoneMockup/IphoneMockup';
+import { FaBrain, FaLightbulb, FaChartLine, FaShieldAlt } from "react-icons/fa";
+// import { SiZerodha } from "react-icons/si";
+// import { BsLightningChargeFill } from "react-icons/bs";
+
+// Mock images - you'll need to replace these with actual images
+// import brokerageImage from "../../assets/image/brokerage-mock.png";
+import howItWorksImage from "../../assets/image/how-it-works-mock.png";
+import aiPoweredImage from "../../assets/image/ai-powerd-mock.png";
+import zerodhaLogo from "../../assets/image/zerodha.svg";
+import angelOneLogo from "../../assets/image/angelone.png";
+import upstoxLogo from "../../assets/image/upstox.png";
+import fivePaisaLogo from "../../assets/image/5paisa.svg";
+import growwLogo from "../../assets/image/groww.png";
+import dhanLogo from "../../assets/image/dhan.png";
+import paytmMoneyLogo from "../../assets/image/paytm-money.png";
 
 const sectionVariants: Variants = {
   offscreen: {
@@ -42,7 +43,7 @@ const sectionVariants: Variants = {
   }
 };
 
-const imageContainerVariants: Variants = {
+const imageVariants: Variants = {
   offscreen: {
     opacity: 0,
     scale: 0.9
@@ -71,19 +72,11 @@ const imageRotate: Variants = {
   }
 };
 
-
 const LandingPage = () => {
-  const [activeSection, setActiveSection] = useState<number>(0);
-  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
-  const [isPastInformation, setIsPastInformation] = useState<boolean>(false);
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
-  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
-  const scrollTimeoutRef = useRef<number | null>(null);
-  const lastScrollTimeRef = useRef<number>(0);
-  const scrollDirectionRef = useRef<'up' | 'down'>('down');
-  const lastScrollYRef = useRef<number>(0);
   const controls = useAnimation();
+  console.log(isMobileView);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
@@ -106,175 +99,56 @@ const LandingPage = () => {
     }
   }, [inView, controls, hasAnimated]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const informationContainer = document.querySelector(`.${Styles.information}`);
-      if (!informationContainer) return;
-      
-      const lastChild = informationContainer.lastElementChild;
-      if (!lastChild) return;
-      
-      const containerRect = informationContainer.getBoundingClientRect();
-      const lastChildRect = lastChild.getBoundingClientRect();
-      
-      const trueEnd = Math.max(
-        containerRect.bottom + window.pageYOffset,
-        lastChildRect.bottom + window.pageYOffset
-      );
-      
-      const currentPosition = window.pageYOffset + window.innerHeight - 200;
-      setIsPastInformation(currentPosition > trueEnd);
-    };
-
-    const throttledScroll = () => {
-      requestAnimationFrame(handleScroll);
-    };
-    
-    window.addEventListener('scroll', throttledScroll, { passive: true });
-    return () => window.removeEventListener('scroll', throttledScroll);
-  }, []);
-
-  const registerSection = useCallback((element: HTMLElement | null, index: number) => {
-    sectionsRef.current[index] = element;
-  }, []);
-
-  const handleScroll = useCallback(() => {
-    const now = Date.now();
-    if (now - lastScrollTimeRef.current < 100) return;
-    lastScrollTimeRef.current = now;
-
-    const scrollY = window.pageYOffset;
-    const direction = scrollY > (lastScrollYRef.current ?? 0) ? 'down' : 'up';
-    scrollDirectionRef.current = direction;
-    lastScrollYRef.current = scrollY > 0 ? scrollY : 0;
-
-    const viewportHeight = window.innerHeight;
-    const scrollPosition = scrollY + viewportHeight / 2;
-
-    let closestSectionIndex = 0;
-    let smallestDistance = Infinity;
-
-    sectionsRef.current.forEach((section, index) => {
-      if (!section) return;
-      
-      const rect = section.getBoundingClientRect();
-      const sectionTop = scrollY + rect.top;
-      const sectionCenter = sectionTop + rect.height / 2;
-
-      const distance = Math.abs(scrollPosition - sectionCenter);
-
-      if (distance < smallestDistance) {
-        smallestDistance = distance;
-        closestSectionIndex = index;
-      }
-    });
-
-    if (activeSection !== closestSectionIndex) {
-      if (scrollTimeoutRef.current !== null) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = window.setTimeout(() => {
-        setActiveSection(closestSectionIndex);
-      }, 50);
+  const steps = [
+    {
+      icon: <IoNewspaperOutline />,
+      title: "Log Your Trades",
+      description: "Quickly record every trade with all essential details"
+    },
+    {
+      icon: <FaBrain />,
+      title: "Get AI Insights",
+      description: "Our algorithms analyze your patterns and performance"
+    },
+    {
+      icon: <HiOutlineTrendingUp />,
+      title: "Improve Your Strategy",
+      description: "Implement data-driven changes to boost profitability"
     }
-  }, [activeSection]);
-
-  useEffect(() => {
-    const throttledScroll = () => {
-      requestAnimationFrame(handleScroll);
-    };
-
-    window.addEventListener('scroll', throttledScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', throttledScroll);
-      if (scrollTimeoutRef.current !== null) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, [handleScroll]);
-
-  const handleMenuClick = useCallback((index: number) => {
-    if (scrollTimeoutRef.current !== null) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-    setActiveSection(index);
-    const element = sectionsRef.current[index];
-    if (element) {
-      const stickyHeaderHeight = 89;
-      const isMobile = window.innerWidth < 883;
-      const additionalOffset = 220;
-
-      const yOffset = isMobile 
-        ? -(stickyHeaderHeight + additionalOffset)
-        : -stickyHeaderHeight; 
-
-      if (isMobile) {
-        const imageContainer = document.querySelector(`.${Styles[`image${index}`]}`) as HTMLElement;
-        if (imageContainer) {
-          const imageY = imageContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          window.scrollTo({ top: imageY, behavior: 'smooth' });
-        }
-      } else {
-        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    }
-    if (isMobileView) {
-      setIsMobileDrawerOpen(false);
-    }
-  }, [isMobileView]);
-
-  const toggleMobileDrawer = useCallback(() => {
-    setIsMobileDrawerOpen(prev => !prev);
-  }, []);
-
-  const gradientColors: string[] = [
-    "linear-gradient(#C8E1FF, #E8F4FF)",
-    "linear-gradient(#DDEEFF, #C2DDFF)",
-    "linear-gradient(#85A9DD, #B8CEFF)",
-    "linear-gradient(#0A3D7A, #1255CC)"
   ];
 
-  const menuItems = [
-    { 
-      top: 'Unified Dashboard', 
-      bottom: 'See everything now.' 
+  const features = [
+    {
+      icon: <FaChartLine />,
+      title: "Performance Analytics",
+      description: "Track win rate, profit factor, and other key metrics"
     },
-    { 
-      top: 'AI Insights', 
-      bottom: 'Discover your edge.' 
+    {
+      icon: <FaShieldAlt />,
+      title: "Risk Management",
+      description: "Identify risk patterns and improve money management"
     },
-    { 
-      top: 'Detailed Logging', 
-      bottom: 'Capture every detail.' 
-    },
-    { 
-      top: 'Mindful Trading', 
-      bottom: 'Master your emotions.' 
+    {
+      icon: <FaLightbulb />,
+      title: "Pattern Recognition",
+      description: "Discover your most profitable setups and strategies"
     }
   ];
 
   return (
     <div className={Styles.landingPageContainer}> 
       <div className={Styles.landingPageHero}>
-        <div className={Styles.topBannerContainer}>
-          <TopBanner />
-        </div>
         <div className={Styles.navbarContainer}>
           <Navbar />
         </div>
         <div className={Styles.heroSection} ref={ref}>
           <div className={Styles.heroSectionLeft}>
-            {/* Remove motion component and variants from the main heading div */}
             <div className={Styles.mainHeading}>
-              {/* Main Headline without animation */}
               <h1 className={Styles.topHeading}>
-                Money works <br />better here.
+                Most advanced <br /> trading journal 
               </h1>
               
-              {/* Remove motion from middleHeading */}
               <div className={Styles.middleHeading}>
-                {/* Feature 1 - remove motion */}
                 <div className={Styles.middleHeadingLeft}>
                   <div className={Styles.middleHeadingIcon}>
                     <IoNewspaperOutline className={Styles.folderIcon} />
@@ -284,7 +158,6 @@ const LandingPage = () => {
                   </div>
                 </div>
                 
-                {/* Feature 2 - remove motion */}
                 <div className={Styles.middleHeadingRight}>
                   <div className={Styles.middleHeadingIcon}>
                     <HiOutlineTrendingUp className={Styles.folderIcon} />
@@ -293,21 +166,17 @@ const LandingPage = () => {
                 </div>
               </div>
               
-              {/* Call to Action - remove motion */}
               <div className={Styles.ctaContainer}>
                 <div className={Styles.ctaButton}>
                   <NavLink to={"/register"} ><FilledButton text='Start free' /></NavLink>
                 </div>
-                {/* Remove motion from ctaText */}
                 <p className={Styles.ctaText}>
                   *It will be free for first 24 hours.
                 </p>
               </div>
             </div>
             
-            {/* Secondary Benefits - remove motion */}
             <div className={Styles.headingBottom}>
-              {/* Remove motion from child divs */}
               <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>AI Insights</p>
                 <p className={Styles.bottomSubHeading}>Receive actionable, AI-powered feedback on every trade.</p>
@@ -319,9 +188,7 @@ const LandingPage = () => {
               </div>
             </div>
             
-            {/* Social Proof / Key Stats - remove motion */}
             <div className={Styles.stats}>
-              {/* Remove motion from child divs */}
               <div className={Styles.rightBottom}>
                 <div className={Styles.bottomLeft}>
                   <p className={Styles.bottomHeading}>30+</p>
@@ -357,9 +224,7 @@ const LandingPage = () => {
               />
             </motion.div>
             
-            {/* Mobile-only Stats - remove motion */}
             <div className={Styles.rightBottom}>
-              {/* Remove motion from child divs */}
               <div className={Styles.bottomLeft}>
                 <p className={Styles.bottomHeading}>30+</p>
                 <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
@@ -381,231 +246,238 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className={`${Styles.infoSectionTop} ${!isPastInformation ? Styles.stickyHeader : ''}`}>
-        {isMobileView ? (
-          <>
-            <div 
-              className={`${Styles.infoMenu} ${activeSection === 0 ? Styles.activeMenu : ''} ${Styles.mobileDrawerHeader} ${!isPastInformation ? Styles.stickyHeader : ''}`}
-              onClick={() => activeSection === 0 ? toggleMobileDrawer() : handleMenuClick(0)}
-              style={activeSection === 0 ? {
-                background: gradientColors[0],
-                color: 'inherit'
-              } : undefined}
-            >
-              <div className={Styles.mobileDrawerHeaderContent}>
-                <div>
-                  <p className={Styles.infoMenuTop}>{menuItems[activeSection].top}</p>
-                  <p className={Styles.infoMenuBottom}>{menuItems[activeSection].bottom}</p>
-                </div>
-                {isMobileDrawerOpen ? <FaChevronUp /> : <FaChevronDown />}
+      {/* Brokerage Integration Section */}
+      <motion.section 
+        className={Styles.brokerageSection}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <div className={Styles.sectionContainer}>
+          <div className={Styles.sectionHeader}>
+            <h2>Works with your broker</h2>
+            <p>Connect seamlessly with your preferred trading platform</p>
+          </div>
+          
+          <div className={Styles.brokerMarquee}>
+            <div className={Styles.marqueeContent}>
+              {/* First set of logos */}
+              <div className={Styles.brokerItem}>
+                <img src={zerodhaLogo} alt="Zerodha" className={Styles.brokerLogo} />
+                <span>Zerodha</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={angelOneLogo} alt="Angel One" className={Styles.brokerLogo} />
+                <span>Angel One</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={upstoxLogo} alt="Upstox" className={Styles.brokerLogo} />
+                <span>Upstox</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={fivePaisaLogo} alt="5paisa" className={Styles.brokerLogo} />
+                <span>5paisa</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={growwLogo} alt="Groww" className={Styles.brokerLogo} />
+                <span>Groww</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={dhanLogo} alt="Dhan" className={Styles.brokerLogo} />
+                <span>Dhan</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={paytmMoneyLogo} alt="Paytm Money" className={Styles.brokerLogo} />
+                <span>Paytm Money</span>
+              </div>
+              
+              {/* Duplicated set for seamless looping */}
+              <div className={Styles.brokerItem}>
+                <img src={zerodhaLogo} alt="Zerodha" className={Styles.brokerLogo} />
+                <span>Zerodha</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={angelOneLogo} alt="Angel One" className={Styles.brokerLogo} />
+                <span>Angel One</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={upstoxLogo} alt="Upstox" className={Styles.brokerLogo} />
+                <span>Upstox</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={fivePaisaLogo} alt="5paisa" className={Styles.brokerLogo} />
+                <span>5paisa</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={growwLogo} alt="Groww" className={Styles.brokerLogo} />
+                <span>Groww</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={dhanLogo} alt="Dhan" className={Styles.brokerLogo} />
+                <span>Dhan</span>
+              </div>
+              <div className={Styles.brokerItem}>
+                <img src={paytmMoneyLogo} alt="Paytm Money" className={Styles.brokerLogo} />
+                <span>Paytm Money</span>
               </div>
             </div>
-            <div className={`${Styles.mobileDrawerContent} ${isMobileDrawerOpen ? Styles.drawerOpen : ''}`}>
-              {menuItems.map((item, index) => (
-                index !== activeSection && (
-                  <div
-                    key={index}
-                    className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''}`}
-                    onClick={() => handleMenuClick(index)}
-                    style={activeSection === index ? {
-                      background: gradientColors[index],
-                      color: index === 3 ? 'white' : 'inherit'
-                    } : undefined}
-                  >
-                    <div className={Styles.mobileDrawerHeaderContent}>
-                      <div>
-                        <p className={Styles.infoMenuTop}>{item.top}</p>
-                        <p className={Styles.infoMenuBottom}>{item.bottom}</p>
-                      </div>
-                    </div>
-                  </div>
-                )
-              ))}
-            </div>
-          </>
-        ) : (
-          menuItems.map((item, index) => (
-            <div
-              key={index}
-              className={`${Styles.infoMenu} ${activeSection === index ? Styles.activeMenu : ''} ${index === 3 ? Styles.lastInfoMenu : ''}`}
-              onClick={() => handleMenuClick(index)}
-              style={activeSection === index ? {
-                background: gradientColors[index],
-                color: index === 3 ? 'var(--landing-background)' : 'inherit'
-              } : undefined}
-            >
-              <p className={Styles.infoMenuTop}>{item.top}</p>
-              <p className={Styles.infoMenuBottom}>{item.bottom}</p>
-            </div>
-          ))
-        )}
-      </div>
+          </div>
+          
+          <div className={Styles.comingSoonContainer}>
+            <div className={Styles.comingSoonBadge}>Coming Soon</div>
+            <p>We're working on API integrations with these brokers</p>
+          </div>
+        </div>
+      </motion.section>
 
-      <div className={Styles.information}>
-      {/* Section 0: Unified Dashboard */}
-      <motion.div
-        id='section-0'
-        ref={(el) => registerSection(el, 0)}
-        className={`${Styles.infoContainer} ${Styles.section0}`}
+      {/* How It Works Section */}
+      <motion.section 
+        className={Styles.howItWorksSection}
         initial="offscreen"
         whileInView="onscreen"
         viewport={{ once: true, amount: 0.3 }}
         variants={sectionVariants}
       >
-        <InfoContainer
-          tags={["Analytics", "Performance", "Overview"]}
-          heading="Your Trading Dashboard."
-          subHeading="See what matters."
-          infoPara="Our Unified Dashboard brings all your critical trading data into one clear, intuitive view. Track your progress, understand your habits, and make informed decisions without the clutter. It's your entire trading world, at a glance."
-          points={[
-            { icon: <TiTick />, text: "Visualize your equity curve and net profitability." },
-            { icon: <TiTick />, text: "Monitor your win rate and average risk-to-reward ratio." },
-            { icon: <TiTick />, text: "Filter performance by strategy, symbol, or timeframe." },
-            { icon: <TiTick />, text: "See your trading activity on a calendar heat-map." }
-          ]}
-          primaryButtonText="Start Analyzing for Free"
-          secondaryButtonText="Explore Features"
-          buttonSmallText="Free 24-hour trial. No credit card required."
-        />
-      </motion.div>
-      <motion.div 
-        className={`${Styles.informationImageContainer} ${Styles.image0}`} 
-        style={{ background: gradientColors[0] }}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={imageContainerVariants}
-      >
-        <MacBookMockup
-          imageUrl={dashboardImage} 
-          altText="Your app screenshot"
-        />
-      </motion.div>
+        <div className={Styles.sectionContainer}>
+          <div className={Styles.sectionHeader}>
+            <h2>How It Works</h2>
+            <p>Transform your trading in three simple steps</p>
+          </div>
+          
+          <div className={Styles.stepsContainer}>
+            {steps.map((step, index) => (
+              <motion.div 
+                key={index}
+                className={Styles.stepCard}
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={sectionVariants}
+                transition={{ delay: index * 0.2 }}
+              >
+                <div className={Styles.stepNumber}>{index + 1}</div>
+                <div className={Styles.stepIcon}>{step.icon}</div>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </motion.div>
+            ))}
+          </div>
+          
+          <motion.div 
+            className={Styles.howItWorksImageContainer}
+            variants={imageVariants}
+          >
+            <img src={howItWorksImage} alt="How It Works" className={Styles.sectionImage} />
+          </motion.div>
+        </div>
+      </motion.section>
 
-      {/* Section 1: AI Insights */}
-      <motion.div
-        id='section-1'
-        ref={(el) => registerSection(el, 1)}
-        className={`${Styles.infoContainer} ${Styles.section1}`}
+      {/* AI Powered Section */}
+      <motion.section 
+        className={Styles.aiPoweredSection}
         initial="offscreen"
         whileInView="onscreen"
         viewport={{ once: true, amount: 0.3 }}
         variants={sectionVariants}
       >
-        <InfoContainer
-          tags={["Artificial Intelligence", "Coaching", "Optimization"]}
-          heading="Get Actionable AI Insights."
-          subHeading="Find your edge."
-          infoPara="Stop guessing what works. Our intelligent algorithms sift through your trading data to uncover your most profitable patterns, identify costly mistakes, and provide personalized feedback to help you improve faster."
-          points={[
-            { icon: <TiTick />, text: "Identifies your best-performing setups and strategies." },
-            { icon: <FaBrain/>, text: "Connects emotional states to trading outcomes." },
-            { icon: <IoCloseCircle />, text: "Pinpoints common mistakes, like holding losers too long." },
-            { icon: <TiTick />, text: "Provides concrete suggestions for optimizing your system." }
-          ]}
-          primaryButtonText="Unlock Your AI Edge" 
-          secondaryButtonText="How It Works"
-          buttonSmallText="Available on all plans during your free trial."
-        />
-      </motion.div>
-      <motion.div 
-        className={`${Styles.informationImageContainer} ${Styles.image1}`} 
-        style={{ background: gradientColors[1] }}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={imageContainerVariants}
-      >
-        <IphoneMockup
-          imageUrl={aiInsightsImage} 
-          altText="Your app screenshot"
-        />
-      </motion.div>
-
-      {/* Section 2: Detailed Logging */}
-      <motion.div
-        id='section-2'
-        ref={(el) => registerSection(el, 2)}
-        className={`${Styles.infoContainer} ${Styles.section2}`}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
-        <InfoContainer
-          tags={["Effortless", "Detailed", "Secure"]}
-          heading="Log Every Trade in Seconds."
-          subHeading="Capture every detail."
-          infoPara="A journal is only as good as the data you put in. We make it incredibly fast and easy to log every detail, from entry and exit prices to your psychological state and chart screenshots, so you never lose valuable data."
-          points={[
-            { icon: <FaArrowRightArrowLeft />, text: "Log entry, exit, stop-loss, and multiple targets." },
-            { icon: <GoHomeFill />, text: "Attach unlimited chart screenshots to each trade." },
-            { icon: <TiTick />, text: "Use custom tags to categorize your unique strategies." },
-            { icon: <TiTick />, text: "Record your confidence and emotions for every setup." }
-          ]}
-          primaryButtonText="Start Journaling Now"
-          secondaryButtonText="View Example"
-          buttonSmallText="Fast, easy, and secure on all your devices."
-        />
-      </motion.div>
-      <motion.div 
-        className={`${Styles.informationImageContainer} ${Styles.image2}`} 
-        style={{ background: gradientColors[2] }}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={imageContainerVariants}
-      >
-        <MacBookMockup
-          imageUrl={newTradeImage} 
-          altText="Your app screenshot"
-        />
-      </motion.div>
-
-      {/* Section 3: Mindful Trading */}
-      <motion.div
-        id='section-3'
-        ref={(el) => registerSection(el, 3)}
-        className={`${Styles.infoContainer} ${Styles.section3}`}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
-        <InfoContainer
-          tags={["Psychology", "Mindset", "Discipline"]}
-          heading="Master Your Trading Mindset."
-          subHeading="Master your mindset."
-          infoPara="Profitability isn't just about strategy; it's about mindset. Our journal is the first to put psychology front and center, helping you track your emotional patterns, build discipline, and trade with unshakeable confidence."
-          points={[
-            { icon: <TiTick />, text: "Rate your confidence to spot over- and under-confidence." },
-            { icon: <IoCloseCircle />, text: "Tag emotional mistakes like FOMO, greed, or revenge trading." },
-            { icon: <FaArrowRightArrowLeft />, text: "Compare performance between different emotional states." },
-            { icon: <TiTick />, text: "Develop the discipline of a professional trader." }
-          ]}
-          primaryButtonText="Master Your Mindset"
-          secondaryButtonText="Learn More"
-          buttonSmallText="Start your free 24-hour trial today."
-        />
-      </motion.div>
-      <motion.div 
-        className={`${Styles.informationImageContainer} ${Styles.image3}`} 
-        style={{ background: gradientColors[3] }}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={imageContainerVariants}
-      >
-        <MacBookMockup
-          imageUrl={performanceImage} 
-          altText="Your app screenshot"
-        />
-      </motion.div>
-    </div>
+        <div className={Styles.sectionContainer}>
+          <div className={Styles.sectionHeader}>
+            <h2>AI-Powered Trading Insights</h2>
+            <p>Our AI analyzes your trading to deliver personalized insights that transform your results</p>
+          </div>
+          
+          <div className={Styles.featuresGrid}>
+            {features.map((feature, index) => (
+              <motion.div 
+                key={index}
+                className={Styles.featureCard}
+                initial="offscreen"
+                whileInView="onscreen"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={sectionVariants}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className={Styles.featureIcon}>{feature.icon}</div>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </motion.div>
+            ))}
+          </div>
+          
+          <motion.div 
+            className={Styles.aiImageContainer}
+            variants={imageVariants}
+          >
+            <img src={aiPoweredImage} alt="AI Powered Insights" className={Styles.sectionImage} />
+          </motion.div>
+          
+          <div className={Styles.ctaBox}>
+            <h3>Ready to transform your trading?</h3>
+            <p>Join thousands of traders who are already improving their performance</p>
+            <NavLink to={"/register"}><FilledButton text="Start Your Free Trial" /></NavLink>
+          </div>
+        </div>
+      </motion.section>
 
       <div className={Styles.pricingContainer}>
-        <Pricing/>
+        <Pricing />
       </div>
+
+      {/* FAQ Section */}
+      <motion.section 
+        className={Styles.faqSection}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <div className={Styles.sectionContainer}>
+          <div className={Styles.sectionHeader}>
+            <h2>Frequently Asked Questions</h2>
+            <p>Everything you need to know about TradeJournal.ai</p>
+          </div>
+          
+          <div className={Styles.faqContainer}>
+            <div className={Styles.faqItem}>
+              <div className={Styles.faqQuestion}>
+                <h3>What is tradejournal.ai?</h3>
+              </div>
+              <div className={Styles.faqAnswer}>
+                <p>Tradejournal.ai is designed to help serious traders with data-driven insights, analyzing profit/loss factors, and improve their performance through journaling, visual analytics, AI insights & psychology tracking that you can't get with spreadsheets or notes.</p>
+              </div>
+            </div>
+            
+            <div className={Styles.faqItem}>
+              <div className={Styles.faqQuestion}>
+                <h3>Is my trading data secured?</h3>
+              </div>
+              <div className={Styles.faqAnswer}>
+                <p>Yes, data security is our top priority. All your trading data is encrypted & stored securely. YOUR TRADING DATA IS NEVER SHARED WITH THIRD-PARTIES. You can also enable 2FA authentication for additional security.</p>
+              </div>
+            </div>
+            
+            <div className={Styles.faqItem}>
+              <div className={Styles.faqQuestion}>
+                <h3>How does tradejournal.ai help improve my trading?</h3>
+              </div>
+              <div className={Styles.faqAnswer}>
+                <p>By providing tools to log every trade, analyze detailed data-driven performance metrics, identify patterns, eliminate weaknesses, journal empowers you to make data-driven decisions & refine your trading strategies for better results.</p>
+              </div>
+            </div>
+            
+            <div className={Styles.faqItem}>
+              <div className={Styles.faqQuestion}>
+                <h3>How much does it cost?</h3>
+              </div>
+              <div className={Styles.faqAnswer}>
+                <p>Our annual plan offers significant savings. At just ₹66/month (billed annually @ ₹799) or monthly plan @ just ₹99. Plus you lock in current price even if we increase in future.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
       <div className={Styles.footerContainer}>
         <Footer /> 
       </div>

@@ -148,16 +148,28 @@
   --tk-content-interactive-primary-hover: #fff;
 
 
-  --nav-grad-start: #073A85;
+  /* --nav-grad-start: #073A85;
   --nav-grad-middle: #0A4EAD;
   --nav-grad-end: #073A85;
   --primary-text: #0A4EAD;
   --primary-white: #FAFBFC;
-  --tag-color: #9AAFCE;
-  --primary-dark-text: #052A5C;
+  --tag-color: #9AAFCE;*/
+  --primary-dark-text: #052A5C; 
+
+  --primary-text: #0A4EAD;
+
+    /* Green gradient for navigation and other primary elements */
+  --nav-grad-start: #1A6635;
+  --nav-grad-middle: #2A9950;
+  --nav-grad-end: #1A6635;
+  /* --primary-text: #2A9950; */
+  --primary-white: #FAFBFC;
+  --tag-color: #C1E3CE;
+  /* --primary-dark-text: #1C5531; */
 
   --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));
-  --tk-gradient-soft: linear-gradient(to right, #fbfbec, #D5E7FA);
+  /* --tk-gradient-soft: linear-gradient(to right, #fbfbec, #D5E7FA); */
+  --tk-gradient-soft: linear-gradient(to right, #f5faee, #C4E2C7);
 
 
   --tk-spacing-xxxsmall: 2px;

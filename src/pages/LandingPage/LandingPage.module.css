@@ -7,11 +7,6 @@
     width: 100%;
 }
 
-.topBannerContainer {
-    padding: var(--tk-spacing-large) var(--tk-spacing-xxxlarge) var(--tk-spacing-xsmall) var(--tk-spacing-xxxlarge);
-    width: 100%;
-}
-
 .navbarContainer {
     padding: 0 var(--tk-spacing-xxxlarge);
     width: 100%;
@@ -39,8 +34,6 @@
     padding-bottom: 60px;
 }
 
-
-
 .mainHeading {
     display: flex;
     flex-direction: column;
@@ -54,7 +47,6 @@
     letter-spacing: -4px;
     color: var(--primary-text);
 }
-
 
 @media (max-width: 1558px) {
     .heroSectionLeft {
@@ -185,7 +177,7 @@
 }
 
 .heroSectionImage {
-    height: 600px;
+    height: 460px;
     object-fit: contain;
     object-position: center;
 }
@@ -196,100 +188,6 @@
     display: flex;
     gap: 20px;
     padding-left: 100px;
-}
-
-.infoSectionTop {
-  top: 0;
-  z-index: 100;
-  background-color: var(--landing-background);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  border-top: 1px solid rgb(181 178 201);
-  border-bottom: 1px solid rgb(181 178 201);
-  padding: 0px 64px;
-}
-
-.infoMenu {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    padding: 1.3rem 1rem;
-    background-color: var(--landing-background);
-    border-right: 1px solid rgb(181 178 201);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.infoMenu:last-child {
-    border-bottom: none;
-}
-
-.infoMenu:nth-child(4n) {
-    border-right: 1px solid rgb(181 178 201);
-}
-
-.infoSectionTop > .infoMenu:first-child {
-    border-left: 1px solid rgb(181 178 201);
-}
-
-.infoMenuTop {
-    font-size: 14px;
-    font-weight: 500;
-    /* color: var(--primary-dark-text); */
-}
-
-.infoMenuBottom {
-    font-size: 20px;
-    font-weight: 700;
-    /* color: var(--primary-dark-text); */
-}
-
-.information {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0px 64px;
-    background-color: var(--landing-background);
-}
-
-.infoContainer {
-    border-left: 1px solid rgb(181 178 201);
-}
-
-.informationImageContainer {
-    width: 100%;
-    border-right: 1px solid rgb(181 178 201);
-    border-bottom: 1px solid rgb(181 178 201);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; 
-}
-
-.dashboardImage{
-    width: 90%;
-    border-radius: 8px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-.aiInsightsImage{
-    height: 600px;
-    border-radius: 8px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-.newTradeImage{
-    width: 90%;
-    border-radius: 8px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-.performanceImage{
-    width: 90%;
-    border-radius: 8px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-}
-
-.infoImage {
-    border-radius: 12px;
 }
 
 .stats {
@@ -327,15 +225,6 @@
     }
 }
 
-@media (max-width: 1200px) {
-    .infoMenuTop {
-        font-size: 12px;
-    }
-    .infoMenuBottom {
-        font-size: 16px;
-    }
-}
-
 @media (max-width: 1071px) {
     .heroSection {
         flex-direction: column;
@@ -354,101 +243,6 @@
     .stats .rightBottom {
         padding-left: 0;
         gap: 10px;
-    }
-}
-
-@media (max-width: 883px) {
-    .infoSectionTop {
-        display: block;
-        grid-template-columns: 1fr;
-        padding: 0;
-    }
-    
-    .infoMenu {
-        border-right: none;
-        border-left: none;
-        border-bottom: 1px solid rgb(181 178 201);
-    }
-    
-    .mobileDrawerHeader {
-        top: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        border-bottom: 1px solid rgb(181 178 201);
-        z-index: 101;
-        background-color: var(--landing-background);
-    }
-    
-    .mobileDrawerHeaderContent {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-    
-    .mobileDrawerContent {
-        position: relative;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out;
-        z-index: 100;
-    }
-    
-    .mobileDrawerContent.drawerOpen {
-        max-height: 500px;
-        transition: max-height 0.3s ease-in;
-    }
-    
-    .infoMenu.activeMenu {
-        position: sticky;
-        top: 0;
-        z-index: 102;
-    }
-    
-    .infoMenu.activeMenu.mobileDrawerHeader {
-        z-index: 103;
-    }
-    .information{
-        grid-template-columns: 1fr;
-    }
-    .informationImageContainer {
-        width: 100%;
-        /* REMOVED: height: 400px; */
-        /* ADDED: A minimum height to ensure the mockup is always visible */
-        min-height: 50vh; /* This will make it at least half the viewport height */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-right: 1px solid rgb(181 178 201);
-        border-bottom: 1px solid rgb(181 178 201);
-        overflow: hidden;
-        padding: 20px 0;
-    }
-    .section0{
-        order: 2;
-    }
-    .image0{
-        order: 1;
-    }
-    .section1{
-        order: 4;
-    }
-    .image1{
-        order: 3;
-    }
-    .section2{
-        order: 6;
-    }
-    .image2{
-        order: 5;
-    }
-    .section3{
-        order: 8;
-    }
-    .image3{
-        order: 7;
     }
 }
 
@@ -471,9 +265,6 @@
     .middleSubHeading{
         font-size: 20px;
     }
-    .topBannerContainer{
-        padding: 0;
-    }
     .navbarContainer{
         padding: 0 var(--tk-spacing-medium);
     }
@@ -490,7 +281,347 @@
     }
 }
 
-.pricingContainer{
+/* New Sections Styles */
+.sectionContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.sectionHeader h2 {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--primary-dark-text);
+    margin-bottom: 16px;
+}
+
+.sectionHeader p {
+    font-size: 18px;
+    color: var(--secondary-text);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Brokerage Section */
+.brokerageSection {
+    background: linear-gradient(to bottom, #f8fff8, #ffffff);
+    padding: 80px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.brokerMarquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: 60px 0;
+    padding: 20px 0;
+}
+
+/* Fade effect containers */
+.brokerMarquee::before,
+.brokerMarquee::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.brokerMarquee::before {
+    left: 0;
+    background: linear-gradient(to right, #f8fff8, transparent);
+}
+
+.brokerMarquee::after {
+    right: 0;
+    background: linear-gradient(to left, #f8fff8, transparent);
+}
+
+.marqueeContent {
+    display: flex;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+}
+
+.brokerItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin: 0 30px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.brokerLogo {
+    height: 70px;
+    width: 70px;
+    object-fit: contain;
+    padding: 15px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s ease;
+}
+
+.brokerItem:hover .brokerLogo {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.brokerItem span {
+    font-weight: 600;
+    color: var(--primary-dark-text);
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.brokerItem:hover span {
+    color: var(--primary-green);
+}
+
+.comingSoonContainer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #eaeaea;
+    position: relative;
+    z-index: 3; /* Ensure it's above the fade effect */
+}
+
+.comingSoonBadge {
+    display: inline-block;
+    background: var(--primary-green);
+    color: var(--primary-text);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.comingSoonContainer p {
+    color: var(--secondary-text);
+    font-size: 16px;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Pause animation on hover */
+.brokerMarquee:hover .marqueeContent {
+    animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+    .brokerItem {
+        margin: 0 20px;
+    }
+    
+    .brokerLogo {
+        height: 60px;
+        width: 60px;
+    }
+    
+    /* Adjust fade width for mobile */
+    .brokerMarquee::before,
+    .brokerMarquee::after {
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .brokerItem {
+        margin: 0 15px;
+    }
+    
+    .brokerLogo {
+        height: 50px;
+        width: 50px;
+        padding: 10px;
+    }
+    
+    .brokerItem span {
+        font-size: 14px;
+    }
+    
+    .marqueeContent {
+        animation-duration: 20s;
+    }
+    
+    /* Adjust fade width for small mobile */
+    .brokerMarquee::before,
+    .brokerMarquee::after {
+        width: 40px;
+    }
+}
+
+/* How It Works Section */
+.howItWorksSection {
+    background: white;
+    padding: 40px 0;
+}
+
+.stepsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+.stepCard {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 280px;
+    position: relative;
+    border: 1px solid #eaeaea;
+}
+
+.stepNumber {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    background: var(--primary-green);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.stepIcon {
+    font-size: 40px;
+    color: var(--primary-green);
+    margin-bottom: 20px;
+}
+
+.stepCard h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--primary-dark-text);
+}
+
+.stepCard p {
+    color: var(--secondary-text);
+    line-height: 1.6;
+}
+
+.howItWorksImageContainer {
+    display: flex;
+    justify-content: center;
+}
+
+/* AI Powered Section */
+.aiPoweredSection {
+    background: linear-gradient(to bottom, #ffffff, #E6F4DF);
+    padding: 40px 0;
+}
+
+.featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.featureCard {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.featureIcon {
+    font-size: 32px;
+    color: var(--primary-green);
+    background: #e8f5e6;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.featureCard h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--primary-dark-text);
+}
+
+.featureCard p {
+    color: var(--secondary-text);
+    line-height: 1.6;
+}
+
+.aiImageContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.ctaBox {
+    background: var(--primary-green);
+    color: var(--primary-text);
+    padding: 50px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.ctaBox h3 {
+    font-size: 28px;
+    margin-bottom: 16px;
+}
+
+.ctaBox p {
+    margin-bottom: 30px;
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+.sectionImage {
+    max-width: 80%;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.pricingContainer {
     padding: 80px 0;
     width: 100%;
     background-color: #E7F4DF;
@@ -503,21 +634,90 @@
     color: var(--landing-background);
 }
 
-@media (max-width: 608px){
-    .footerContainer{
+@media (max-width: 883px) {
+    .stepsContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .brokerLogos {
+        gap: 20px;
+    }
+    
+    .featuresGrid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .sectionHeader h2 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 608px) {
+    .footerContainer {
         padding: 0 20px;
+    }
+    
+    .sectionContainer {
+        padding: 60px 20px;
+    }
+    
+    .stepCard {
+        max-width: 100%;
+    }
+    
+    .ctaBox {
+        padding: 30px 20px;
+    }
+    
+    .ctaBox h3 {
+        font-size: 24px;
     }
 }
 
 
-.stickyHeader {
-  position: sticky; 
-  top: 0;
-  z-index: 100;
+/* FAQ Section */
+.faqSection {
+    background: linear-gradient(to bottom, #ffffff, #E6F4DF);
+    padding: 80px 0;
 }
 
-.mobileDrawerHeader.stickyHeader {
-  position: sticky;
-  top: 0;
-  z-index: 101; 
+.faqContainer {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faqItem {
+    border-bottom: 1px solid #eaeaea;
+    padding: 30px 0;
+}
+
+.faqItem:last-child {
+    border-bottom: none;
+}
+
+.faqQuestion h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--primary-dark-text);
+    margin-bottom: 16px;
+}
+
+.faqAnswer p {
+    color: var(--secondary-text);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .faqItem {
+        padding: 20px 0;
+    }
+    
+    .faqQuestion h3 {
+        font-size: 18px;
+    }
 }
