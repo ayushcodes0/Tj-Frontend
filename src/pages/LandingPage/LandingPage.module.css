@@ -621,6 +621,12 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 500px){
+    .sectionImage{
+        max-width: 100%;
+    }
+}
+
 .pricingContainer {
     padding: 80px 0;
     width: 100%;
