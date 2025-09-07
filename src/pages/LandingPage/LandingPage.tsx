@@ -26,6 +26,7 @@ import fivePaisaLogo from "../../assets/image/5paisa.svg";
 import growwLogo from "../../assets/image/groww.png";
 import dhanLogo from "../../assets/image/dhan.png";
 import paytmMoneyLogo from "../../assets/image/paytm-money.png";
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 const sectionVariants: Variants = {
   offscreen: {
@@ -76,6 +77,11 @@ const LandingPage = () => {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
   const controls = useAnimation();
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
   console.log(isMobileView);
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -440,38 +446,70 @@ const LandingPage = () => {
           
           <div className={Styles.faqContainer}>
             <div className={Styles.faqItem}>
-              <div className={Styles.faqQuestion}>
+              <div 
+                className={Styles.faqQuestion} 
+                onClick={() => toggleFaq(0)}
+              >
                 <h3>What is tradejournal.ai?</h3>
+                <div className={Styles.faqIcon}>
+                  {openFaqIndex === 0 ? <FaMinus /> : <FaPlus />}
+                </div>
               </div>
-              <div className={Styles.faqAnswer}>
-                <p>Tradejournal.ai is designed to help serious traders with data-driven insights, analyzing profit/loss factors, and improve their performance through journaling, visual analytics, AI insights & psychology tracking that you can't get with spreadsheets or notes.</p>
+              <div className={`${Styles.faqAnswerWrapper} ${openFaqIndex === 0 ? Styles.faqOpen : ''}`}>
+                <div className={Styles.faqAnswer}>
+                  <p>Tradejournal.ai is designed to help serious traders with data-driven insights, analyzing profit/loss factors, and improve their performance through journaling, visual analytics, AI insights & psychology tracking that you can't get with spreadsheets or notes.</p>
+                </div>
               </div>
             </div>
             
             <div className={Styles.faqItem}>
-              <div className={Styles.faqQuestion}>
+              <div 
+                className={Styles.faqQuestion} 
+                onClick={() => toggleFaq(1)}
+              >
                 <h3>Is my trading data secured?</h3>
+                <div className={Styles.faqIcon}>
+                  {openFaqIndex === 1 ? <FaMinus /> : <FaPlus />}
+                </div>
               </div>
-              <div className={Styles.faqAnswer}>
-                <p>Yes, data security is our top priority. All your trading data is encrypted & stored securely. YOUR TRADING DATA IS NEVER SHARED WITH THIRD-PARTIES. You can also enable 2FA authentication for additional security.</p>
+              <div className={`${Styles.faqAnswerWrapper} ${openFaqIndex === 1 ? Styles.faqOpen : ''}`}>
+                <div className={Styles.faqAnswer}>
+                  <p>Yes, data security is our top priority. All your trading data is encrypted & stored securely. YOUR TRADING DATA IS NEVER SHARED WITH THIRD-PARTIES. You can also enable 2FA authentication for additional security.</p>
+                </div>
               </div>
             </div>
             
             <div className={Styles.faqItem}>
-              <div className={Styles.faqQuestion}>
+              <div 
+                className={Styles.faqQuestion} 
+                onClick={() => toggleFaq(2)}
+              >
                 <h3>How does tradejournal.ai help improve my trading?</h3>
+                <div className={Styles.faqIcon}>
+                  {openFaqIndex === 2 ? <FaMinus /> : <FaPlus />}
+                </div>
               </div>
-              <div className={Styles.faqAnswer}>
-                <p>By providing tools to log every trade, analyze detailed data-driven performance metrics, identify patterns, eliminate weaknesses, journal empowers you to make data-driven decisions & refine your trading strategies for better results.</p>
+              <div className={`${Styles.faqAnswerWrapper} ${openFaqIndex === 2 ? Styles.faqOpen : ''}`}>
+                <div className={Styles.faqAnswer}>
+                  <p>By providing tools to log every trade, analyze detailed data-driven performance metrics, identify patterns, eliminate weaknesses, journal empowers you to make data-driven decisions & refine your trading strategies for better results.</p>
+                </div>
               </div>
             </div>
             
             <div className={Styles.faqItem}>
-              <div className={Styles.faqQuestion}>
+              <div 
+                className={Styles.faqQuestion} 
+                onClick={() => toggleFaq(3)}
+              >
                 <h3>How much does it cost?</h3>
+                <div className={Styles.faqIcon}>
+                  {openFaqIndex === 3 ? <FaMinus /> : <FaPlus />}
+                </div>
               </div>
-              <div className={Styles.faqAnswer}>
-                <p>Our annual plan offers significant savings. At just ₹66/month (billed annually @ ₹799) or monthly plan @ just ₹99. Plus you lock in current price even if we increase in future.</p>
+              <div className={`${Styles.faqAnswerWrapper} ${openFaqIndex === 3 ? Styles.faqOpen : ''}`}>
+                <div className={Styles.faqAnswer}>
+                  <p>Our annual plan offers significant savings. At just ₹66/month (billed annually @ ₹799) or monthly plan @ just ₹99. Plus you lock in current price even if we increase in future.</p>
+                </div>
               </div>
             </div>
           </div>
