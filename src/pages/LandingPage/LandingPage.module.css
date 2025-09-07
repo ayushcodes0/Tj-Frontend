@@ -91,7 +91,7 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 40px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 40px auto;
 }
 
 .featureCard {
@@ -197,7 +197,7 @@
 /* Brokerage Section */
 .brokerageSection {
     background: linear-gradient(to bottom, #f8fff8, #ffffff);
-    padding: 80px 0;
+    padding: 40px 0;
     overflow: hidden;
     position: relative;
 }
@@ -457,7 +457,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
-    margin-bottom: 60px;
 }
 
 .featureCard {
@@ -599,7 +598,7 @@
 /* FAQ Section */
 .faqSection {
     background: linear-gradient(to bottom, #ffffff, #E6F4DF);
-    padding: 80px 0;
+    padding: 40px 0;
 }
 
 .faqContainer {

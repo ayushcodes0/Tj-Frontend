@@ -93,7 +93,7 @@ const Navbar = () => {
           <button 
             className={Styles.navLink} 
             onClick={scrollToPricing}
-            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}
           >
             Pricing
           </button>

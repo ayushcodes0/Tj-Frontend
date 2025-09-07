@@ -27,7 +27,7 @@ import dhanLogo from "../../assets/image/dhan.png";
 import paytmMoneyLogo from "../../assets/image/paytm-money.png";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { BsLightningChargeFill } from "react-icons/bs";
-import PricingPage from '../PricingPage/PricingPage';
+import PricingCard from '../../components/pricingCard/PricingCard';
 
 const sectionVariants: Variants = {
   offscreen: {
@@ -405,7 +405,7 @@ const LandingPage = () => {
       </motion.section>
 
       <div id='pricing' className={Styles.pricingContainer}>
-        <PricingPage />
+        <PricingCard />
       </div>
 
       {/* FAQ Section */}

@@ -1,4 +1,4 @@
-import Styles from "./PricingPage.module.css";
+import Styles from './PricingCard.module.css';
 import { Link, useNavigate } from "react-router-dom";
 import PaymentButton from "../../components/PaymentButton/PaymentButton";
 import { upgradeUserToPro } from '../../services/subscriptionService';
@@ -6,9 +6,8 @@ import { useAuth } from '../../hooks/useAuth';
 import { hasActivePro } from '../../utils/subscriptionUtils';
 import { useCustomToast } from '../../hooks/useCustomToast';
 import { useState } from 'react';
-import PricingNav from "../../components/PricingNav/PricingNav";
 
-const PricingPage = () => {
+const PricingCard = () => {
   const { user, updateUserData } = useAuth();
   const navigate = useNavigate();
   const toast = useCustomToast();
@@ -105,11 +104,10 @@ const PricingPage = () => {
   };
 
   return (
-    <div className={Styles.pricingPageContainer}>
-      <div className={Styles.pricingNavContainer}>
-        <PricingNav/>
-      </div>
+    <div className={`${Styles.pricingPageContainer}`}>
       <div id="pricing" className={Styles.pricingHero}>
+        <h1 className={Styles.pageTitle}>Choose Your Plan</h1>
+        <p className={Styles.pageSubtitle}>Select the plan that works best for your trading journey</p>
         
         <div className={Styles.pricingCards}>
           {/* Monthly Plan Card */}
@@ -297,4 +295,4 @@ const PricingPage = () => {
   );
 };
 
-export default PricingPage;
+export default PricingCard;

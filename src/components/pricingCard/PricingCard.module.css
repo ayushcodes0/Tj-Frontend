@@ -1,7 +1,7 @@
 .pricingPageContainer {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, var(--hero-color-start) 0%, var(--hero-color-end) 100%);
+    background: transparent;
     min-height: 100vh;
 }
 
