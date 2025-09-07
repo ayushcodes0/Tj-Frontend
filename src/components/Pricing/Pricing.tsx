@@ -66,7 +66,6 @@ const Pricing = () => {
             <p className={Styles.pricesTop}>Premium Plus</p>
             <p className={Styles.pricesHeading}>₹799</p>
             <p className={Styles.pricesSubtitle}>Save over 80% - limited time offer</p>
-            <p className={Styles.pricesEffective}>(Just ₹66/month)</p>
             <div className={Styles.pricesPoints}>
               <p className={Styles.pricesPointsText}>Unlimited trade logging with no limits</p>
               <p className={Styles.pricesPointsText}>AI-powered in-depth performance insights</p>

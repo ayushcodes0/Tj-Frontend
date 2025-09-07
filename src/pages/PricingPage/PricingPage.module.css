@@ -1,7 +1,8 @@
 .pricingPageContainer {
     display: flex;
     flex-direction: column;
-    background: var(--tk-gradient-soft);
+    background: linear-gradient(135deg, var(--hero-color-start) 0%, var(--hero-color-end) 100%);
+    min-height: 100vh;
 }
 
 .pricingHero {
@@ -12,20 +13,24 @@
 
 .pricingNavContainer {
     padding: 0 var(--tk-spacing-xxxlarge);
-    border-bottom: .3px solid var(--primary-text);
+    border-bottom: .3px solid var(--primary-dark-text);
+    flex-shrink: 0;
 }
 
 .pricingCards {
     display: flex;
     justify-content: center;
-    align-items: start;
+    align-items: stretch; /* Changed from start to stretch */
+    gap: 40px;
     padding: 3rem 1rem;
     flex-grow: 1;
+    flex-wrap: wrap;
+    min-height: auto;
 }
 
 .pricingCard {
     background-color: var(--landing-background);
-    color: var(--primary-text);
+    color: var(--primary-dark-text);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     padding: 20px 30px;
@@ -33,6 +38,9 @@
     width: 100%;
     text-align: center;
     transition: transform 0.3s ease;
+    margin-bottom: 20px;
+    display: flex; /* Added */
+    flex-direction: column; /* Added */
 }
 
 .pricingCard:hover {
@@ -46,7 +54,7 @@
 .cardHeader h3 {
     font-size: 1.8rem;
     margin-bottom: 0.2rem;
-    color: var(--primary-text);
+    color: var(--primary-dark-text);
 }
 
 .cardHeader p {
@@ -86,6 +94,7 @@
     padding: 0;
     margin: 0 0 1.2rem 0;
     text-align: left;
+    flex-grow: 1; /* Added - makes features take available space */
 }
 
 .features li {
@@ -98,12 +107,12 @@
 .features li:before {
     content: "✓";
     margin-right: 0.75rem;
-    color: var(--primary-text);
+    color: var(--primary-dark-text);
     font-weight: bold;
 }
 
 .ctaButton {
-    background-color: var(--primary-text);
+    background-color: var(--primary-dark-text);
     color: var(--landing-background);
     border: none;
     padding: 1rem 2rem;
@@ -122,183 +131,205 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-
-.faqs {
-    padding: 4rem 1rem;
-    color: var(--primary-text);
-}
-
-.faqsContainer {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.faqsTitle {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 1rem;
-    color: var(--primary-text);
-}
-
-.faqsSubtitle {
-    text-align: center;
-    opacity: 0.8;
-    margin-bottom: 3rem;
-}
-
-.faqsList {
-    margin-bottom: 3rem;
-}
-
-.faqItem {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.faqDetails {
-    padding: 1.5rem 0;
-}
-
-.faqQuestion {
-    font-weight: 600;
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none; /* removes default arrow */
-}
-
-.faqQuestion::-webkit-details-marker {
-    display: none; /* removes default arrow in webkit browsers */
-}
-
-.faqIcon {
-    font-size: 1.5rem;
-    transition: transform 0.3s ease;
-}
-
-.faqDetails[open] .faqIcon {
-    transform: rotate(45deg);
-}
-
-.faqAnswer {
-    padding: 1rem 0;
-    opacity: 0.9;
-    line-height: 1.6;
-}
-
-.faqsCta {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-.faqsCta p {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-}
-
-/* Reuse your existing CTA button style */
-.faqsCta .ctaButton {
-    max-width: 200px;
-    margin: 0 auto;
-}
-
-@media (max-width: 608px){
-    .pricingNavContainer{
-        padding: 0 16px;
-    }
-}
-
-/* Add these styles to your existing PricingPage.module.css */
-
 .trialNotice {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  padding: 8px 16px;
-  margin: 16px 0;
-  border-radius: 6px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 8px 16px;
+    margin: 16px 0;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .buttonContainer {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    flex-shrink: 0; /* Added - prevents button container from shrinking */
+}
+
+.subscriptionInfo {
+    flex-shrink: 0; /* Added - prevents subscription info from shrinking */
+    margin-top: auto; /* Added - pushes to bottom */
 }
 
 .activeButton {
-  background: #10b981 !important;
-  color: white !important;
-  cursor: default !important;
-  opacity: 0.9;
+    background: #10b981 !important;
+    color: white !important;
+    cursor: default !important;
+    opacity: 0.9;
 }
 
 .activeButton:hover {
-  background: #10b981 !important;
-  transform: none !important;
+    background: #10b981 !important;
+    transform: none !important;
 }
 
 .loadingButton {
-  background: #6b7280 !important;
-  color: white !important;
-  cursor: wait !important;
+    background: #6b7280 !important;
+    color: white !important;
+    cursor: wait !important;
 }
 
 .loadingButton:hover {
-  background: #6b7280 !important;
-  transform: none !important;
+    background: #6b7280 !important;
+    transform: none !important;
 }
 
-/* Enhanced features list */
-.features li {
-  text-align: left;
-  margin: 10px 0;
-  font-weight: 500;
+.timeInfo {
+    font-size: 13px;
+    margin: 6px 0;
+    color: #666;
 }
 
-/* FAQ icon rotation */
-.faqIcon.rotated {
-  transform: rotate(45deg);
+.validTime {
+    color: var(--dashboard-green-color, #10b981) !important;
+    font-weight: 600;
 }
 
-.faqIcon {
-  transition: transform 0.3s ease;
+.expiredTime {
+    color: var(--dashboard-red-color, #ef4444) !important;
+    font-weight: 600;
+}
+
+/* Highlighted Card Styles */
+.highlightedCard {
+    position: relative;
+    border: 2px solid var(--primary-green);
+    transform: scale(1.02);
+    box-shadow: 0 10px 40px rgba(76, 175, 80, 0.2);
+}
+
+.highlightedCard::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    background: linear-gradient(45deg, var(--primary-green), transparent);
+    z-index: -1;
+}
+
+.badge {
+    position: absolute;
+    top: -19px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-green);
+    color: green;
+    padding: 20px 20px 4px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.originalPrice {
+    margin-bottom: 5px;
+}
+
+.strikethrough {
+    font-size: 18px;
+    color: var(--secondary-text);
+    text-decoration: line-through;
+    font-weight: 500;
+}
+
+.effectivePrice {
+    font-size: 16px;
+    color: var(--primary-green);
+    font-weight: 600;
+    margin: 10px 0;
+    text-align: center;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .trialNotice {
-    font-size: 13px;
-    padding: 6px 12px;
-  }
-  
-  .buttonContainer {
-    min-height: 50px;
-    margin-top: 16px;
-  }
+    .pricingNavContainer {
+        padding: 0 16px;
+    }
+    
+    .pricingCards {
+        padding: 2rem 1rem;
+        gap: 20px;
+        align-items: center; /* Changed for mobile */
+    }
+    
+    .highlightedCard {
+        transform: none;
+        order: -1;
+    }
+    
+    .badge {
+        font-size: 12px;
+    }
+    
+    .effectivePrice {
+        font-size: 14px;
+    }
+    
+    .cardHeader h3 {
+        font-size: 1.5rem;
+    }
+    
+    .amount {
+        font-size: 2.5rem;
+    }
+    
+    .features li {
+        font-size: 14px;
+    }
 }
 
-/* Add these styles to your existing PricingPage.module.css */
-
-.timeInfo {
-  font-size: 13px;
-  margin: 6px 0;
-  color: #666;
+@media (max-width: 480px) {
+    .pricingCard {
+        padding: 15px 20px;
+        margin-bottom: 15px;
+    }
+    
+    .trialNotice {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    
+    .buttonContainer {
+        min-height: 50px;
+        margin-top: 15px;
+    }
+    
+    .ctaButton {
+        padding: 0.8rem 1.5rem;
+        font-size: 14px;
+    }
 }
 
-.validTime {
-  color: var(--dashboard-green-color, #10b981) !important;
-  font-weight: 600;
+/* Ensure background covers entire content on all screen sizes */
+@media (max-height: 600px) {
+    .pricingPageContainer {
+        min-height: auto;
+        height: auto;
+    }
+    
+    .pricingCards {
+        padding: 1.5rem 1rem;
+    }
 }
 
-.expiredTime {
-  color: var(--dashboard-red-color, #ef4444) !important;
-  font-weight: 600;
+/* Additional safety for very small screens */
+@media (max-height: 400px) {
+    .pricingCards {
+        padding: 1rem 0.5rem;
+    }
+    
+    .pricingCard {
+        margin-bottom: 10px;
+        padding: 10px 15px;
+    }
 }
-
