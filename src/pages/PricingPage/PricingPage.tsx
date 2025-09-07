@@ -4,29 +4,34 @@ import PaymentButton from "../../components/PaymentButton/PaymentButton";
 import { upgradeUserToPro } from '../../services/subscriptionService';
 import { useAuth } from '../../hooks/useAuth';
 import { hasActivePro } from '../../utils/subscriptionUtils';
-import { useCustomToast } from '../../hooks/useCustomToast'; // Your custom toast hook
-
+import { useCustomToast } from '../../hooks/useCustomToast';
+import { useState } from 'react';
 
 const PricingPage = () => {
   const { user, updateUserData } = useAuth();
   const navigate = useNavigate();
-  const toast = useCustomToast(); // Use your custom toast hook
+  const toast = useCustomToast();
+  const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
-
-  const handlePaymentSuccess = async (paymentId: string): Promise<void> => {
-    console.log('Payment successful:', paymentId);
+  // Fix: Change planType parameter type to match what upgradeUserToPro expects
+  const handlePaymentSuccess = async (paymentId: string, planType: 'monthly' | 'annual'): Promise<void> => {
+    console.log('Payment successful:', paymentId, planType);
+    setProcessingPlan(planType);
     
     if (!user) {
       toast.showErrorToast('❌ User not found. Please login again.');
+      setProcessingPlan(null);
       return;
     }
 
     try {
       // Show processing toast
-      toast.showInfoToast('🔄 Payment successful! Upgrading your subscription...');
+      const duration = planType === 'annual' ? '1 year' : '1 month';
+      toast.showInfoToast(`🔄 Payment successful! Upgrading your ${duration} subscription...`);
 
-      // Call backend to upgrade subscription to Pro for 1 month
-      const response = await upgradeUserToPro(user.id, paymentId);
+      // Call backend to upgrade subscription to Pro with the specific plan type
+      // This should now work without type errors
+      const response = await upgradeUserToPro(user.id, paymentId, planType);
       
       if (response.success && response.data) {
         // Update user context with new subscription data
@@ -34,11 +39,16 @@ const PricingPage = () => {
         
         console.log('✅ Subscription upgraded:', {
           plan: response.data.subscription.plan,
+          type: response.data.subscription.type,
           expiresAt: response.data.subscription.expiresAt
         });
         
-        // Success toast
-        toast.showSuccessToast('🎉 Welcome to TradeJournalAI Pro! You now have 1 month of premium access.');
+        // Success toast with appropriate message
+        const successMessage = planType === 'annual' 
+          ? '🎉 Welcome to TradeJournalAI Pro Annual! You now have 1 year of premium access.'
+          : '🎉 Welcome to TradeJournalAI Pro Monthly! You now have 1 month of premium access.';
+        
+        toast.showSuccessToast(successMessage);
         
         // Redirect to dashboard after a short delay
         setTimeout(() => {
@@ -50,28 +60,57 @@ const PricingPage = () => {
 
     } catch (error) {
       console.error('Subscription upgrade failed:', error);
-      
-      // Handle API errors with your custom toast
       toast.handleApiError(error);
-      
-      // Additional context for payment ID
       toast.showWarningToast(`Please save this Payment ID for support: ${paymentId}`);
+    } finally {
+      setProcessingPlan(null);
     }
   };
 
   const handlePaymentFailure = (error: string): void => {
     console.error('Payment failed:', error);
     toast.showErrorToast('❌ Payment failed. Please try again or contact support.');
+    setProcessingPlan(null);
   };
 
   // Use proper subscription checking with your utils
   const isSubscribed = hasActivePro(user);
 
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  // Calculate time remaining
+  const getTimeRemaining = (expiresAt: string) => {
+    const now = new Date();
+    const expiry = new Date(expiresAt);
+    const diff = expiry.getTime() - now.getTime();
+    
+    if (diff <= 0) return 'Expired';
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+    if (days > 0) {
+      return `${days} day${days !== 1 ? 's' : ''}, ${hours} hour${hours !== 1 ? 's' : ''}`;
+    } else {
+      return `${hours} hour${hours !== 1 ? 's' : ''}`;
+    }
+  };
 
   return (
     <div className={Styles.pricingPageContainer}>
       <div id="pricing" className={Styles.pricingHero}>
+        <h1 className={Styles.pageTitle}>Choose Your Plan</h1>
+        <p className={Styles.pageSubtitle}>Select the plan that works best for your trading journey</p>
+        
         <div className={Styles.pricingCards}>
+          {/* Monthly Plan Card */}
           <div className={Styles.pricingCard}>
             <div className={Styles.cardHeader}>
               <h3>Premium Plan</h3>
@@ -114,8 +153,10 @@ const PricingPage = () => {
                 <PaymentButton
                   amount={99}
                   userEmail={user.email}
-                  onSuccess={handlePaymentSuccess}
+                  planType="monthly"
+                  onSuccess={(paymentId, planType) => handlePaymentSuccess(paymentId, planType as 'monthly' | 'annual')}
                   onFailure={handlePaymentFailure}
+                  disabled={processingPlan !== null}
                 />
               )}
             </div>
@@ -125,14 +166,15 @@ const PricingPage = () => {
               <div className={Styles.subscriptionInfo}>
                 <p className={Styles.planInfo}>
                   Current Plan: <strong>{user.subscription.plan.toUpperCase()}</strong>
+                  {user.subscription.type && ` (${user.subscription.type})`}
                 </p>
                 {user.subscription.expiresAt && (
                   <p className={Styles.expiryInfo}>
                     {isSubscribed ? (
-                      <>Expires: {new Date(user.subscription.expiresAt).toLocaleDateString()}</>
+                      <>Expires: {formatDate(user.subscription.expiresAt)}</>
                     ) : (
                       <span className={Styles.expiredText}>
-                        Trial Expired: {new Date(user.subscription.expiresAt).toLocaleDateString()}
+                        Expired: {formatDate(user.subscription.expiresAt)}
                       </span>
                     )}
                   </p>
@@ -147,42 +189,25 @@ const PricingPage = () => {
                         ? Styles.validTime 
                         : Styles.expiredTime
                     }`}>
-                      {(() => {
-                        const now = new Date();
-                        const expiry = new Date(user.subscription.expiresAt);
-                        const diff = expiry.getTime() - now.getTime();
-                        
-                        if (diff <= 0) {
-                          return 'Expired';
-                        }
-                        
-                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                        
-                        if (days > 0) {
-                          return `${days} day${days !== 1 ? 's' : ''}, ${hours} hour${hours !== 1 ? 's' : ''}`;
-                        } else if (hours > 0) {
-                          return `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`;
-                        } else {
-                          return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-                        }
-                      })()}
+                      {getTimeRemaining(user.subscription.expiresAt)}
                     </span>
                   </p>
                 )}
               </div>
             )}
           </div>
+
+          {/* Annual Plan Card */}
           <div className={`${Styles.pricingCard} ${Styles.highlightedCard}`}>
-            <div className={Styles.badge}>Save over 80%</div>
+            <div className={Styles.badge}>Save over 30%</div>
             <div className={Styles.cardHeader}>
-              <h3>Premium Plus</h3>
+              <h3>Premium Annual</h3>
               <p>Best value - annual commitment</p>
             </div>
             <div className={Styles.price}>
               <div className={Styles.originalPrice}>
-                <span className={Styles.strikethrough}>₹2399</span>
+                <span className={Styles.strikethrough}>₹1,188</span>
+                <span className={Styles.saveText}>Save ₹389</span>
               </div>
               <span className={Styles.currency}>₹</span>
               <span className={Styles.amount}>799</span>
@@ -195,6 +220,7 @@ const PricingPage = () => {
             </div>
             
             <ul className={Styles.features}>
+              <li>Everything in Monthly plan</li>
               <li>Unlimited trade journaling</li>
               <li>Advanced charts and graphs</li>
               <li>AI-powered trade insights</li>
@@ -202,7 +228,6 @@ const PricingPage = () => {
               <li>Monthly performance reports</li>
               <li>Secure cloud backup</li>
               <li>Advanced analytics dashboard</li>
-              <li>Priority support</li>
             </ul>
             
             {/* Dynamic Button Based on User State */}
@@ -221,8 +246,10 @@ const PricingPage = () => {
                 <PaymentButton
                   amount={799}
                   userEmail={user.email}
-                  onSuccess={handlePaymentSuccess}
+                  planType="annual"
+                  onSuccess={(paymentId, planType) => handlePaymentSuccess(paymentId, planType as 'monthly' | 'annual')}
                   onFailure={handlePaymentFailure}
+                  disabled={processingPlan !== null}
                 />
               )}
             </div>
@@ -232,14 +259,15 @@ const PricingPage = () => {
               <div className={Styles.subscriptionInfo}>
                 <p className={Styles.planInfo}>
                   Current Plan: <strong>{user.subscription.plan.toUpperCase()}</strong>
+                  {user.subscription.type && ` (${user.subscription.type})`}
                 </p>
                 {user.subscription.expiresAt && (
                   <p className={Styles.expiryInfo}>
                     {isSubscribed ? (
-                      <>Expires: {new Date(user.subscription.expiresAt).toLocaleDateString()}</>
+                      <>Expires: {formatDate(user.subscription.expiresAt)}</>
                     ) : (
                       <span className={Styles.expiredText}>
-                        Trial Expired: {new Date(user.subscription.expiresAt).toLocaleDateString()}
+                        Expired: {formatDate(user.subscription.expiresAt)}
                       </span>
                     )}
                   </p>
@@ -254,27 +282,7 @@ const PricingPage = () => {
                         ? Styles.validTime 
                         : Styles.expiredTime
                     }`}>
-                      {(() => {
-                        const now = new Date();
-                        const expiry = new Date(user.subscription.expiresAt);
-                        const diff = expiry.getTime() - now.getTime();
-                        
-                        if (diff <= 0) {
-                          return 'Expired';
-                        }
-                        
-                        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                        
-                        if (days > 0) {
-                          return `${days} day${days !== 1 ? 's' : ''}, ${hours} hour${hours !== 1 ? 's' : ''}`;
-                        } else if (hours > 0) {
-                          return `${hours} hour${hours !== 1 ? 's' : ''}, ${minutes} minute${minutes !== 1 ? 's' : ''}`;
-                        } else {
-                          return `${minutes} minute${minutes !== 1 ? 's' : ''}`;
-                        }
-                      })()}
+                      {getTimeRemaining(user.subscription.expiresAt)}
                     </span>
                   </p>
                 )}

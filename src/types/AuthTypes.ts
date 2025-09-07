@@ -1,6 +1,7 @@
 // types/AuthTypes.ts
 export interface Subscription {
   plan: 'free' | 'pro' | 'enterprise';
+  type?: string;
   startedAt?: string | null;
   expiresAt?: string | null;
 }

@@ -20,13 +20,15 @@ interface OrderResponse {
   amount: number;
   currency: string;
   keyId: string;
+  planType?: string;
 }
 
 interface PaymentData {
   amount: number;
   userId: string;
-  onSuccess?: (paymentId: string) => void;
-  onFailure?: (error: string) => void; // Changed from 'any' to 'string'
+  planType: 'monthly' | 'annual';
+  onSuccess?: (paymentId: string, planType: string) => void;
+  onFailure?: (error: string) => void;
 }
 
 // Window interface extension for Razorpay
@@ -80,7 +82,7 @@ export const useRazorpay = () => {
     });
   };
 
-  const initiatePayment = async ({ amount, userId, onSuccess, onFailure }: PaymentData): Promise<void> => {
+  const initiatePayment = async ({ amount, userId, planType, onSuccess, onFailure }: PaymentData): Promise<void> => {
     try {
       setLoading(true);
       
@@ -99,7 +101,7 @@ export const useRazorpay = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ amount, userId }),
+        body: JSON.stringify({ amount, userId, planType }),
       });
 
       if (!orderResponse.ok) {
@@ -120,9 +122,11 @@ export const useRazorpay = () => {
         amount: orderData.amount,
         currency: 'INR',
         name: 'TradeJournalAI',
-        description: 'Pro Subscription - Unlock advanced trading analytics',
+        description: planType === 'annual' 
+          ? 'Pro Annual Subscription - Unlock advanced trading analytics' 
+          : 'Pro Monthly Subscription - Unlock advanced trading analytics',
         order_id: orderData.orderId,
-        image: '/logo.png', // Your logo
+        image: '/logo.png',
         handler: async (response: PaymentResponse) => {
           // Verify payment
           try {
@@ -137,6 +141,7 @@ export const useRazorpay = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 userId,
+                planType,
               }),
             });
 
@@ -147,8 +152,11 @@ export const useRazorpay = () => {
             const verifyData: VerifyResponse = await verifyResponse.json();
             
             if (verifyData.success) {
-              toast.showSuccessToast('Payment successful! Welcome to TradeJournalAI Pro!');
-              onSuccess?.(response.razorpay_payment_id);
+              const message = planType === 'annual' 
+                ? 'Annual payment successful! Welcome to TradeJournalAI Pro!'
+                : 'Monthly payment successful! Welcome to TradeJournalAI Pro!';
+              toast.showSuccessToast(message);
+              onSuccess?.(response.razorpay_payment_id, planType);
             } else {
               toast.showErrorToast('Payment verification failed. Please contact support.');
               onFailure?.(verifyData.message || 'Payment verification failed');
@@ -161,11 +169,11 @@ export const useRazorpay = () => {
           }
         },
         prefill: {
-          email: `${userId}@example.com`, // You can get actual email from user data
-          contact: '9999999999', // You can get actual contact from user data
+          email: `${userId}@example.com`,
+          contact: '9999999999',
         },
         theme: {
-          color: '#4840BB', // Your brand color
+          color: '#4840BB',
         },
         modal: {
           ondismiss: () => {

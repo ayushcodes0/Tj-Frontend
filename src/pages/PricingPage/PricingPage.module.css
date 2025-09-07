@@ -334,3 +334,79 @@
         padding: 10px 15px;
     }
 }
+
+/* Add these to your existing PricingPage.module.css */
+.pageTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.pageSubtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  color: #666;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.annualFeature {
+  font-weight: bold;
+  color: #4840BB;
+  position: relative;
+}
+
+.annualFeature::before {
+  content: "✓";
+  margin-right: 8px;
+  color: #4CAF50;
+}
+
+.originalPrice {
+  margin-bottom: 10px;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+.saveText {
+  background: #4CAF50;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
+.faqSection {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+}
+
+.faqSection h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.faqItem {
+  margin-bottom: 1.5rem;
+}
+
+.faqItem h3 {
+  color: #4840BB;
+  margin-bottom: 0.5rem;
+}
+
+.faqItem p {
+  color: #666;
+  line-height: 1.6;
+}

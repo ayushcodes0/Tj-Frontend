@@ -3,7 +3,8 @@ import type { SubscriptionUpdateResponse } from '../types/AuthTypes';
 
 export const upgradeUserToPro = async (
   userId: string, 
-  paymentId: string
+  paymentId: string,
+  planType: 'monthly' | 'annual' = 'monthly'
 ): Promise<SubscriptionUpdateResponse> => {
   try {
     const token = localStorage.getItem('token');
@@ -19,7 +20,8 @@ export const upgradeUserToPro = async (
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        paymentId
+        paymentId,
+        planType
       })
     });
 

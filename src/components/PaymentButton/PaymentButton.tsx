@@ -13,6 +13,7 @@ interface OrderResponse {
   amount: number;
   currency: string;
   keyId: string;
+  planType?: string; // Add optional planType
 }
 
 interface VerifyResponse {
@@ -25,7 +26,9 @@ interface PaymentButtonProps {
   amount: number;
   userEmail: string;
   className?: string;
-  onSuccess?: (paymentId: string) => void;
+  planType: 'monthly' | 'annual';
+  disabled?: boolean; // Add disabled prop
+  onSuccess?: (paymentId: string, planType: string) => void;
   onFailure?: (error: string) => void;
 }
 
@@ -33,6 +36,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   amount,
   userEmail,
   className = '',
+  planType,
+  disabled = false,
   onSuccess,
   onFailure,
 }) => {
@@ -66,7 +71,10 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ 
+          amount, 
+          planType // Use the destructured planType
+        }),
       });
 
       if (!response.ok) {
@@ -88,7 +96,10 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(paymentData),
+        body: JSON.stringify({
+          ...paymentData,
+          planType // Include planType in verification
+        }),
       });
 
       if (!response.ok) {
@@ -104,6 +115,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   };
 
   const handlePayment = async (): Promise<void> => {
+    if (disabled || isLoading) return;
+    
     setIsLoading(true);
     setError(null);
 
@@ -126,14 +139,16 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         amount: orderData.amount,
         currency: orderData.currency,
         name: 'TradeJournalAI',
-        description: 'Pro Subscription - Advanced Trading Analytics',
+        description: planType === 'annual' 
+          ? 'Pro Annual Subscription - Advanced Trading Analytics' 
+          : 'Pro Monthly Subscription - Advanced Trading Analytics',
         order_id: orderData.orderId,
         handler: async (response: RazorpayResponse) => {
           // Verify payment
           const isVerified = await verifyPayment(response);
           if (isVerified) {
-            alert('Payment successful! Welcome to TradeJournalAI Pro!');
-            onSuccess?.(response.razorpay_payment_id);
+            alert(`Payment successful! Welcome to TradeJournalAI Pro ${planType === 'annual' ? 'Annual' : 'Monthly'}!`);
+            onSuccess?.(response.razorpay_payment_id, planType);
           } else {
             alert('Payment verification failed. Please contact support.');
             onFailure?.('Payment verification failed');
@@ -172,9 +187,9 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       <button
         className={`${styles.paymentButton} ${className} ${isLoading ? styles.loading : ''}`}
         onClick={handlePayment}
-        disabled={isLoading}
+        disabled={disabled || isLoading}
         type="button"
-        aria-label={`Pay ${amount} rupees for TradeJournalAI Pro subscription`}
+        aria-label={`Pay ${amount} rupees for TradeJournalAI Pro ${planType} subscription`}
       >
         {isLoading ? (
           <span className={styles.loadingContent}>
