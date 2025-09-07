@@ -113,7 +113,7 @@
 }
 
 .registerTitle {
-    color: var(--primary-text);
+    color: var(--primary-dark-text);
     text-align: center;
     margin-bottom: 2rem;
     font-size: 1.8rem;
@@ -140,7 +140,7 @@
 .inputIcon {
     position: absolute;
     left: 16px;
-    color: var(--primary-text);
+    color: var(--primary-dark-text);
     opacity: 0.7;
 }
 
@@ -156,7 +156,7 @@
 
 .formInput:focus {
     outline: none;
-    border-color: var(--primary-text);
+    border-color: var(--primary-dark-text);
     box-shadow: 0 0 0 2px rgba(72, 64, 187, 0.2);
 }
 
@@ -166,7 +166,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--primary-text);
+    color: var(--primary-dark-text);
     opacity: 0.7;
     display: flex;
     align-items: center;
@@ -179,7 +179,7 @@
 }
 
 .registerButton {
-    background-color: var(--primary-text);
+    background-color: var(--primary-dark-text);
     color: white;
     border: none;
     padding: 14px;
@@ -257,7 +257,7 @@
 }
 
 .loginLink a {
-  color: var(--primary-text);
+  color: var(--primary-dark-text);
   font-weight: 500;
   text-decoration: none;
 }
@@ -273,7 +273,7 @@
   padding: 0;
   font-family: inherit; 
   font-size: 0.9rem;
-  color: var(--primary-text);
+  color: var(--primary-dark-text);
   font-weight: 500;
   text-decoration: none;
   opacity: 0.8;

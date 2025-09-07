@@ -340,14 +340,14 @@
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--primary-dark-text);
 }
 
 .pageSubtitle {
   text-align: center;
   font-size: 1.2rem;
   margin-bottom: 3rem;
-  color: #666;
+  color: var(--primary-dark-text);
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;

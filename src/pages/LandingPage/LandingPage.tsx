@@ -11,11 +11,6 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import { HiOutlineTrendingUp } from "react-icons/hi";
 import { NavLink } from 'react-router-dom';
 import { FaBrain, FaLightbulb, FaChartLine, FaShieldAlt } from "react-icons/fa";
-// import { SiZerodha } from "react-icons/si";
-// import { BsLightningChargeFill } from "react-icons/bs";
-
-// Mock images - you'll need to replace these with actual images
-// import brokerageImage from "../../assets/image/brokerage-mock.png";
 import howItWorksImage from "../../assets/image/how-it-works-mock.png";
 import aiPoweredImage from "../../assets/image/ai-powerd-mock.png";
 import zerodhaLogo from "../../assets/image/zerodha.svg";
@@ -59,20 +54,6 @@ const imageVariants: Variants = {
     }
   }
 };
-
-// const imageRotate: Variants = {
-//   hidden: { opacity: 0, rotate: -20, scale: 0.95 },
-//   visible: {
-//     opacity: 1,
-//     rotate: 0,
-//     scale: 1,
-//     transition: {
-//       delay: 0.3,
-//       duration: 0.8,
-//       ease: [0.16, 0.77, 0.47, 0.97]
-//     }
-//   }
-// };
 
 const LandingPage = () => {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);

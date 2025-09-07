@@ -3,13 +3,13 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--tk-gradient-soft);
+  background: linear-gradient(135deg, var(--hero-color-start) 0%, var(--hero-color-end) 100%);
   font-family: 'Inter', sans-serif;
 }
 
 .navbarContainer {
   padding: 0 64px;
-  border-bottom: .5px solid var(--primary-text);
+  border-bottom: .5px solid var(--primary-white);
 }
 
 .contentWrapper {
@@ -37,7 +37,7 @@
 .mainHeading {
   font-size: 70px;
   font-weight: 800;
-  color: var(--primary-text);
+  color: var(--primary-white);
   line-height: 1;
   letter-spacing: -2px;
 }
@@ -47,7 +47,7 @@
   font-weight: 500;
   margin-top: 15px;
   opacity: 0.8;
-  color: var(--primary-text);
+  color: var(--primary-white);
 }
 
 .termsContentContainer {
@@ -87,18 +87,18 @@
 
 .contactInfo {
   font-style: normal;
-  line-height: 1.8;
-  color: var(--primary-dark-text);
-  background-color: var(--landing-background);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-top: 0.5rem;
-  opacity: 0.9;
-  border-left: 4px solid #85A9DD;
+    line-height: 1.8;
+    color: var(--primary-dark-text);
+    background-color: var(--landing-background);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+    border-left: 4px solid var(--primary-dark-text);
 }
 
 .footerContainer {
-  background-color: #18172B;
+  background-color: var(--primary-dark-text);
   padding: 0 64px;
 }
 
