@@ -95,7 +95,7 @@ const PricingPage = () => {
               <li>Psychology & risk analysis</li>
               <li>Monthly performance reports</li>
               <li>Secure cloud backup</li>
-              <li>Priority support</li>
+              <li>Advanced analytics dashboard</li>
             </ul>
             
             {/* Dynamic Button Based on User State */}
@@ -201,8 +201,8 @@ const PricingPage = () => {
               <li>Psychology & risk analysis</li>
               <li>Monthly performance reports</li>
               <li>Secure cloud backup</li>
-              <li>Priority support</li>
               <li>Advanced analytics dashboard</li>
+              <li>Priority support</li>
             </ul>
             
             {/* Dynamic Button Based on User State */}
