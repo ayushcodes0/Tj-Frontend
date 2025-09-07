@@ -11,13 +11,12 @@ const planeVariants: Variants = {
     opacity: 1,
     x: 0,
     transition: {
-      delay: 0.1, // Reduced from 0.2
-      duration: 0.5, // Reduced from 0.7
+      delay: 0.1,
+      duration: 0.5,
       ease: [0.16, 0.77, 0.47, 0.97]
     }
   }
 };
-
 
 const Pricing = () => {
   return (
@@ -28,9 +27,7 @@ const Pricing = () => {
       viewport={{ once: true, amount: 0.1 }}
     >
       <div className={Styles.pricingHeading}>
-        <motion.p 
-          className={Styles.heading}
-        >
+        <motion.p className={Styles.heading}>
           Find the Perfect Plan for Your Trading Journey.
         </motion.p>
         <motion.div 
@@ -46,46 +43,43 @@ const Pricing = () => {
         </motion.div>
       </div>
       
-      <motion.div 
-        className={Styles.pricingBottom}
-      >
+      <motion.div className={Styles.pricingBottom}>
         <div className={Styles.pricesContainer}>
-          {/* Free Trial Plan */}
-          <motion.div 
-            className={Styles.prices}
-            custom={0}
-          >
-            <p className={Styles.pricesTop}>Free Trial</p>
-            <p className={Styles.pricesHeading}>₹0 for 24 Hours</p>
+          
+          {/* Premium Plan */}
+          <motion.div className={Styles.prices}>
+            <p className={Styles.pricesTop}>Premium</p>
+            <p className={Styles.pricesHeading}>₹99</p>
+            <p className={Styles.pricesSubtitle}>Flexible with month-to-month access.</p>
             <div className={Styles.pricesPoints}>
-              <p className={Styles.pricesPointsText}>Full access to all Pro features.</p>
-              <p className={Styles.pricesPointsText}>Log unlimited trades during the trial.</p>
-              <p className={Styles.pricesPointsText}>Experience our AI-powered insights firsthand.</p>
-              <p className={Styles.pricesPointsText}>No credit card required to start.</p>
+              <p className={Styles.pricesPointsText}>Unlimited trade logging with no limits</p>
+              <p className={Styles.pricesPointsText}>AI-powered in-depth performance insights</p>
+              <p className={Styles.pricesPointsText}>Risk management tools</p>
+              <p className={Styles.pricesPointsText}>Secured, long-term cloud backup for your data</p>
+              <p className={Styles.pricesPointsText}>Standard support</p>
             </div>
-            <Link to={"/login"}><p className={Styles.pricesButton}>Start Free Trial</p></Link>
+            <Link to={"/pricing"}><p className={Styles.pricesButton}>Choose Premium</p></Link>
           </motion.div>
           
-          {/* Pro Plan */}
-          <motion.div 
-            className={Styles.prices}
-            custom={1}
-          >
-            <p className={Styles.pricesTop}>Pro Plan</p> 
-            <p className={Styles.pricesHeading}>₹99 per month</p>
+          {/* Premium Plus Plan */}
+          <motion.div className={Styles.prices}>
+            <p className={Styles.pricesTop}>Premium Plus</p>
+            <p className={Styles.pricesHeading}>₹799</p>
+            <p className={Styles.pricesSubtitle}>Save over 80% - limited time offer</p>
+            <p className={Styles.pricesEffective}>(Just ₹66/month)</p>
             <div className={Styles.pricesPoints}>
-              <p className={Styles.pricesPointsText}>Everything from the free trial, plus:</p>
-              <p className={Styles.pricesPointsText}>Unlimited trade logging, forever.</p>
-              <p className={Styles.pricesPointsText}>In-depth performance and psychology analytics.</p>
-              <p className={Styles.pricesPointsText}>Secure, long-term cloud backup for your data.</p>
+              <p className={Styles.pricesPointsText}>Unlimited trade logging with no limits</p>
+              <p className={Styles.pricesPointsText}>AI-powered in-depth performance insights</p>
+              <p className={Styles.pricesPointsText}>Risk management tools</p>
+              <p className={Styles.pricesPointsText}>Secured, long-term cloud backup for your data</p>
+              <p className={Styles.pricesPointsText}>Priority support</p>
+              <p className={Styles.pricesPointsText}>Advanced analytics dashboard</p>
             </div>
-            <Link to={"/pricing"}><p className={Styles.pricesButton}>Choose Pro</p></Link>
+            <Link to={"/pricing"}><p className={Styles.pricesButton}>Choose Premium Plus</p></Link>
           </motion.div>
         </div>
         
-        <motion.div 
-          className={Styles.pricingBottomImage}
-        >
+        <motion.div className={Styles.pricingBottomImage}>
           <img 
             className={Styles.bottomImage} 
             src={pricingBottomImage} 

@@ -1,7 +1,7 @@
 import { FilledButton } from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
 import Styles from './LandingPage.module.css';
-import HeroSectionImage from '../../assets/image/heroSectionImage.png';
+// import HeroSectionImage from '../../assets/image/heroSectionImage.png';
 import { useState, useEffect } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Pricing from '../../components/Pricing/Pricing';
@@ -27,6 +27,7 @@ import growwLogo from "../../assets/image/groww.png";
 import dhanLogo from "../../assets/image/dhan.png";
 import paytmMoneyLogo from "../../assets/image/paytm-money.png";
 import { FaPlus, FaMinus } from 'react-icons/fa';
+import { BsLightningChargeFill } from "react-icons/bs";
 
 const sectionVariants: Variants = {
   offscreen: {
@@ -59,19 +60,19 @@ const imageVariants: Variants = {
   }
 };
 
-const imageRotate: Variants = {
-  hidden: { opacity: 0, rotate: -20, scale: 0.95 },
-  visible: {
-    opacity: 1,
-    rotate: 0,
-    scale: 1,
-    transition: {
-      delay: 0.3,
-      duration: 0.8,
-      ease: [0.16, 0.77, 0.47, 0.97]
-    }
-  }
-};
+// const imageRotate: Variants = {
+//   hidden: { opacity: 0, rotate: -20, scale: 0.95 },
+//   visible: {
+//     opacity: 1,
+//     rotate: 0,
+//     scale: 1,
+//     transition: {
+//       delay: 0.3,
+//       duration: 0.8,
+//       ease: [0.16, 0.77, 0.47, 0.97]
+//     }
+//   }
+// };
 
 const LandingPage = () => {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
@@ -148,109 +149,68 @@ const LandingPage = () => {
           <Navbar />
         </div>
         <div className={Styles.heroSection} ref={ref}>
-          <div className={Styles.heroSectionLeft}>
-            <div className={Styles.mainHeading}>
-              <h1 className={Styles.topHeading}>
-                Most advanced <br /> trading journal 
-              </h1>
-              
-              <div className={Styles.middleHeading}>
-                <div className={Styles.middleHeadingLeft}>
-                  <div className={Styles.middleHeadingIcon}>
-                    <IoNewspaperOutline className={Styles.folderIcon} />
-                  </div>
-                  <div className={Styles.middleHeadingText}>
-                    <p className={Styles.middleSubHeading}>Log every detail, effortlessly.</p>
-                  </div>
-                </div>
-                
-                <div className={Styles.middleHeadingRight}>
-                  <div className={Styles.middleHeadingIcon}>
-                    <HiOutlineTrendingUp className={Styles.folderIcon} />
-                  </div>
-                  <p className={Styles.middleSubHeading}>Discover your winning patterns.</p>
-                </div>
-              </div>
-              
-              <div className={Styles.ctaContainer}>
-                <div className={Styles.ctaButton}>
-                  <NavLink to={"/register"} ><FilledButton text='Start free' /></NavLink>
-                </div>
-                <p className={Styles.ctaText}>
-                  *It will be free for first 24 hours.
-                </p>
-              </div>
-            </div>
-            
-            <div className={Styles.headingBottom}>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>AI Insights</p>
-                <p className={Styles.bottomSubHeading}>Receive actionable, AI-powered feedback on every trade.</p>
-              </div>
-              
-              <div className={Styles.bottomRight}>
-                <p className={Styles.bottomHeading}>Psychology</p>
-                <p className={Styles.bottomSubHeading}>Track your emotional state to conquer fear and greed.</p>
-              </div>
-            </div>
-            
-            <div className={Styles.stats}>
-              <div className={Styles.rightBottom}>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>30+</p>
-                  <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
-                </div>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>9/10</p>
-                  <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
-                </div>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>5</p>
-                  <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
-                </div>
-                <div className={Styles.bottomLeft}>
-                  <p className={Styles.bottomHeading}>100%</p>
-                  <p className={Styles.bottomSubHeading}>Secure & Private</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className={Styles.heroSectionRight}>
-            <motion.div 
-              className={Styles.heroSectionImageContainer}
-              variants={imageRotate}
-              initial="hidden"
-              animate="visible"
-            >
-              <img 
-                src={HeroSectionImage} 
-                alt="Trade Journal Dashboard" 
-                className={Styles.heroSectionImage}
-              />
-            </motion.div>
-            
-            <div className={Styles.rightBottom}>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>30+</p>
-                <p className={Styles.bottomSubHeading}>Detailed Data Points</p>
-              </div>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>9/10</p>
-                <p className={Styles.bottomSubHeading}>Elite Trader Tool</p>
-              </div>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>5</p>
-                <p className={Styles.bottomSubHeading}>Emotional Metrics</p>
-              </div>
-              <div className={Styles.bottomLeft}>
-                <p className={Styles.bottomHeading}>100%</p>
-                <p className={Styles.bottomSubHeading}>Secure & Private</p>
-              </div>
+          <div className={Styles.heroContent}>
+            <h1 className={Styles.heroTitle}>Your Trading Journey<br />Starts Here</h1>
+            <p className={Styles.heroSubtitle}>
+              Professional-grade trade journaling for serious traders. Track, analyze, and optimize your trading performance with precision.
+            </p>
+            <div className={Styles.heroCta}>
+              <NavLink to={"/register"}><FilledButton text='Open Dashboard →' /></NavLink>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Everything You Need Section */}
+      {/* Everything You Need Section */}
+      <motion.section 
+        className={Styles.everythingSection}
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+      >
+        <div className={Styles.sectionContainer}>
+          <div className={Styles.sectionHeader}>
+            <h2>Everything You Need to Trade Better</h2>
+            <p>Powerful features designed by traders, for traders</p>
+          </div>
+          
+          <div className={Styles.featuresGrid}>
+            <div className={Styles.featureCard}>
+              <div className={Styles.featureIcon}>
+                <FaChartLine />
+              </div>
+              <h3>Advanced Analytics</h3>
+              <p>Track your performance with detailed charts and metrics</p>
+            </div>
+            
+            <div className={Styles.featureCard}>
+              <div className={Styles.featureIcon}>
+                <FaShieldAlt />
+              </div>
+              <h3>Secure & Private</h3>
+              <p>Your trading data is encrypted and completely private</p>
+            </div>
+            
+            <div className={Styles.featureCard}>
+              <div className={Styles.featureIcon}>
+                <BsLightningChargeFill />
+              </div>
+              <h3>Lightning Fast</h3>
+              <p>Log trades quickly with our streamlined interface</p>
+            </div>
+            
+            <div className={Styles.featureCard}>
+              <div className={Styles.featureIcon}>
+                <HiOutlineTrendingUp />
+              </div>
+              <h3>Strategy Tracking</h3>
+              <p>Monitor which strategies work best for you</p>
+            </div>
+          </div>
+        </div>
+      </motion.section>
 
       {/* Brokerage Integration Section */}
       <motion.section 

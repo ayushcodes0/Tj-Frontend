@@ -20,6 +20,7 @@
     font-family: "PricingFont";
     line-height: .9;
     padding: 24px;
+    color: var(--primary-dark-text);
 }
 
 .pricingBottom{
@@ -45,11 +46,13 @@
 .pricesTop{
     font-size: 12px;
     text-transform: uppercase;
+    color:var(--primary-dark-text);
 }
 
 .pricesHeading{
     font-size: 24px;
     font-weight: 700;
+    color: var(--primary-dark-text);
 }
 
 .pricesPoints{
@@ -60,6 +63,7 @@
 
 .pricesPointsText{
     font-size: 16px;
+    color: var(--primary-dark-text);
 }
 
 .pricesButton{

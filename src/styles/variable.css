@@ -154,9 +154,9 @@
   --primary-text: #0A4EAD;
   --primary-white: #FAFBFC;
   --tag-color: #9AAFCE;*/
-  --primary-dark-text: #052A5C; 
+  --primary-dark-text: #066d4e; 
 
-  --primary-text: #0A4EAD;
+  --primary-text: #0fb87f;
 
     /* Green gradient for navigation and other primary elements */
   --nav-grad-start: #1A6635;
@@ -170,6 +170,10 @@
   --tj-nav-gradient: linear-gradient(to right, var(--nav-grad-start), var(--nav-grad-middle), var(--nav-grad-end));
   /* --tk-gradient-soft: linear-gradient(to right, #fbfbec, #D5E7FA); */
   --tk-gradient-soft: linear-gradient(to right, #f5faee, #C4E2C7);
+
+
+  --hero-color-start: #066d4e;
+  --hero-color-end: #11cd8e;
 
 
   --tk-spacing-xxxsmall: 2px;

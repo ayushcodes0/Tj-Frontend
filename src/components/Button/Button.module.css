@@ -1,9 +1,9 @@
 
 .filledButton{
-    background-color: var(--primary-text);
+    background-color: var(--primary-white);
     border: none;
     outline: none;
-    color: var(--landing-background);
+    color: var(--primary-dark-text);
     padding: var(--tk-spacing-medium) var(--tk-spacing-large);
     font-size: 15px;
     border-radius: 6px;
@@ -26,7 +26,7 @@
 .filledButton:hover{
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    background: #0c5ac7;
+    background: var(--primary-white);
 }
 
 .unfilledButton:hover {
