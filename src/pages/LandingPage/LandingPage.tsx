@@ -4,7 +4,6 @@ import Styles from './LandingPage.module.css';
 // import HeroSectionImage from '../../assets/image/heroSectionImage.png';
 import { useState, useEffect } from 'react';
 import Footer from '../../components/Footer/Footer';
-import Pricing from '../../components/Pricing/Pricing';
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import type { Variants } from "framer-motion";
@@ -28,6 +27,7 @@ import dhanLogo from "../../assets/image/dhan.png";
 import paytmMoneyLogo from "../../assets/image/paytm-money.png";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { BsLightningChargeFill } from "react-icons/bs";
+import PricingPage from '../PricingPage/PricingPage';
 
 const sectionVariants: Variants = {
   offscreen: {
@@ -141,6 +141,20 @@ const LandingPage = () => {
       description: "Discover your most profitable setups and strategies"
     }
   ];
+
+  // Add this useEffect to your LandingPage component
+  useEffect(() => {
+    // Check if URL has #pricing hash and scroll to it
+    if (window.location.hash === '#pricing') {
+      const pricingSection = document.getElementById('pricing');
+      if (pricingSection) {
+        // Small timeout to ensure the page is fully rendered
+        setTimeout(() => {
+          pricingSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, []);
 
   return (
     <div className={Styles.landingPageContainer}> 
@@ -291,7 +305,11 @@ const LandingPage = () => {
           </div>
           
           <div className={Styles.comingSoonContainer}>
-            <div className={Styles.comingSoonBadge}>Coming Soon</div>
+            <div className={Styles.comingSoonBadge}>
+              <p>Coming Soon</p>
+              <p>(Early access to premium users)</p>
+            </div>
+            
             <p>We're working on API integrations with these brokers</p>
           </div>
         </div>
@@ -386,8 +404,8 @@ const LandingPage = () => {
         </div>
       </motion.section>
 
-      <div className={Styles.pricingContainer}>
-        <Pricing />
+      <div id='pricing' className={Styles.pricingContainer}>
+        <PricingPage />
       </div>
 
       {/* FAQ Section */}
@@ -401,7 +419,7 @@ const LandingPage = () => {
         <div className={Styles.sectionContainer}>
           <div className={Styles.sectionHeader}>
             <h2>Frequently Asked Questions</h2>
-            <p>Everything you need to know about TradeJournal.ai</p>
+            <p>Everything you need to know about tradejournalai.in</p>
           </div>
           
           <div className={Styles.faqContainer}>
@@ -410,14 +428,14 @@ const LandingPage = () => {
                 className={Styles.faqQuestion} 
                 onClick={() => toggleFaq(0)}
               >
-                <h3>What is tradejournal.ai?</h3>
+                <h3>What is tradejournalai.in?</h3>
                 <div className={Styles.faqIcon}>
                   {openFaqIndex === 0 ? <FaMinus /> : <FaPlus />}
                 </div>
               </div>
               <div className={`${Styles.faqAnswerWrapper} ${openFaqIndex === 0 ? Styles.faqOpen : ''}`}>
                 <div className={Styles.faqAnswer}>
-                  <p>Tradejournal.ai is designed to help serious traders with data-driven insights, analyzing profit/loss factors, and improve their performance through journaling, visual analytics, AI insights & psychology tracking that you can't get with spreadsheets or notes.</p>
+                  <p>tradejournalai.in is designed to help serious traders with data-driven insights, analyzing profit/loss factors, and improve their performance through journaling, visual analytics, AI insights & psychology tracking that you can't get with spreadsheets or notes.</p>
                 </div>
               </div>
             </div>
@@ -444,7 +462,7 @@ const LandingPage = () => {
                 className={Styles.faqQuestion} 
                 onClick={() => toggleFaq(2)}
               >
-                <h3>How does tradejournal.ai help improve my trading?</h3>
+                <h3>How does tradejournalai.in help improve my trading?</h3>
                 <div className={Styles.faqIcon}>
                   {openFaqIndex === 2 ? <FaMinus /> : <FaPlus />}
                 </div>

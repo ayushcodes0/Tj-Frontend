@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FilledButton, UnfilledButton } from '../Button/Button';
 import Styles from './Navbar.module.css';
 import { useState, useEffect, useRef } from 'react';
@@ -13,6 +13,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= MOBILE_BREAKPOINT);
+  const location = useLocation();
 
   const { user, logout, updateAvatar } = useAuth();
 
@@ -56,8 +57,24 @@ const Navbar = () => {
       setIsProfileOpen(false);
     }
   };
+
   const handleDrawerClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+  };
+
+  // Scroll to pricing section
+  const scrollToPricing = () => {
+    if (location.pathname === '/') {
+      // We're on the home page, scroll to the pricing section
+      const pricingSection = document.getElementById('pricing');
+      if (pricingSection) {
+        pricingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      setIsMenuOpen(false);
+    } else {
+      // We're on a different page, navigate to home and then scroll
+      window.location.href = '/#pricing';
+    }
   };
 
   const isPro = user?.subscription?.plan === 'pro';
@@ -73,7 +90,13 @@ const Navbar = () => {
           Home
         </a>
         <div>
-          <Link to="/pricing" className={Styles.navLink}>Pricing</Link>
+          <button 
+            className={Styles.navLink} 
+            onClick={scrollToPricing}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            Pricing
+          </button>
         </div>
         <div>
           <Link to="/dashboard" className={Styles.navLink}>Dashboard</Link>
@@ -95,7 +118,6 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            {/* The username is now wrapped in a div with the onClick handler */}
             <div 
               className={Styles.usernameContainer} 
               onClick={() => {
@@ -140,7 +162,13 @@ const Navbar = () => {
               Home
             </a>
             <div>
-              <Link to="/pricing" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Pricing</Link>
+              <button 
+                className={Styles.navLink} 
+                onClick={scrollToPricing}
+                style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              >
+                Pricing
+              </button>
             </div>
             <div>
               <Link to="/dashboard" className={Styles.navLink} onClick={() => setIsMenuOpen(false)}>Dashboard</Link>
@@ -165,7 +193,6 @@ const Navbar = () => {
                 </div>
               </>
             ) : (
-              // Only show a logout button for authenticated users on mobile
               <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
                 <button
                   className={Styles.mobileLogoutBtn}

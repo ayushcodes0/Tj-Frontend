@@ -1,4 +1,3 @@
-import PricingNav from "../../components/PricingNav/PricingNav";
 import Styles from "./PricingPage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import PaymentButton from "../../components/PaymentButton/PaymentButton";
@@ -72,9 +71,6 @@ const PricingPage = () => {
   return (
     <div className={Styles.pricingPageContainer}>
       <div id="pricing" className={Styles.pricingHero}>
-        <div className={Styles.pricingNavContainer}>
-          <PricingNav />
-        </div>
         <div className={Styles.pricingCards}>
           <div className={Styles.pricingCard}>
             <div className={Styles.cardHeader}>
