@@ -26,16 +26,68 @@
 }
 
 .heroContent {
-    max-width: 800px;
+    max-width: 100%;
     padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container for the circular background */
+.heroLogoContainer {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Change the color here to primary-text */
+    color: var(--primary-text); 
+}
+
+/* Styles for the SVG logo itself */
+.heroLogo {
+    width: 50px;
+    height: 50px;
+    /* This fill property is not needed for a line-based logo */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .heroLogoContainer {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 1.5rem;
+    }
+    .heroLogo {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .heroLogoContainer {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1.2rem;
+    }
+    .heroLogo {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 .heroTitle {
-    font-size: 3.5rem;
+    font-size: 6vw;
     font-weight: 700;
     color: var(--primary-white);
     margin-bottom: 1.5rem;
-    line-height: 1.2;
+    line-height: 1;
 }
 
 .heroSubtitle {
@@ -44,6 +96,8 @@
     margin-bottom: 2.5rem;
     line-height: 1.6;
     opacity: 0.9;
+    max-width: 700px;
+    text-align: center;
 }
 
 .heroCta {

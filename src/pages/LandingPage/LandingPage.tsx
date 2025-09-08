@@ -23,6 +23,7 @@ import paytmMoneyLogo from "../../assets/image/paytm-money.png";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { BsLightningChargeFill } from "react-icons/bs";
 import PricingCard from '../../components/pricingCard/PricingCard';
+import logo from '../../assets/image/Logo2.png'
 
 const sectionVariants: Variants = {
   offscreen: {
@@ -145,6 +146,9 @@ const LandingPage = () => {
         </div>
         <div className={Styles.heroSection} ref={ref}>
           <div className={Styles.heroContent}>
+            <div className={Styles.heroLogoContainer}>
+              <img src={logo} alt="Logo" className={Styles.heroLogo} />
+            </div>
             <h1 className={Styles.heroTitle}>Your Trading Journey<br />Starts Here</h1>
             <p className={Styles.heroSubtitle}>
               Professional-grade trade journaling for serious traders. Track, analyze, and optimize your trading performance with precision.
