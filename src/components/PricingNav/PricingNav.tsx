@@ -141,7 +141,6 @@ const PricingNav = () => {
       <div className={Styles.navLinks}>
         <a href="/" className={Styles.navLink}>Home</a>
         <a href="#pricing" className={Styles.navLink}>Pricing</a>
-        <a href="#faqs" className={Styles.navLink}>Faqs</a>
       </div>
       
       <div className={Styles.buttons}>

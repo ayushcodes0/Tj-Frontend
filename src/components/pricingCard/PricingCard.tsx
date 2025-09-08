@@ -13,7 +13,6 @@ const PricingCard = () => {
   const toast = useCustomToast();
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
-  // Fix: Change planType parameter type to match what upgradeUserToPro expects
   const handlePaymentSuccess = async (paymentId: string, planType: 'monthly' | 'annual'): Promise<void> => {
     console.log('Payment successful:', paymentId, planType);
     setProcessingPlan(planType);
@@ -25,16 +24,12 @@ const PricingCard = () => {
     }
 
     try {
-      // Show processing toast
       const duration = planType === 'annual' ? '1 year' : '1 month';
       toast.showInfoToast(`🔄 Payment successful! Upgrading your ${duration} subscription...`);
 
-      // Call backend to upgrade subscription to Pro with the specific plan type
-      // This should now work without type errors
       const response = await upgradeUserToPro(user.id, paymentId, planType);
       
       if (response.success && response.data) {
-        // Update user context with new subscription data
         updateUserData(response.data);
         
         console.log('✅ Subscription upgraded:', {
@@ -43,14 +38,12 @@ const PricingCard = () => {
           expiresAt: response.data.subscription.expiresAt
         });
         
-        // Success toast with appropriate message
         const successMessage = planType === 'annual' 
           ? '🎉 Welcome to TradeJournalAI Pro Annual! You now have 1 year of premium access.'
           : '🎉 Welcome to TradeJournalAI Pro Monthly! You now have 1 month of premium access.';
         
         toast.showSuccessToast(successMessage);
         
-        // Redirect to dashboard after a short delay
         setTimeout(() => {
           navigate('/dashboard');
         }, 2000);
@@ -73,10 +66,8 @@ const PricingCard = () => {
     setProcessingPlan(null);
   };
 
-  // Use proper subscription checking with your utils
   const isSubscribed = hasActivePro(user);
 
-  // Format date for display
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-IN', {
       day: 'numeric',
@@ -85,7 +76,6 @@ const PricingCard = () => {
     });
   };
 
-  // Calculate time remaining
   const getTimeRemaining = (expiresAt: string) => {
     const now = new Date();
     const expiry = new Date(expiresAt);
@@ -116,13 +106,18 @@ const PricingCard = () => {
               <h3>Premium Plan</h3>
               <p>Perfect for serious traders</p>
             </div>
-            <div className={Styles.price}>
-              <span className={Styles.currency}>₹</span>
-              <span className={Styles.amount}>99</span>
-              <span className={Styles.period}>/month</span>
+            
+            <div className={Styles.priceContainer}>
+              <div className={Styles.price}>
+                <span className={Styles.currency}>₹</span>
+                <span className={Styles.amount}>99</span>
+                <span className={Styles.period}>/month</span>
+              </div>
+              <div className={Styles.effectivePrice}>
+                Billed monthly
+              </div>
             </div>
             
-            {/* Free Trial Notice */}
             <div className={Styles.trialNotice}>
               Start with 24 hours FREE trial!
             </div>
@@ -137,7 +132,6 @@ const PricingCard = () => {
               <li>Advanced analytics dashboard</li>
             </ul>
             
-            {/* Dynamic Button Based on User State */}
             <div className={Styles.buttonContainer}>
               {!user ? (
                 <Link to="/login">
@@ -161,7 +155,6 @@ const PricingCard = () => {
               )}
             </div>
 
-            {/* Show subscription info for logged in users */}
             {user && (
               <div className={Styles.subscriptionInfo}>
                 <p className={Styles.planInfo}>
@@ -180,7 +173,6 @@ const PricingCard = () => {
                   </p>
                 )}
                 
-                {/* Time Remaining Display */}
                 {user.subscription.expiresAt && (
                   <p className={Styles.timeInfo}>
                     <strong>Time Remaining: </strong>
@@ -199,38 +191,41 @@ const PricingCard = () => {
 
           {/* Annual Plan Card */}
           <div className={`${Styles.pricingCard} ${Styles.highlightedCard}`}>
-            <div className={Styles.badge}>Save over 30%</div>
+            <div className={Styles.limitedTimeBadge}>Limited Time Offer</div>
             <div className={Styles.cardHeader}>
-              <h3>Premium Annual</h3>
-              <p>Best value - annual commitment</p>
-            </div>
-            <div className={Styles.price}>
-              <div className={Styles.originalPrice}>
-                <span className={Styles.strikethrough}>₹1,188</span>
-                <span className={Styles.saveText}>Save ₹389</span>
-              </div>
-              <span className={Styles.currency}>₹</span>
-              <span className={Styles.amount}>799</span>
-              <span className={Styles.period}>/ year</span>
+              <h3>Premium Plus</h3>
+              <p>Best value - save over 30%</p>
             </div>
             
-            {/* Free Trial Notice */}
+            <div className={Styles.priceContainer}>
+              <div className={Styles.price}>
+                <span className={Styles.currency}>₹</span>
+                <span className={Styles.amount}>799</span>
+                <span className={Styles.period}>/ year</span>
+              </div>
+              
+              <div className={Styles.discountSection}>
+                <div className={Styles.originalPrice}>
+                  <span className={Styles.strikethrough}>₹1,188</span>
+                  <span className={Styles.saveBadge}>Save 33%</span>
+                </div>
+              </div>
+            </div>
+            
             <div className={Styles.trialNotice}>
               Start with 24 hours FREE trial!
             </div>
             
             <ul className={Styles.features}>
-              <li>Everything in Monthly plan</li>
               <li>Unlimited trade journaling</li>
               <li>Advanced charts and graphs</li>
               <li>AI-powered trade insights</li>
               <li>Psychology & risk analysis</li>
-              <li>Monthly performance reports</li>
-              <li>Secure cloud backup</li>
               <li>Advanced analytics dashboard</li>
+              <li>Priority customer support</li>
+              <li>Early access to new features</li>
             </ul>
             
-            {/* Dynamic Button Based on User State */}
             <div className={Styles.buttonContainer}>
               {!user ? (
                 <Link to="/login">
@@ -254,7 +249,6 @@ const PricingCard = () => {
               )}
             </div>
 
-            {/* Show subscription info for logged in users */}
             {user && (
               <div className={Styles.subscriptionInfo}>
                 <p className={Styles.planInfo}>
@@ -273,7 +267,6 @@ const PricingCard = () => {
                   </p>
                 )}
                 
-                {/* Time Remaining Display */}
                 {user.subscription.expiresAt && (
                   <p className={Styles.timeInfo}>
                     <strong>Time Remaining: </strong>

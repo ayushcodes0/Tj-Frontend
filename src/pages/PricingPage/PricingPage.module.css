@@ -41,7 +41,6 @@
     margin-bottom: 20px;
     display: flex; /* Added */
     flex-direction: column; /* Added */
-    overflow: hidden;
 }
 
 .pricingCard:hover {
@@ -409,4 +408,41 @@
 .faqItem p {
   color: #666;
   line-height: 1.6;
+}
+
+.annualPlanCard {
+  border-color: var(--primary-text) !important;
+}
+
+.limitedTimeBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-text);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: max-content;
+}
+
+/* Adjust the existing badge position */
+.highlightedCard .badge {
+  top: 30px; /* Moved down to make space for the new badge */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .limitedTimeBadge {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+  
+  .highlightedCard .badge {
+    top: 28px;
+  }
 }

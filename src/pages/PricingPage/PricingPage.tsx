@@ -201,38 +201,41 @@ const PricingPage = () => {
 
           {/* Annual Plan Card */}
           <div className={`${Styles.pricingCard} ${Styles.highlightedCard}`}>
-            <div className={Styles.badge}>Save over 30%</div>
+            <div className={Styles.limitedTimeBadge}>Limited Time Offer</div>
             <div className={Styles.cardHeader}>
-              <h3>Premium Annual</h3>
-              <p>Best value - annual commitment</p>
-            </div>
-            <div className={Styles.price}>
-              <div className={Styles.originalPrice}>
-                <span className={Styles.strikethrough}>₹1,188</span>
-                <span className={Styles.saveText}>Save ₹389</span>
-              </div>
-              <span className={Styles.currency}>₹</span>
-              <span className={Styles.amount}>799</span>
-              <span className={Styles.period}>/ year</span>
+              <h3>Premium Plus</h3>
+              <p>Best value - save over 30%</p>
             </div>
             
-            {/* Free Trial Notice */}
+            <div className={Styles.priceContainer}>
+              <div className={Styles.price}>
+                <span className={Styles.currency}>₹</span>
+                <span className={Styles.amount}>799</span>
+                <span className={Styles.period}>/ year</span>
+              </div>
+              
+              <div className={Styles.discountSection}>
+                <div className={Styles.originalPrice}>
+                  <span className={Styles.strikethrough}>₹1,188</span>
+                  <span className={Styles.saveBadge}>Save 33%</span>
+                </div>
+              </div>
+            </div>
+            
             <div className={Styles.trialNotice}>
               Start with 24 hours FREE trial!
             </div>
             
             <ul className={Styles.features}>
-              <li>Everything in Monthly plan</li>
               <li>Unlimited trade journaling</li>
               <li>Advanced charts and graphs</li>
               <li>AI-powered trade insights</li>
               <li>Psychology & risk analysis</li>
-              <li>Monthly performance reports</li>
-              <li>Secure cloud backup</li>
               <li>Advanced analytics dashboard</li>
+              <li>Priority customer support</li>
+              <li>Early access to new features</li>
             </ul>
             
-            {/* Dynamic Button Based on User State */}
             <div className={Styles.buttonContainer}>
               {!user ? (
                 <Link to="/login">
@@ -256,7 +259,6 @@ const PricingPage = () => {
               )}
             </div>
 
-            {/* Show subscription info for logged in users */}
             {user && (
               <div className={Styles.subscriptionInfo}>
                 <p className={Styles.planInfo}>
@@ -275,7 +277,6 @@ const PricingPage = () => {
                   </p>
                 )}
                 
-                {/* Time Remaining Display */}
                 {user.subscription.expiresAt && (
                   <p className={Styles.timeInfo}>
                     <strong>Time Remaining: </strong>

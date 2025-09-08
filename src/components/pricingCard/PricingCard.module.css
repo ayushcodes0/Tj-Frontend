@@ -1,3 +1,4 @@
+/* PricingCard.module.css */
 .pricingPageContainer {
     display: flex;
     flex-direction: column;
@@ -11,17 +12,11 @@
     flex-direction: column;
 }
 
-.pricingNavContainer {
-    padding: 0 var(--tk-spacing-xxxlarge);
-    border-bottom: .3px solid var(--primary-dark-text);
-    flex-shrink: 0;
-}
-
 .pricingCards {
     display: flex;
     justify-content: center;
-    align-items: stretch; /* Changed from start to stretch */
-    gap: 40px;
+    align-items: stretch;
+    gap: 30px;
     padding: 3rem 1rem;
     flex-grow: 1;
     flex-wrap: wrap;
@@ -31,117 +26,145 @@
 .pricingCard {
     background-color: var(--landing-background);
     color: var(--primary-dark-text);
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 20px 30px;
-    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    max-width: 420px;
     width: 100%;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px;
-    display: flex; /* Added */
-    flex-direction: column; /* Added */
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .pricingCard:hover {
     transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
 }
 
 .cardHeader {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
 }
 
 .cardHeader h3 {
     font-size: 1.8rem;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
     color: var(--primary-dark-text);
+    font-weight: 700;
 }
 
 .cardHeader p {
     font-size: 1rem;
     opacity: 0.8;
+    color: var(--secondary-text);
+}
+
+.priceContainer {
+    margin-bottom: 1.2rem;
 }
 
 .price {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    margin-bottom: 1.2rem;
+    align-items: flex-end;
+    margin-bottom: 0.5rem;
 }
 
 .currency {
-    font-size: 1.5rem;
-    margin-right: 0.25rem;
+    font-size: 1.8rem;
+    margin-right: 0.1rem;
     line-height: 1;
+    font-weight: 600;
+    color: var(--primary-dark-text);
 }
 
 .amount {
     font-size: 3.5rem;
-    font-weight: bold;
+    font-weight: 800;
     line-height: 1;
+    color: var(--primary-dark-text);
 }
 
 .period {
     align-self: flex-end;
-    font-size: 1rem;
+    font-size: 1.1rem;
     opacity: 0.8;
     margin-left: 0.25rem;
+    margin-bottom: 0.6rem;
+    color: var(--secondary-text);
+}
+
+.discountSection {
+    margin-top: 0.8rem;
+}
+
+.originalPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 0.5rem;
 }
 
-.features {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.2rem 0;
-    text-align: left;
-    flex-grow: 1; /* Added - makes features take available space */
+.strikethrough {
+    font-size: 1.2rem;
+    color: var(--secondary-text);
+    text-decoration: line-through;
+    font-weight: 500;
 }
 
-.features li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    display: flex;
-    align-items: center;
+.saveBadge {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
-.features li:before {
-    content: "✓";
-    margin-right: 0.75rem;
-    color: var(--primary-dark-text);
-    font-weight: bold;
-}
-
-.ctaButton {
-    background-color: var(--primary-dark-text);
-    color: var(--landing-background);
-    border: none;
-    padding: 1rem 2rem;
+.effectivePrice {
     font-size: 1rem;
-    border-radius: 50px;
-    cursor: pointer;
-    width: 100%;
-    transition: all 0.3s ease;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-}
-
-.ctaButton:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: var(--primary-dark-text);
+    font-weight: 600;
+    text-align: center;
 }
 
 .trialNotice {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
-    padding: 8px 16px;
+    padding: 10px 16px;
     margin: 16px 0;
-    border-radius: 6px;
+    border-radius: 8px;
     text-align: center;
     font-weight: 600;
     font-size: 14px;
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.features li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.features li:before {
+    content: "✓";
+    margin-right: 0.75rem;
+    color: var(--primary-text);
+    font-weight: bold;
 }
 
 .buttonContainer {
@@ -150,12 +173,27 @@
     justify-content: center;
     align-items: center;
     min-height: 60px;
-    flex-shrink: 0; /* Added - prevents button container from shrinking */
+    flex-shrink: 0;
 }
 
-.subscriptionInfo {
-    flex-shrink: 0; /* Added - prevents subscription info from shrinking */
-    margin-top: auto; /* Added - pushes to bottom */
+.ctaButton {
+    background-color: var(--primary-dark-text);
+    color: var(--landing-background);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.ctaButton:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .activeButton {
@@ -168,17 +206,29 @@
 .activeButton:hover {
     background: #10b981 !important;
     transform: none !important;
+    box-shadow: none !important;
 }
 
-.loadingButton {
-    background: #6b7280 !important;
-    color: white !important;
-    cursor: wait !important;
+.subscriptionInfo {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.loadingButton:hover {
-    background: #6b7280 !important;
-    transform: none !important;
+.planInfo {
+    font-size: 14px;
+    margin: 8px 0;
+}
+
+.expiryInfo {
+    font-size: 13px;
+    margin: 6px 0;
+    color: #666;
+}
+
+.expiredText {
+    color: #ef4444;
 }
 
 .timeInfo {
@@ -200,9 +250,9 @@
 /* Highlighted Card Styles */
 .highlightedCard {
     position: relative;
-    border: 2px solid var(--primary-green);
-    transform: scale(1.02);
-    box-shadow: 0 10px 40px rgba(76, 175, 80, 0.2);
+    transform: scale(1.03);
+    box-shadow: 0 15px 35px rgba(76, 175, 80, 0.15);
+    border: 1px solid var(--primary-text);
 }
 
 .highlightedCard::before {
@@ -213,54 +263,50 @@
     right: -2px;
     bottom: -2px;
     border-radius: inherit;
-    background: linear-gradient(45deg, var(--primary-green), transparent);
+    background: linear-gradient(135deg, var(--primary-text), transparent);
     z-index: -1;
+    opacity: 0.1;
 }
 
 .badge {
     position: absolute;
-    top: -19px;
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--primary-green);
-    color: green;
-    padding: 20px 20px 4px 20px;
+    background: var(--primary-text);
+    color: white;
+    padding: 8px 20px;
     border-radius: 20px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     z-index: 10;
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
-.originalPrice {
-    margin-bottom: 5px;
-}
-
-.strikethrough {
-    font-size: 18px;
-    color: var(--secondary-text);
-    text-decoration: line-through;
-    font-weight: 500;
-}
-
-.effectivePrice {
-    font-size: 16px;
-    color: var(--primary-green);
-    font-weight: 600;
-    margin: 10px 0;
+.pageTitle {
     text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-dark-text);
+    font-weight: 800;
+}
+
+.pageSubtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    color: var(--secondary-text);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .pricingNavContainer {
-        padding: 0 16px;
-    }
-    
     .pricingCards {
         padding: 2rem 1rem;
-        gap: 20px;
-        align-items: center; /* Changed for mobile */
+        gap: 25px;
     }
     
     .highlightedCard {
@@ -270,143 +316,100 @@
     
     .badge {
         font-size: 12px;
-    }
-    
-    .effectivePrice {
-        font-size: 14px;
+        padding: 6px 16px;
     }
     
     .cardHeader h3 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
     
     .amount {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
     
     .features li {
         font-size: 14px;
     }
+    
+    .pageTitle {
+        font-size: 2rem;
+    }
+    
+    .pageSubtitle {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
 }
 
 @media (max-width: 480px) {
     .pricingCard {
-        padding: 15px 20px;
+        padding: 20px;
         margin-bottom: 15px;
     }
     
     .trialNotice {
-        font-size: 12px;
-        padding: 6px 12px;
+        font-size: 13px;
+        padding: 8px 12px;
     }
     
     .buttonContainer {
-        min-height: 50px;
+        min-height: 55px;
         margin-top: 15px;
     }
     
     .ctaButton {
-        padding: 0.8rem 1.5rem;
+        padding: 0.9rem 1.5rem;
         font-size: 14px;
     }
-}
-
-/* Ensure background covers entire content on all screen sizes */
-@media (max-height: 600px) {
-    .pricingPageContainer {
-        min-height: auto;
-        height: auto;
+    
+    .amount {
+        font-size: 2.7rem;
     }
     
-    .pricingCards {
-        padding: 1.5rem 1rem;
-    }
-}
-
-/* Additional safety for very small screens */
-@media (max-height: 400px) {
-    .pricingCards {
-        padding: 1rem 0.5rem;
+    .currency {
+        font-size: 1.5rem;
     }
     
-    .pricingCard {
-        margin-bottom: 10px;
-        padding: 10px 15px;
+    .period {
+        font-size: 1rem;
     }
 }
 
-/* Add these to your existing PricingPage.module.css */
-.pageTitle {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary-dark-text);
+/* Add to your existing CSS */
+
+.annualPlanCard {
+  border-color: var(--primary-text) !important;
 }
 
-.pageSubtitle {
-  text-align: center;
-  font-size: 1.2rem;
-  margin-bottom: 3rem;
-  color: var(--primary-dark-text);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.annualFeature {
-  font-weight: bold;
-  color: #4840BB;
-  position: relative;
-}
-
-.annualFeature::before {
-  content: "✓";
-  margin-right: 8px;
-  color: #4CAF50;
-}
-
-.originalPrice {
-  margin-bottom: 10px;
-}
-
-.strikethrough {
-  text-decoration: line-through;
-  color: #999;
-  font-size: 1.1rem;
-}
-
-.saveText {
-  background: #4CAF50;
+.limitedTimeBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-text);
   color: white;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  margin-left: 10px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  width: max-content;
 }
 
-.faqSection {
-  margin-top: 4rem;
-  padding: 2rem;
-  background: #f9f9f9;
-  border-radius: 12px;
+/* Adjust the existing badge position */
+.highlightedCard .badge {
+  top: 30px; /* Moved down to make space for the new badge */
 }
 
-.faqSection h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
-}
-
-.faqItem {
-  margin-bottom: 1.5rem;
-}
-
-.faqItem h3 {
-  color: #4840BB;
-  margin-bottom: 0.5rem;
-}
-
-.faqItem p {
-  color: #666;
-  line-height: 1.6;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .limitedTimeBadge {
+    font-size: 11px;
+    padding: 5px 12px;
+  }
+  
+  .highlightedCard .badge {
+    top: 28px;
+  }
 }
