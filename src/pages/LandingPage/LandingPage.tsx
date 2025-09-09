@@ -1,12 +1,8 @@
 import { FilledButton } from '../../components/Button/Button';
 import Navbar from '../../components/Navbar/Navbar';
 import Styles from './LandingPage.module.css';
-// import HeroSectionImage from '../../assets/image/heroSectionImage.png';
 import { useState, useEffect } from 'react';
 import Footer from '../../components/Footer/Footer';
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import type { Variants } from "framer-motion";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { HiOutlineTrendingUp } from "react-icons/hi";
 import { NavLink } from 'react-router-dom';
@@ -25,51 +21,15 @@ import { BsLightningChargeFill } from "react-icons/bs";
 import PricingCard from '../../components/pricingCard/PricingCard';
 import logo from '../../assets/image/Logo2.png'
 
-const sectionVariants: Variants = {
-  offscreen: {
-    opacity: 0,
-    y: 50
-  },
-  onscreen: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      bounce: 0.4,
-      duration: 0.8
-    }
-  }
-};
-
-const imageVariants: Variants = {
-  offscreen: {
-    opacity: 0,
-    scale: 0.9
-  },
-  onscreen: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.16, 0.77, 0.47, 0.97]
-    }
-  }
-};
-
 const LandingPage = () => {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
-  const [hasAnimated, setHasAnimated] = useState<boolean>(false);
-  const controls = useAnimation();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
+  
   console.log(isMobileView);
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1
-  });
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -81,12 +41,19 @@ const LandingPage = () => {
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
+  // Add this useEffect to your LandingPage component
   useEffect(() => {
-    if (inView && !hasAnimated) {
-      controls.start("visible");
-      setHasAnimated(true);
+    // Check if URL has #pricing hash and scroll to it
+    if (window.location.hash === '#pricing') {
+      const pricingSection = document.getElementById('pricing');
+      if (pricingSection) {
+        // Small timeout to ensure the page is fully rendered
+        setTimeout(() => {
+          pricingSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
     }
-  }, [inView, controls, hasAnimated]);
+  }, []);
 
   const steps = [
     {
@@ -124,51 +91,43 @@ const LandingPage = () => {
     }
   ];
 
-  // Add this useEffect to your LandingPage component
-  useEffect(() => {
-    // Check if URL has #pricing hash and scroll to it
-    if (window.location.hash === '#pricing') {
-      const pricingSection = document.getElementById('pricing');
-      if (pricingSection) {
-        // Small timeout to ensure the page is fully rendered
-        setTimeout(() => {
-          pricingSection.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    }
-  }, []);
-
   return (
     <div className={Styles.landingPageContainer}> 
       <div className={Styles.landingPageHero}>
         <div className={Styles.navbarContainer}>
           <Navbar />
         </div>
-        <div className={Styles.heroSection} ref={ref}>
+        <div className={Styles.heroSection}>
           <div className={Styles.heroContent}>
-            <div className={Styles.heroLogoContainer}>
+            < div 
+              className={Styles.heroLogoContainer}
+            >
               <img src={logo} alt="Logo" className={Styles.heroLogo} />
-            </div>
-            <h1 className={Styles.heroTitle}>Your Trading Journey<br />Starts Here</h1>
-            <p className={Styles.heroSubtitle}>
+            </ div>
+            
+            < h1 
+              className={Styles.heroTitle}
+            >
+              Your Trading Journey<br />Starts Here
+            </ h1>
+            
+            < p 
+              className={Styles.heroSubtitle}
+            >
               Professional-grade trade journaling for serious traders. Track, analyze, and optimize your trading performance with precision.
-            </p>
-            <div className={Styles.heroCta}>
+            </ p>
+            
+            < div 
+              className={Styles.heroCta}
+            >
               <NavLink to={"/register"}><FilledButton text='Open Dashboard →' /></NavLink>
-            </div>
+            </ div>
           </div>
         </div>
       </div>
 
       {/* Everything You Need Section */}
-      {/* Everything You Need Section */}
-      <motion.section 
-        className={Styles.everythingSection}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
+      <section className={Styles.everythingSection}>
         <div className={Styles.sectionContainer}>
           <div className={Styles.sectionHeader}>
             <h2>Everything You Need to Trade Better</h2>
@@ -209,16 +168,10 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Brokerage Integration Section */}
-      <motion.section 
-        className={Styles.brokerageSection}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
+      <section className={Styles.brokerageSection}>
         <div className={Styles.sectionContainer}>
           <div className={Styles.sectionHeader}>
             <h2>Works with your broker</h2>
@@ -298,16 +251,10 @@ const LandingPage = () => {
             <p>We're working on API integrations with these brokers</p>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* How It Works Section */}
-      <motion.section 
-        className={Styles.howItWorksSection}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
+      <section className={Styles.howItWorksSection}>
         <div className={Styles.sectionContainer}>
           <div className={Styles.sectionHeader}>
             <h2>How It Works</h2>
@@ -316,40 +263,26 @@ const LandingPage = () => {
           
           <div className={Styles.stepsContainer}>
             {steps.map((step, index) => (
-              <motion.div 
+              <div 
                 key={index}
                 className={Styles.stepCard}
-                initial="offscreen"
-                whileInView="onscreen"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={sectionVariants}
-                transition={{ delay: index * 0.2 }}
               >
                 <div className={Styles.stepNumber}>{index + 1}</div>
                 <div className={Styles.stepIcon}>{step.icon}</div>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
           
-          <motion.div 
-            className={Styles.howItWorksImageContainer}
-            variants={imageVariants}
-          >
+          <div className={Styles.howItWorksImageContainer}>
             <img src={howItWorksImage} alt="How It Works" className={Styles.sectionImage} />
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* AI Powered Section */}
-      <motion.section 
-        className={Styles.aiPoweredSection}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
+      <section className={Styles.aiPoweredSection}>
         <div className={Styles.sectionContainer}>
           <div className={Styles.sectionHeader}>
             <h2>AI-Powered Trading Insights</h2>
@@ -358,49 +291,35 @@ const LandingPage = () => {
           
           <div className={Styles.featuresGrid}>
             {features.map((feature, index) => (
-              <motion.div 
+              <div 
                 key={index}
                 className={Styles.featureCard}
-                initial="offscreen"
-                whileInView="onscreen"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={sectionVariants}
-                transition={{ delay: index * 0.1 }}
               >
                 <div className={Styles.featureIcon}>{feature.icon}</div>
                 <h3>{feature.title}</h3>
                 <p>{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
           
-          <motion.div 
-            className={Styles.aiImageContainer}
-            variants={imageVariants}
-          >
-            <img src={aiPoweredImage} alt="AI Powered Insights" className={Styles.sectionImage} />
-          </motion.div>
+          <div className={Styles.aiImageContainer}>
+            <img src={aiPoweredImage} alt="AI Powered Insights" className={`${Styles.sectionImage} ${Styles.sectionImage2}`} />
+          </div>
           
           <div className={Styles.ctaBox}>
             <h3>Ready to transform your trading?</h3>
             <p>Join thousands of traders who are already improving their performance</p>
-            <NavLink to={"/register"}><FilledButton text="Start Your Free Trial" /></NavLink>
+            <NavLink to={"/register"}><FilledButton text="Start Your Free Trial →" /></NavLink>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       <div id='pricing' className={Styles.pricingContainer}>
         <PricingCard />
       </div>
 
       {/* FAQ Section */}
-      <motion.section 
-        className={Styles.faqSection}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-      >
+      <section className={Styles.faqSection}>
         <div className={Styles.sectionContainer}>
           <div className={Styles.sectionHeader}>
             <h2>Frequently Asked Questions</h2>
@@ -477,7 +396,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       <div className={Styles.footerContainer}>
         <Footer /> 

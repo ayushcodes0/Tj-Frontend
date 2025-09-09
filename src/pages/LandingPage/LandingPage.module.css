@@ -577,12 +577,17 @@
     margin-bottom: 30px;
     font-size: 18px;
     opacity: 0.9;
+    color: var(--primary-dark-text);
 }
 
 .sectionImage {
     max-width: 80%;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.sectionImage2{
+    max-width: 100%;
 }
 
 @media (max-width: 500px){
