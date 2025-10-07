@@ -7,7 +7,7 @@ import { FaCrown, FaLeaf } from "react-icons/fa";
 import { useAuth } from '../../hooks/useAuth';
 import PlaceholderImage from "../../assets/image/placeholderImage.jpg";
 
-const MOBILE_BREAKPOINT = 883;
+const MOBILE_BREAKPOINT = 883; 
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -113,7 +113,7 @@ const Navbar = () => {
               <Link to={"/login"} className={Styles.loginBtn}><UnfilledButton text="Log in" /></Link>
             </div>
             <div>
-              <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Get started" /></Link>
+              <Link to={"/register"} className={Styles.registerBtn}><FilledButton text="Sign-Up For Free" /></Link>
             </div>
           </>
         ) : (

@@ -3,11 +3,9 @@ import Navbar from '../../components/Navbar/Navbar';
 import Styles from './LandingPage.module.css';
 import { useState, useEffect } from 'react';
 import Footer from '../../components/Footer/Footer';
-import { IoNewspaperOutline } from "react-icons/io5";
-import { HiOutlineTrendingUp } from "react-icons/hi";
+
 import { NavLink } from 'react-router-dom';
-import { FaBrain, FaLightbulb, FaChartLine, FaShieldAlt } from "react-icons/fa";
-import howItWorksImage from "../../assets/image/how-it-works-mock.png";
+
 import aiPoweredImage from "../../assets/image/ai-powerd-mock.png";
 import zerodhaLogo from "../../assets/image/zerodha.svg";
 import angelOneLogo from "../../assets/image/angelone.png";
@@ -15,11 +13,20 @@ import upstoxLogo from "../../assets/image/upstox.png";
 import fivePaisaLogo from "../../assets/image/5paisa.svg";
 import growwLogo from "../../assets/image/groww.png";
 import dhanLogo from "../../assets/image/dhan.png";
-import paytmMoneyLogo from "../../assets/image/paytm-money.png";
+import sahi from "../../assets/image/sahi.png";
+import aliceblue from "../../assets/image/aliceblue.png";
+import trackk from "../../assets/image/trackk.png";
 import { FaPlus, FaMinus } from 'react-icons/fa';
-import { BsLightningChargeFill } from "react-icons/bs";
 import PricingCard from '../../components/pricingCard/PricingCard';
-import logo from '../../assets/image/Logo2.png'
+// import logo from '../../assets/image/Logo2.png'
+import { MdOutlineDone } from "react-icons/md";
+import { HiSparkles } from "react-icons/hi2";
+import HowItWorksTrades from "../../assets/image/HowItWorksTrades.png";
+import HowItWorksCalendar from "../../assets/image/HowItWorksCalendar.png";
+import HowItWorksPsycology from "../../assets/image/HowItWorksPsycology.png";
+import HeroImage from "../../assets/image/HeroImage.png";
+
+
 
 const LandingPage = () => {
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
@@ -55,273 +62,203 @@ const LandingPage = () => {
     }
   }, []);
 
-  const steps = [
-    {
-      icon: <IoNewspaperOutline />,
-      title: "Log Your Trades",
-      description: "Quickly record every trade with all essential details"
-    },
-    {
-      icon: <FaBrain />,
-      title: "Get AI Insights",
-      description: "Our algorithms analyze your patterns and performance"
-    },
-    {
-      icon: <HiOutlineTrendingUp />,
-      title: "Improve Your Strategy",
-      description: "Implement data-driven changes to boost profitability"
-    }
-  ];
-
-  const features = [
-    {
-      icon: <FaChartLine />,
-      title: "Performance Analytics",
-      description: "Track win rate, profit factor, and other key metrics"
-    },
-    {
-      icon: <FaShieldAlt />,
-      title: "Risk Management",
-      description: "Identify risk patterns and improve money management"
-    },
-    {
-      icon: <FaLightbulb />,
-      title: "Pattern Recognition",
-      description: "Discover your most profitable setups and strategies"
-    }
-  ];
 
   return (
     <div className={Styles.landingPageContainer}> 
       <div className={Styles.landingPageHero}>
-        <div className={Styles.navbarContainer}>
-          <Navbar />
-        </div>
-        <div className={Styles.heroSection}>
-          <div className={Styles.heroContent}>
-            < div 
-              className={Styles.heroLogoContainer}
-            >
-              <img src={logo} alt="Logo" className={Styles.heroLogo} />
-            </ div>
-            
-            < h1 
-              className={Styles.heroTitle}
-            >
-              Your Trading Journey<br />Starts Here
-            </ h1>
-            
-            < p 
-              className={Styles.heroSubtitle}
-            >
-              Professional-grade trade journaling for serious traders. Track, analyze, and optimize your trading performance with precision.
-            </ p>
-            
-            < div 
-              className={Styles.heroCta}
-            >
-              <NavLink to={"/register"}><FilledButton text='Open Dashboard →' /></NavLink>
-            </ div>
+  <div className={Styles.navbarContainer}>
+    <Navbar />
+  </div>
+  <div className={Styles.heroSection}>
+    <div className={Styles.heroContent}>
+      
+      <h1 className={Styles.heroTitle}>
+        Track, analyze, and optimize your trading performance with precision.
+      </h1>
+      
+      <div className={Styles.heroTags}>
+        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Precision</p>
+        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Smart Ai Insights</p>
+        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Professional</p>
+      </div>
+      
+      <div className={Styles.heroCta}>
+        <NavLink to={"/register"}><FilledButton text='Start For Free' /></NavLink>
+      </div>
+      
+      <div className={Styles.heroRectangle}>
+        <div className={Styles.heroImageContainer}>
+          <div className={Styles.heroImage}>
+            <img src={HeroImage} alt="Trading Dashboard" className={Styles.heroMockup} />
+          </div>
+          <div className={Styles.heroImageSecondary}>
+            <img src={HeroImage} alt="Analytics Dashboard" className={Styles.heroMockupSecondary} />
+          </div>
+          <div className={Styles.heroImageTertiary}>
+            <img src={HeroImage} alt="Performance Metrics" className={Styles.heroMockupTertiary} />
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      {/* Everything You Need Section */}
-      <section className={Styles.everythingSection}>
-        <div className={Styles.sectionContainer}>
-          <div className={Styles.sectionHeader}>
-            <h2>Everything You Need to Trade Better</h2>
-            <p>Powerful features designed by traders, for traders</p>
-          </div>
-          
-          <div className={Styles.featuresGrid}>
-            <div className={Styles.featureCard}>
-              <div className={Styles.featureIcon}>
-                <FaChartLine />
-              </div>
-              <h3>Advanced Analytics</h3>
-              <p>Track your performance with detailed charts and metrics</p>
-            </div>
-            
-            <div className={Styles.featureCard}>
-              <div className={Styles.featureIcon}>
-                <FaShieldAlt />
-              </div>
-              <h3>Secure & Private</h3>
-              <p>Your trading data is encrypted and completely private</p>
-            </div>
-            
-            <div className={Styles.featureCard}>
-              <div className={Styles.featureIcon}>
-                <BsLightningChargeFill />
-              </div>
-              <h3>Lightning Fast</h3>
-              <p>Log trades quickly with our streamlined interface</p>
-            </div>
-            
-            <div className={Styles.featureCard}>
-              <div className={Styles.featureIcon}>
-                <HiOutlineTrendingUp />
-              </div>
-              <h3>Strategy Tracking</h3>
-              <p>Monitor which strategies work best for you</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Brokerage Integration Section */}
-      <section className={Styles.brokerageSection}>
-        <div className={Styles.sectionContainer}>
-          <div className={Styles.sectionHeader}>
-            <h2>Works with your broker</h2>
-            <p>Connect seamlessly with your preferred trading platform</p>
-          </div>
-          
-          <div className={Styles.brokerMarquee}>
-            <div className={Styles.marqueeContent}>
-              {/* First set of logos */}
-              <div className={Styles.brokerItem}>
-                <img src={zerodhaLogo} alt="Zerodha" className={Styles.brokerLogo} />
-                <span>Zerodha</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={angelOneLogo} alt="Angel One" className={Styles.brokerLogo} />
-                <span>Angel One</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={upstoxLogo} alt="Upstox" className={Styles.brokerLogo} />
-                <span>Upstox</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={fivePaisaLogo} alt="5paisa" className={Styles.brokerLogo} />
-                <span>5paisa</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={growwLogo} alt="Groww" className={Styles.brokerLogo} />
-                <span>Groww</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={dhanLogo} alt="Dhan" className={Styles.brokerLogo} />
-                <span>Dhan</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={paytmMoneyLogo} alt="Paytm Money" className={Styles.brokerLogo} />
-                <span>Paytm Money</span>
-              </div>
-              
-              {/* Duplicated set for seamless looping */}
-              <div className={Styles.brokerItem}>
-                <img src={zerodhaLogo} alt="Zerodha" className={Styles.brokerLogo} />
-                <span>Zerodha</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={angelOneLogo} alt="Angel One" className={Styles.brokerLogo} />
-                <span>Angel One</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={upstoxLogo} alt="Upstox" className={Styles.brokerLogo} />
-                <span>Upstox</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={fivePaisaLogo} alt="5paisa" className={Styles.brokerLogo} />
-                <span>5paisa</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={growwLogo} alt="Groww" className={Styles.brokerLogo} />
-                <span>Groww</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={dhanLogo} alt="Dhan" className={Styles.brokerLogo} />
-                <span>Dhan</span>
-              </div>
-              <div className={Styles.brokerItem}>
-                <img src={paytmMoneyLogo} alt="Paytm Money" className={Styles.brokerLogo} />
-                <span>Paytm Money</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className={Styles.comingSoonContainer}>
-            <div className={Styles.comingSoonBadge}>
-              <p>Coming Soon</p>
-              <p>(Early access to premium users)</p>
-            </div>
-            
-            <p>We're working on API integrations with these brokers</p>
-          </div>
+<section className={Styles.brokerageSection}>
+  <div className={Styles.sectionContainer}>
+    <div className={Styles.brokarageSectionHeading}>
+      <p>Connect seamlessly with your preferred trading platform</p>
+    </div>
+    
+    <div className={Styles.brokerMarquee}>
+      <div className={Styles.marqueeContent}>
+        {/* First set of logos */}
+        <div className={Styles.brokerItem}>
+          <img src={zerodhaLogo} alt="Zerodha" className={Styles.brokerLogo} />
         </div>
-      </section>
+        <div className={Styles.brokerItem}>
+          <img src={angelOneLogo} alt="Angel One" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={upstoxLogo} alt="Upstox" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={fivePaisaLogo} alt="5paisa" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={growwLogo} alt="Groww" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={dhanLogo} alt="Dhan" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={aliceblue} alt="Alice Blue" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={sahi} alt="Sahi" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={trackk} alt="Trackk" className={Styles.brokerLogo} />
+        </div>
+        
+        {/* Duplicated set for seamless looping */}
+        <div className={Styles.brokerItem}>
+          <img src={zerodhaLogo} alt="Zerodha" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={angelOneLogo} alt="Angel One" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={upstoxLogo} alt="Upstox" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={fivePaisaLogo} alt="5paisa" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={growwLogo} alt="Groww" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={dhanLogo} alt="Dhan" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={aliceblue} alt="Alice Blue" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={sahi} alt="Sahi" className={Styles.brokerLogo} />
+        </div>
+        <div className={Styles.brokerItem}>
+          <img src={trackk} alt="Trackk" className={Styles.brokerLogo} />
+        </div>
+      </div>
+    </div>
+    
+    <div className={Styles.comingSoonContainer}>
+      <div className={Styles.comingSoonBadge}>
+        <p>Coming Soon</p>
+        <p>(Early access to premium users)</p>
+      </div>
+      </div>
+  </div>
+</section>
 
-      {/* How It Works Section */}
-      <section className={Styles.howItWorksSection}>
-        <div className={Styles.sectionContainer}>
-          <div className={Styles.sectionHeader}>
-            <h2>How It Works</h2>
-            <p>Transform your trading in three simple steps</p>
-          </div>
-          
-          <div className={Styles.stepsContainer}>
-            {steps.map((step, index) => (
-              <div 
-                key={index}
-                className={Styles.stepCard}
-              >
-                <div className={Styles.stepNumber}>{index + 1}</div>
-                <div className={Styles.stepIcon}>{step.icon}</div>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className={Styles.howItWorksImageContainer}>
-            <img src={howItWorksImage} alt="How It Works" className={Styles.sectionImage} />
-          </div>
-        </div>
-      </section>
+
 
       {/* AI Powered Section */}
       <section className={Styles.aiPoweredSection}>
         <div className={Styles.sectionContainer}>
-          <div className={Styles.sectionHeader}>
-            <h2>AI-Powered Trading Insights</h2>
-            <p>Our AI analyzes your trading to deliver personalized insights that transform your results</p>
-          </div>
-          
-          <div className={Styles.featuresGrid}>
-            {features.map((feature, index) => (
-              <div 
-                key={index}
-                className={Styles.featureCard}
-              >
-                <div className={Styles.featureIcon}>{feature.icon}</div>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
+            <div className={Styles.sectionHeader}>
+              <div className={Styles.heroTags}><p className={`${Styles.tags} ${Styles.aiTag}`}><span><HiSparkles/></span>Ai Powered</p></div>
+              <h2>AI-Powered Trading Insights</h2>
+            </div>
+            <div className={Styles.aiSection}>
+              <div className={Styles.rectangle}></div>
+              <div className={Styles.aiImageContainer}>
+                <img src={aiPoweredImage} alt="Ai Insights Image" className={Styles.aiImage} />
               </div>
-            ))}
+            </div>
+        </div>
+      </section>
+
+      <section className={Styles.highlights}>
+        <div className={Styles.highlightSection}>
+          <h2>Transform Your Trading Performance with Advanced Analytics and Professional Grade Tools</h2>
+        </div>
+    </section>
+
+
+      {/* How It Works Section */}
+      <section className={Styles.howItWorksSection}>
+        <div className={Styles.howItWorksTag}>
+          <p className={Styles.tags}>Product Highlights</p>
+        </div>
+        <div className={Styles.howItWorksCards}>
+          <div className={`${Styles.howItWorksCard} ${Styles.card1}`}>
+            <div className={Styles.text}>
+              <p className={Styles.howItWorksCardHeading}>Comprehensive Trade Management and Detailed Portfolio Overview in One Place</p>
+              <p className={Styles.howItWorksCardSubHeading}>Enter your trade details effortlessly and watch them transform into organized, professional table formats. Track every position, analyze entry and exit points, monitor profit and loss in real-time, and access complete trade history with advanced filtering options for better decision making.</p>
+              <p className={Styles.howItWorksCardCta}>Learn More</p>
+            </div>
+            <div className={Styles.image}>
+              <img src={HowItWorksTrades} alt="All Trades Management Dashboard" />
+            </div>
           </div>
           
-          <div className={Styles.aiImageContainer}>
-            <img src={aiPoweredImage} alt="AI Powered Insights" className={`${Styles.sectionImage} ${Styles.sectionImage2}`} />
+          <div className={`${Styles.howItWorksCard} ${Styles.card2}`}>
+            <div className={Styles.image}>
+              <img src={HowItWorksCalendar} alt="Monthly Trading Calendar View" />
+            </div>            
+            <div className={Styles.text}>
+              <p className={Styles.howItWorksCardHeading}>Monthly Trading Performance Calendar with Detailed Analytics and Progress Tracking</p>
+              <p className={Styles.howItWorksCardSubHeading}>Visualize your trading journey through our intuitive monthly calendar view. Monitor daily performance patterns, identify profitable trading days, track consistency metrics, and discover seasonal trends in your trading behavior to optimize future strategies and maximize returns.</p>
+              <p className={Styles.howItWorksCardCta}>Learn More</p>
+            </div>
           </div>
           
-          <div className={Styles.ctaBox}>
-            <h3>Ready to transform your trading?</h3>
-            <p>Join thousands of traders who are already improving their performance</p>
-            <NavLink to={"/register"}><FilledButton text="Start Your Free Trial →" /></NavLink>
+          <div className={`${Styles.howItWorksCard} ${Styles.card3}`}>
+            <div className={Styles.text}>
+              <p className={Styles.howItWorksCardHeading}>Advanced Trading Psychology Analysis and Mindset Optimization for Better Results</p>
+              <p className={Styles.howItWorksCardSubHeading}>Understand your psychological patterns and emotional triggers during trades. Analyze decision-making processes, identify behavioral biases, track emotional states during winning and losing streaks, and develop mental discipline for consistent trading performance and improved market psychology.</p>
+              <p className={Styles.howItWorksCardCta}>Learn More</p>
+            </div>
+            <div className={Styles.image}>
+              <img src={HowItWorksPsycology} alt="Trading Psychology Analytics Dashboard" />
+            </div>          
           </div>
         </div>
       </section>
+
+
 
       <div id='pricing' className={Styles.pricingContainer}>
         <PricingCard />
       </div>
 
+
       {/* FAQ Section */}
       <section className={Styles.faqSection}>
         <div className={Styles.sectionContainer}>
-          <div className={Styles.sectionHeader}>
+          <div className={Styles.faqHeader}>
             <h2>Frequently Asked Questions</h2>
             <p>Everything you need to know about tradejournalai.in</p>
           </div>

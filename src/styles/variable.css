@@ -116,6 +116,15 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'HeroFont';
+  src: url('../assets/fonts/CabinetGrotesk-Bold.woff2') format('woff2'),
+       url('../assets/fonts/CabinetGrotesk-Bold.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 
 :root {
@@ -174,6 +183,10 @@
 
   --hero-color-start: #066d4e;
   --hero-color-end: #11cd8e;
+
+
+  --hero-title : #213856;
+  --hero-green-title : #066d4e;
 
 
   --tk-spacing-xxxsmall: 2px;

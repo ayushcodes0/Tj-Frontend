@@ -1,55 +1,41 @@
 
 .filledButton{
-    background-color: var(--primary-white);
+    background-color: var(--hero-green-title);
     border: none;
     outline: none;
-    color: var(--primary-dark-text);
-    padding: var(--tk-spacing-medium) var(--tk-spacing-large);
-    font-size: 15px;
-    border-radius: 6px;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 0.625rem;
     font-weight: 500;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.04);
+    /* background-image: linear-gradient(180deg, #5C8AFF 0%, #316BFF 100%); */
 }
 
 .unfilledButton{
     background-color: transparent;
-    border: 1px solid var(--primary-white);
     outline: none;
-    color: var(--primary-white);
+    color: #213856;
     padding: var(--tk-spacing-medium) var(--tk-spacing-large);
     font-size: 15px;
     border-radius: 6px;
     font-weight: 500;
     position: relative;
     z-index: 1;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.04);
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #EFEFEF;
+    border-radius: 0.625rem 0.625rem 0.625rem 0.625rem;
+    padding: 8px 12px 8px 12px;
+
 }
 
 .filledButton:hover{
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    background: var(--primary-white);
 }
 
 .unfilledButton:hover {
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    border: 1px solid var(--primary-white);
-    background-origin: border-box;
-}
-
-.unfilledButton:hover::before {
-    content: '';
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    z-index: -1;
-    border-radius: 5px;
-    background: var(--tk-gradient-vibrant-twilight);
-    padding: 1px;
-    mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    -webkit-mask-composite: xor;
 }
