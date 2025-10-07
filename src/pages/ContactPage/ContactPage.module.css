@@ -2,16 +2,17 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: var(--tk-gradient-soft);
+  background: white;
   font-family: 'Inter', sans-serif;
 }
 
 .navbarContainer {
   padding: 0 64px;
-  border-bottom: .5px solid var(--primary-text);
+  border-bottom: .5px solid var(--hero-title);
 }
 
 .contentWrapper {
+    background: linear-gradient(135deg, var(--hero-color-start) 0%, var(--hero-color-end) 100%);
   flex-grow: 1;
   padding: 80px var(--tk-spacing-xxxlarge);
   display: flex;
@@ -36,7 +37,7 @@
 .mainHeading {
   font-size: 70px;
   font-weight: 800;
-  color: var(--primary-text);
+  color: white;
   line-height: 1;
   letter-spacing: -2px;
 }
@@ -47,7 +48,7 @@
   max-width: 600px;
   margin-top: 15px;
   opacity: 0.8;
-  color: var(--primary-text);
+  color: white;
 }
 
 .contactFormContainer {
@@ -77,7 +78,7 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: var(--primary-dark-text);
+  color: var(--hero-title);
 }
 
 .input {
@@ -87,7 +88,7 @@
   border-radius: 8px;
   background-color: var(--landing-background);
   font-size: 16px;
-  color: var(--primary-dark-text);
+  color: var(--hero-title);
   transition: all 0.2s ease-in-out;
 }
 
@@ -113,7 +114,7 @@
 .infoHeading {
   font-size: 28px;
   font-weight: 700;
-  color: var(--primary-dark-text);
+  color: var(--hero-title);
 }
 
 .infoBlock {
@@ -131,7 +132,7 @@
 .infoText {
   font-size: 16px;
   font-weight: 500;
-  color: var(--primary-dark-text);
+  color: var(--hero-title);
 }
 
 .errorMessage {
@@ -188,8 +189,8 @@
 }
 
 .footerContainer {
-  background-color: #18172B;
   padding: 0 64px;
+  background-color: white;
 }
 
 @media (max-width: 885px) {

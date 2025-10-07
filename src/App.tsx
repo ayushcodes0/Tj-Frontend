@@ -23,6 +23,7 @@ import Disclosures from "./pages/LegalPages/Disclosure.tsx";
 import PrivacyPolicy from "./pages/LegalPages/PrivacyPolicy.tsx";
 import Disclaimer from "./pages/LegalPages/Disclaimer.tsx";
 import Help from "./pages/Help/Help.tsx";
+import AboutUs from "./pages/LegalPages/AboutUs.tsx";
 
 
 const App = () => (
@@ -40,6 +41,7 @@ const App = () => (
       <Route path="/disclosure" element={<Disclosures />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/disclaimer" element={<Disclaimer />} />
+      <Route path="/about-us" element={<AboutUs />} />
       <Route
         path="/dashboard"
         element={<RequirePro><DashboardLayout /></RequirePro>}
