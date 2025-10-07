@@ -36,6 +36,7 @@ const LandingPage = () => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
   
+  
   console.log(isMobileView);
 
   useEffect(() => {
@@ -77,9 +78,9 @@ const LandingPage = () => {
       </h1>
       
       <div className={Styles.heroTags}>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Precision</p>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Smart Ai Insights</p>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Professional</p>
+        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Pattern Recognition</p>
+        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Ai Insights</p>
+        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Improve Win Rate</p>
       </div>
       
       <div className={Styles.heroCta}>
@@ -217,7 +218,7 @@ const LandingPage = () => {
             <div className={Styles.text}>
               <p className={Styles.howItWorksCardHeading}>Comprehensive Trade Management and Detailed Portfolio Overview in One Place</p>
               <p className={Styles.howItWorksCardSubHeading}>Enter your trade details effortlessly and watch them transform into organized, professional table formats. Track every position, analyze entry and exit points, monitor profit and loss in real-time, and access complete trade history with advanced filtering options for better decision making.</p>
-              <p className={Styles.howItWorksCardCta}>Learn More</p>
+              <NavLink to={"/login"}><p className={Styles.howItWorksCardCta}>Learn More</p></NavLink>
             </div>
             <div className={Styles.image}>
               <img src={HowItWorksTrades} alt="All Trades Management Dashboard" />
@@ -231,7 +232,7 @@ const LandingPage = () => {
             <div className={Styles.text}>
               <p className={Styles.howItWorksCardHeading}>Monthly Trading Performance Calendar with Detailed Analytics and Progress Tracking</p>
               <p className={Styles.howItWorksCardSubHeading}>Visualize your trading journey through our intuitive monthly calendar view. Monitor daily performance patterns, identify profitable trading days, track consistency metrics, and discover seasonal trends in your trading behavior to optimize future strategies and maximize returns.</p>
-              <p className={Styles.howItWorksCardCta}>Learn More</p>
+              <NavLink to={"/login"}><p className={Styles.howItWorksCardCta}>Learn More</p></NavLink>
             </div>
           </div>
           
@@ -239,7 +240,7 @@ const LandingPage = () => {
             <div className={Styles.text}>
               <p className={Styles.howItWorksCardHeading}>Advanced Trading Psychology Analysis and Mindset Optimization for Better Results</p>
               <p className={Styles.howItWorksCardSubHeading}>Understand your psychological patterns and emotional triggers during trades. Analyze decision-making processes, identify behavioral biases, track emotional states during winning and losing streaks, and develop mental discipline for consistent trading performance and improved market psychology.</p>
-              <p className={Styles.howItWorksCardCta}>Learn More</p>
+              <NavLink to={"/login"}><p className={Styles.howItWorksCardCta}>Learn More</p></NavLink>
             </div>
             <div className={Styles.image}>
               <img src={HowItWorksPsycology} alt="Trading Psychology Analytics Dashboard" />
