@@ -10,6 +10,7 @@
 .navbarContainer {
   padding: 0 64px;
   border-bottom: .5px solid var(--primary-white);
+  background-color: white;
 }
 
 .contentWrapper {
@@ -100,6 +101,7 @@
 .footerContainer {
   background-color: var(--primary-dark-text);
   padding: 0 64px;
+  background-color: white;
 }
 
 /* Responsive design */
