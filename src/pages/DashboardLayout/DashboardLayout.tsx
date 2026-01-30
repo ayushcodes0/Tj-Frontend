@@ -1,6 +1,6 @@
 // DashboardLayout.tsx - Updated to support editing a trade
 import { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar"; 
 import NewTradePopup from "../../components/NewTradePopup/NewTradePopup";
 import Styles from './DashboardLayout.module.css';
@@ -8,6 +8,8 @@ import { PiSidebar } from "react-icons/pi";
 import { RiDashboardLine } from "react-icons/ri";
 import { GoPlus } from "react-icons/go";
 import type { Trade } from "../../context/TradeContext"; // Import the Trade type
+import ImportTradesPopup from "../../components/ImportTrade/ImportTradesPopup";
+
 
 const COLLAPSE_BREAKPOINT = 1000;
 
@@ -15,7 +17,8 @@ const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth < COLLAPSE_BREAKPOINT);
   const [showNewTradePopup, setShowNewTradePopup] = useState(false);
   const [tradeToEdit, setTradeToEdit] = useState<Trade | null>(null); // New state to hold trade data for editing
-  const location = useLocation();
+  const [showImportPopup, setShowImportPopup] = useState(false);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -48,6 +51,15 @@ const DashboardLayout = () => {
   const handleCollapseSidebar = () => {
     setSidebarCollapsed(true);
   };
+
+  const handleOpenImportPopup = () => {
+  setShowImportPopup(true);
+};
+
+const handleCloseImportPopup = () => {
+  setShowImportPopup(false);
+};
+
 
   return (
     <div className={Styles.dashboardContainer}>
@@ -87,17 +99,31 @@ const DashboardLayout = () => {
                   <RiDashboardLine className={Styles.dashboardIcon} /> 
                   <p className={Styles.dashboard}>Dashboard</p> 
                 </div>
-                <p className={Styles.url}>{location.pathname}</p>
               </div>
             </div>
             
             {/* The main "New trade" button in the navbar */}
-            <div className={Styles.dashboardRight} onClick={handleNewTradeClick}>
-              <div className={Styles.plusContainer}>
-                <GoPlus className={Styles.plusIcon} />
+            <div className={Styles.dashboardRight}>
+              {/* Import button */}
+              <div
+                className={Styles.importButton}
+                onClick={handleOpenImportPopup}
+              >
+                <p className={Styles.importText}>Import</p>
               </div>
-              <p className={Styles.createTrade}>New trade</p>
+
+              {/* New trade button */}
+              <div
+                className={Styles.newTradeButton}
+                onClick={handleNewTradeClick}
+              >
+                <div className={Styles.plusContainer}>
+                  <GoPlus className={Styles.plusIcon} />
+                </div>
+                <p className={Styles.createTrade}>New trade</p>
+              </div>
             </div>
+
           </div>
         </div>
         <Outlet context={{ handleEditTradeClick }} /> {/* Pass the handler to child components */}
@@ -110,6 +136,10 @@ const DashboardLayout = () => {
           tradeToEdit={tradeToEdit} // Pass the trade data to the popup
         />
       )}
+      {showImportPopup && (
+        <ImportTradesPopup onClose={handleCloseImportPopup} />
+      )}
+
     </div>
   );
 };

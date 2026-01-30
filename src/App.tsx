@@ -49,7 +49,7 @@ const App = () => (
         <Route index element={<Dashboard />} />
         <Route path="trades" element={<Trades />} />
         <Route path="performance" element={<Performance />} />
-        <Route path="monthly-updates" element={<Calendar />} />
+        <Route path="monthly-progress" element={<Calendar />} />
         <Route path="ai-insights" element={<AiInsights />} />
         <Route path="psychology" element={<Psychology />} />
         <Route path="risk" element={<Risk />} />

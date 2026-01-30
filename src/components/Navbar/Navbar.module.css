@@ -11,6 +11,13 @@
     border-bottom: 1px solid #E0E0E0;
 }
 
+.TJLogo{
+  background-color: var(--primary-dark-text);
+  padding: 4px 8px;
+  color: white;
+  margin-right: 8px;
+}
+
 @media (max-width: 1320px){
   .navbar{
     gap: 10%;
@@ -27,7 +34,7 @@
 .logo {
     font-weight: 700; 
     font-size: 24px;
-    color: #066d4e;
+    color: var(--primary-dark-text);
     letter-spacing: -.8px;
 }
 
@@ -82,7 +89,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--hero-green-title);
+    color: var(--primary-dark-text);
     z-index: 1001;
 }
 
@@ -106,8 +113,8 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 100vh;
-        background-color: var(--primary-dark-text);
+        height: 60vh;
+        background-color: white;
         z-index: 1000;
         display: flex;
         flex-direction: column;
@@ -129,6 +136,7 @@
         flex: 1;
         justify-content: center;
         align-items: center;
+        
     }
     
     .mobileButtons {
@@ -139,7 +147,7 @@
     }
     
     .mobileMenuContainer .navLink {
-        color: var(--landing-background);
+        color: var(--hero-title);
         font-size: 1.5rem;
         padding: 0.5rem 0;
         transition: opacity 0.2s ease;
@@ -204,7 +212,7 @@
 .dropdownContainer {
   position: absolute;
   top: 75px;
-  right: 0;
+  right: 50px;
   background: var(--landing-background);
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);

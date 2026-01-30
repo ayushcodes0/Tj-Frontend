@@ -188,9 +188,9 @@ const TermsAndConditions: React.FC = () => {
                   For questions about these terms or our services:
                 </p>
                 <address className={Styles.contactInfo}>
-                  Email: tradejournalai@gmail.com<br />
-                  Phone: +91 9999999999<br />
-                  Address: Bengaluru, Karnataka, India<br />
+                  Email: tradejournal.ai@gmail.com<br />
+                  Phone: +91 9339682864<br />
+                  Address: COCOON COWORKS NO 757, 15th main, 7th cross, BTM 2nd stage. Bangalore South-560076<br />
                   Website: https://tradejournalai.in
                 </address>
                 <p className={Styles.sectionText}>

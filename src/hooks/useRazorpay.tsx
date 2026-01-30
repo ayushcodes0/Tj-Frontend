@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { useCustomToast } from './useCustomToast';
+import { useState } from "react";
+import { useCustomToast } from "./useCustomToast";
 
-// Define proper interfaces instead of using 'any'
 interface PaymentResponse {
   razorpay_payment_id: string;
   razorpay_order_id: string;
@@ -17,16 +16,25 @@ interface VerifyResponse {
 interface OrderResponse {
   success: boolean;
   orderId: string;
-  amount: number;
+  amount: number; // paise
   currency: string;
   keyId: string;
   planType?: string;
+
+  // ✅ discount info from backend
+  originalAmount?: number;
+  payableAmount?: number;
+  discountApplied?: boolean;
+  discountPercent?: number;
+
+  message?: string;
 }
 
 interface PaymentData {
-  amount: number;
+  amount: number; // fallback only (backend decides actual)
   userId: string;
-  planType: 'monthly' | 'annual';
+  userEmail: string;
+  planType: "monthly" | "annual";
   onSuccess?: (paymentId: string, planType: string) => void;
   onFailure?: (error: string) => void;
 }
@@ -50,16 +58,16 @@ interface RazorpayOptions {
   description: string;
   order_id: string;
   image?: string;
-  handler: (response: PaymentResponse) => void;
-  prefill: {
-    email: string;
-    contact: string;
+  handler: (response: PaymentResponse) => void | Promise<void>;
+  prefill?: {
+    email?: string;
+    contact?: string;
   };
-  theme: {
-    color: string;
+  theme?: {
+    color?: string;
   };
-  modal: {
-    ondismiss: () => void;
+  modal?: {
+    ondismiss?: () => void;
   };
 }
 
@@ -74,67 +82,79 @@ export const useRazorpay = () => {
         return;
       }
 
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
       script.onload = () => resolve(true);
       script.onerror = () => resolve(false);
       document.body.appendChild(script);
     });
   };
 
-  const initiatePayment = async ({ amount, userId, planType, onSuccess, onFailure }: PaymentData): Promise<void> => {
+  const initiatePayment = async ({
+    amount,
+    userId,
+    userEmail,
+    planType,
+    onSuccess,
+    onFailure,
+  }: PaymentData): Promise<void> => {
     try {
       setLoading(true);
-      
-      // Load Razorpay script
+
       const scriptLoaded = await loadRazorpayScript();
       if (!scriptLoaded) {
-        toast.showErrorToast('Payment gateway failed to load. Please check your internet connection.');
-        onFailure?.('Payment gateway failed to load');
+        toast.showErrorToast("Payment gateway failed to load. Please check your internet connection.");
+        onFailure?.("Payment gateway failed to load");
         return;
       }
 
-      // Create order
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.showErrorToast("You are not logged in. Please login again.");
+        onFailure?.("Not authenticated");
+        return;
+      }
+
+      // ✅ Create order (backend will apply discount automatically)
       const orderResponse = await fetch(`${import.meta.env.VITE_API_URL}/payments/create-order`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ amount, userId, planType }),
       });
 
-      if (!orderResponse.ok) {
-        throw new Error('Failed to create order');
-      }
-
       const orderData: OrderResponse = await orderResponse.json();
-      
-      if (!orderData.success) {
-        toast.showErrorToast('Failed to create payment order. Please try again.');
-        onFailure?.('Failed to create payment order');
-        return;
+
+      if (!orderResponse.ok || !orderData.success) {
+        throw new Error(orderData.message || "Failed to create order");
       }
 
-      // Razorpay options
+      // ✅ show discount toast (optional)
+      if (orderData.discountApplied) {
+        toast.showSuccessToast(`🎉 Coupon Applied! You got ${orderData.discountPercent || 10}% off.`);
+      }
+
       const options: RazorpayOptions = {
         key: import.meta.env.VITE_PUBLIC_RAZORPAY_KEY_ID as string,
         amount: orderData.amount,
-        currency: 'INR',
-        name: 'TradeJournalAI',
-        description: planType === 'annual' 
-          ? 'Pro Annual Subscription - Unlock advanced trading analytics' 
-          : 'Pro Monthly Subscription - Unlock advanced trading analytics',
+        currency: orderData.currency || "INR",
+        name: "TradeJournalAI",
+        description:
+          planType === "annual"
+            ? "Pro Annual Subscription - Unlock advanced trading analytics"
+            : "Pro Monthly Subscription - Unlock advanced trading analytics",
         order_id: orderData.orderId,
-        image: '/logo.png',
+        image: "/logo.png",
+
         handler: async (response: PaymentResponse) => {
-          // Verify payment
           try {
             const verifyResponse = await fetch(`${import.meta.env.VITE_API_URL}/payments/verify-payment`, {
-              method: 'POST',
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({
                 razorpay_order_id: response.razorpay_order_id,
@@ -145,55 +165,59 @@ export const useRazorpay = () => {
               }),
             });
 
+            const verifyData: VerifyResponse = await verifyResponse.json();
+
             if (!verifyResponse.ok) {
-              throw new Error('Verification request failed');
+              throw new Error(verifyData.message || "Verification request failed");
             }
 
-            const verifyData: VerifyResponse = await verifyResponse.json();
-            
             if (verifyData.success) {
-              const message = planType === 'annual' 
-                ? 'Annual payment successful! Welcome to TradeJournalAI Pro!'
-                : 'Monthly payment successful! Welcome to TradeJournalAI Pro!';
+              const message =
+                planType === "annual"
+                  ? "🎉 Annual payment successful! Welcome to TradeJournalAI Pro!"
+                  : "🎉 Monthly payment successful! Welcome to TradeJournalAI Pro!";
+
               toast.showSuccessToast(message);
               onSuccess?.(response.razorpay_payment_id, planType);
             } else {
-              toast.showErrorToast('Payment verification failed. Please contact support.');
-              onFailure?.(verifyData.message || 'Payment verification failed');
+              toast.showErrorToast("Payment verification failed. Please contact support.");
+              onFailure?.(verifyData.message || "Payment verification failed");
             }
           } catch (error) {
-            console.error('Payment verification error:', error);
-            const errorMessage = error instanceof Error ? error.message : 'Payment verification failed';
-            toast.showErrorToast('Payment verification failed. Please contact support.');
+            console.error("Payment verification error:", error);
+            const errorMessage = error instanceof Error ? error.message : "Payment verification failed";
+            toast.showErrorToast("Payment verification failed. Please contact support.");
             onFailure?.(errorMessage);
           }
         },
+
         prefill: {
-          email: `${userId}@example.com`,
-          contact: '9999999999',
+          email: userEmail,
+          contact: "9999999999",
         },
+
         theme: {
-          color: '#4840BB',
+          color: "#4840BB",
         },
+
         modal: {
           ondismiss: () => {
-            toast.showInfoToast('Payment cancelled');
-            onFailure?.('Payment cancelled by user');
-          }
-        }
+            toast.showInfoToast("Payment cancelled");
+            onFailure?.("Payment cancelled by user");
+          },
+        },
       };
 
       if (!window.Razorpay) {
-        throw new Error('Razorpay SDK not loaded');
+        throw new Error("Razorpay SDK not loaded");
       }
 
       const rzp = new window.Razorpay(options);
       rzp.open();
-      
     } catch (error) {
-      console.error('Payment initiation error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to initiate payment';
-      toast.showErrorToast('Failed to initiate payment. Please try again.');
+      console.error("Payment initiation error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to initiate payment";
+      toast.showErrorToast("Failed to initiate payment. Please try again.");
       onFailure?.(errorMessage);
     } finally {
       setLoading(false);

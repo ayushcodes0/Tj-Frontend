@@ -4,20 +4,24 @@ import { RiTwitterXFill } from "react-icons/ri";
 import { BsInstagram } from "react-icons/bs";
 import { FaWhatsapp } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { IoLocation } from "react-icons/io5";
+
 
 const Footer = () => {
   return (
     <div className={Styles.footerWrapper}>
       <div className={Styles.footer}>
         <div className={Styles.footerLogo}>
-          <p className={Styles.logo}>Tradejournalai</p>
-          <p className={Styles.email}>Tradejournalai@gmail.com</p>
+          <p className={Styles.logo}><span className={Styles.TJLogo}>TJ</span>Tradejournalai</p>
+          <p className={Styles.email}>tradejournal.ai@gmail.com</p>
+          <p className={Styles.location}>Location <span className={Styles.locIcon}><IoLocation/></span>: Cocoon Coworks 15th main, 2nd stage BTM layout, Bangalore</p>
+
           <div className={Styles.socials}>
-            <a href="#" aria-label="Twitter"><RiTwitterXFill /></a>
-            <a href="#" aria-label="LinkedIn"><FaLinkedin /></a>
-            <a href="#" aria-label="Instagram"><BsInstagram /></a>
-            <a href="#" aria-label="YouTube"><FaYoutube /></a>
-            <a href="#" aria-label="Whatsapp"><FaWhatsapp /></a>
+            <a target='_blank' href="https://x.com/tradejournal_ai?t=ig9DqGrD_kHbF0yWEUecTg&s=09" aria-label="Twitter"><RiTwitterXFill /></a>
+            <a target='_blank' href="#" aria-label="LinkedIn"><FaLinkedin /></a>
+            <a target='_blank' href="https://www.instagram.com/tradejournal.ai?igsh=dnQwcDJldTBqczho" aria-label="Instagram"><BsInstagram /></a>
+            <a target='_blank' href="#" aria-label="YouTube"><FaYoutube /></a>
+            <a target='_blank' href="#" aria-label="Whatsapp"><FaWhatsapp /></a>
           </div>
         </div>
         <div className={Styles.footerContent}>
@@ -47,9 +51,24 @@ const Footer = () => {
         </div>
       </div>
       <div className={Styles.footerBottom}>
-        <p className={Styles.footerBottomText}>© {new Date().getFullYear()} Tradejournalai. All rights reserved.</p>
-        <p className={`${Styles.footerBottomText} ${Styles.version}`}>Version 1.0.1</p>
-      </div>
+      <p className={Styles.footerBottomText}>
+        © {new Date().getFullYear()} Tradejournalai. All rights reserved. 
+        <span style={{ marginLeft: "8px" }}>
+          | Developed by {" "}
+          <a 
+            href="https://ayush.jeearchive.in" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ fontWeight: 600, textDecoration: "underline", color: 'var(--hero-title)' }}
+          >
+            Ayush Singh
+          </a>
+        </span>
+      </p>
+
+      <p className={`${Styles.footerBottomText} ${Styles.version}`}>Version 1.0.1</p>
+    </div>
+
     </div>
   )
 }

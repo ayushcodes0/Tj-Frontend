@@ -136,7 +136,7 @@ const PricingNav = () => {
 
   return (
     <div className={Styles.navbar}>
-      <Link to={"/"}><p className={Styles.logo}>TradeJournal</p></Link>
+      <Link to={"/"}><p className={Styles.logo}><span className={Styles.TJLogo}>TJ</span>TradeJournal</p></Link>
       
       <div className={Styles.navLinks}>
         <a href="/" className={Styles.navLink}>Home</a>

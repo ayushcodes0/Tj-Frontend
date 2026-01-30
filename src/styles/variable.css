@@ -166,6 +166,7 @@
   --primary-dark-text: #066d4e; 
 
   --primary-text: #0fb87f;
+  /* --primary-text: #0CCD1E; */
 
     /* Green gradient for navigation and other primary elements */
   --nav-grad-start: #1A6635;
@@ -182,11 +183,13 @@
 
 
   --hero-color-start: #066d4e;
-  --hero-color-end: #11cd8e;
+  /* --hero-color-end: #11cd8e; */
+  --hero-color-end: #0CCD1E;
 
 
   --hero-title : #213856;
-  --hero-green-title : #066d4e;
+  /* --hero-green-title : #066d4e; */
+  --hero-green-title : #0CCD1E;
 
 
   --tk-spacing-xxxsmall: 2px;

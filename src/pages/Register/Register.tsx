@@ -1,50 +1,55 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FcGoogle } from 'react-icons/fc';
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import Styles from './Register.module.css';
-import { useAuth } from '../../hooks/useAuth';
-import { useCustomToast } from '../../hooks/useCustomToast';
-import { useGoogleAuth } from '../../hooks/useGoogleAuth'; // Add this import
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaTag } from "react-icons/fa";
+import Styles from "./Register.module.css";
+import { useAuth } from "../../hooks/useAuth";
+import { useCustomToast } from "../../hooks/useCustomToast";
+import { useGoogleAuth } from "../../hooks/useGoogleAuth";
+import { applyReferralCode } from "../../services/referralService";
 
 interface FormData {
   username: string;
   email: string;
   password: string;
+  coupon: string;
 }
 
 const Register = () => {
   const navigate = useNavigate();
-  const { register, loading } = useAuth();
-  const { showSuccessToast, showErrorToast } = useCustomToast();
-  const { initiateGoogleSignup } = useGoogleAuth(); // Add this hook
+  const { register, loading, token } = useAuth();
+  const { showSuccessToast, showErrorToast, showInfoToast, showWarningToast } = useCustomToast();
+  const { initiateGoogleSignup } = useGoogleAuth();
+
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
+    coupon: "",
   });
+
   const [validationErrors, setValidationErrors] = useState<Partial<FormData>>({});
 
   const validateForm = (): boolean => {
     const errors: Partial<FormData> = {};
-    
+
     if (!formData.username.trim()) {
-      errors.username = 'Username is required';
+      errors.username = "Username is required";
     } else if (formData.username.length < 3) {
-      errors.username = 'Username must be at least 3 characters';
+      errors.username = "Username must be at least 3 characters";
     }
 
     if (!formData.email.trim()) {
-      errors.email = 'Email is required';
+      errors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Please enter a valid email';
+      errors.email = "Please enter a valid email";
     }
 
     if (!formData.password) {
-      errors.password = 'Password is required';
+      errors.password = "Password is required";
     } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
+      errors.password = "Password must be at least 6 characters";
     }
 
     setValidationErrors(errors);
@@ -53,31 +58,55 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!validateForm()) return;
 
     try {
+      // ✅ 1) Register user (this also logs in and saves token/user)
       await register(formData.username, formData.email, formData.password);
-      showSuccessToast('Registration successful! Welcome aboard!');
-      navigate('/dashboard');
+
+      showSuccessToast("Registration successful! Welcome!");
+
+      // ✅ 2) Apply coupon if provided (optional)
+      // token from context may not be immediately updated due to state update cycle
+      // so we apply coupon after redirect OR using localStorage token
+      const coupon = formData.coupon.trim();
+      if (coupon) {
+        const savedToken = localStorage.getItem("token");
+        const useToken = savedToken || token;
+
+        if (useToken) {
+          try {
+            showInfoToast("Applying coupon...");
+            const res = await applyReferralCode(useToken, coupon);
+            showSuccessToast(res.message || "🎉 Coupon applied!");
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : "Failed to apply coupon";
+            showWarningToast(msg);
+          }
+        } else {
+          showWarningToast("Coupon will be available to apply later in Profile.");
+        }
+      }
+
+      navigate("/dashboard");
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Registration failed';
+      const errorMessage = err instanceof Error ? err.message : "Registration failed";
       showErrorToast(errorMessage);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
-    // Clear validation error when user types
+
     if (validationErrors[name as keyof FormData]) {
-      setValidationErrors(prev => ({
+      setValidationErrors((prev) => ({
         ...prev,
-        [name]: undefined
+        [name]: undefined,
       }));
     }
   };
@@ -95,64 +124,60 @@ const Register = () => {
         <div className={Styles.ball4}></div>
         <div className={Styles.ball5}></div>
       </div>
-      
+
       <div className={Styles.registerContent}>
         <h1 className={Styles.registerTitle}>Create Account</h1>
-        
+
         <form onSubmit={handleSubmit} className={Styles.registerForm} noValidate>
           {/* Username Field */}
           <div className={Styles.formGroup}>
-            <div className={`${Styles.inputContainer} ${validationErrors.username ? Styles.inputError : ''}`}>
+            <div className={`${Styles.inputContainer} ${validationErrors.username ? Styles.inputError : ""}`}>
               <FaUser className={Styles.inputIcon} />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 name="username"
-                placeholder="Username" 
+                placeholder="Username"
                 className={Styles.formInput}
                 value={formData.username}
                 onChange={handleChange}
                 disabled={loading}
               />
             </div>
-            {validationErrors.username && (
-              <span className={Styles.validationError}>{validationErrors.username}</span>
-            )}
+            {validationErrors.username && <span className={Styles.validationError}>{validationErrors.username}</span>}
           </div>
 
           {/* Email Field */}
           <div className={Styles.formGroup}>
-            <div className={`${Styles.inputContainer} ${validationErrors.email ? Styles.inputError : ''}`}>
+            <div className={`${Styles.inputContainer} ${validationErrors.email ? Styles.inputError : ""}`}>
               <FaEnvelope className={Styles.inputIcon} />
-              <input 
-                type="email" 
+              <input
+                type="email"
                 name="email"
-                placeholder="Email Address" 
+                placeholder="Email Address"
                 className={Styles.formInput}
                 value={formData.email}
                 onChange={handleChange}
                 disabled={loading}
               />
             </div>
-            {validationErrors.email && (
-              <span className={Styles.validationError}>{validationErrors.email}</span>
-            )}
+            {validationErrors.email && <span className={Styles.validationError}>{validationErrors.email}</span>}
           </div>
-          
+
           {/* Password Field */}
           <div className={Styles.formGroup}>
-            <div className={`${Styles.inputContainer} ${validationErrors.password ? Styles.inputError : ''}`}>
+            <div className={`${Styles.inputContainer} ${validationErrors.password ? Styles.inputError : ""}`}>
               <FaLock className={Styles.inputIcon} />
-              <input 
-                type={showPassword ? "text" : "password"} 
+              <input
+                type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Password" 
+                placeholder="Password"
                 className={Styles.formInput}
                 value={formData.password}
                 onChange={handleChange}
                 disabled={loading}
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className={Styles.passwordToggle}
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
@@ -161,42 +186,45 @@ const Register = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-            {validationErrors.password && (
-              <span className={Styles.validationError}>{validationErrors.password}</span>
-            )}
+            {validationErrors.password && <span className={Styles.validationError}>{validationErrors.password}</span>}
           </div>
-          
-          <button 
-            type="submit" 
-            className={Styles.registerButton}
-            disabled={loading}
-          >
-            {loading ? 'Creating Account...' : 'Create Account'}
+
+          {/* ✅ Coupon Field */}
+          <div className={Styles.formGroup}>
+            <div className={Styles.inputContainer}>
+              <FaTag className={Styles.inputIcon} />
+              <input
+                type="text"
+                name="coupon"
+                placeholder="Coupon Code (optional)"
+                className={Styles.formInput}
+                value={formData.coupon}
+                onChange={handleChange}
+                disabled={loading}
+              />
+            </div>
+          </div>
+
+          <button type="submit" className={Styles.registerButton} disabled={loading}>
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
-          
+
           <div className={Styles.divider}>
             <span>OR</span>
           </div>
-          
-          <button 
-          type="button" 
-          className={Styles.googleButton}
-          onClick={handleGoogleSignup} // Update this line
-          disabled={loading}
-        >
-          <FcGoogle className={Styles.googleIcon} />
-          Sign up with Google
-        </button>
-          
+
+          <button type="button" className={Styles.googleButton} onClick={handleGoogleSignup} disabled={loading}>
+            <FcGoogle className={Styles.googleIcon} />
+            Sign up with Google
+          </button>
+
           <div className={Styles.loginLink}>
-            <span>Already have an account? <Link to="/login">Sign in</Link></span>
-            <button 
-                  type="button" 
-                  onClick={() => navigate('/')} 
-                  className={Styles.goBackButton}
-                >
-                  Back to Home
-                </button>
+            <span>
+              Already have an account? <Link to="/login">Sign in</Link>
+            </span>
+            <button type="button" onClick={() => navigate("/")} className={Styles.goBackButton}>
+              Back to Home
+            </button>
           </div>
         </form>
       </div>
@@ -204,4 +232,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;

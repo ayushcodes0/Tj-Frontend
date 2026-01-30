@@ -4,6 +4,11 @@ import { useTrades } from "../../hooks/useTrade";
 import { useCustomToast } from "../../hooks/useCustomToast"; // Add this import
 import Styles from "./Settings.module.css";
 import type { Trade } from "../../context/TradeContext";
+import type { ReferralMeResponse } from "../../services/referralService";
+import { getReferralMe, generateReferralCode } from "../../services/referralService";
+
+
+
 
 // React Icons imports
 import { 
@@ -40,6 +45,10 @@ const Settings: React.FC = () => {
   const { user, updateAvatar, loading, changeUsername, changePassword } = useAuth();
   const { trades, fetchTrades } = useTrades();
   const toast = useCustomToast(); // Add toast hook
+  const [referralInfo, setReferralInfo] = useState<ReferralMeResponse | null>(null);
+const [referralLoading, setReferralLoading] = useState<boolean>(false);
+
+
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +72,73 @@ const Settings: React.FC = () => {
   useEffect(() => {
     fetchTrades("lifetime");
   }, [fetchTrades]);
+
+  useEffect(() => {
+  const run = async () => {
+    try {
+      const savedToken = localStorage.getItem("token");
+      if (!savedToken) return;
+
+      setReferralLoading(true);
+      const data = await getReferralMe(savedToken);
+      setReferralInfo(data);
+    } catch (err) {
+      console.error("Failed to fetch referral info:", err);
+    } finally {
+      setReferralLoading(false);
+    }
+  };
+
+  run();
+}, []);
+
+
+  const refreshReferralInfo = async () => {
+  try {
+    const savedToken = localStorage.getItem("token");
+    if (!savedToken) return;
+
+    setReferralLoading(true);
+    const data = await getReferralMe(savedToken);
+    setReferralInfo(data);
+  } catch (err) {
+    console.error("Failed to refresh referral info:", err);
+  } finally {
+    setReferralLoading(false);
+  }
+};
+
+const handleGenerateCoupon = async () => {
+  try {
+    const savedToken = localStorage.getItem("token");
+    if (!savedToken) {
+      toast.showErrorToast("Please login again.");
+      return;
+    }
+
+    setReferralLoading(true);
+    const res = await generateReferralCode(savedToken);
+
+    toast.showSuccessToast(`✅ Coupon generated: ${res.code}`);
+    await refreshReferralInfo();
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Failed to generate coupon";
+    toast.showErrorToast(msg);
+  } finally {
+    setReferralLoading(false);
+  }
+};
+
+const handleCopyCoupon = async (code: string) => {
+  try {
+    await navigator.clipboard.writeText(code);
+    toast.showSuccessToast("📋 Coupon code copied!");
+  } catch {
+    toast.showErrorToast("Failed to copy coupon");
+  }
+};
+
+
 
   // Your existing calculateStreaks function stays the same...
   const calculateStreaks = (trades: Trade[]): { current: number; max: number } => {
@@ -461,6 +537,57 @@ const Settings: React.FC = () => {
               </div>
             </div>
           </div>
+          {/* Referral Section */}
+<div className={Styles.subscriptionDetails}>
+  <div className={Styles.detailItem}>
+    <label className={Styles.detailLabel}>Your Coupon Code</label>
+
+    <div className={Styles.detailValue} style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+      {referralLoading ? (
+        <span>Loading...</span>
+      ) : referralInfo?.referral?.code ? (
+        <>
+          <strong>{referralInfo.referral.code}</strong>
+
+          <button
+            type="button"
+            className={Styles.secondaryButton}
+            style={{ padding: "6px 10px", fontSize: "12px" }}
+            onClick={() => handleCopyCoupon(referralInfo.referral?.code || "")}
+          >
+            Copy
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          className={Styles.primaryButton}
+          style={{ padding: "8px 14px", fontSize: "13px" }}
+          onClick={handleGenerateCoupon}
+          disabled={referralLoading}
+        >
+          {referralLoading ? "Generating..." : "Generate Coupon"}
+        </button>
+      )}
+    </div>
+  </div>
+
+  <div className={Styles.detailItem}>
+    <label className={Styles.detailLabel}>Paid Referrals</label>
+    <div className={Styles.detailValue}>
+      {referralInfo?.referral?.stats?.totalPaidReferrals ?? 0}
+    </div>
+  </div>
+
+  <div className={Styles.detailItem}>
+    <label className={Styles.detailLabel}>Total Reward Days</label>
+    <div className={Styles.detailValue}>
+      {(referralInfo?.referral?.stats?.totalRewardDays ?? 0)} days
+    </div>
+  </div>
+</div>
+
+
           {/* Security Section - stays the same */}
           <div className={Styles.sectionCard}>
             <div className={Styles.sectionHeader}>

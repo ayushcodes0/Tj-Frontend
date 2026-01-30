@@ -24,6 +24,7 @@ interface Option {
 
 const initialFormData: TradeFormData = {
   symbol: '',
+  asset_type: '',
   date: '',
   quantity: null,
   total_amount: 0,
@@ -48,6 +49,14 @@ const initialFormData: TradeFormData = {
     lessons_learned: ''
   }
 };
+
+const assetTypeOptions = [
+  { value: 'stock', label: 'Stock' },
+  { value: 'crypto', label: 'Crypto' },
+  { value: 'futures', label: 'Futures' },
+  { value: 'option', label: 'Option' },
+  { value: 'forex', label: 'Forex' }
+];
 
 const getRangeProgressStyle = (value: number, min: number, max: number) => {
   const progress = ((value - min) / (max - min)) * 100;
@@ -75,6 +84,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
       const populatedFormData: TradeFormData = {
         ...initialFormData,
         ...tradeToEdit,
+        asset_type: tradeToEdit.asset_type || '', // Include asset_type
         strategy: typeof tradeToEdit.strategy === 'object' ? tradeToEdit.strategy._id : '',
         outcome_summary: typeof tradeToEdit.outcome_summary === 'object' ? tradeToEdit.outcome_summary._id : '',
         rules_followed: tradeToEdit.rules_followed?.map(rule => typeof rule === 'object' ? rule._id : '') || [],
@@ -265,35 +275,53 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
 
   // Helper: Convert the form data to the backend-compatible format
   const convertFormDataToTradeData = (formData: TradeFormData): Partial<Trade> => {
-    return {
-      ...formData,
-      quantity: formData.quantity ?? undefined,
-      entry_price: formData.entry_price ?? undefined,
-      exit_price: formData.exit_price ?? undefined,
-      stop_loss: formData.stop_loss ?? undefined,
-      target: formData.target ?? undefined,
-      holding_period_minutes: formData.holding_period_minutes ?? undefined,
-      strategy: formData.strategy ? { _id: formData.strategy, name: '' } : undefined,
-      outcome_summary: formData.outcome_summary ? { _id: formData.outcome_summary, name: '' } : undefined,
-      rules_followed: formData.rules_followed
-        ? formData.rules_followed.map(id => ({ _id: id, name: '' }))
-        : [],
-      psychology: formData.psychology
-        ? {
-            ...formData.psychology,
-            emotional_state: formData.psychology.emotional_state
-              ? { _id: formData.psychology.emotional_state, name: '' }
-              : undefined,
-          }
-        : undefined,
-      tags: formData.tags || [],
-    };
+  return {
+    ...formData,
+
+    asset_type: formData.asset_type || undefined,
+
+    quantity: formData.quantity ?? undefined,
+    entry_price: formData.entry_price ?? undefined,
+    exit_price: formData.exit_price ?? undefined,
+    stop_loss: formData.stop_loss ?? undefined,
+    target: formData.target ?? undefined,
+    holding_period_minutes: formData.holding_period_minutes ?? undefined,
+
+    // FIXED — Force ID to always be a string
+    strategy: formData.strategy
+      ? { _id: String(formData.strategy), name: '' }
+      : undefined,
+
+    outcome_summary: formData.outcome_summary
+      ? { _id: String(formData.outcome_summary), name: '' }
+      : undefined,
+
+    rules_followed: formData.rules_followed
+      ? formData.rules_followed.map(id => ({ _id: String(id), name: '' }))
+      : [],
+
+    psychology: formData.psychology
+      ? {
+          ...formData.psychology,
+          emotional_state: formData.psychology.emotional_state
+            ? { _id: String(formData.psychology.emotional_state), name: '' }
+            : undefined,
+        }
+      : undefined,
+
+    tags: formData.tags || [],
   };
+};
+
 
   // Validate only required fields for General tab
   const validateGeneralTab = (): boolean => {
     if (!formData.symbol.trim()) {
       toast.handleValidationError("Symbol", "required");
+      return false;
+    }
+    if (!formData.asset_type) {
+      toast.handleValidationError("Asset Type", "required");
       return false;
     }
     if (!formData.date) {
@@ -419,9 +447,26 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       type="text" 
                       value={formData.symbol} 
                       onChange={e => handleUpdateField("symbol", e.target.value)} 
-                      placeholder="e.g., NIFTY50, SENSEX"
+                      placeholder="e.g., NIFTY50, SENSEX, BTCUSD"
                       required 
                     />
+                  </div>
+                  <div className={Styles.formGroup}>
+                    <label>
+                      Asset Type <span className={Styles.required}>*</span>
+                    </label>
+                    <select 
+                      value={formData.asset_type} 
+                      onChange={e => handleUpdateField("asset_type", e.target.value as TradeFormData["asset_type"])}
+                      required
+                    >
+                      <option value="">Select Asset Type</option>
+                      {assetTypeOptions.map(option => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className={Styles.formGroup}>
                     <label htmlFor="tradeDate">
@@ -531,7 +576,11 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       <label>
                         Strategy <span className={Styles.required}>*</span>
                       </label>
-                      <select value={formData.strategy} onChange={e => handleUpdateField("strategy", e.target.value)} required>
+                      <select
+                        value={String(formData.strategy ?? "")}
+                        onChange={e => handleUpdateField("strategy", e.target.value as TradeFormData["strategy"])}
+                        required
+                      >
                         <option value="">Select Strategy</option>
                         {strategies.map(o => (
                           <option key={o._id} value={o._id}>
@@ -539,6 +588,7 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                           </option>
                         ))}
                       </select>
+
                       <div className={Styles.addCustomContainer}>
                         <input
                           type="text"
@@ -558,7 +608,11 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                       <label>
                         Outcome <span className={Styles.required}>*</span>
                       </label>
-                      <select value={formData.outcome_summary} onChange={e => handleUpdateField("outcome_summary", e.target.value)} required>
+                      <select
+                        value={String(formData.outcome_summary ?? "")}
+                        onChange={e => handleUpdateField("outcome_summary", e.target.value as TradeFormData["outcome_summary"])}
+                        required
+                      >
                         <option value="">Select Outcome</option>
                         {outcomeSummaries.map(o => (
                           <option key={o._id} value={o._id}>
@@ -566,16 +620,18 @@ const NewTradePopup: React.FC<NewTradePopupProps> = ({ onClose, tradeToEdit }) =
                           </option>
                         ))}
                       </select>
+
                     </div>
                   </div>
                   <div className={Styles.formGroup}>
                     <label>Trade Analysis</label>
-                    <textarea 
-                      value={formData.trade_analysis} 
-                      onChange={e => handleUpdateField("trade_analysis", e.target.value)} 
-                      rows={4} 
-                      placeholder="Explain why you entered this trade, market conditions, technical indicators used, etc."
+                    <textarea
+                      value={String(formData.trade_analysis ?? "")}
+                      onChange={e => handleUpdateField("trade_analysis", e.target.value as TradeFormData["trade_analysis"])}
+                      rows={4}
+                      placeholder="Explain why you entered this trade..."
                     />
+
                   </div>
                   <div className={Styles.formGroup}>
                     <label>

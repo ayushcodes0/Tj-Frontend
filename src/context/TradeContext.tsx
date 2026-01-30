@@ -12,6 +12,7 @@ export interface Psychology {
 export interface Trade {
   _id: string;
   user_id: string;
+  asset_type?: "" | "Stock" | "Option" | "Forex" | "Crypto" | "Other";
   symbol: string;
   date: string;
   quantity: number;

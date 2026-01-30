@@ -4,6 +4,7 @@ import Styles from "./Dashboard.module.css";
 import { LineChart, Line, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend, BarChart, Bar } from 'recharts';
 import { NavLink } from "react-router-dom";
 import { useFilters } from "../../hooks/useFilters";
+import PerformanceAnalytics from "../PerformanceAnalytics/PerformanceAnalytics";
 
 const getCurrentYear = () => new Date().getFullYear();
 const getCurrentMonth = () => new Date().getMonth() + 1;
@@ -589,6 +590,10 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {trades && trades.length > 0 && (
+  <PerformanceAnalytics trades={trades as unknown[]} />
+)}
+
       {topTrades.length > 0 && (
         <div className={Styles.topTradesSection}>
           <div className={Styles.topTradesHeading}>
@@ -639,7 +644,10 @@ const Dashboard = () => {
             </table>
           </div>
         </div>
+
       )}
+    
+
     </div>
   );
 };

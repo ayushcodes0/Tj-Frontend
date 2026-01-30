@@ -38,7 +38,7 @@
 .mainHeading {
   font-size: 70px;
   font-weight: 800;
-  color: var(--primary-white);
+  color: var(--landing-background);
   line-height: 1;
   letter-spacing: -2px;
 }
@@ -48,7 +48,7 @@
   font-weight: 500;
   margin-top: 15px;
   opacity: 0.8;
-  color: var(--primary-white);
+  color: var(--landing-background);
 }
 
 .termsContentContainer {

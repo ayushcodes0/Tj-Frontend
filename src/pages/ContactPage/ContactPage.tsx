@@ -194,7 +194,7 @@ const ContactPage = () => {
               </div>
               <div className={Styles.infoBlock}>
                 <p className={Styles.infoLabel}>Phone</p>
-                <p className={Styles.infoText}>+1 (555) 123-4567</p>
+                <p className={Styles.infoText}>9339682864</p>
               </div>
               <div className={Styles.infoBlock}>
                 <p className={Styles.infoLabel}>Socials</p>

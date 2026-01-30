@@ -82,7 +82,7 @@ const Navbar = () => {
   return (
     <div className={Styles.navbar}>
       <div>
-        <Link to={"/"}><p className={Styles.logo}>Tradejournalai</p></Link>
+        <Link to={"/"}><p className={Styles.logo}><span className={Styles.TJLogo}>TJ</span>Tradejournalai</p></Link>
       </div>
 
       <div className={Styles.navLinks}>

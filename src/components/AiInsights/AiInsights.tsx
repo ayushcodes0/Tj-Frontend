@@ -4,7 +4,7 @@ import Styles from './AiInsights.module.css';
 import { FaTrophy, FaChartLine, FaExclamationTriangle, FaLightbulb, FaCheckCircle, FaTimesCircle, FaBrain } from 'react-icons/fa';
 
 
-interface KeyMetric {
+interface KeyMetric { 
   metric: string;
   value: string;
   sentiment: 'positive' | 'negative' | 'neutral';

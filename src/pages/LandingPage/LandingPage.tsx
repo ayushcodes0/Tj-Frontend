@@ -21,10 +21,8 @@ import PricingCard from '../../components/pricingCard/PricingCard';
 // import logo from '../../assets/image/Logo2.png'
 import { MdOutlineDone } from "react-icons/md";
 import { HiSparkles } from "react-icons/hi2";
-import HowItWorksTrades from "../../assets/image/HowItWorksTrades.png";
-import HowItWorksCalendar from "../../assets/image/HowItWorksCalendar.png";
-import HowItWorksPsycology from "../../assets/image/HowItWorksPsycology.png";
 import HeroImage from "../../assets/image/HeroImage.png";
+import HeroImage2 from "../../assets/image/HeroImage2.png";
 
 
 
@@ -66,43 +64,64 @@ const LandingPage = () => {
 
   return (
     <div className={Styles.landingPageContainer}> 
-      <div className={Styles.landingPageHero}>
-  <div className={Styles.navbarContainer}>
-    <Navbar />
-  </div>
-  <div className={Styles.heroSection}>
-    <div className={Styles.heroContent}>
-      
-      <h1 className={Styles.heroTitle}>
-        Track, analyze, and optimize your trading performance with precision.
-      </h1>
-      
-      <div className={Styles.heroTags}>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Pattern Recognition</p>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Ai Insights</p>
-        <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Improve Win Rate</p>
-      </div>
-      
-      <div className={Styles.heroCta}>
-        <NavLink to={"/register"}><FilledButton text='Start For Free' /></NavLink>
-      </div>
-      
-      <div className={Styles.heroRectangle}>
-        <div className={Styles.heroImageContainer}>
-          <div className={Styles.heroImage}>
-            <img src={HeroImage} alt="Trading Dashboard" className={Styles.heroMockup} />
-          </div>
-          <div className={Styles.heroImageSecondary}>
-            <img src={HeroImage} alt="Analytics Dashboard" className={Styles.heroMockupSecondary} />
-          </div>
-          <div className={Styles.heroImageTertiary}>
-            <img src={HeroImage} alt="Performance Metrics" className={Styles.heroMockupTertiary} />
+  <div className={Styles.landingPageHero}>
+    <div className={Styles.navbarContainer}>
+      <Navbar />
+    </div>
+    <div className={Styles.heroSection}>
+      <div className={Styles.heroContent}>
+        
+        <h1 className={Styles.heroTitle}>
+          Track, analyze, and optimize your trading performance with ai insights.
+        </h1>
+        
+        <div className={Styles.heroTags}>
+          <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Pattern Recognition</p>
+          <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Ai Insights</p>
+          <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Improve Win Rate</p>
+        </div>
+        
+        <div className={Styles.heroCta}>
+          <NavLink to={"/register"}><FilledButton text='Start For Free' /></NavLink>
+        </div>
+        
+        {/* Enhanced Hero Image Container */}
+        <div className={Styles.heroRectangle}>
+          <div className={Styles.heroImageContainer}>
+            {/* Desktop Images */}
+            <div className={Styles.heroImage}>
+              <img 
+                src={HeroImage} 
+                alt="Trading Dashboard" 
+                className={Styles.heroMockup} 
+              />
+            </div>
+            <div className={Styles.heroImageSecondary}>
+              <img src={HeroImage} alt="Analytics Dashboard" className={Styles.heroMockupSecondary} />
+            </div>
+            <div className={Styles.heroImageTertiary}>
+              <img src={HeroImage} alt="Performance Metrics" className={Styles.heroMockupTertiary} />
+            </div>
+            
+            {/* Mobile Images */}
+            <div className={Styles.mobileHeroImage}>
+              <img 
+                src={HeroImage2} 
+                alt="Trading Dashboard Mobile" 
+                className={Styles.heroMockup} 
+              />
+            </div>
+            <div className={Styles.mobileHeroSecondary}>
+              <img src={HeroImage2} alt="Analytics Dashboard Mobile" className={Styles.heroMockupSecondary} />
+            </div>
+            <div className={Styles.mobileHeroTertiary}>
+              <img src={HeroImage2} alt="Performance Metrics Mobile" className={Styles.heroMockupTertiary} />
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
 
       {/* Brokerage Integration Section */}
@@ -208,46 +227,90 @@ const LandingPage = () => {
     </section>
 
 
-      {/* How It Works Section */}
-      <section className={Styles.howItWorksSection}>
-        <div className={Styles.howItWorksTag}>
-          <p className={Styles.tags}>Product Highlights</p>
-        </div>
-        <div className={Styles.howItWorksCards}>
-          <div className={`${Styles.howItWorksCard} ${Styles.card1}`}>
-            <div className={Styles.text}>
-              <p className={Styles.howItWorksCardHeading}>Comprehensive Trade Management and Detailed Portfolio Overview in One Place</p>
-              <p className={Styles.howItWorksCardSubHeading}>Enter your trade details effortlessly and watch them transform into organized, professional table formats. Track every position, analyze entry and exit points, monitor profit and loss in real-time, and access complete trade history with advanced filtering options for better decision making.</p>
-              <NavLink to={"/login"}><p className={Styles.howItWorksCardCta}>Learn More</p></NavLink>
-            </div>
-            <div className={Styles.image}>
-              <img src={HowItWorksTrades} alt="All Trades Management Dashboard" />
-            </div>
-          </div>
-          
-          <div className={`${Styles.howItWorksCard} ${Styles.card2}`}>
-            <div className={Styles.image}>
-              <img src={HowItWorksCalendar} alt="Monthly Trading Calendar View" />
-            </div>            
-            <div className={Styles.text}>
-              <p className={Styles.howItWorksCardHeading}>Monthly Trading Performance Calendar with Detailed Analytics and Progress Tracking</p>
-              <p className={Styles.howItWorksCardSubHeading}>Visualize your trading journey through our intuitive monthly calendar view. Monitor daily performance patterns, identify profitable trading days, track consistency metrics, and discover seasonal trends in your trading behavior to optimize future strategies and maximize returns.</p>
-              <NavLink to={"/login"}><p className={Styles.howItWorksCardCta}>Learn More</p></NavLink>
-            </div>
-          </div>
-          
-          <div className={`${Styles.howItWorksCard} ${Styles.card3}`}>
-            <div className={Styles.text}>
-              <p className={Styles.howItWorksCardHeading}>Advanced Trading Psychology Analysis and Mindset Optimization for Better Results</p>
-              <p className={Styles.howItWorksCardSubHeading}>Understand your psychological patterns and emotional triggers during trades. Analyze decision-making processes, identify behavioral biases, track emotional states during winning and losing streaks, and develop mental discipline for consistent trading performance and improved market psychology.</p>
-              <NavLink to={"/login"}><p className={Styles.howItWorksCardCta}>Learn More</p></NavLink>
-            </div>
-            <div className={Styles.image}>
-              <img src={HowItWorksPsycology} alt="Trading Psychology Analytics Dashboard" />
-            </div>          
-          </div>
-        </div>
-      </section>
+      {/* Features Section - Replacing How It Works */}
+<section className={Styles.featuresSection}>
+  <div className={Styles.featuresTag}>
+    <p className={Styles.tags}><span><MdOutlineDone className={Styles.tagIcons}/></span>Everything You Need to Journal Like a Pro</p>
+  </div>
+  
+  <div className={Styles.featuresHeader}>
+    <h2>Comprehensive trading journal features designed to help you analyze your performance, identify improvements, and become a consistently profitable trader.</h2>
+  </div>
+
+  <div className={Styles.featuresGrid}>
+    {/* Feature 1: Multi-Asset Support */}
+    <div className={Styles.featureCard}>
+      <div className={Styles.featureIcon}>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L13.09 8.26L20 9L14.55 13.47L16.18 20L12 16.77L7.82 20L9.45 13.47L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <h3>Multi-Asset Support</h3>
+      <p>Track trades across stocks, futures, crypto, and forex markets all in one place.</p>
+    </div>
+
+    {/* Feature 2: Performance Analytics */}
+    <div className={Styles.featureCard}>
+      <div className={Styles.featureIcon}>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 22H21M3 6H21M3 2H21V22H3V2ZM7 10H17V18H7V10Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+      <h3>Performance Analytics</h3>
+      <p>Deep insights into your trading performance with detailed P&L analysis and metrics.</p>
+    </div>
+
+    {/* Feature 3: Risk Management */}
+    <div className={Styles.featureCard}>
+      <div className={Styles.featureIcon}>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L3 9V20C3 20.5304 3.21071 21.0391 3.58579 21.4142C3.96086 21.7893 4.46957 22 5 22H19C19.5304 22 20.0391 21.7893 20.4142 21.4142C20.7893 21.0391 21 20.5304 21 20V9L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 16V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 8H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+      <h3>Risk Management</h3>
+      <p>Monitor your risk exposure and track key risk metrics to improve your trading discipline.</p>
+    </div>
+
+    {/* Feature 4: Pattern Recognition */}
+    <div className={Styles.featureCard}>
+      <div className={Styles.featureIcon}>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+      <h3>Pattern Recognition</h3>
+      <p>AI analyzes your trading patterns to identify winning and losing strategies automatically.</p>
+    </div>
+
+    {/* Feature 5: Risk Assessment */}
+    <div className={Styles.featureCard}>
+  <div className={Styles.featureIcon}>
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </div>
+  <h3>Risk Assessment</h3>
+  <p>Get AI-powered risk analysis and position sizing recommendations for each trade.</p>
+</div>
+
+    {/* Feature 6: Market Sentiment */}
+    <div className={Styles.featureCard}>
+      <div className={Styles.featureIcon}>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 21 6 21H18C18.5304 21 19.0391 20.7893 19.4142 20.4142C19.7893 20.0391 20 19.5304 20 19V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M16 13H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M16 17H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M10 9H9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+      <h3>Market Sentiment</h3>
+      <p>Real-time AI analysis of market sentiment and news impact on your positions.</p>
+    </div>
+  </div>
+</section>
 
 
 
@@ -335,6 +398,20 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+
+      {/* CTA Card Section */}
+<section className={Styles.ctaCardSection}>
+  <div className={Styles.sectionContainer}>
+    <div className={Styles.ctaCard}>
+      <h2>Ready to transform your trading?</h2>
+      <p>Get started with TradeJournalAI's powerful analytics to improve your trading performance</p>
+      <NavLink to={"/register"}>
+        <FilledButton text='Start Journaling' />
+      </NavLink>
+    </div>
+  </div>
+</section>
+
 
       <div className={Styles.footerContainer}>
         <Footer /> 

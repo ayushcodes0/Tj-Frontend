@@ -272,3 +272,26 @@ tspan {
 .noTradesFound {
   color: var(--dashboard-secondary-text);
 }
+
+
+/* Parent row wrapper for side-by-side layout */
+.analyticsChartsRow {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Each chart box */
+.analyticsChartBox {
+  flex: 1;                    /* Each box takes equal width */
+  min-width: 0;               /* Prevent overflow */
+  background: var(--card-bg); /* or your background-color */
+  padding: 16px;
+  border-radius: 12px;
+  height: 320px;              /* IMPORTANT: give charts height */
+  display: flex;
+  flex-direction: column;
+}

@@ -5,9 +5,17 @@
     justify-content: space-between;
 }
 
+
+.TJLogo{
+  background-color: var(--hero-title);
+  padding: 4px 8px;
+  color: white;
+  margin-right: 8px;
+}
+
 .logo{
     font-weight: 600;
-    font-size: 32px;
+    font-size: 28px;
     letter-spacing: -.8px;
     color: var(--hero-title);
 }
@@ -71,7 +79,7 @@
 }
 
 .footerBottomText{
-    font-size: 14px;
+    font-size: 10px;
     color: var(--hero-title);
     opacity: .7;
 }
@@ -131,6 +139,15 @@
     color: var(--hero-title);
     font-weight: 300;
     font-size: 16px;
+}
+
+.location{
+    color: var(--hero-title);
+    font-weight: 300;
+    font-size: 16px;
+}
+.locIcon{
+    opacity: 0.7;
 }
 
 

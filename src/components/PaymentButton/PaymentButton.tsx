@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import styles from './PaymentButton.module.css';
+import React, { useState } from "react";
+import styles from "./PaymentButton.module.css";
+import { useAuth } from "../../hooks/useAuth";
 
 interface RazorpayResponse {
   razorpay_payment_id: string;
@@ -13,7 +14,14 @@ interface OrderResponse {
   amount: number;
   currency: string;
   keyId: string;
-  planType?: string; // Add optional planType
+  planType?: string;
+
+  originalAmount?: number;
+  payableAmount?: number;
+  discountApplied?: boolean;
+  discountPercent?: number;
+
+  message?: string;
 }
 
 interface VerifyResponse {
@@ -22,12 +30,45 @@ interface VerifyResponse {
   paymentId?: string;
 }
 
+// ✅ Razorpay types (no any)
+interface RazorpayCheckoutOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  handler: (response: RazorpayResponse) => void | Promise<void>;
+  prefill?: {
+    email?: string;
+  };
+  theme?: {
+    color?: string;
+  };
+  modal?: {
+    ondismiss?: () => void;
+  };
+}
+
+interface RazorpayInstance {
+  open: () => void;
+}
+
+interface RazorpayConstructor {
+  new (options: RazorpayCheckoutOptions): RazorpayInstance;
+}
+
+type RazorpayWindow = Window &
+  typeof globalThis & {
+    Razorpay?: RazorpayConstructor;
+  };
+
 interface PaymentButtonProps {
   amount: number;
   userEmail: string;
   className?: string;
-  planType: 'monthly' | 'annual';
-  disabled?: boolean; // Add disabled prop
+  planType: "monthly" | "annual";
+  disabled?: boolean;
   onSuccess?: (paymentId: string, planType: string) => void;
   onFailure?: (error: string) => void;
 }
@@ -35,146 +76,160 @@ interface PaymentButtonProps {
 const PaymentButton: React.FC<PaymentButtonProps> = ({
   amount,
   userEmail,
-  className = '',
+  className = "",
   planType,
   disabled = false,
   onSuccess,
   onFailure,
 }) => {
+  const { user, token } = useAuth();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
-      // Check if Razorpay is already loaded
-      if ((window as Window & typeof globalThis & { Razorpay?: unknown }).Razorpay) {
+      if ((window as RazorpayWindow).Razorpay) {
         resolve(true);
         return;
       }
 
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () => {
-        resolve(true);
-      };
-      script.onerror = () => {
-        resolve(false);
-      };
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
       document.body.appendChild(script);
     });
   };
 
   const createOrder = async (): Promise<OrderResponse | null> => {
     try {
+      if (!user?.id) throw new Error("User not found");
+      if (!token) throw new Error("Not authenticated");
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/payments/create-order`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ 
-          amount, 
-          planType // Use the destructured planType
+        body: JSON.stringify({
+          userId: user.id,
+          planType,
+          amount,
         }),
       });
 
+      const data: OrderResponse = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to create order');
+        throw new Error(data?.message || "Failed to create order");
       }
 
-      const data: OrderResponse = await response.json();
       return data;
     } catch (err) {
-      console.error('Create Order Error:', err);
+      console.error("Create Order Error:", err);
+      const msg = err instanceof Error ? err.message : "Failed to create order";
+      setError(msg);
+      onFailure?.(msg);
       return null;
     }
   };
 
   const verifyPayment = async (paymentData: RazorpayResponse): Promise<boolean> => {
     try {
+      if (!user?.id) throw new Error("User not found");
+      if (!token) throw new Error("Not authenticated");
+
       const response = await fetch(`${import.meta.env.VITE_API_URL}/payments/verify-payment`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           ...paymentData,
-          planType // Include planType in verification
+          userId: user.id,
+          planType,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Payment verification failed');
-      }
-
       const data: VerifyResponse = await response.json();
+
+      if (!response.ok) throw new Error(data?.message || "Payment verification failed");
+
       return data.success;
     } catch (err) {
-      console.error('Payment Verification Error:', err);
+      console.error("Payment Verification Error:", err);
+      const msg = err instanceof Error ? err.message : "Payment verification failed";
+      setError(msg);
+      onFailure?.(msg);
       return false;
     }
   };
 
   const handlePayment = async (): Promise<void> => {
     if (disabled || isLoading) return;
-    
+
     setIsLoading(true);
     setError(null);
 
     try {
-      // Load Razorpay script
       const scriptLoaded = await loadRazorpayScript();
-      if (!scriptLoaded) {
-        throw new Error('Failed to load Razorpay. Please check your internet connection.');
-      }
+      if (!scriptLoaded) throw new Error("Failed to load Razorpay. Please check your internet connection.");
 
-      // Create order
       const orderData = await createOrder();
-      if (!orderData || !orderData.success) {
-        throw new Error('Failed to create payment order. Please try again.');
-      }
+      if (!orderData || !orderData.success) throw new Error("Failed to create payment order. Please try again.");
 
-      // Initialize Razorpay checkout
-      const options = {
+      const Razorpay = (window as RazorpayWindow).Razorpay;
+      if (!Razorpay) throw new Error("Razorpay SDK not available");
+
+      const options: RazorpayCheckoutOptions = {
         key: import.meta.env.VITE_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: 'TradeJournalAI',
-        description: planType === 'annual' 
-          ? 'Pro Annual Subscription - Advanced Trading Analytics' 
-          : 'Pro Monthly Subscription - Advanced Trading Analytics',
+        name: "TradeJournalAI",
+        description:
+          planType === "annual"
+            ? "Pro Annual Subscription - Advanced Trading Analytics"
+            : "Pro Monthly Subscription - Advanced Trading Analytics",
         order_id: orderData.orderId,
+
         handler: async (response: RazorpayResponse) => {
-          // Verify payment
           const isVerified = await verifyPayment(response);
+
           if (isVerified) {
-            alert(`Payment successful! Welcome to TradeJournalAI Pro ${planType === 'annual' ? 'Annual' : 'Monthly'}!`);
             onSuccess?.(response.razorpay_payment_id, planType);
           } else {
-            alert('Payment verification failed. Please contact support.');
-            onFailure?.('Payment verification failed');
+            onFailure?.("Payment verification failed");
           }
         },
-        prefill: {
-          email: userEmail,
-        },
-        theme: {
-          color: '#4840BB',
-        },
+
+        prefill: { email: userEmail },
+
+        theme: { color: "#4840BB" },
+
         modal: {
           ondismiss: () => {
             setIsLoading(false);
-            onFailure?.('Payment cancelled by user');
+            onFailure?.("Payment cancelled by user");
           },
         },
       };
 
-      const rzp = new ((window as Window & typeof globalThis & { Razorpay?: unknown }).Razorpay as {
-        new (options: unknown): { open(): void };
-      })(options);
-      
+      // optional console log
+      if (orderData.discountApplied) {
+        console.log("🎉 Discount applied:", {
+          original: orderData.originalAmount,
+          payable: orderData.payableAmount,
+          percent: orderData.discountPercent,
+        });
+      }
+
+      const rzp = new Razorpay(options);
       rzp.open();
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Payment failed. Please try again.';
+      const errorMessage = err instanceof Error ? err.message : "Payment failed. Please try again.";
       setError(errorMessage);
       onFailure?.(errorMessage);
     } finally {
@@ -185,7 +240,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   return (
     <div className={styles.container}>
       <button
-        className={`${styles.paymentButton} ${className} ${isLoading ? styles.loading : ''}`}
+        className={`${styles.paymentButton} ${className} ${isLoading ? styles.loading : ""}`}
         onClick={handlePayment}
         disabled={disabled || isLoading}
         type="button"
@@ -200,14 +255,11 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
           `Subscribe for ₹${amount}`
         )}
       </button>
+
       {error && (
         <div className={styles.errorMessage} role="alert">
           {error}
-          <button
-            className={styles.retryButton}
-            onClick={() => setError(null)}
-            type="button"
-          >
+          <button className={styles.retryButton} onClick={() => setError(null)} type="button">
             Retry
           </button>
         </div>

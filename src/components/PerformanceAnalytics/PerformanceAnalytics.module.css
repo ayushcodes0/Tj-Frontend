@@ -1,0 +1,157 @@
+.analyticsWrapper {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Section Heading */
+.analyticsHeading {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dashboard-primary-text);
+  margin-bottom: 6px;
+}
+
+/* TAB BUTTON WRAPPER */
+.analyticsTabWrapper {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.analyticsTab {
+  padding: 6px 14px;
+  border-radius: 6px;
+  background: var(--dashboard-primary-background);
+  border: 1px solid var(--dashboard-borders);
+  cursor: pointer;
+  color: var(--dashboard-primary-text);
+  font-size: 13px;
+  transition: all 0.22s ease;
+}
+
+
+.activeTab {
+  background: var(--dashboard-green-color);
+  border-color: var(--dashboard-green-color);
+  color: white !important;
+}
+
+/* ROW HOLDING TWO CHARTS */
+.analyticsChartsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .analyticsChartsRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* CHART CARD BOX */
+.analyticsChartBox {
+  background: var(--dashboard-primary-background);
+  border-radius: 10px;
+  border: 1px solid var(--dashboard-borders);
+  box-shadow: 0 2px 13px rgba(70, 50, 120, 0.06);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 320px;
+  width: 100%;
+}
+
+/* CHART TITLE */
+.chartHeading {
+  color: var(--dashboard-primary-text);
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+
+/* ---------- RIGHT CHART INNER LAYOUT ---------- */
+.rightInner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ---------- LEGEND WRAPPER ---------- */
+.legendWrapper {
+  flex: 1;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-left: 8px;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.legendWrapper::-webkit-scrollbar {
+  width: 4px;
+}
+.legendWrapper::-webkit-scrollbar-thumb {
+  background: var(--dashboard-borders);
+  border-radius: 4px;
+}
+
+/* ---------- LEGEND LIST ---------- */
+.legendScroll {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- LEGEND ITEM ROW ---------- */
+.legendItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- LEFT SIDE: COLOR DOT + NAME ---------- */
+.colorDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legendName {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dashboard-primary-text);
+}
+
+.percentBadge {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--dashboard-primary-text);
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  min-width: 38px;
+  text-align: center;
+}
+
+.countBadge {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--dashboard-secondary-text, #a9a9a9);
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .analyticsChartBox {
+    padding: 10px;
+  }
+  .rightInner{
+    gap: 5px;
+    flex-direction: column;
+    height: 500px;
+  }
+}
